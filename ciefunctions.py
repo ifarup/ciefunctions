@@ -80,7 +80,7 @@ class AppForm(qt.QMainWindow):
 
     def on_about(self):
         msg = """
-CIE Functions: Calculate the CIE functions according to the draft for the recommendation of CIE TC1-82.
+CIE Functions: Calculate the CIE functions according to the terms of reference of CIE TC1-82.
         
 Copyright (C) 2012-2013 Ivar Farup and Jan Henrik Wold
 
@@ -95,12 +95,39 @@ You should have received a copy of the GNU General Public License along with thi
     def on_draw(self):
         self.axes.clear()
         self.axes.grid(self.grid_check.isChecked())
+        self.field_spin.setValue(self.last_field)
+        self.age_spin.setValue(self.last_age)
+        self.resolution_spin.setValue(self.last_resolution)
+        
+        if self.plot_combo.currentIndex() <= 5:
+            self.field_spin.show()
+            self.field_combo.hide()
+            self.age_label.show()
+            self.age_spin.show()
+            self.resolution_label.show()
+            self.resolution_spin.show()
+            self.compute_button.show()
+        else:
+            self.field_spin.hide()
+            self.field_combo.show()
+            self.age_label.hide()
+            self.age_spin.hide()
+            self.resolution_label.hide()
+            self.resolution_spin.hide()
+            self.compute_button.hide()
+
         if self.plot_combo.currentIndex() == 0: # XYZ
+            self.superpose_label_1.show()
+            self.superpose_label_2.show()
+            self.cie31_check.show()
+            self.cie64_check.show()
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,1], 'r')
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,2], 'g')
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,3], 'b')
             self.axes.axis('normal')
             self.axes.axis([350, 850, -.2, 2.3])
+            self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
+            self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
             self.table.setRowCount(np.shape(self.xyz)[0])
             self.table.setColumnCount(np.shape(self.xyz)[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
@@ -113,12 +140,18 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.6e' % self.xyz[i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6e' % self.xyz[i, 3]))
-        elif self.plot_combo.currentIndex() == 1: # LMS standard
+        elif self.plot_combo.currentIndex() == 2: # LMS standard
+            self.superpose_label_1.hide()
+            self.superpose_label_2.hide()
+            self.cie31_check.hide()
+            self.cie64_check.hide()
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,1], 'r')
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,2], 'g')
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,3], 'b')
             self.axes.axis('normal')
             self.axes.axis([350, 850, -.05, 1.05])
+            self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
+            self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
             self.table.setRowCount(np.shape(self.lms_standard)[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.lms_standard)[1])
@@ -131,12 +164,18 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.5e' % self.lms_standard[i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5e' % self.lms_standard[i, 3]))
-        elif self.plot_combo.currentIndex() == 2: # LMS base
+        elif self.plot_combo.currentIndex() == 3: # LMS base
+            self.superpose_label_1.hide()
+            self.superpose_label_2.hide()
+            self.cie31_check.hide()
+            self.cie64_check.hide()
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,1], 'r')
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,2], 'g')
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,3], 'b')
             self.axes.axis('normal')
             self.axes.axis([350, 850, -.05, 1.05])
+            self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
+            self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
             self.table.setRowCount(np.shape(self.lms_base)[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.lms_base)[1])
@@ -149,13 +188,25 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.8e' % self.lms_base[i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.8e' % self.lms_base[i, 3]))
-        elif self.plot_combo.currentIndex() == 3: #xy
+        elif self.plot_combo.currentIndex() == 1: #xy
+            self.superpose_label_1.show()
+            self.superpose_label_2.show()
+            self.cie31_check.show()
+            self.cie64_check.show()
             self.axes.plot(self.plots['cc'][:,1], self.plots['cc'][:,2], 'k')
             self.axes.plot(self.plots['purple_line_cc'][:,1], self.plots['purple_line_cc'][:,2], 'k')
             self.axes.plot(self.cc_white[0], self.cc_white[1], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
+            self.axes.set_xlabel('$x_\mathrm{\,F,\,' +
+                                 str(self.field_spin.value()) + ',\,' +
+                                 str(self.age_spin.value()) +'}$',
+                                 fontsize=16)
+            self.axes.set_ylabel('$y_\mathrm{\,F,\,' +
+                                 str(self.field_spin.value()) + ',\,' +
+                                 str(self.age_spin.value()) +'}$',
+                                 fontsize=16)
             self.table.setRowCount(np.shape(self.cc)[0])
             self.table.setColumnCount(np.shape(self.cc)[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
@@ -169,12 +220,24 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.cc[i, 3]))
         elif self.plot_combo.currentIndex() == 4: # BM
+            self.superpose_label_1.hide()
+            self.superpose_label_2.hide()
+            self.cie31_check.hide()
+            self.cie64_check.hide()
             self.axes.plot(self.plots['bm'][:,1], self.plots['bm'][:,3], 'k')
             self.axes.plot(self.plots['purple_line_bm'][:,1], self.plots['purple_line_bm'][:,2], 'k')
             self.axes.plot(self.bm_white[0], self.bm_white[2], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
+            self.axes.set_xlabel('$l_\mathrm{\,MB,\,' +
+                                 str(self.field_spin.value()) + ',\,' +
+                                 str(self.age_spin.value()) +'}$',
+                                 fontsize=16)
+            self.axes.set_ylabel('$s_\mathrm{\,MB,\,' +
+                                 str(self.field_spin.value()) + ',\,' +
+                                 str(self.age_spin.value()) +'}$',
+                                 fontsize=16)
             self.table.setRowCount(np.shape(self.bm)[0])
             self.table.setColumnCount(np.shape(self.bm)[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'l', 'm', 's'])
@@ -187,13 +250,25 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.6f' % self.bm[i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6f' % self.bm[i, 3]))
-        else: # lm
+        elif self.plot_combo.currentIndex() == 5: # lm
+            self.superpose_label_1.hide()
+            self.superpose_label_2.hide()
+            self.cie31_check.hide()
+            self.cie64_check.hide()
             self.axes.plot(self.plots['lm'][:,1], self.plots['lm'][:,2], 'k')
             self.axes.plot(self.plots['purple_line_lm'][:,1], self.plots['purple_line_lm'][:,2], 'k')
             self.axes.plot(self.lm_white[0], self.lm_white[1], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, .65))
+            self.axes.set_xlabel('$l_\mathrm{\,' +
+                                 str(self.field_spin.value()) + ',\,' +
+                                 str(self.age_spin.value()) +'}$',
+                                 fontsize=16)
+            self.axes.set_ylabel('$m_\mathrm{\,' +
+                                 str(self.field_spin.value()) + ',\,' +
+                                 str(self.age_spin.value()) +'}$',
+                                 fontsize=16)
             self.table.setRowCount(np.shape(self.lm)[0])
             self.table.setColumnCount(np.shape(self.lm)[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'lN', 'mN', 'sN'])
@@ -206,15 +281,40 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.5f' % self.lm[i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.lm[i, 3]))
+        elif self.plot_combo.currentIndex() == 6: # CIE std XYZ
+            if self.field_combo.currentIndex() == 0:
+                self.superpose_label_1.hide()
+                self.superpose_label_2.show()
+                self.cie31_check.hide()
+                self.cie64_check.show()
+            else:
+                self.superpose_label_1.show()
+                self.superpose_label_2.hide()
+                self.cie31_check.show()
+                self.cie64_check.hide()
+        elif self.plot_combo.currentIndex() == 7: # CIE std xy
+            if self.field_combo.currentIndex() == 0:
+                self.superpose_label_1.hide()
+                self.superpose_label_2.show()
+                self.cie31_check.hide()
+                self.cie64_check.show()
+            else:
+                self.superpose_label_1.show()
+                self.superpose_label_2.hide()
+                self.cie31_check.show()
+                self.cie64_check.hide()
         self.canvas.draw()
 
     def on_compute(self):
         self.statusBar().showMessage('Computing')
+        self.last_age = self.age_spin.value()
+        self.last_field = self.field_spin.value()
+        self.last_resolution = self.resolution_spin.value()
         self.xyz, self.cc, self.cc_white, self.trans_mat, self.lms_standard, self.lms_base, \
         self.bm, self.bm_white, self.lm, self.lm_white, self.lambda_min, \
         self.purple_line_cc, self.purple_line_bm, self.purple_line_lm, self.plots = \
-            tc.compute_tabulated(self.field_spin.value(), self.age_spin.value(),
-                                 self.resolution_spin.value())
+            tc.compute_tabulated(self.last_field, self.last_age,
+                                 self.last_resolution)
         self.statusBar().clearMessage()
         html_string = """
         The transformation from <em>L, M, S</em> to <em>X, Y, Z</em> is<p>
@@ -232,7 +332,6 @@ You should have received a copy of the GNU General Public License along with thi
         """
         print html_string
         self.transformation.setHtml(html_string)
-
         self.on_draw()
 
     def add_actions(self, target, actions):
@@ -314,6 +413,13 @@ You should have received a copy of the GNU General Public License along with thi
         self.field_spin.setValue(2)
         self.field_spin.setSingleStep(0.1)
         
+        self.field_combo = qt.QComboBox()
+        self.field_combo.addItem(u'2\N{DEGREE SIGN} (1931)')
+        self.field_combo.addItem(u'10\N{DEGREE SIGN} (1964)')
+        self.field_combo.hide()
+        self.connect(self.field_combo,
+                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
+
         self.resolution_spin = qt.QDoubleSpinBox()
         self.resolution_spin.setMinimum(0.1)
         self.resolution_spin.setMaximum(20)
@@ -322,17 +428,26 @@ You should have received a copy of the GNU General Public License along with thi
         self.resolution_spin.setSingleStep(0.1)
         
         self.plot_combo = qt.QComboBox()
-        self.plot_combo.addItem('XYZ')
-        self.plot_combo.addItem('LMS standard')
-        self.plot_combo.addItem('LMS (9 significant figures)')
-        self.plot_combo.addItem('xy diagram')
-        self.plot_combo.addItem('MacLeod-Boynton ls diagram')
-        self.plot_combo.addItem('lm diagram')
+        self.plot_combo.addItem('CIE fundamental XYZ cmf')
+        self.plot_combo.addItem('CIE fundamental xy diagram')
+        self.plot_combo.addItem('CIE LMS fundamentals')
+        self.plot_combo.addItem('CIE LMS fundamentals (9 sign. figs.)')
+        self.plot_combo.addItem('CIE MacLeod-Boynton ls diagram')
+        self.plot_combo.addItem('Equi-power normalised lm diagram')
+        self.plot_combo.addItem('CIE standard XYZ cmf')
+        self.plot_combo.addItem('CIE standard xy diagram')
         self.connect(self.plot_combo,
                      qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
 
         self.grid_check = qt.QCheckBox()
         self.connect(self.grid_check,
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+        self.cie31_check = qt.QCheckBox()
+        self.connect(self.cie31_check,
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+
+        self.cie64_check = qt.QCheckBox()
+        self.connect(self.cie64_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
 
         self.compute_button = qt.QPushButton('&Compute')
@@ -344,19 +459,29 @@ You should have received a copy of the GNU General Public License along with thi
 
         # Layout with labels
         # 
+        self.superpose_label_1 = qt.QLabel(u'Superpose CIE 1931 2\N{DEGREE SIGN}') 
+        self.superpose_label_2 = qt.QLabel(u'Superpose CIE 1964 10\N{DEGREE SIGN}')
+        self.age_label = qt.QLabel('Age (year)')
+        self.resolution_label = qt.QLabel('    Wavelength step size (nm)')
         grid = qt.QGridLayout()
         grid.addWidget(qt.QLabel('Field size (degree)'), 0, 0, qtcore.Qt.AlignRight)
-        grid.addWidget(qt.QLabel('Age (year)'), 1, 0, qtcore.Qt.AlignRight)
-        grid.addWidget(qt.QLabel('Lambda step size (nm)'), 2, 0, qtcore.Qt.AlignRight)
-        grid.addWidget(qt.QLabel('Plot'), 0, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(qt.QLabel('Grid'), 1, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(self.age_label, 1, 0, qtcore.Qt.AlignRight)
+        grid.addWidget(self.resolution_label, 2, 0, qtcore.Qt.AlignRight)
+        grid.addWidget(qt.QLabel('          Plot'), 0, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(qt.QLabel('Grid'), 1, 3, qtcore.Qt.AlignLeft)
+        grid.addWidget(self.superpose_label_1, 2, 3, qtcore.Qt.AlignLeft)
+        grid.addWidget(self.superpose_label_2, 3, 3, qtcore.Qt.AlignLeft)
         
         grid.addWidget(self.field_spin, 0, 1)
+        grid.addWidget(self.field_combo, 0, 1)
         grid.addWidget(self.age_spin, 1, 1)
         grid.addWidget(self.resolution_spin, 2, 1)
         grid.addWidget(self.plot_combo, 0, 3)
-        grid.addWidget(self.grid_check, 1, 3)
-        grid.addWidget(self.compute_button, 2, 3)
+        grid.addWidget(self.grid_check, 1, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(self.cie31_check, 2, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(self.cie64_check, 3, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(self.compute_button, 3, 1)
+        grid.setColumnStretch(4, 1)
         
         inner_vbox = qt.QVBoxLayout()
         inner_vbox.addWidget(self.canvas)
