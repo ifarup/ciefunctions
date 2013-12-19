@@ -124,10 +124,20 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,1], 'r')
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,2], 'g')
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,3], 'b')
+            if self.cie31_check.isChecked():
+                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,1], 'r--')
+                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,2], 'g--')
+                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,3], 'b--')
+            if self.cie64_check.isChecked():
+                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,1], 'r-.')
+                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,2], 'g-.')
+                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,3], 'b-.')
             self.axes.axis('normal')
             self.axes.axis([350, 850, -.2, 2.3])
             self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
             self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
+            self.axes.set_title('CIE XYZ fundamental CMFs for field size ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
             self.table.setRowCount(np.shape(self.xyz)[0])
             self.table.setColumnCount(np.shape(self.xyz)[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
@@ -140,6 +150,45 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.6e' % self.xyz[i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6e' % self.xyz[i, 3]))
+        elif self.plot_combo.currentIndex() == 1: #xy
+            self.superpose_label_1.show()
+            self.superpose_label_2.show()
+            self.cie31_check.show()
+            self.cie64_check.show()
+            self.axes.plot(self.plots['cc'][:,1], self.plots['cc'][:,2], 'k')
+            self.axes.plot(self.plots['purple_line_cc'][:,1], self.plots['purple_line_cc'][:,2], 'k')
+            self.axes.plot(self.cc_white[0], self.cc_white[1], 'kx')
+            if self.cie31_check.isChecked():
+                self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k--')
+                self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k--')
+            if self.cie64_check.isChecked():
+                self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k-.')
+                self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k-.')
+            self.axes.axis('scaled')
+            self.axes.set_xlim((-.05, 1.05))
+            self.axes.set_ylim((-.05, 1.05))
+            self.axes.set_xlabel('$x_\mathrm{\,F,\,' +
+                                 str(self.field_spin.value()) + ',\,' +
+                                 str(self.age_spin.value()) +'}$',
+                                 fontsize=16)
+            self.axes.set_ylabel('$y_\mathrm{\,F,\,' +
+                                 str(self.field_spin.value()) + ',\,' +
+                                 str(self.age_spin.value()) +'}$',
+                                 fontsize=16)
+            self.axes.set_title('CIE xy fundamental chromaticity diagram for field size ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
+            self.table.setRowCount(np.shape(self.cc)[0])
+            self.table.setColumnCount(np.shape(self.cc)[1])
+            self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
+            for i in range(np.shape(self.xyz)[0]):
+                self.table.setItem(i, 0,
+                                   qt.QTableWidgetItem('%.1f' % self.cc[i, 0]))
+                self.table.setItem(i, 1,
+                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 1]))
+                self.table.setItem(i, 2,
+                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 2]))
+                self.table.setItem(i, 3,
+                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 3]))
         elif self.plot_combo.currentIndex() == 2: # LMS standard
             self.superpose_label_1.hide()
             self.superpose_label_2.hide()
@@ -152,6 +201,8 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.axis([350, 850, -.05, 1.05])
             self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
             self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
+            self.axes.set_title('CIE 2006 LMS cone fundamentals for field size ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
             self.table.setRowCount(np.shape(self.lms_standard)[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.lms_standard)[1])
@@ -176,6 +227,8 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.axis([350, 850, -.05, 1.05])
             self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
             self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
+            self.axes.set_title('CIE 2006 LMS cone fundamentals for field size ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()) + ' (9 sign. figs. data)', fontsize=12)
             self.table.setRowCount(np.shape(self.lms_base)[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.lms_base)[1])
@@ -188,37 +241,6 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.8e' % self.lms_base[i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.8e' % self.lms_base[i, 3]))
-        elif self.plot_combo.currentIndex() == 1: #xy
-            self.superpose_label_1.show()
-            self.superpose_label_2.show()
-            self.cie31_check.show()
-            self.cie64_check.show()
-            self.axes.plot(self.plots['cc'][:,1], self.plots['cc'][:,2], 'k')
-            self.axes.plot(self.plots['purple_line_cc'][:,1], self.plots['purple_line_cc'][:,2], 'k')
-            self.axes.plot(self.cc_white[0], self.cc_white[1], 'kx')
-            self.axes.axis('scaled')
-            self.axes.set_xlim((-.05, 1.05))
-            self.axes.set_ylim((-.05, 1.05))
-            self.axes.set_xlabel('$x_\mathrm{\,F,\,' +
-                                 str(self.field_spin.value()) + ',\,' +
-                                 str(self.age_spin.value()) +'}$',
-                                 fontsize=16)
-            self.axes.set_ylabel('$y_\mathrm{\,F,\,' +
-                                 str(self.field_spin.value()) + ',\,' +
-                                 str(self.age_spin.value()) +'}$',
-                                 fontsize=16)
-            self.table.setRowCount(np.shape(self.cc)[0])
-            self.table.setColumnCount(np.shape(self.cc)[1])
-            self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
-            for i in range(np.shape(self.xyz)[0]):
-                self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.cc[i, 0]))
-                self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 1]))
-                self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 2]))
-                self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 3]))
         elif self.plot_combo.currentIndex() == 4: # BM
             self.superpose_label_1.hide()
             self.superpose_label_2.hide()
@@ -238,6 +260,8 @@ You should have received a copy of the GNU General Public License along with thi
                                  str(self.field_spin.value()) + ',\,' +
                                  str(self.age_spin.value()) +'}$',
                                  fontsize=16)
+            self.axes.set_title('CIE MacLeod-Boynton chromaticity diagram for field size ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
             self.table.setRowCount(np.shape(self.bm)[0])
             self.table.setColumnCount(np.shape(self.bm)[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'l', 'm', 's'])
@@ -269,6 +293,8 @@ You should have received a copy of the GNU General Public License along with thi
                                  str(self.field_spin.value()) + ',\,' +
                                  str(self.age_spin.value()) +'}$',
                                  fontsize=16)
+            self.axes.set_title('Equi-power normalised $lm$ chromaticity diagram for field size ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
             self.table.setRowCount(np.shape(self.lm)[0])
             self.table.setColumnCount(np.shape(self.lm)[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'lN', 'mN', 'sN'])
@@ -282,27 +308,121 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.lm[i, 3]))
         elif self.plot_combo.currentIndex() == 6: # CIE std XYZ
-            if self.field_combo.currentIndex() == 0:
+            if self.field_combo.currentIndex() == 0: # 2 deg
                 self.superpose_label_1.hide()
                 self.superpose_label_2.show()
                 self.cie31_check.hide()
                 self.cie64_check.show()
-            else:
+                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,1], 'r')
+                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,2], 'g')
+                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,3], 'b')
+                if self.cie64_check.isChecked():
+                    self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,1], 'r-.')
+                    self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,2], 'g-.')
+                    self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,3], 'b-.')
+                self.axes.axis('normal')
+                self.axes.axis([350, 850, -.2, 2.3])
+                self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
+                self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
+                self.axes.set_title(u'CIE 1931 XYZ standard 2\N{DEGREE SIGN} CMFs', fontsize=12)
+                self.table.setRowCount(np.shape(self.plots['xyz31'])[0])
+                self.table.setColumnCount(np.shape(self.plots['xyz31'])[1])
+                self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
+                for i in range(np.shape(self.plots['xyz31'])[0]):
+                    self.table.setItem(i, 0,
+                                       qt.QTableWidgetItem('%.1f' % self.plots['xyz31'][i, 0]))
+                    self.table.setItem(i, 1,
+                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 1]))
+                    self.table.setItem(i, 2,
+                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 2]))
+                    self.table.setItem(i, 3,
+                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 3]))
+            else: # 10 deg
                 self.superpose_label_1.show()
                 self.superpose_label_2.hide()
                 self.cie31_check.show()
                 self.cie64_check.hide()
+                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,1], 'r')
+                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,2], 'g')
+                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,3], 'b')
+                if self.cie31_check.isChecked():
+                    self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,1], 'r--')
+                    self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,2], 'g--')
+                    self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,3], 'b--')
+                self.axes.axis('normal')
+                self.axes.axis([350, 850, -.2, 2.3])
+                self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
+                self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
+                self.axes.set_title(u'CIE 1964 XYZ standard 10\N{DEGREE SIGN}CMFs', fontsize=12)
+                self.table.setRowCount(np.shape(self.plots['xyz64'])[0])
+                self.table.setColumnCount(np.shape(self.plots['xyz64'])[1])
+                self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
+                for i in range(np.shape(self.plots['xyz64'])[0]):
+                    self.table.setItem(i, 0,
+                                       qt.QTableWidgetItem('%.1f' % self.plots['xyz64'][i, 0]))
+                    self.table.setItem(i, 1,
+                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 1]))
+                    self.table.setItem(i, 2,
+                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 2]))
+                    self.table.setItem(i, 3,
+                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 3]))
         elif self.plot_combo.currentIndex() == 7: # CIE std xy
-            if self.field_combo.currentIndex() == 0:
+            if self.field_combo.currentIndex() == 0: # 2 deg
                 self.superpose_label_1.hide()
                 self.superpose_label_2.show()
                 self.cie31_check.hide()
                 self.cie64_check.show()
-            else:
+                self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k')
+                self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k')
+                if self.cie64_check.isChecked():
+                    self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k-.')
+                    self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k-.')
+                self.axes.axis('scaled')
+                self.axes.set_xlim((-.05, 1.05))
+                self.axes.set_ylim((-.05, 1.05))
+                self.axes.set_xlabel('$x$', fontsize=16)
+                self.axes.set_ylabel('$y$', fontsize=16)
+                self.axes.set_title(u'CIE 1931 xy standard 2\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
+                self.table.setRowCount(np.shape(self.plots['cc31'])[0])
+                self.table.setColumnCount(np.shape(self.plots['cc31'])[1])
+                self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
+                for i in range(np.shape(self.xyz)[0]):
+                    self.table.setItem(i, 0,
+                                       qt.QTableWidgetItem('%.1f' % self.plots['cc31'][i, 0]))
+                    self.table.setItem(i, 1,
+                                       qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 1]))
+                    self.table.setItem(i, 2,
+                                       qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 2]))
+                    self.table.setItem(i, 3,
+                                       qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 3]))
+            else: # 10 deg
                 self.superpose_label_1.show()
                 self.superpose_label_2.hide()
                 self.cie31_check.show()
                 self.cie64_check.hide()
+                self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k')
+                self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k')
+                if self.cie31_check.isChecked():
+                    self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k--')
+                    self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k--')
+                self.axes.axis('scaled')
+                self.axes.set_xlim((-.05, 1.05))
+                self.axes.set_ylim((-.05, 1.05))
+                self.axes.set_xlabel('$x_{10}$', fontsize=16)
+                self.axes.set_ylabel('$y_{10}$', fontsize=16)
+                self.axes.set_title(u'CIE 1964 xy standard 10\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
+                self.table.setRowCount(np.shape(self.plots['cc64'])[0])
+                self.table.setColumnCount(np.shape(self.plots['cc64'])[1])
+                self.table.setHorizontalHeaderLabels(['lambda', 'x10', 'y10', 'z10'])
+                for i in range(np.shape(self.xyz)[0]):
+                    self.table.setItem(i, 0,
+                                       qt.QTableWidgetItem('%.1f' % self.plots['cc64'][i, 0]))
+                    self.table.setItem(i, 1,
+                                       qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 1]))
+                    self.table.setItem(i, 2,
+                                       qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 2]))
+                    self.table.setItem(i, 3,
+                                       qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 3]))
         self.canvas.draw()
 
     def on_compute(self):
@@ -428,20 +548,21 @@ You should have received a copy of the GNU General Public License along with thi
         self.resolution_spin.setSingleStep(0.1)
         
         self.plot_combo = qt.QComboBox()
-        self.plot_combo.addItem('CIE fundamental XYZ cmf')
-        self.plot_combo.addItem('CIE fundamental xy diagram')
+        self.plot_combo.addItem('CIE XYZ fundamental CMFs')
+        self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
         self.plot_combo.addItem('CIE LMS fundamentals')
         self.plot_combo.addItem('CIE LMS fundamentals (9 sign. figs.)')
         self.plot_combo.addItem('CIE MacLeod-Boynton ls diagram')
         self.plot_combo.addItem('Equi-power normalised lm diagram')
-        self.plot_combo.addItem('CIE standard XYZ cmf')
-        self.plot_combo.addItem('CIE standard xy diagram')
+        self.plot_combo.addItem('CIE XYZ standard CMFs')
+        self.plot_combo.addItem('CIE xy standard chromaticity diagram')
         self.connect(self.plot_combo,
                      qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
 
         self.grid_check = qt.QCheckBox()
         self.connect(self.grid_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+
         self.cie31_check = qt.QCheckBox()
         self.connect(self.cie31_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)

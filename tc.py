@@ -309,12 +309,15 @@ def chromaticity_interpolated(field_size):
     """
     alpha = (field_size - 2)/8.
     knots = (1 - alpha)*VisualData.cc31knots + alpha*VisualData.cc64knots
-    lambd = np.arange(360, 831)
+    knots[0] = 360.
+    knots[-1] = 830.
+    lambd = np.arange(360., 831.)
 
-    lambda31_func = scipy.interpolate.interp1d(knots, VisualData.cc31knots)
-    lambda64_func = scipy.interpolate.interp1d(knots, VisualData.cc64knots)
+    lambda31_func = scipy.interpolate.interp1d(knots, VisualData.cc31knots, kind='linear')
+    lambda64_func = scipy.interpolate.interp1d(knots, VisualData.cc64knots, kind='linear')
     lambda31 = lambda31_func(lambd)
     lambda64 = lambda64_func(lambd)
+
     # x values
     cc31x_func = scipy.interpolate.interp1d(VisualData.cc31[:,0],
                                             VisualData.cc31[:,1],
@@ -776,7 +779,7 @@ def compute_tabulated(field_size, age, resolution=1, xyz_signfig=7, cc_dp=5,
     purple_line_lm : ndarray
         lm coordinates for the endpoints of the purple line.
     plots : dict
-        Versions of xyz, cc, lms, bm, lm at 0.1 nm for plotting. Include 
+        Versions of xyz, cc, lms, bm, lm at 0.1 nm for plotting. Includes also CIE1964 and CIE1931 data. 
     """
     plots = dict()
     lms, tmp = lms_energy_base(field_size, age)
@@ -951,6 +954,35 @@ def compute_tabulated(field_size, age, resolution=1, xyz_signfig=7, cc_dp=5,
     plots['purple_line_lm'] = purple_line_lm.copy()
     purple_line_lm[:,1:] = my_round(purple_line_lm[:,1:], lm_dp)
     
+    # Add CIE standards to plot data structure
+    plots['xyz31'] = VisualData.xyz31.copy()
+    plots['xyz64'] = VisualData.xyz64.copy()
+    plots['cc31'] = my_round(VisualData.cc31, 5)
+    plots['cc64'] = my_round(VisualData.cc64, 5)
+    
+    # Compute purple line for CIE standard cc
+    delaunay = Delaunay(plots['cc31'][:,1:3])
+    ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
+    purple_line_cc31 = np.zeros((2,3))
+    purple_line_cc31[0,0] = plots['cc31'][delaunay.convex_hull[ind,0], 0]
+    purple_line_cc31[0,1] = plots['cc31'][delaunay.convex_hull[ind,0], 1]
+    purple_line_cc31[0,2] = plots['cc31'][delaunay.convex_hull[ind,0], 2]
+    purple_line_cc31[1,0] = plots['cc31'][delaunay.convex_hull[ind,1], 0]
+    purple_line_cc31[1,1] = plots['cc31'][delaunay.convex_hull[ind,1], 1]
+    purple_line_cc31[1,2] = plots['cc31'][delaunay.convex_hull[ind,1], 2]
+    plots['purple_line_cc31'] = purple_line_cc31.copy()
+
+    delaunay = Delaunay(plots['cc64'][:,1:3])
+    ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
+    purple_line_cc64 = np.zeros((2,3))
+    purple_line_cc64[0,0] = plots['cc64'][delaunay.convex_hull[ind,0], 0]
+    purple_line_cc64[0,1] = plots['cc64'][delaunay.convex_hull[ind,0], 1]
+    purple_line_cc64[0,2] = plots['cc64'][delaunay.convex_hull[ind,0], 2]
+    purple_line_cc64[1,0] = plots['cc64'][delaunay.convex_hull[ind,1], 0]
+    purple_line_cc64[1,1] = plots['cc64'][delaunay.convex_hull[ind,1], 1]
+    purple_line_cc64[1,2] = plots['cc64'][delaunay.convex_hull[ind,1], 2]
+    plots['purple_line_cc64'] = purple_line_cc64.copy()
+
     return xyz, cc, cc_white, trans_mat, lms_standard, lms, \
         bm, bm_white, lm, lm_white, lambda_ref_min, \
         purple_line_cc, purple_line_bm, purple_line_lm, plots
@@ -960,6 +992,10 @@ def compute_tabulated(field_size, age, resolution=1, xyz_signfig=7, cc_dp=5,
 #==============================================================================
 
 if __name__ == '__main__':
-    xyz, cc, cc_white, trans_mat, lms_standard, lms_base, bm, bm_white, \
-    lm, lm_white, lambda_ref_min, purple_line_cc, purple_line_bm, \
-    purple_line_lm, plots = compute_tabulated(10, 32, 1)
+#     xyz, cc, cc_white, trans_mat, lms_standard, lms_base, bm, bm_white, \
+#     lm, lm_white, lambda_ref_min, purple_line_cc, purple_line_bm, \
+#     purple_line_lm, plots = compute_tabulated(10, 32, 1)
+    import pylab as pl
+    for f in pl.arange(1,2.1, .1):
+        c = chromaticity_interpolated(f)
+        print f, 'ok'
