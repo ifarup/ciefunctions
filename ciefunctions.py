@@ -277,6 +277,20 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             self.axes.plot(self.plots['bm'][:,1], self.plots['bm'][:,3], 'k')
             self.axes.plot(self.plots['purple_line_bm'][:,1], self.plots['purple_line_bm'][:,2], 'k')
+            lambdavalues = np.concatenate(([390], np.arange(410, 490, 10),
+                                           [500, 550, 575, 600, 700, 830]))
+            for l in lambdavalues: # add wavelength parameters
+                ind = np.nonzero(self.plots['bm'][:,0] == l)[0]
+                self.axes.plot(self.plots['bm'][ind,1], self.plots['bm'][ind,3], 'wo')
+                if l > 490:
+                    align = 'bottom'
+                elif l == 830:
+                    align = 'top'
+                else:
+                    align = 'center'
+                if self.wavelength_check.isChecked():
+                    self.axes.text(self.plots['bm'][ind,1], self.plots['bm'][ind,3], '   ' + str(l),
+                                   fontsize=7, verticalalignment=align)
             self.axes.plot(self.bm_white[0], self.bm_white[2], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
@@ -316,10 +330,8 @@ You should have received a copy of the GNU General Public License along with thi
             for l in lambdavalues: # add wavelength parameters
                 ind = np.nonzero(self.plots['lm'][:,0] == l)[0]
                 self.axes.plot(self.plots['lm'][ind,1], self.plots['lm'][ind,2], 'wo')
-                if l == 700 or l == 390:
+                if l == 390:
                     align = 'top'
-                elif l == 830:
-                    align = 'bottom'
                 else:
                     align = 'center'
                 if self.wavelength_check.isChecked():
