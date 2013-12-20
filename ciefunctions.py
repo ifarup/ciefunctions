@@ -117,10 +117,12 @@ You should have received a copy of the GNU General Public License along with thi
             self.compute_button.hide()
 
         if self.plot_combo.currentIndex() == 0: # XYZ
-            self.superpose_label_1.show()
-            self.superpose_label_2.show()
-            self.cie31_check.show()
-            self.cie64_check.show()
+            self.compare_label_1.setEnabled(True)
+            self.compare_label_2.setEnabled(True)
+            self.wavelength_check.setDisabled(True)
+            self.wavelength_label.setDisabled(True)
+            self.cie31_check.setEnabled(True)
+            self.cie64_check.setEnabled(True)
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,1], 'r')
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,2], 'g')
             self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,3], 'b')
@@ -151,19 +153,40 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6e' % self.xyz[i, 3]))
         elif self.plot_combo.currentIndex() == 1: #xy
-            self.superpose_label_1.show()
-            self.superpose_label_2.show()
-            self.cie31_check.show()
-            self.cie64_check.show()
-            self.axes.plot(self.plots['cc'][:,1], self.plots['cc'][:,2], 'k')
-            self.axes.plot(self.plots['purple_line_cc'][:,1], self.plots['purple_line_cc'][:,2], 'k')
-            self.axes.plot(self.cc_white[0], self.cc_white[1], 'kx')
+            self.compare_label_1.setEnabled(True)
+            self.compare_label_2.setEnabled(True)
+            self.wavelength_check.setEnabled(True)
+            self.wavelength_label.setEnabled(True)
+            self.cie31_check.setEnabled(True)
+            self.cie64_check.setEnabled(True)
+            lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
             if self.cie31_check.isChecked():
                 self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k--')
                 self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k--')
+                for l in lambdavalues: # add wavelength parameters
+                    ind = np.nonzero(self.plots['cc31'][:,0] == l)[0]
+                    self.axes.plot(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], 'ko')
             if self.cie64_check.isChecked():
                 self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k-.')
                 self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k-.')
+                for l in lambdavalues: # add wavelength parameters
+                    ind = np.nonzero(self.plots['cc64'][:,0] == l)[0]
+                    self.axes.plot(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], 'k^')
+            self.axes.plot(self.plots['cc'][:,1], self.plots['cc'][:,2], 'k')
+            self.axes.plot(self.plots['purple_line_cc'][:,1], self.plots['purple_line_cc'][:,2], 'k')
+            for l in lambdavalues: # add wavelength parameters
+                ind = np.nonzero(self.plots['cc'][:,0] == l)[0]
+                self.axes.plot(self.plots['cc'][ind,1], self.plots['cc'][ind,2], 'wo')
+                if l == 700 or l == 390:
+                    align = 'top'
+                elif l == 830:
+                    align = 'bottom'
+                else:
+                    align = 'center'
+                if self.wavelength_check.isChecked():
+                    self.axes.text(self.plots['cc'][ind,1], self.plots['cc'][ind,2], '   ' + str(l),
+                                   fontsize=7, verticalalignment=align)
+            self.axes.plot(self.cc_white[0], self.cc_white[1], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
@@ -190,10 +213,12 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.cc[i, 3]))
         elif self.plot_combo.currentIndex() == 2: # LMS standard
-            self.superpose_label_1.hide()
-            self.superpose_label_2.hide()
-            self.cie31_check.hide()
-            self.cie64_check.hide()
+            self.compare_label_1.setDisabled(True)
+            self.compare_label_2.setDisabled(True)
+            self.wavelength_check.setDisabled(True)
+            self.wavelength_label.setDisabled(True)
+            self.cie31_check.setDisabled(True)
+            self.cie64_check.setDisabled(True)
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,1], 'r')
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,2], 'g')
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,3], 'b')
@@ -216,10 +241,12 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5e' % self.lms_standard[i, 3]))
         elif self.plot_combo.currentIndex() == 3: # LMS base
-            self.superpose_label_1.hide()
-            self.superpose_label_2.hide()
-            self.cie31_check.hide()
-            self.cie64_check.hide()
+            self.compare_label_1.setDisabled(True)
+            self.compare_label_2.setDisabled(True)
+            self.wavelength_check.setDisabled(True)
+            self.wavelength_label.setDisabled(True)
+            self.cie31_check.setDisabled(True)
+            self.cie64_check.setDisabled(True)
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,1], 'r')
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,2], 'g')
             self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,3], 'b')
@@ -242,10 +269,12 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.8e' % self.lms_base[i, 3]))
         elif self.plot_combo.currentIndex() == 4: # BM
-            self.superpose_label_1.hide()
-            self.superpose_label_2.hide()
-            self.cie31_check.hide()
-            self.cie64_check.hide()
+            self.compare_label_1.setDisabled(True)
+            self.compare_label_2.setDisabled(True)
+            self.wavelength_check.setEnabled(True)
+            self.wavelength_label.setEnabled(True)
+            self.cie31_check.setDisabled(True)
+            self.cie64_check.setDisabled(True)
             self.axes.plot(self.plots['bm'][:,1], self.plots['bm'][:,3], 'k')
             self.axes.plot(self.plots['purple_line_bm'][:,1], self.plots['purple_line_bm'][:,2], 'k')
             self.axes.plot(self.bm_white[0], self.bm_white[2], 'kx')
@@ -275,12 +304,27 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6f' % self.bm[i, 3]))
         elif self.plot_combo.currentIndex() == 5: # lm
-            self.superpose_label_1.hide()
-            self.superpose_label_2.hide()
-            self.cie31_check.hide()
-            self.cie64_check.hide()
+            self.compare_label_1.setDisabled(True)
+            self.compare_label_2.setDisabled(True)
+            self.wavelength_check.setEnabled(True)
+            self.wavelength_label.setEnabled(True)
+            self.cie31_check.setDisabled(True)
+            self.cie64_check.setDisabled(True)
             self.axes.plot(self.plots['lm'][:,1], self.plots['lm'][:,2], 'k')
             self.axes.plot(self.plots['purple_line_lm'][:,1], self.plots['purple_line_lm'][:,2], 'k')
+            lambdavalues = np.concatenate(([390], np.arange(450, 631, 10), [700, 830]))
+            for l in lambdavalues: # add wavelength parameters
+                ind = np.nonzero(self.plots['lm'][:,0] == l)[0]
+                self.axes.plot(self.plots['lm'][ind,1], self.plots['lm'][ind,2], 'wo')
+                if l == 700 or l == 390:
+                    align = 'top'
+                elif l == 830:
+                    align = 'bottom'
+                else:
+                    align = 'center'
+                if self.wavelength_check.isChecked():
+                    self.axes.text(self.plots['lm'][ind,1], self.plots['lm'][ind,2], '   ' + str(l),
+                                   fontsize=7, verticalalignment=align)
             self.axes.plot(self.lm_white[0], self.lm_white[1], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
@@ -308,11 +352,13 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.lm[i, 3]))
         elif self.plot_combo.currentIndex() == 6: # CIE std XYZ
+            self.wavelength_check.setDisabled(True)
+            self.wavelength_label.setDisabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
-                self.superpose_label_1.hide()
-                self.superpose_label_2.show()
-                self.cie31_check.hide()
-                self.cie64_check.show()
+                self.compare_label_1.setDisabled(True)
+                self.compare_label_2.setEnabled(True)
+                self.cie31_check.setDisabled(True)
+                self.cie64_check.setEnabled(True)
                 self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,1], 'r')
                 self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,2], 'g')
                 self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,3], 'b')
@@ -338,10 +384,10 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 3]))
             else: # 10 deg
-                self.superpose_label_1.show()
-                self.superpose_label_2.hide()
-                self.cie31_check.show()
-                self.cie64_check.hide()
+                self.compare_label_1.setEnabled(True)
+                self.compare_label_2.setDisabled(True)
+                self.cie31_check.setEnabled(True)
+                self.cie64_check.setDisabled(True)
                 self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,1], 'r')
                 self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,2], 'g')
                 self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,3], 'b')
@@ -367,16 +413,34 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 3]))
         elif self.plot_combo.currentIndex() == 7: # CIE std xy
+            self.wavelength_check.setEnabled(True)
+            self.wavelength_label.setEnabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
-                self.superpose_label_1.hide()
-                self.superpose_label_2.show()
-                self.cie31_check.hide()
-                self.cie64_check.show()
-                self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k')
-                self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k')
+                self.compare_label_1.setDisabled(True)
+                self.compare_label_2.setEnabled(True)
+                self.cie31_check.setDisabled(True)
+                self.cie64_check.setEnabled(True)
+                lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
                 if self.cie64_check.isChecked():
                     self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k-.')
                     self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k-.')
+                    for l in lambdavalues: # add wavelength parameters
+                        ind = np.nonzero(self.plots['cc64'][:,0] == l)[0]
+                        self.axes.plot(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], 'k^')
+                self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k')
+                self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k')
+                for l in lambdavalues: # add wavelength parameters
+                    ind = np.nonzero(self.plots['cc31'][:,0] == l)[0]
+                    self.axes.plot(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], 'ko')
+                    if l == 700 or l == 390:
+                        align = 'top'
+                    elif l == 830:
+                        align = 'bottom'
+                    else:
+                        align = 'center'
+                    if self.wavelength_check.isChecked():
+                        self.axes.text(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], '   ' + str(l),
+                                       fontsize=7, verticalalignment=align)
                 self.axes.axis('scaled')
                 self.axes.set_xlim((-.05, 1.05))
                 self.axes.set_ylim((-.05, 1.05))
@@ -396,15 +460,31 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 3]))
             else: # 10 deg
-                self.superpose_label_1.show()
-                self.superpose_label_2.hide()
-                self.cie31_check.show()
-                self.cie64_check.hide()
-                self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k')
-                self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k')
+                self.compare_label_1.setEnabled(True)
+                self.compare_label_2.setDisabled(True)
+                self.cie31_check.setEnabled(True)
+                self.cie64_check.setDisabled(True)
+                lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
                 if self.cie31_check.isChecked():
                     self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k--')
                     self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k--')
+                    for l in lambdavalues: # add wavelength parameters
+                        ind = np.nonzero(self.plots['cc31'][:,0] == l)[0]
+                        self.axes.plot(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], 'ko')
+                self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k')
+                self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k')
+                for l in lambdavalues: # add wavelength parameters
+                    ind = np.nonzero(self.plots['cc64'][:,0] == l)[0]
+                    self.axes.plot(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], 'k^')
+                    if l == 700 or l == 390:
+                        align = 'top'
+                    elif l == 830:
+                        align = 'bottom'
+                    else:
+                        align = 'center'
+                    if self.wavelength_check.isChecked():
+                        self.axes.text(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], '   ' + str(l),
+                                       fontsize=7, verticalalignment=align)
                 self.axes.axis('scaled')
                 self.axes.set_xlim((-.05, 1.05))
                 self.axes.set_ylim((-.05, 1.05))
@@ -563,6 +643,10 @@ You should have received a copy of the GNU General Public License along with thi
         self.connect(self.grid_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
 
+        self.wavelength_check = qt.QCheckBox()
+        self.connect(self.wavelength_check,
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+
         self.cie31_check = qt.QCheckBox()
         self.connect(self.cie31_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
@@ -571,7 +655,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.connect(self.cie64_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
 
-        self.compute_button = qt.QPushButton('&Compute')
+        self.compute_button = qt.QPushButton('       &Compute       ')
         self.connect(self.compute_button,
                      qtcore.SIGNAL('clicked(bool)'), self.on_compute)
         
@@ -580,29 +664,33 @@ You should have received a copy of the GNU General Public License along with thi
 
         # Layout with labels
         # 
-        self.superpose_label_1 = qt.QLabel(u'Superpose CIE 1931 2\N{DEGREE SIGN}') 
-        self.superpose_label_2 = qt.QLabel(u'Superpose CIE 1964 10\N{DEGREE SIGN}')
+        self.compare_label_1 = qt.QLabel(u'Compare with CIE 1931 2\N{DEGREE SIGN}') 
+        self.compare_label_2 = qt.QLabel(u'Compare with CIE 1964 10\N{DEGREE SIGN}')
+        self.wavelength_label = qt.QLabel('Wavelength labels')
         self.age_label = qt.QLabel('Age (year)')
         self.resolution_label = qt.QLabel('    Wavelength step size (nm)')
         grid = qt.QGridLayout()
         grid.addWidget(qt.QLabel('Field size (degree)'), 0, 0, qtcore.Qt.AlignRight)
         grid.addWidget(self.age_label, 1, 0, qtcore.Qt.AlignRight)
         grid.addWidget(self.resolution_label, 2, 0, qtcore.Qt.AlignRight)
-        grid.addWidget(qt.QLabel('          Plot'), 0, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(qt.QLabel('Grid'), 1, 3, qtcore.Qt.AlignLeft)
-        grid.addWidget(self.superpose_label_1, 2, 3, qtcore.Qt.AlignLeft)
-        grid.addWidget(self.superpose_label_2, 3, 3, qtcore.Qt.AlignLeft)
+        grid.addWidget(qt.QLabel('      Plot'), 0, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(qt.QLabel('Grid'), 1, 5, qtcore.Qt.AlignLeft)
+        grid.addWidget(self.compare_label_1, 1, 3, qtcore.Qt.AlignLeft)
+        grid.addWidget(self.compare_label_2, 2, 3, qtcore.Qt.AlignLeft)
+        grid.addWidget(self.wavelength_label, 0, 5, qtcore.Qt.AlignLeft)
+        grid.addWidget(qt.QLabel('            '), 2, 4)
         
         grid.addWidget(self.field_spin, 0, 1)
         grid.addWidget(self.field_combo, 0, 1)
         grid.addWidget(self.age_spin, 1, 1)
         grid.addWidget(self.resolution_spin, 2, 1)
         grid.addWidget(self.plot_combo, 0, 3)
-        grid.addWidget(self.grid_check, 1, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(self.cie31_check, 2, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(self.cie64_check, 3, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(self.compute_button, 3, 1)
-        grid.setColumnStretch(4, 1)
+        grid.addWidget(self.grid_check, 1, 4, qtcore.Qt.AlignRight)
+        grid.addWidget(self.wavelength_check, 0, 4, qtcore.Qt.AlignRight)
+        grid.addWidget(self.cie31_check, 1, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(self.cie64_check, 2, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(self.compute_button, 2, 5)
+        grid.setColumnStretch(8, 1)
         
         inner_vbox = qt.QVBoxLayout()
         inner_vbox.addWidget(self.canvas)
