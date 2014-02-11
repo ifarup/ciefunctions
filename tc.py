@@ -992,10 +992,23 @@ def compute_tabulated(field_size, age, resolution=1, xyz_signfig=7, cc_dp=5,
 #==============================================================================
 
 if __name__ == '__main__':
-#     xyz, cc, cc_white, trans_mat, lms_standard, lms_base, bm, bm_white, \
-#     lm, lm_white, lambda_ref_min, purple_line_cc, purple_line_bm, \
-#     purple_line_lm, plots = compute_tabulated(10, 32, 1)
-    import pylab as pl
-    for f in pl.arange(1,2.1, .1):
-        c = chromaticity_interpolated(f)
-        print f, 'ok'
+    xyz, cc, cc_white, trans_mat, lms_standard, lms_base, bm, bm_white, \
+    lm, lm_white, lambda_ref_min, purple_line_cc, purple_line_bm, \
+    purple_line_lm, plots = compute_tabulated(2, 32, 1)
+    print "2 degrees, 32 years, 1nm:"
+    print "\nPurple line xy:"
+    print purple_line_cc
+    print "\nPurple line bm:"
+    print purple_line_bm
+    print "\nPurple line lm:"
+    print purple_line_lm
+    xyz, cc, cc_white, trans_mat, lms_standard, lms_base, bm, bm_white, \
+    lm, lm_white, lambda_ref_min, purple_line_cc, purple_line_bm, \
+    purple_line_lm, plots = compute_tabulated(10, 32, 1)
+    print "10 degrees, 32 years, 1nm:"
+    print "\nPurple line xy:"
+    print purple_line_cc
+    print "\nPurple line bm:"
+    print purple_line_bm
+    print "\nPurple line lm:"
+    print purple_line_lm
