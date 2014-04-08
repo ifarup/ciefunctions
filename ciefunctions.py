@@ -211,14 +211,30 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
-            self.axes.set_xlabel('$x_\mathrm{\,F,\,' +
-                                 str(self.field_spin.value()) + ',\,' +
-                                 str(self.age_spin.value()) +'}$',
-                                 fontsize=16)
-            self.axes.set_ylabel('$y_\mathrm{\,F,\,' +
-                                 str(self.field_spin.value()) + ',\,' +
-                                 str(self.age_spin.value()) +'}$',
-                                 fontsize=16)
+            if (self.lambda_min_spin.value() == 390 and
+                self.lambda_max_spin.value() == 830 and
+                self.resolution_spin.value() == 1):
+                self.axes.set_xlabel('$x_\mathrm{\,F,\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) +'}$',
+                                     fontsize=16)
+                self.axes.set_ylabel('$y_\mathrm{\,F,\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '}$',
+                                     fontsize=16)
+            else:
+                self.axes.set_xlabel('$x_\mathrm{\,F,\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
+                                                                                               self.lambda_max_spin.value(),
+                                                                                               self.resolution_spin.value()),
+                                     fontsize=16)
+                self.axes.set_ylabel('$y_\mathrm{\,F,\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
+                                                                                               self.lambda_max_spin.value(),
+                                                                                               self.resolution_spin.value()),
+                                     fontsize=16)
             self.axes.set_title('CIE xy fundamental chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
                                 u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
@@ -328,14 +344,30 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
-            self.axes.set_xlabel('$l_\mathrm{\,MB,\,' +
-                                 str(self.field_spin.value()) + ',\,' +
-                                 str(self.age_spin.value()) +'}$',
-                                 fontsize=16)
-            self.axes.set_ylabel('$s_\mathrm{\,MB,\,' +
-                                 str(self.field_spin.value()) + ',\,' +
-                                 str(self.age_spin.value()) +'}$',
-                                 fontsize=16)
+            if (self.lambda_min_spin.value() == 390 and
+                self.lambda_max_spin.value() == 830 and
+                self.resolution_spin.value() == 1):
+                self.axes.set_xlabel('$l_\mathrm{\,MB,\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) +'}$',
+                                     fontsize=16)
+                self.axes.set_ylabel('$s_\mathrm{\,MB,\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '}$',
+                                     fontsize=16)
+            else:
+                self.axes.set_xlabel('$l_\mathrm{\,MB,\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
+                                                                                               self.lambda_max_spin.value(),
+                                                                                               self.resolution_spin.value()),
+                                     fontsize=16)
+                self.axes.set_ylabel('$s_\mathrm{\,MB,\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
+                                                                                               self.lambda_max_spin.value(),
+                                                                                               self.resolution_spin.value()),
+                                     fontsize=16)
             self.axes.set_title('CIE MacLeod-Boynton chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
                                 u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
@@ -380,14 +412,30 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, .65))
-            self.axes.set_xlabel('$l_\mathrm{\,' +
-                                 str(self.field_spin.value()) + ',\,' +
-                                 str(self.age_spin.value()) +'}$',
-                                 fontsize=16)
-            self.axes.set_ylabel('$m_\mathrm{\,' +
-                                 str(self.field_spin.value()) + ',\,' +
-                                 str(self.age_spin.value()) +'}$',
-                                 fontsize=16)
+            if (self.lambda_min_spin.value() == 390 and
+                self.lambda_max_spin.value() == 830 and
+                self.resolution_spin.value() == 1):
+                self.axes.set_xlabel('$l_\mathrm{\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) +'}$',
+                                     fontsize=16)
+                self.axes.set_ylabel('$m_\mathrm{\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '}$',
+                                     fontsize=16)
+            else:
+                self.axes.set_xlabel('$l_\mathrm{\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
+                                                                                               self.lambda_max_spin.value(),
+                                                                                               self.resolution_spin.value()),
+                                     fontsize=16)
+                self.axes.set_ylabel('$m_\mathrm{\,' +
+                                     str(self.field_spin.value()) + ',\,' +
+                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
+                                                                                               self.lambda_max_spin.value(),
+                                                                                               self.resolution_spin.value()),
+                                     fontsize=16)
             self.axes.set_title('Equi-power normalised $lm$ chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
                                 u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
