@@ -105,6 +105,10 @@ You should have received a copy of the GNU General Public License along with thi
             self.resolution_label.show()
             self.resolution_spin.show()
             self.compute_button.show()
+            self.lambda_min_max_label.show()
+            self.lambda_min_max_dash.show()
+            self.lambda_min_spin.show()
+            self.lambda_max_spin.show()
         else:
             self.field_spin.hide()
             self.field_combo.show()
@@ -113,6 +117,10 @@ You should have received a copy of the GNU General Public License along with thi
             self.resolution_label.hide()
             self.resolution_spin.hide()
             self.compute_button.hide()
+            self.lambda_min_max_label.hide()
+            self.lambda_min_max_dash.hide()
+            self.lambda_min_spin.hide()
+            self.lambda_max_spin.hide()
 
         if self.plot_combo.currentIndex() == 0: # XYZ
             self.compare_label_31.setEnabled(True)
@@ -185,6 +193,9 @@ You should have received a copy of the GNU General Public License along with thi
                     self.axes.text(self.plots['cc'][ind,1], self.plots['cc'][ind,2], '   ' + str(l),
                                    fontsize=7, verticalalignment=align)
             self.axes.plot(self.results['cc_white'][0], self.results['cc_white'][1], 'kx')
+            if self.wavelength_check.isChecked():
+                self.axes.text(self.results['cc_white'][0], self.results['cc_white'][1], '   E',
+                               fontsize=7, verticalalignment=align)
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
@@ -290,6 +301,9 @@ You should have received a copy of the GNU General Public License along with thi
                     self.axes.text(self.plots['bm'][ind,1], self.plots['bm'][ind,3], '   ' + str(l),
                                    fontsize=7, verticalalignment=align)
             self.axes.plot(self.results['bm_white'][0], self.results['bm_white'][2], 'kx')
+            if self.wavelength_check.isChecked():
+                self.axes.text(self.results['bm_white'][0], self.results['bm_white'][2], '   E',
+                               fontsize=7, verticalalignment=align)
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
@@ -336,6 +350,9 @@ You should have received a copy of the GNU General Public License along with thi
                     self.axes.text(self.plots['lm'][ind,1], self.plots['lm'][ind,2], '   ' + str(l),
                                    fontsize=7, verticalalignment=align)
             self.axes.plot(self.results['lm_white'][0], self.results['lm_white'][1], 'kx')
+            if self.wavelength_check.isChecked():
+                    self.axes.text(self.results['lm_white'][0], self.results['lm_white'][1], '   E',
+                                   fontsize=7, verticalalignment=align)
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, .65))
@@ -451,6 +468,10 @@ You should have received a copy of the GNU General Public License along with thi
                     if self.wavelength_check.isChecked():
                         self.axes.text(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], '   ' + str(l),
                                        fontsize=7, verticalalignment=align)
+                self.axes.plot(1./3, 1./3, 'kx')
+                if self.wavelength_check.isChecked():
+                    self.axes.text(1./3, 1./3, '   E',
+                                   fontsize=7, verticalalignment=align)
                 self.axes.axis('scaled')
                 self.axes.set_xlim((-.05, 1.05))
                 self.axes.set_ylim((-.05, 1.05))
@@ -495,6 +516,10 @@ You should have received a copy of the GNU General Public License along with thi
                     if self.wavelength_check.isChecked():
                         self.axes.text(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], '   ' + str(l),
                                        fontsize=7, verticalalignment=align)
+                self.axes.plot(1./3, 1./3, 'kx')
+                if self.wavelength_check.isChecked():
+                    self.axes.text(1./3, 1./3, '   E',
+                                   fontsize=7, verticalalignment=align)
                 self.axes.axis('scaled')
                 self.axes.set_xlim((-.05, 1.05))
                 self.axes.set_ylim((-.05, 1.05))
@@ -632,6 +657,20 @@ You should have received a copy of the GNU General Public License along with thi
         self.resolution_spin.setValue(1)
         self.resolution_spin.setSingleStep(0.1)
         
+        self.lambda_min_spin = qt.QDoubleSpinBox()
+        self.lambda_min_spin.setMinimum(390)
+        self.lambda_min_spin.setMaximum(830)
+        self.lambda_min_spin.setDecimals(1)
+        self.lambda_min_spin.setValue(390)
+        self.lambda_min_spin.setSingleStep(0.1)
+
+        self.lambda_max_spin = qt.QDoubleSpinBox()
+        self.lambda_max_spin.setMinimum(390)
+        self.lambda_max_spin.setMaximum(830)
+        self.lambda_max_spin.setDecimals(1)
+        self.lambda_max_spin.setValue(830)
+        self.lambda_max_spin.setSingleStep(0.1)
+
         self.plot_combo = qt.QComboBox()
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')
         self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
@@ -673,18 +712,24 @@ You should have received a copy of the GNU General Public License along with thi
         self.compare_label_64 = qt.QLabel(u'Compare with CIE 1964 10\N{DEGREE SIGN}')
         self.wavelength_label = qt.QLabel('Wavelength labels')
         self.age_label = qt.QLabel('Age (year)')
-        self.resolution_label = qt.QLabel('    Wavelength step size (nm)')
+        self.resolution_label = qt.QLabel('Wavelength step (nm)')
+        self.lambda_min_max_label = qt.QLabel('Wavelength domain (nm)') 
+        self.lambda_min_max_dash = qt.QLabel(u'\u2013')
         grid = qt.QGridLayout()
         grid.addWidget(qt.QLabel('Field size (degree)'), 0, 0, qtcore.Qt.AlignRight)
         grid.addWidget(self.age_label, 0, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(self.resolution_label, 0, 4, qtcore.Qt.AlignRight)
-        
+        grid.addWidget(self.lambda_min_max_label, 0, 4)
+        grid.addWidget(self.lambda_min_max_dash, 0, 6)
+        grid.addWidget(self.resolution_label, 0, 8, qtcore.Qt.AlignRight)
+
         grid.addWidget(self.field_spin, 0, 1)
         grid.addWidget(self.field_combo, 0, 1)
         grid.addWidget(self.age_spin, 0, 3)
-        grid.addWidget(self.resolution_spin, 0, 5)
-        grid.addWidget(self.compute_button, 0, 6)
-        grid.setColumnStretch(8, 1)
+        grid.addWidget(self.lambda_min_spin, 0, 5)
+        grid.addWidget(self.lambda_max_spin, 0, 7)
+        grid.addWidget(self.resolution_spin, 0, 9)
+        grid.addWidget(self.compute_button, 0, 11)
+        grid.setColumnStretch(10, 1)
         
         inner_vbox = qt.QVBoxLayout()
         inner_vbox.addWidget(self.mpl_toolbar)
