@@ -38,7 +38,6 @@ class AppForm(qt.QMainWindow):
         self.setWindowTitle('CIE Functions')
         self.create_menu()
         self.create_main_frame()
-        self.create_status_bar()
         self.on_compute()
     
     def save_table(self):
@@ -64,7 +63,6 @@ class AppForm(qt.QMainWindow):
                         'Save file', suggest, 
                         file_choices))
         if path:
-            self.statusBar().showMessage('Saved to %s' % path, 2000)
             if self.plot_combo.currentIndex() == 0:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == 1:
@@ -98,7 +96,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.field_spin.setValue(self.last_field)
         self.age_spin.setValue(self.last_age)
         self.resolution_spin.setValue(self.last_resolution)
-        
+
         if self.plot_combo.currentIndex() <= 5:
             self.field_spin.show()
             self.field_combo.hide()
@@ -117,8 +115,8 @@ You should have received a copy of the GNU General Public License along with thi
             self.compute_button.hide()
 
         if self.plot_combo.currentIndex() == 0: # XYZ
-            self.compare_label_1.setEnabled(True)
-            self.compare_label_2.setEnabled(True)
+            self.compare_label_31.setEnabled(True)
+            self.compare_label_64.setEnabled(True)
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setEnabled(True)
@@ -153,8 +151,8 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 3]))
         elif self.plot_combo.currentIndex() == 1: #xy
-            self.compare_label_1.setEnabled(True)
-            self.compare_label_2.setEnabled(True)
+            self.compare_label_31.setEnabled(True)
+            self.compare_label_64.setEnabled(True)
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setEnabled(True)
@@ -213,8 +211,8 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 3]))
         elif self.plot_combo.currentIndex() == 2: # LMS standard
-            self.compare_label_1.setDisabled(True)
-            self.compare_label_2.setDisabled(True)
+            self.compare_label_31.setDisabled(True)
+            self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setDisabled(True)
@@ -241,8 +239,8 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 3]))
         elif self.plot_combo.currentIndex() == 3: # LMS base
-            self.compare_label_1.setDisabled(True)
-            self.compare_label_2.setDisabled(True)
+            self.compare_label_31.setDisabled(True)
+            self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setDisabled(True)
@@ -269,8 +267,8 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 3]))
         elif self.plot_combo.currentIndex() == 4: # BM
-            self.compare_label_1.setDisabled(True)
-            self.compare_label_2.setDisabled(True)
+            self.compare_label_31.setDisabled(True)
+            self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setDisabled(True)
@@ -318,8 +316,8 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 3]))
         elif self.plot_combo.currentIndex() == 5: # lm
-            self.compare_label_1.setDisabled(True)
-            self.compare_label_2.setDisabled(True)
+            self.compare_label_31.setDisabled(True)
+            self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setDisabled(True)
@@ -367,8 +365,8 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
-                self.compare_label_1.setDisabled(True)
-                self.compare_label_2.setEnabled(True)
+                self.compare_label_31.setDisabled(True)
+                self.compare_label_64.setEnabled(True)
                 self.cie31_check.setDisabled(True)
                 self.cie64_check.setEnabled(True)
                 self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,1], 'r')
@@ -396,8 +394,8 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 3]))
             else: # 10 deg
-                self.compare_label_1.setEnabled(True)
-                self.compare_label_2.setDisabled(True)
+                self.compare_label_31.setEnabled(True)
+                self.compare_label_64.setDisabled(True)
                 self.cie31_check.setEnabled(True)
                 self.cie64_check.setDisabled(True)
                 self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,1], 'r')
@@ -428,8 +426,8 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
-                self.compare_label_1.setDisabled(True)
-                self.compare_label_2.setEnabled(True)
+                self.compare_label_31.setDisabled(True)
+                self.compare_label_64.setEnabled(True)
                 self.cie31_check.setDisabled(True)
                 self.cie64_check.setEnabled(True)
                 lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
@@ -472,8 +470,8 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 3]))
             else: # 10 deg
-                self.compare_label_1.setEnabled(True)
-                self.compare_label_2.setDisabled(True)
+                self.compare_label_31.setEnabled(True)
+                self.compare_label_64.setDisabled(True)
                 self.cie31_check.setEnabled(True)
                 self.cie64_check.setDisabled(True)
                 lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
@@ -518,13 +516,11 @@ You should have received a copy of the GNU General Public License along with thi
         self.canvas.draw()
 
     def on_compute(self):
-        self.statusBar().showMessage('Computing')
         self.last_age = self.age_spin.value()
         self.last_field = self.field_spin.value()
         self.last_resolution = self.resolution_spin.value()
         self.results, self.plots = tc.compute_tabulated(self.last_field, self.last_age,
                                                         self.last_resolution)
-        self.statusBar().clearMessage()
         html_string = """
         The transformation from <em>L, M, S</em> to <em>X, Y, Z</em> is<p>
         <center>
@@ -593,7 +589,7 @@ You should have received a copy of the GNU General Public License along with thi
         # 5x4 inches, 100 dots-per-inch
         #
         self.dpi = 100
-        self.fig = Figure((7.0, 5.0), dpi=self.dpi)
+        self.fig = Figure((10.0, 8.0), dpi=self.dpi)
         self.canvas = FigureCanvas(self.fig)
         self.canvas.setParent(self.main_frame)
         
@@ -673,54 +669,64 @@ You should have received a copy of the GNU General Public License along with thi
 
         # Layout with labels
         # 
-        self.compare_label_1 = qt.QLabel(u'Compare with CIE 1931 2\N{DEGREE SIGN}') 
-        self.compare_label_2 = qt.QLabel(u'Compare with CIE 1964 10\N{DEGREE SIGN}')
+        self.compare_label_31 = qt.QLabel(u'Compare with CIE 1931 2\N{DEGREE SIGN}') 
+        self.compare_label_64 = qt.QLabel(u'Compare with CIE 1964 10\N{DEGREE SIGN}')
         self.wavelength_label = qt.QLabel('Wavelength labels')
         self.age_label = qt.QLabel('Age (year)')
         self.resolution_label = qt.QLabel('    Wavelength step size (nm)')
         grid = qt.QGridLayout()
         grid.addWidget(qt.QLabel('Field size (degree)'), 0, 0, qtcore.Qt.AlignRight)
-        grid.addWidget(self.age_label, 1, 0, qtcore.Qt.AlignRight)
-        grid.addWidget(self.resolution_label, 2, 0, qtcore.Qt.AlignRight)
-        grid.addWidget(qt.QLabel('      Plot'), 0, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(qt.QLabel('Grid'), 1, 5, qtcore.Qt.AlignLeft)
-        grid.addWidget(self.compare_label_1, 1, 3, qtcore.Qt.AlignLeft)
-        grid.addWidget(self.compare_label_2, 2, 3, qtcore.Qt.AlignLeft)
-        grid.addWidget(self.wavelength_label, 0, 5, qtcore.Qt.AlignLeft)
-        grid.addWidget(qt.QLabel('            '), 2, 4)
+        grid.addWidget(self.age_label, 0, 2, qtcore.Qt.AlignRight)
+        grid.addWidget(self.resolution_label, 0, 4, qtcore.Qt.AlignRight)
         
         grid.addWidget(self.field_spin, 0, 1)
         grid.addWidget(self.field_combo, 0, 1)
-        grid.addWidget(self.age_spin, 1, 1)
-        grid.addWidget(self.resolution_spin, 2, 1)
-        grid.addWidget(self.plot_combo, 0, 3)
-        grid.addWidget(self.grid_check, 1, 4, qtcore.Qt.AlignRight)
-        grid.addWidget(self.wavelength_check, 0, 4, qtcore.Qt.AlignRight)
-        grid.addWidget(self.cie31_check, 1, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(self.cie64_check, 2, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(self.compute_button, 2, 5)
+        grid.addWidget(self.age_spin, 0, 3)
+        grid.addWidget(self.resolution_spin, 0, 5)
+        grid.addWidget(self.compute_button, 0, 6)
         grid.setColumnStretch(8, 1)
         
         inner_vbox = qt.QVBoxLayout()
-        inner_vbox.addWidget(self.canvas)
         inner_vbox.addWidget(self.mpl_toolbar)
+        inner_vbox.addWidget(self.canvas)
+        check_bar = qt.QGridLayout()
+        check_bar.addWidget(self.compare_label_31, 0, 0, qtcore.Qt.AlignRight)
+        check_bar.addWidget(self.cie31_check, 0, 1)
+        check_bar.addWidget(self.compare_label_64, 0, 2, qtcore.Qt.AlignRight)
+        check_bar.addWidget(self.cie64_check, 0, 3)
+        check_bar.addWidget(qt.QLabel('Grid'), 0, 4, qtcore.Qt.AlignRight)
+        check_bar.addWidget(self.grid_check, 0, 5)
+        check_bar.addWidget(self.wavelength_label,0, 6, qtcore.Qt.AlignRight)
+        check_bar.addWidget(self.wavelength_check,0, 7)
+        check_widget = qt.QWidget()
+        check_widget.setLayout(check_bar)
+        inner_vbox.addWidget(check_widget)
         inner_widget = qt.QWidget()
-        inner_widget.setLayout(inner_vbox)      
+        inner_widget.setLayout(inner_vbox)
 
-        tabs = qt.QTabWidget()
-        tabs.addTab(inner_widget, 'Plot')
-        tabs.addTab(self.table, 'Table')
-        tabs.addTab(self.transformation, 'Transformation')
+        spectral_tabs = qt.QTabWidget()
+        spectral_tabs.addTab(inner_widget, 'Plot')
+        spectral_tabs.addTab(self.table, 'Table')
+
+        spectral_vbox = qt.QVBoxLayout()
+        spectral_vbox.addWidget(spectral_tabs)
+        spectral_vbox.addWidget(self.plot_combo)
+        spectral_hbox = qt.QHBoxLayout()
+        spectral_innerwidget = qt.QWidget()
+        spectral_innerwidget.setLayout(spectral_vbox)
+        spectral_hbox.addWidget(spectral_innerwidget)
+        spectral_hbox.addWidget(self.transformation)
+        spectral_widget = qt.QWidget()
+        spectral_widget.setLayout(spectral_hbox)
+        main_tabs = qt.QTabWidget()
+        main_tabs.addTab(spectral_widget, 'Spectral')
+        main_tabs.addTab(qt.QTabWidget(), 'Purple')
 
         vbox = qt.QVBoxLayout()
-        vbox.addWidget(tabs)
+        vbox.addWidget(main_tabs)
         vbox.addLayout(grid)
         self.main_frame.setLayout(vbox)
         self.setCentralWidget(self.main_frame)
-
-    def create_status_bar(self):
-        self.status_text = qt.QLabel("Ready")
-        self.statusBar().addWidget(self.status_text, 1)
 
 def main():
     """

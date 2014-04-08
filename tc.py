@@ -968,7 +968,7 @@ def compute_tabulated(field_size, age, resolution=1, xyz_signfig=7, cc_dp=5,
     results['cc_white'] = cc_white
     results['trans_mat'] = trans_mat
     results['lms_standard'] = lms_standard
-    results['lms'] = lms
+    results['lms_base'] = lms
     results['bm'] = bm
     results['bm_white'] = bm_white
     results['lm'] = lm
