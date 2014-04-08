@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import tc
 import sys
+import os
 import numpy as np
 import PyQt4.QtGui as qt
 import PyQt4.QtCore as qtcore
@@ -75,6 +76,14 @@ class AppForm(qt.QMainWindow):
                 np.savetxt(path, self.results['bm'], '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == 5:
                 np.savetxt(path, self.results['lm'], '%.1f, %.5f, %.5f, %.5f')
+    
+    def check_lambda_min(self):
+        if self.lambda_min_spin.value() > self.lambda_max_spin.value():
+            self.lambda_min_spin.setValue(self.lambda_max_spin.value())
+
+    def check_lambda_max(self):
+        if self.lambda_max_spin.value() < self.lambda_min_spin.value():
+            self.lambda_max_spin.setValue(self.lambda_min_spin.value())
 
     def on_about(self):
         msg = """
@@ -144,8 +153,11 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.axis([350, 850, -.2, 2.3])
             self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
             self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
-            self.axes.set_title('CIE XYZ fundamental CMFs for field size ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
+            self.axes.set_title('CIE XYZ fundamental CMFs\nField size: ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
+                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
+                                                                            self.lambda_max_spin.value()) +
+                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
             self.table.setRowCount(np.shape(self.results['xyz'])[0])
             self.table.setColumnCount(np.shape(self.results['xyz'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
@@ -207,8 +219,11 @@ You should have received a copy of the GNU General Public License along with thi
                                  str(self.field_spin.value()) + ',\,' +
                                  str(self.age_spin.value()) +'}$',
                                  fontsize=16)
-            self.axes.set_title('CIE xy fundamental chromaticity diagram for field size ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
+            self.axes.set_title('CIE xy fundamental chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
+                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
+                                                                            self.lambda_max_spin.value()) +
+                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
             self.table.setRowCount(np.shape(self.results['cc'])[0])
             self.table.setColumnCount(np.shape(self.results['cc'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
@@ -235,8 +250,11 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.axis([350, 850, -.05, 1.05])
             self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
             self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
-            self.axes.set_title('CIE 2006 LMS cone fundamentals for field size ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
+            self.axes.set_title('CIE 2006 LMS cone fundamentals\nField size: ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
+                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
+                                                                            self.lambda_max_spin.value()) +
+                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
             self.table.setRowCount(np.shape(self.results['lms_standard'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.results['lms_standard'])[1])
@@ -263,8 +281,11 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.axis([350, 850, -.05, 1.05])
             self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
             self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
-            self.axes.set_title('CIE 2006 LMS cone fundamentals for field size ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()) + ' (9 sign. figs. data)', fontsize=12)
+            self.axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)\nField size: ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
+                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
+                                                                            self.lambda_max_spin.value()) +
+                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
             self.table.setRowCount(np.shape(self.results['lms_base'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.results['lms_base'])[1])
@@ -315,8 +336,11 @@ You should have received a copy of the GNU General Public License along with thi
                                  str(self.field_spin.value()) + ',\,' +
                                  str(self.age_spin.value()) +'}$',
                                  fontsize=16)
-            self.axes.set_title('CIE MacLeod-Boynton chromaticity diagram for field size ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
+            self.axes.set_title('CIE MacLeod-Boynton chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
+                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
+                                                                            self.lambda_max_spin.value()) +
+                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
             self.table.setRowCount(np.shape(self.results['bm'])[0])
             self.table.setColumnCount(np.shape(self.results['bm'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'l', 'm', 's'])
@@ -364,8 +388,11 @@ You should have received a copy of the GNU General Public License along with thi
                                  str(self.field_spin.value()) + ',\,' +
                                  str(self.age_spin.value()) +'}$',
                                  fontsize=16)
-            self.axes.set_title('Equi-power normalised $lm$ chromaticity diagram for field size ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
+            self.axes.set_title('Equi-power normalised $lm$ chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
+                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
+                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
+                                                                            self.lambda_max_spin.value()) +
+                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
             self.table.setRowCount(np.shape(self.results['lm'])[0])
             self.table.setColumnCount(np.shape(self.results['lm'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'lN', 'mN', 'sN'])
@@ -547,17 +574,69 @@ You should have received a copy of the GNU General Public License along with thi
         self.results, self.plots = tc.compute_tabulated(self.last_field, self.last_age,
                                                         self.last_resolution)
         html_string = """
+        <h1>2 degrees, 32 years</h1>
+        
         The transformation from <em>L, M, S</em> to <em>X, Y, Z</em> is<p>
+        """
+        
+        html_string = html_string + """
         <center>
-            <img src="https://chart.googleapis.com/chart?cht=tx&chl=%5Cbegin%7Bpmatrix%7DX%5C%5CY%5C%5CZ%5Cend%7Bpmatrix%7D%3D%5Cbegin%7Bpmatrix%7D"""
+        <table>
+        <tr>
+        <td>
+        <table class="matrix">
+            <tr>
+                <td align="center"><em>X</em></td>
+            </tr>
+            <tr>
+                <td align="center"><em>Y</em></td>
+            </tr>
+            <tr>
+                <td align="center"><em>Z</em></td>
+            </tr>
+        </table>
+        </td>
+        <td>
+        &nbsp;&nbsp;=&nbsp;&nbsp;
+        </td>
+        <td>
+        <table class="matrix">
+        """
         for i in range(3):
+            html_string = html_string + '<tr>\n'
             for j in range(3):
-                html_string += str(self.results['trans_mat'][i,j])
-                if j < 2:
-                    html_string += '%26'
+                if self.results['trans_mat'][i][j] == 0:
+                    html_string = html_string + """
+                    <td align="center">
+                    0
+                    </td>
+                    """
                 else:
-                    html_string += '%5C%5C'
-        html_string += """%5Cend%7Bpmatrix%7D%5Cbegin%7Bpmatrix%7DL%5C%5CM%5C%5CS%5Cend%7Bpmatrix%7D" alt="Transformation equation">
+                    html_string = html_string + '<td align="right">\n'
+                    html_string = html_string + '%0.8f\n' % self.results['trans_mat'][i][j]
+                    html_string = html_string + '</td>\n'
+            html_string = html_string + '</tr>\n'
+        html_string = html_string + """
+        </table>
+        </td>
+        <td>
+        &nbsp;&nbsp;&nbsp;
+        </td>
+        <td>
+        <table class="matrix">
+            <tr>
+                <td align="center"><em>L</em></td>
+            </tr>
+            <tr>
+                <td align="center"><em>M</em></td>
+            </tr>
+            <tr>
+                <td align="center"><em>S</em></td>
+            </tr>
+        </table>
+        </td>
+        </tr>
+        </table>
         </center>
         """
         print html_string
@@ -663,6 +742,9 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_min_spin.setDecimals(1)
         self.lambda_min_spin.setValue(390)
         self.lambda_min_spin.setSingleStep(0.1)
+        self.connect(self.lambda_min_spin,
+                     qtcore.SIGNAL('valueChanged(double)'),
+                     self.check_lambda_min)
 
         self.lambda_max_spin = qt.QDoubleSpinBox()
         self.lambda_max_spin.setMinimum(390)
@@ -670,6 +752,9 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_max_spin.setDecimals(1)
         self.lambda_max_spin.setValue(830)
         self.lambda_max_spin.setSingleStep(0.1)
+        self.connect(self.lambda_max_spin,
+                     qtcore.SIGNAL('valueChanged(double)'),
+                     self.check_lambda_max)
 
         self.plot_combo = qt.QComboBox()
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')
@@ -705,20 +790,22 @@ You should have received a copy of the GNU General Public License along with thi
         
         self.table = qt.QTableWidget()
         self.transformation = qtweb.QWebView()
+        path = os.getcwd()
+        self.transformation.settings().setUserStyleSheetUrl(qtcore.QUrl.fromLocalFile(path + "/ciestyle.css"))
 
         # Layout with labels
         # 
         self.compare_label_31 = qt.QLabel(u'Compare with CIE 1931 2\N{DEGREE SIGN}') 
         self.compare_label_64 = qt.QLabel(u'Compare with CIE 1964 10\N{DEGREE SIGN}')
-        self.wavelength_label = qt.QLabel('Wavelength labels')
-        self.age_label = qt.QLabel('Age (year)')
-        self.resolution_label = qt.QLabel('Wavelength step (nm)')
-        self.lambda_min_max_label = qt.QLabel('Wavelength domain (nm)') 
+        self.wavelength_label = qt.QLabel('Labels')
+        self.age_label = qt.QLabel('Age (yr)')
+        self.resolution_label = qt.QLabel('Step (nm)')
+        self.lambda_min_max_label = qt.QLabel('Domain (nm)') 
         self.lambda_min_max_dash = qt.QLabel(u'\u2013')
         grid = qt.QGridLayout()
-        grid.addWidget(qt.QLabel('Field size (degree)'), 0, 0, qtcore.Qt.AlignRight)
+        grid.addWidget(qt.QLabel(u'Field size (\N{DEGREE SIGN})'), 0, 0, qtcore.Qt.AlignRight)
         grid.addWidget(self.age_label, 0, 2, qtcore.Qt.AlignRight)
-        grid.addWidget(self.lambda_min_max_label, 0, 4)
+        grid.addWidget(self.lambda_min_max_label, 0, 4, qtcore.Qt.AlignRight)
         grid.addWidget(self.lambda_min_max_dash, 0, 6)
         grid.addWidget(self.resolution_label, 0, 8, qtcore.Qt.AlignRight)
 
@@ -729,7 +816,10 @@ You should have received a copy of the GNU General Public License along with thi
         grid.addWidget(self.lambda_max_spin, 0, 7)
         grid.addWidget(self.resolution_spin, 0, 9)
         grid.addWidget(self.compute_button, 0, 11)
-        grid.setColumnStretch(10, 1)
+        grid.setColumnStretch(2, 1)
+        grid.setColumnStretch(4, 1)
+        grid.setColumnStretch(8, 1)
+        grid.setColumnStretch(10, 3)
         
         inner_vbox = qt.QVBoxLayout()
         inner_vbox.addWidget(self.mpl_toolbar)
