@@ -66,17 +66,17 @@ class AppForm(qt.QMainWindow):
         if path:
             self.statusBar().showMessage('Saved to %s' % path, 2000)
             if self.plot_combo.currentIndex() == 0:
-                np.savetxt(path, self.xyz, '%.1f, %.6e, %.6e, %.6e')
+                np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == 1:
-                np.savetxt(path, self.lms_standard, '%.1f, %.5e, %.5e, %.5e')
+                np.savetxt(path, self.results['lms_standard'], '%.1f, %.5e, %.5e, %.5e')
             elif self.plot_combo.currentIndex() == 2:
-                np.savetxt(path, self.lms_base, '%.1f, %.8e, %.8e, %.8e')
+                np.savetxt(path, self.results['lms_base'], '%.1f, %.8e, %.8e, %.8e')
             elif self.plot_combo.currentIndex() == 3:
-                np.savetxt(path, self.cc, '%.1f, %.5f, %.5f, %.5f')
+                np.savetxt(path, self.results['cc'], '%.1f, %.5f, %.5f, %.5f')
             elif self.plot_combo.currentIndex() == 4:
-                np.savetxt(path, self.bm, '%.1f, %.6f, %.6f, %.6f')
+                np.savetxt(path, self.results['bm'], '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == 5:
-                np.savetxt(path, self.lm, '%.1f, %.5f, %.5f, %.5f')
+                np.savetxt(path, self.results['lm'], '%.1f, %.5f, %.5f, %.5f')
 
     def on_about(self):
         msg = """
@@ -140,18 +140,18 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
             self.axes.set_title('CIE XYZ fundamental CMFs for field size ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
-            self.table.setRowCount(np.shape(self.xyz)[0])
-            self.table.setColumnCount(np.shape(self.xyz)[1])
+            self.table.setRowCount(np.shape(self.results['xyz'])[0])
+            self.table.setColumnCount(np.shape(self.results['xyz'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
-            for i in range(np.shape(self.xyz)[0]):
+            for i in range(np.shape(self.results['xyz'])[0]):
                 self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.xyz[i, 0]))
+                                   qt.QTableWidgetItem('%.1f' % self.results['xyz'][i, 0]))
                 self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.6e' % self.xyz[i, 1]))
+                                   qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 1]))
                 self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.6e' % self.xyz[i, 2]))
+                                   qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 2]))
                 self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.6e' % self.xyz[i, 3]))
+                                   qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 3]))
         elif self.plot_combo.currentIndex() == 1: #xy
             self.compare_label_1.setEnabled(True)
             self.compare_label_2.setEnabled(True)
@@ -186,7 +186,7 @@ You should have received a copy of the GNU General Public License along with thi
                 if self.wavelength_check.isChecked():
                     self.axes.text(self.plots['cc'][ind,1], self.plots['cc'][ind,2], '   ' + str(l),
                                    fontsize=7, verticalalignment=align)
-            self.axes.plot(self.cc_white[0], self.cc_white[1], 'kx')
+            self.axes.plot(self.results['cc_white'][0], self.results['cc_white'][1], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
@@ -200,18 +200,18 @@ You should have received a copy of the GNU General Public License along with thi
                                  fontsize=16)
             self.axes.set_title('CIE xy fundamental chromaticity diagram for field size ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
-            self.table.setRowCount(np.shape(self.cc)[0])
-            self.table.setColumnCount(np.shape(self.cc)[1])
+            self.table.setRowCount(np.shape(self.results['cc'])[0])
+            self.table.setColumnCount(np.shape(self.results['cc'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
-            for i in range(np.shape(self.xyz)[0]):
+            for i in range(np.shape(self.results['xyz'])[0]):
                 self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.cc[i, 0]))
+                                   qt.QTableWidgetItem('%.1f' % self.results['cc'][i, 0]))
                 self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 1]))
+                                   qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 1]))
                 self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 2]))
+                                   qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 2]))
                 self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.5f' % self.cc[i, 3]))
+                                   qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 3]))
         elif self.plot_combo.currentIndex() == 2: # LMS standard
             self.compare_label_1.setDisabled(True)
             self.compare_label_2.setDisabled(True)
@@ -228,18 +228,18 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
             self.axes.set_title('CIE 2006 LMS cone fundamentals for field size ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
-            self.table.setRowCount(np.shape(self.lms_standard)[0])
+            self.table.setRowCount(np.shape(self.results['lms_standard'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
-            self.table.setColumnCount(np.shape(self.lms_standard)[1])
-            for i in range(np.shape(self.xyz)[0]):
+            self.table.setColumnCount(np.shape(self.results['lms_standard'])[1])
+            for i in range(np.shape(self.results['xyz'])[0]):
                 self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.lms_standard[i, 0]))
+                                   qt.QTableWidgetItem('%.1f' % self.results['lms_standard'][i, 0]))
                 self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.5e' % self.lms_standard[i, 1]))
+                                   qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 1]))
                 self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.5e' % self.lms_standard[i, 2]))
+                                   qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 2]))
                 self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.5e' % self.lms_standard[i, 3]))
+                                   qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 3]))
         elif self.plot_combo.currentIndex() == 3: # LMS base
             self.compare_label_1.setDisabled(True)
             self.compare_label_2.setDisabled(True)
@@ -256,18 +256,18 @@ You should have received a copy of the GNU General Public License along with thi
             self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
             self.axes.set_title('CIE 2006 LMS cone fundamentals for field size ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()) + ' (9 sign. figs. data)', fontsize=12)
-            self.table.setRowCount(np.shape(self.lms_base)[0])
+            self.table.setRowCount(np.shape(self.results['lms_base'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
-            self.table.setColumnCount(np.shape(self.lms_base)[1])
-            for i in range(np.shape(self.xyz)[0]):
+            self.table.setColumnCount(np.shape(self.results['lms_base'])[1])
+            for i in range(np.shape(self.results['xyz'])[0]):
                 self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.lms_base[i, 0]))
+                                   qt.QTableWidgetItem('%.1f' % self.results['lms_base'][i, 0]))
                 self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.8e' % self.lms_base[i, 1]))
+                                   qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 1]))
                 self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.8e' % self.lms_base[i, 2]))
+                                   qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 2]))
                 self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.8e' % self.lms_base[i, 3]))
+                                   qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 3]))
         elif self.plot_combo.currentIndex() == 4: # BM
             self.compare_label_1.setDisabled(True)
             self.compare_label_2.setDisabled(True)
@@ -291,7 +291,7 @@ You should have received a copy of the GNU General Public License along with thi
                 if self.wavelength_check.isChecked():
                     self.axes.text(self.plots['bm'][ind,1], self.plots['bm'][ind,3], '   ' + str(l),
                                    fontsize=7, verticalalignment=align)
-            self.axes.plot(self.bm_white[0], self.bm_white[2], 'kx')
+            self.axes.plot(self.results['bm_white'][0], self.results['bm_white'][2], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, 1.05))
@@ -305,18 +305,18 @@ You should have received a copy of the GNU General Public License along with thi
                                  fontsize=16)
             self.axes.set_title('CIE MacLeod-Boynton chromaticity diagram for field size ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
-            self.table.setRowCount(np.shape(self.bm)[0])
-            self.table.setColumnCount(np.shape(self.bm)[1])
+            self.table.setRowCount(np.shape(self.results['bm'])[0])
+            self.table.setColumnCount(np.shape(self.results['bm'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'l', 'm', 's'])
-            for i in range(np.shape(self.xyz)[0]):
+            for i in range(np.shape(self.results['xyz'])[0]):
                 self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.bm[i, 0]))
+                                   qt.QTableWidgetItem('%.1f' % self.results['bm'][i, 0]))
                 self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.6f' % self.bm[i, 1]))
+                                   qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 1]))
                 self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.6f' % self.bm[i, 2]))
+                                   qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 2]))
                 self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.6f' % self.bm[i, 3]))
+                                   qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 3]))
         elif self.plot_combo.currentIndex() == 5: # lm
             self.compare_label_1.setDisabled(True)
             self.compare_label_2.setDisabled(True)
@@ -337,7 +337,7 @@ You should have received a copy of the GNU General Public License along with thi
                 if self.wavelength_check.isChecked():
                     self.axes.text(self.plots['lm'][ind,1], self.plots['lm'][ind,2], '   ' + str(l),
                                    fontsize=7, verticalalignment=align)
-            self.axes.plot(self.lm_white[0], self.lm_white[1], 'kx')
+            self.axes.plot(self.results['lm_white'][0], self.results['lm_white'][1], 'kx')
             self.axes.axis('scaled')
             self.axes.set_xlim((-.05, 1.05))
             self.axes.set_ylim((-.05, .65))
@@ -351,18 +351,18 @@ You should have received a copy of the GNU General Public License along with thi
                                  fontsize=16)
             self.axes.set_title('Equi-power normalised $lm$ chromaticity diagram for field size ' + str(self.field_spin.value()) +
                                 u'\N{DEGREE SIGN}, and age ' + str(self.age_spin.value()), fontsize=12)
-            self.table.setRowCount(np.shape(self.lm)[0])
-            self.table.setColumnCount(np.shape(self.lm)[1])
+            self.table.setRowCount(np.shape(self.results['lm'])[0])
+            self.table.setColumnCount(np.shape(self.results['lm'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'lN', 'mN', 'sN'])
-            for i in range(np.shape(self.xyz)[0]):
+            for i in range(np.shape(self.results['xyz'])[0]):
                 self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.lm[i, 0]))
+                                   qt.QTableWidgetItem('%.1f' % self.results['lm'][i, 0]))
                 self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.5f' % self.lm[i, 1]))
+                                   qt.QTableWidgetItem('%.5f' % self.results['lm'][i, 1]))
                 self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.5f' % self.lm[i, 2]))
+                                   qt.QTableWidgetItem('%.5f' % self.results['lm'][i, 2]))
                 self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.5f' % self.lm[i, 3]))
+                                   qt.QTableWidgetItem('%.5f' % self.results['lm'][i, 3]))
         elif self.plot_combo.currentIndex() == 6: # CIE std XYZ
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
@@ -462,7 +462,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setRowCount(np.shape(self.plots['cc31'])[0])
                 self.table.setColumnCount(np.shape(self.plots['cc31'])[1])
                 self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
-                for i in range(np.shape(self.xyz)[0]):
+                for i in range(np.shape(self.results['xyz'])[0]):
                     self.table.setItem(i, 0,
                                        qt.QTableWidgetItem('%.1f' % self.plots['cc31'][i, 0]))
                     self.table.setItem(i, 1,
@@ -506,7 +506,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setRowCount(np.shape(self.plots['cc64'])[0])
                 self.table.setColumnCount(np.shape(self.plots['cc64'])[1])
                 self.table.setHorizontalHeaderLabels(['lambda', 'x10', 'y10', 'z10'])
-                for i in range(np.shape(self.xyz)[0]):
+                for i in range(np.shape(self.results['xyz'])[0]):
                     self.table.setItem(i, 0,
                                        qt.QTableWidgetItem('%.1f' % self.plots['cc64'][i, 0]))
                     self.table.setItem(i, 1,
@@ -522,11 +522,8 @@ You should have received a copy of the GNU General Public License along with thi
         self.last_age = self.age_spin.value()
         self.last_field = self.field_spin.value()
         self.last_resolution = self.resolution_spin.value()
-        self.xyz, self.cc, self.cc_white, self.trans_mat, self.lms_standard, self.lms_base, \
-        self.bm, self.bm_white, self.lm, self.lm_white, self.lambda_min, \
-        self.purple_line_cc, self.purple_line_bm, self.purple_line_lm, self.plots = \
-            tc.compute_tabulated(self.last_field, self.last_age,
-                                 self.last_resolution)
+        self.results, self.plots = tc.compute_tabulated(self.last_field, self.last_age,
+                                                        self.last_resolution)
         self.statusBar().clearMessage()
         html_string = """
         The transformation from <em>L, M, S</em> to <em>X, Y, Z</em> is<p>
@@ -534,7 +531,7 @@ You should have received a copy of the GNU General Public License along with thi
             <img src="https://chart.googleapis.com/chart?cht=tx&chl=%5Cbegin%7Bpmatrix%7DX%5C%5CY%5C%5CZ%5Cend%7Bpmatrix%7D%3D%5Cbegin%7Bpmatrix%7D"""
         for i in range(3):
             for j in range(3):
-                html_string += str(self.trans_mat[i,j])
+                html_string += str(self.results['trans_mat'][i,j])
                 if j < 2:
                     html_string += '%26'
                 else:

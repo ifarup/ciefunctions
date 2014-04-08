@@ -750,34 +750,9 @@ def compute_tabulated(field_size, age, resolution=1, xyz_signfig=7, cc_dp=5,
     
     Returns
     -------
-    xyz : ndarray
-        The computed colour matching functions.
-    cc : ndarray
-        The chromaticity coordinates.
-    cc_white : ndarray
-        The chromaticity coordinates for equi-energy stimulus.
-    mat : ndarray
-        The 3x3 matrix for converting from LMS to XYZ.
-    lms_standard : ndarray
-        The computed LMS functions at the given standard resolution.
-    lms_base : ndarray
-        The computed LMS functions at full available resolution (9 sign. fig.).        
-    bm : ndarray
-        The computed Boynton-MacLeod chromaticity coordinates.
-    bm_white : ndarray
-        The Boynton-MacLeod coordinates for equi-energy stimulus.
-    lm : ndarray
-        The computed normalised lm coordinates.
-    lm_white : ndarray
-        The lm coordinates for equi-energy stimulus.
-    lambda_test_min : int
-        The wavelength of minimum x chromaticity value.
-    purple_line_cc : ndarray
-        Chromaticity coordinates for the endpoints of the purple line.
-    purple_line_bm : ndarray
-        Boynton-MacLeod coordinates for the endpoints of the purple line.
-    purple_line_lm : ndarray
-        lm coordinates for the endpoints of the purple line.
+    results : dict
+        All results: xyz, cc, cc_white, mat, lms_standard, lms_base, bm, bm_white,
+        lm, lm_white, lambda_test_min, purple_line_cc, purple_line_bm, purple_line_lm
     plots : dict
         Versions of xyz, cc, lms, bm, lm at 0.1 nm for plotting. Includes also CIE1964 and CIE1931 data. 
     """
@@ -937,9 +912,13 @@ def compute_tabulated(field_size, age, resolution=1, xyz_signfig=7, cc_dp=5,
     # Hack to report correct wavelength also for the chromaticity diagram
     # (they give the same value anyway)
     # Could (should?) be removed at a later stage
-    if ( purple_line_cc[1,0] != purple_line_bm[1,0] ):
-        print "Wavelengths differ!"
-        purple_line_cc[1,0] = purple_line_bm[1,0]
+    
+    # Edit: they don't always give the same value proved by example:
+    # fs: 10 degrees, age: 60 years, step = 1nv
+
+#     if ( purple_line_cc[1,0] != purple_line_bm[1,0] ):
+#         print "Wavelengths differ!"
+#         purple_line_cc[1,0] = purple_line_bm[1,0]
     
     # Compute purple line for lm
     delaunay = Delaunay(plots['lm'][:,1:3])
@@ -982,33 +961,34 @@ def compute_tabulated(field_size, age, resolution=1, xyz_signfig=7, cc_dp=5,
     purple_line_cc64[1,1] = plots['cc64'][delaunay.convex_hull[ind,1], 1]
     purple_line_cc64[1,2] = plots['cc64'][delaunay.convex_hull[ind,1], 2]
     plots['purple_line_cc64'] = purple_line_cc64.copy()
+    
+    results = dict()
+    results['xyz'] = xyz
+    results['cc'] = cc
+    results['cc_white'] = cc_white
+    results['trans_mat'] = trans_mat
+    results['lms_standard'] = lms_standard
+    results['lms'] = lms
+    results['bm'] = bm
+    results['bm_white'] = bm_white
+    results['lm'] = lm
+    results['lm_white'] = lm_white
+    results['lambda_ref_min'] = lambda_ref_min
+    results['purple_line_cc'] = purple_line_cc
+    results['purple_line_lm'] = purple_line_lm
+    results['purple_line_bm'] = purple_line_bm
 
-    return xyz, cc, cc_white, trans_mat, lms_standard, lms, \
-        bm, bm_white, lm, lm_white, lambda_ref_min, \
-        purple_line_cc, purple_line_bm, purple_line_lm, plots
-        
+    return results, plots
+
 #==============================================================================
 # For testing purposes only
 #==============================================================================
 
 if __name__ == '__main__':
-    xyz, cc, cc_white, trans_mat, lms_standard, lms_base, bm, bm_white, \
-    lm, lm_white, lambda_ref_min, purple_line_cc, purple_line_bm, \
-    purple_line_lm, plots = compute_tabulated(2, 32, 1)
-    print "2 degrees, 32 years, 1nm:"
+    results, plots = compute_tabulated(10, 60, 1)
     print "\nPurple line xy:"
-    print purple_line_cc
+    print results['purple_line_cc']
     print "\nPurple line bm:"
-    print purple_line_bm
+    print results['purple_line_bm']
     print "\nPurple line lm:"
-    print purple_line_lm
-    xyz, cc, cc_white, trans_mat, lms_standard, lms_base, bm, bm_white, \
-    lm, lm_white, lambda_ref_min, purple_line_cc, purple_line_bm, \
-    purple_line_lm, plots = compute_tabulated(10, 32, 1)
-    print "10 degrees, 32 years, 1nm:"
-    print "\nPurple line xy:"
-    print purple_line_cc
-    print "\nPurple line bm:"
-    print purple_line_bm
-    print "\nPurple line lm:"
-    print purple_line_lm
+    print results['purple_line_lm']
