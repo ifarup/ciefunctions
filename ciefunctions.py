@@ -903,7 +903,7 @@ You should have received a copy of the GNU General Public License along with thi
         spectral_widget.setLayout(spectral_hbox)
         main_tabs = qt.QTabWidget()
         main_tabs.addTab(spectral_widget, 'Spectral')
-        main_tabs.addTab(qt.QTabWidget(), 'Purple')
+        main_tabs.addTab(qt.QTabWidget(), 'Purples')
 
         vbox = qt.QVBoxLayout()
         vbox.addWidget(main_tabs)
