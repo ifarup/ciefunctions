@@ -104,6 +104,8 @@ You should have received a copy of the GNU General Public License along with thi
         self.axes.grid(self.grid_check.isChecked())
         self.field_spin.setValue(self.last_field)
         self.age_spin.setValue(self.last_age)
+        self.lambda_min_spin.setValue(self.last_lambda_min)
+        self.lambda_max_spin.setValue(self.last_lambda_max)
         self.resolution_spin.setValue(self.last_resolution)
 
         if self.plot_combo.currentIndex() <= 5:
@@ -619,7 +621,10 @@ You should have received a copy of the GNU General Public License along with thi
         self.last_age = self.age_spin.value()
         self.last_field = self.field_spin.value()
         self.last_resolution = self.resolution_spin.value()
+        self.last_lambda_min = self.lambda_min_spin.value()
+        self.last_lambda_max = self.lambda_max_spin.value()
         self.results, self.plots = tc.compute_tabulated(self.last_field, self.last_age,
+                                                        self.last_lambda_min, self.last_lambda_max,
                                                         self.last_resolution)
         html_string = """
         <h1>2 degrees, 32 years</h1>
