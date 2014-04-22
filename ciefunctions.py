@@ -172,14 +172,14 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 3]))
-        elif self.plot_combo.currentIndex() == 1: #xy
+        elif self.plot_combo.currentIndex() == 1: # xy
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
-            lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
+            lambdavalues = np.concatenate(([self.plots['cc'][0,0]], np.arange(470, 611, 10), [700], [self.plots['cc'][-1,0]]))
             if self.cie31_check.isChecked():
                 self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k--')
                 self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k--')
@@ -204,8 +204,9 @@ You should have received a copy of the GNU General Public License along with thi
                 else:
                     align = 'center'
                 if self.wavelength_check.isChecked():
-                    self.axes.text(self.plots['cc'][ind,1], self.plots['cc'][ind,2], '   ' + str(l),
-                                   fontsize=7, verticalalignment=align)
+                    if np.shape(ind)[0] > 0:
+                        self.axes.text(self.plots['cc'][ind,1], self.plots['cc'][ind,2], '   ' + str(l),
+                                       fontsize=7, verticalalignment=align)
             self.axes.plot(self.results['cc_white'][0], self.results['cc_white'][1], 'kx')
             if self.wavelength_check.isChecked():
                 self.axes.text(self.results['cc_white'][0], self.results['cc_white'][1], '   E',
@@ -325,8 +326,8 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             self.axes.plot(self.plots['bm'][:,1], self.plots['bm'][:,3], 'k')
             self.axes.plot(self.plots['purple_line_bm'][:,1], self.plots['purple_line_bm'][:,2], 'k')
-            lambdavalues = np.concatenate(([390], np.arange(410, 490, 10),
-                                           [500, 550, 575, 600, 700, 830]))
+            lambdavalues = np.concatenate(([self.plots['bm'][0,0]], np.arange(410, 490, 10),
+                                           [500, 550, 575, 600, 700], [self.plots['bm'][-1,0]]))
             for l in lambdavalues: # add wavelength parameters
                 ind = np.nonzero(self.plots['bm'][:,0] == l)[0]
                 self.axes.plot(self.plots['bm'][ind,1], self.plots['bm'][ind,3], 'wo')
@@ -336,7 +337,7 @@ You should have received a copy of the GNU General Public License along with thi
                     align = 'top'
                 else:
                     align = 'center'
-                if self.wavelength_check.isChecked():
+                if self.wavelength_check.isChecked() and np.shape(ind)[0] > 0:
                     self.axes.text(self.plots['bm'][ind,1], self.plots['bm'][ind,3], '   ' + str(l),
                                    fontsize=7, verticalalignment=align)
             self.axes.plot(self.results['bm_white'][0], self.results['bm_white'][2], 'kx')
@@ -396,7 +397,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             self.axes.plot(self.plots['lm'][:,1], self.plots['lm'][:,2], 'k')
             self.axes.plot(self.plots['purple_line_lm'][:,1], self.plots['purple_line_lm'][:,2], 'k')
-            lambdavalues = np.concatenate(([390], np.arange(450, 631, 10), [700, 830]))
+            lambdavalues = np.concatenate((np.arange(450, 631, 10), [700], [self.plots['lm'][0,0]], [self.plots['lm'][-1,0]]))
             for l in lambdavalues: # add wavelength parameters
                 ind = np.nonzero(self.plots['lm'][:,0] == l)[0]
                 self.axes.plot(self.plots['lm'][ind,1], self.plots['lm'][ind,2], 'wo')
@@ -404,7 +405,7 @@ You should have received a copy of the GNU General Public License along with thi
                     align = 'top'
                 else:
                     align = 'center'
-                if self.wavelength_check.isChecked():
+                if self.wavelength_check.isChecked() and np.shape(ind)[0] > 0:
                     self.axes.text(self.plots['lm'][ind,1], self.plots['lm'][ind,2], '   ' + str(l),
                                    fontsize=7, verticalalignment=align)
             self.axes.plot(self.results['lm_white'][0], self.results['lm_white'][1], 'kx')
@@ -692,7 +693,6 @@ You should have received a copy of the GNU General Public License along with thi
         </table>
         </center>
         """
-        print html_string
         self.transformation.setHtml(html_string)
         self.on_draw()
 
@@ -764,8 +764,8 @@ You should have received a copy of the GNU General Public License along with thi
         # Other GUI controls
         # 
         self.age_spin = qt.QSpinBox()
-        self.age_spin.setMinimum(0)
-        self.age_spin.setMaximum(100)
+        self.age_spin.setMinimum(20)
+        self.age_spin.setMaximum(70)
         self.age_spin.setValue(32)     
 
         self.field_spin = qt.QDoubleSpinBox()
@@ -784,14 +784,14 @@ You should have received a copy of the GNU General Public License along with thi
 
         self.resolution_spin = qt.QDoubleSpinBox()
         self.resolution_spin.setMinimum(0.1)
-        self.resolution_spin.setMaximum(20)
+        self.resolution_spin.setMaximum(5)
         self.resolution_spin.setDecimals(1)
         self.resolution_spin.setValue(1)
         self.resolution_spin.setSingleStep(0.1)
         
         self.lambda_min_spin = qt.QDoubleSpinBox()
         self.lambda_min_spin.setMinimum(390)
-        self.lambda_min_spin.setMaximum(830)
+        self.lambda_min_spin.setMaximum(400)
         self.lambda_min_spin.setDecimals(1)
         self.lambda_min_spin.setValue(390)
         self.lambda_min_spin.setSingleStep(0.1)
@@ -800,7 +800,7 @@ You should have received a copy of the GNU General Public License along with thi
                      self.check_lambda_min)
 
         self.lambda_max_spin = qt.QDoubleSpinBox()
-        self.lambda_max_spin.setMinimum(390)
+        self.lambda_max_spin.setMinimum(700)
         self.lambda_max_spin.setMaximum(830)
         self.lambda_max_spin.setDecimals(1)
         self.lambda_max_spin.setValue(830)

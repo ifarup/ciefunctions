@@ -720,12 +720,15 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
     else:
         return err
 
-def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, resolution=1,
+def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_step=1,
                       xyz_signfig=7, cc_dp=5, mat_dp=8, lms_signfig=6, bm_dp=6, lm_dp=5):
     """
     Compute tabulated quantities as a function of field size and age.
     
-    All functions are tabulated at given wavelength resolution.
+    All functions are tabulated at given wavelength lambda_step. The functions are
+    tabulated on four different wavelength lambda_steps: 390-830, 0.1 nm (_base),
+    390-830, 1 nm (_std), and lambda_min-lambda_max, lambda_step (_spec), and
+    lambda_min-lambda_max, 0.1 nm (_plot).
     
     Parameters
     ----------
@@ -733,7 +736,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, resolutio
         Field size in degrees.
     age : float
         Age in years.
-    resolution : float
+    lambda_step : float
         Resolution of tabulated results in nm.
     xyz_signfig : int
         Number of significant figures in XYZ.
@@ -757,75 +760,96 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, resolutio
         Versions of xyz, cc, lms, bm, lm at 0.1 nm for plotting. Includes also CIE1964 and CIE1931 data. 
     """
     plots = dict()
-    lms, tmp = lms_energy_base(field_size, age)
-    plots['lms'] = lms.copy()
-    lms_standard, tmp = lms_energy(field_size, age, lms_signfig)
-    v_lambda, weights = v_lambda_energy_from_lms(field_size, age,
-                                                 xyz_signfig, mat_dp)
+    lms_base = lms_energy_base(field_size, age)[0]
+    lms_standard_base = lms_energy(field_size, age, lms_signfig)[0]
+    v_lambda_base, weights = v_lambda_energy_from_lms(field_size, age,
+                                                      xyz_signfig, mat_dp)
     # For normalisation of Boynton-MacLeod, see below:
-    bm_s_max = np.max(lms[:,3] / v_lambda[:,1])
+    bm_s_max = np.max(lms_base[:,3] / v_lambda_base[:,1])
 
-    # Resample
-    l_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms[:,0], lms[:,1])
-    m_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms[:,0], lms[:,2])
-    s_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms[:,0], lms[:,3])
-    ls_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_standard[:,0],
-                                                               lms_standard[:,1])
-    ms_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_standard[:,0],
-                                                               lms_standard[:,2])
-    ss_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_standard[:,0],
-                                                               lms_standard[:,3])
-    v_spline = scipy.interpolate.InterpolatedUnivariateSpline(v_lambda[:,0],
-                                                              v_lambda[:,1])
-    lambdas = np.arange(lambda_min, lambda_max + resolution, resolution)
+    # Spline functions
+    l_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_base[:,0], lms_base[:,1])
+    m_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_base[:,0], lms_base[:,2])
+    s_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_base[:,0], lms_base[:,3])
+    ls_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_standard_base[:,0],
+                                                               lms_standard_base[:,1])
+    ms_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_standard_base[:,0],
+                                                               lms_standard_base[:,2])
+    ss_spline = scipy.interpolate.InterpolatedUnivariateSpline(lms_standard_base[:,0],
+                                                               lms_standard_base[:,3])
+    v_spline = scipy.interpolate.InterpolatedUnivariateSpline(v_lambda_base[:,0],
+                                                              v_lambda_base[:,1])
 
-    lms = np.array([l_spline(lambdas),
-                    m_spline(lambdas),
-                    s_spline(lambdas)])
-    lms_standard = np.array([ls_spline(lambdas),
-                             ms_spline(lambdas),
-                             ss_spline(lambdas)])
+    # Lambda values
+    lambdas_spec = np.arange(lambda_min, lambda_max + lambda_step, lambda_step)
+    lambdas_std = np.arange(390, 830 + 1, 1)
+    lambdas_plot = my_round(np.arange(lambda_min, lambda_max + .1, .1), 1)
 
-    s_values = s_spline(lambdas)
-    v_values = v_spline(lambdas)
+    plots['lms'] = np.array([lambdas_plot,
+                             l_spline(lambdas_plot),
+                             m_spline(lambdas_plot),
+                             s_spline(lambdas_plot)]).T
+
+    lms_spec = np.array([l_spline(lambdas_spec),
+                         m_spline(lambdas_spec),
+                         s_spline(lambdas_spec)])
+    
+    lms_standard_spec = np.array([ls_spline(lambdas_spec),
+                                  ms_spline(lambdas_spec),
+                                  ss_spline(lambdas_spec)])
+
+    s_std = s_spline(lambdas_std)
+    v_std = v_spline(lambdas_std)
+    v_spec = v_spline(lambdas_spec)
 
     # Compute XYZ and chromaticity diagram
     a21 = weights[0]
     a22 = weights[1]
-    a33 = my_round(v_values.sum() / s_values.sum(), mat_dp)
+    a33 = my_round(v_std.sum() / s_std.sum(), mat_dp)
 
     cc_ref = chromaticity_interpolated(field_size)
 
-    lambda_ref_min = 500
+    # Optimise
+    lambda_x_min_ref = 500
     ok = False
     while not ok:
         a13 = scipy.optimize.fmin(square_sum, 0.39,
                                   (a21, a22, a33, l_spline, m_spline, s_spline,
-                                   v_spline, lambdas, lambda_ref_min, cc_ref,
+                                   v_spline, lambdas_std, lambda_x_min_ref, cc_ref,
                                    False, xyz_signfig, mat_dp),
                                    xtol=10**(-(mat_dp + 2)), disp=False)
-        err, trans_mat, lambda_ref_min, ok = \
+        trans_mat, lambda_x_min_ref, ok = \
             square_sum(a13, a21, a22, a33, l_spline, m_spline,
-                       s_spline, v_spline, lambdas,
-                       lambda_ref_min, cc_ref, True, xyz_signfig, mat_dp)
-    xyz = np.dot(trans_mat, lms)
-    xyz = significant_figures(xyz, xyz_signfig)
-    cc = np.array([xyz[0,:] / (xyz[0,:] + xyz[1,:] + xyz[2,:]),
-                   xyz[1,:] / (xyz[0,:] + xyz[1,:] + xyz[2,:]),
-                   xyz[2,:] / (xyz[0,:] + xyz[1,:] + xyz[2,:])])
-    cc = my_round(cc, cc_dp)
-    cc_white = np.sum(xyz, 1)
+                       s_spline, v_spline, lambdas_std,
+                       lambda_x_min_ref, cc_ref, True, xyz_signfig, mat_dp)[1:]
+
+    # Renormalise if necessary
+    if lambda_min != 390 or lambda_max != 830 or lambda_step != 1:
+        xyz_spec = np.dot(trans_mat, lms_spec)
+        trans_mat[0,:] = trans_mat[0,:] * xyz_spec[1,:].sum() / xyz_spec[0,:].sum()
+        trans_mat[2,:] = trans_mat[2,:] * xyz_spec[1,:].sum() / xyz_spec[2,:].sum()
+        trans_mat = my_round(trans_mat, mat_dp)
+    
+    # Compute xyz
+    xyz_spec = np.dot(trans_mat, lms_spec)
+    xyz_spec = significant_figures(xyz_spec, xyz_signfig)
+
+    cc_spec = np.array([xyz_spec[0,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:]),
+                   xyz_spec[1,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:]),
+                   xyz_spec[2,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:])])
+    cc_spec = my_round(cc_spec, cc_dp)
+    cc_white = np.sum(xyz_spec, 1)
     cc_white = cc_white / np.sum(cc_white)
     cc_white = my_round(cc_white, cc_dp)
 
     # Reshape
-    lms = np.concatenate((lambdas.reshape((1,len(lambdas))), lms)).T
-    lms_standard = np.concatenate((lambdas.reshape((1,len(lambdas))),
-                                   lms_standard)).T
-    xyz = np.concatenate((lambdas.reshape((1,len(lambdas))), xyz)).T
-    cc = np.concatenate((lambdas.reshape((1,len(lambdas))), cc)).T
-    Vl = np.concatenate((lambdas.reshape((1,len(lambdas))),
-                         v_values.reshape((1,len(v_values))))).T
+    lms_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), lms_spec)).T
+    lms_standard_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))),
+                                        lms_standard_spec)).T
+    xyz_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), xyz_spec)).T
+    cc_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), cc_spec)).T
+    Vl = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))),
+                              v_spec.reshape((1,len(v_spec))))).T
 
     # Versions for plotting and purple line
     plots['xyz'] = np.dot(trans_mat, plots['lms'][:,1:].T)
@@ -837,12 +861,12 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, resolutio
     plots['cc'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['cc'].T), axis=1)
     
     # Boynton-MacLeod
-    bm = lms.copy()
-    bm[:,1] = trans_mat[1,0] * lms[:,1] / Vl[:,1]
-    bm[:,2] = trans_mat[1,1] * lms[:,2] / Vl[:,1]
-    bm[:,3] = lms[:,3] / Vl[:,1]
-    bm[:,3] = bm[:,3] / bm_s_max
-    bm[:,1:] = my_round(bm[:,1:], bm_dp)
+    bm_spec = lms_spec.copy()
+    bm_spec[:,1] = trans_mat[1,0] * lms_spec[:,1] / Vl[:,1]
+    bm_spec[:,2] = trans_mat[1,1] * lms_spec[:,2] / Vl[:,1]
+    bm_spec[:,3] = lms_spec[:,3] / Vl[:,1]
+    bm_spec[:,3] = bm_spec[:,3] / bm_s_max
+    bm_spec[:,1:] = my_round(bm_spec[:,1:], bm_dp)
     
     # Version for plotting and purple line
     plots['bm'] = plots['lms'].copy()
@@ -851,24 +875,24 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, resolutio
     plots['bm'][:,3] = plots['lms'][:,3] / plots['xyz'][:,2]
     plots['bm'][:,3] = plots['bm'][:,3] / bm_s_max
     
-    L_E = trans_mat[1,0] * np.sum(lms[:,1])
-    M_E = trans_mat[1,1] * np.sum(lms[:,2])
-    S_E = np.sum(lms[:,3]) / bm_s_max
+    L_E = trans_mat[1,0] * np.sum(lms_spec[:,1])
+    M_E = trans_mat[1,1] * np.sum(lms_spec[:,2])
+    S_E = np.sum(lms_spec[:,3]) / bm_s_max
     
     bm_white = np.array([L_E / (L_E + M_E), M_E / (L_E + M_E), S_E / (L_E + M_E)])
     bm_white = my_round(bm_white, bm_dp)
     
     # lm diagram
     if lm_dp > 5:
-        lms_N = lms.copy()
+        lms_N = lms_spec.copy()
     else:   
-        lms_N = lms_standard.copy()
+        lms_N = lms_standard_spec.copy()
     lms_N[:,1:] = lms_N[:,1:] / np.sum(lms_N[:,1:], 0)
-    lm = lms_N.copy()
-    lm[:,1] = lms_N[:,1] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
-    lm[:,2] = lms_N[:,2] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
-    lm[:,3] = lms_N[:,3] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
-    lm[:,1:] = my_round(lm[:,1:], lm_dp)
+    lm_spec = lms_N.copy()
+    lm_spec[:,1] = lms_N[:,1] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
+    lm_spec[:,2] = lms_N[:,2] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
+    lm_spec[:,3] = lms_N[:,3] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
+    lm_spec[:,1:] = my_round(lm_spec[:,1:], lm_dp)
     lm_white = np.sum(lms_N[:,1:], 0)
     lm_white = lm_white / np.sum(lm_white)
     lm_white = my_round(lm_white, lm_dp)
@@ -963,17 +987,17 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, resolutio
     plots['purple_line_cc64'] = purple_line_cc64.copy()
     
     results = dict()
-    results['xyz'] = xyz
-    results['cc'] = cc
+    results['xyz'] = xyz_spec
+    results['cc'] = cc_spec
     results['cc_white'] = cc_white
     results['trans_mat'] = trans_mat
-    results['lms_standard'] = lms_standard
-    results['lms_base'] = lms
-    results['bm'] = bm
+    results['lms_standard'] = lms_standard_spec
+    results['lms_base'] = lms_spec
+    results['bm'] = bm_spec
     results['bm_white'] = bm_white
-    results['lm'] = lm
+    results['lm'] = lm_spec
     results['lm_white'] = lm_white
-    results['lambda_ref_min'] = lambda_ref_min
+    results['lambda_ref_min'] = lambda_x_min_ref
     results['purple_line_cc'] = purple_line_cc
     results['purple_line_lm'] = purple_line_lm
     results['purple_line_bm'] = purple_line_bm
@@ -994,6 +1018,6 @@ if __name__ == '__main__':
     xyz_r = results_red['xyz']
     nsamp = (l_max - l_min) / step + 1
     i_r = np.round(nsamp / 2)
-    l_test = xyz_r[nsamp / 2, 0]
+    l_test = xyz_r[i_r, 0]
     i_f = l_test - 390
-    print xyz_f[i_f,:] / xyz_r[i_r,:] - 1
+    print xyz_f[i_f,:] / xyz_r[i_r,:]
