@@ -777,7 +777,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, resolutio
                                                                lms_standard[:,3])
     v_spline = scipy.interpolate.InterpolatedUnivariateSpline(v_lambda[:,0],
                                                               v_lambda[:,1])
-    lambdas = np.arange(390, 830 + resolution, resolution)
+    lambdas = np.arange(lambda_min, lambda_max + resolution, resolution)
 
     lms = np.array([l_spline(lambdas),
                     m_spline(lambdas),
@@ -985,10 +985,15 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, resolutio
 #==============================================================================
 
 if __name__ == '__main__':
-    results, plots = compute_tabulated(10, 60, 1)
-    print "\nPurple line xy:"
-    print results['purple_line_cc']
-    print "\nPurple line bm:"
-    print results['purple_line_bm']
-    print "\nPurple line lm:"
-    print results['purple_line_lm']
+    l_min = 400
+    l_max = 600
+    step = 2
+    results_red, plots_red = compute_tabulated(10, 60, l_min, l_max, step)
+    results_full, plots_full = compute_tabulated(10, 60)
+    xyz_f = results_full['xyz']
+    xyz_r = results_red['xyz']
+    nsamp = (l_max - l_min) / step + 1
+    i_r = np.round(nsamp / 2)
+    l_test = xyz_r[nsamp / 2, 0]
+    i_f = l_test - 390
+    print xyz_f[i_f,:] / xyz_r[i_r,:] - 1
