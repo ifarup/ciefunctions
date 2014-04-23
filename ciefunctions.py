@@ -3,7 +3,7 @@
 """
 ciefunctions: GUI application for the calculation of CIE functions.
 
-Copyright (C) 2012-2013 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2014 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

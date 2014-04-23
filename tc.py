@@ -3,7 +3,7 @@
 """
 tc: CIE TC1-82 Computations
 
-Copyright (C) 2012-2013 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2014 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1016,4 +1016,12 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    print 'test'
+    import sys
+    for age in np.arange(20, 71):
+        for fs in np.arange(1, 10.1, .1):
+            print age, fs
+            sys.stdout.flush()
+            compute_tabulated(fs, age)
+            sys.stderr.flush()
+            print '\t...ok'
+            sys.stdout.flush()
