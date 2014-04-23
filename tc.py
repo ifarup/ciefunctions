@@ -720,6 +720,8 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
     err = ((cc - cc_ref_trunk)**2).sum()
     lambda_test_min = np.arange(390, 831)[cc[0,:].argmin()]
     ok = (lambda_test_min == lambda_ref_min)
+    if not ok:
+        err = err + np.inf
     if full_results:
         return err, trans_mat, lambda_test_min, ok
     else:
@@ -815,7 +817,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     cc_ref = chromaticity_interpolated(field_size)
 
     # Optimise
-    lambda_x_min_ref = 500
+    lambda_x_min_ref = 502
     ok = False
     while not ok:
         a13 = scipy.optimize.fmin(square_sum, 0.39,
