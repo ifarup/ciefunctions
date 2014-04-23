@@ -235,9 +235,14 @@ class VisualData:
     
     All data are read from files in the 'data' folder.
     """
-    absorbance = read_csv_file('data/ssabance_fine.csv')
-    ocular_sum_32 = read_csv_file('data/lensss_fine.csv') # 32 years only!!!
-    macula = read_csv_file('data/macss_fine.csv')
+#   old_absorbance = read_csv_file('data/ssabance_fine.csv')
+#   old_macula = read_csv_file('data/macss_fine.csv')
+#   old_ocular_sum_32 = read_csv_file('data/lensss_fine.csv') # 32 years only!!!
+    
+    absorbance = read_csv_file('data/absorbances0_1nm.csv')[:,[0,2,3,4]]
+    macula = read_csv_file('data/absorbances0_1nm.csv')[:,[0,6]]
+    ocular_sum_32 = read_csv_file('data/absorbances0_1nm.csv')[:,[0,5]]  # 32 years only!!! 
+    
     lms10_log_quant = read_csv_file('data/ss10q_fine_8dp.csv')
     lms10_lin_energ = read_csv_file('data/linss10e_fine_8dp.csv', 0)
     lms10_lin_energ_n_signfig = read_csv_file('data/linss10e_fine.csv', 0)
@@ -1009,15 +1014,4 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    l_min = 400
-    l_max = 600
-    step = 2
-    results_red, plots_red = compute_tabulated(10, 60, l_min, l_max, step)
-    results_full, plots_full = compute_tabulated(10, 60)
-    xyz_f = results_full['xyz']
-    xyz_r = results_red['xyz']
-    nsamp = (l_max - l_min) / step + 1
-    i_r = np.round(nsamp / 2)
-    l_test = xyz_r[i_r, 0]
-    i_f = l_test - 390
-    print xyz_f[i_f,:] / xyz_r[i_r,:]
+    print 'test'
