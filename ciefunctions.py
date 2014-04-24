@@ -124,25 +124,71 @@ class AppForm(qt.QMainWindow):
         <h2>%s</h2>
         """ % self.plot_combo.currentText()
     
+    def html_sub_heading(self, sub_heading):
+        return """
+        <h4>%s</h4>
+        """ % sub_heading
+    
+    def html_parameters(self):
+        return u"""
+        <p>
+        <b>Parameters</b>
+        <table>
+        <tr>
+            <td>Field size</td>
+            <td>: &nbsp;&nbsp; %.1f\u00b0 </td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td>: &nbsp;&nbsp; %d yr</td>
+        </tr>
+        </table>
+        </p>
+        """ % (self.last_field, self.last_age)
+    
+    def html_functions(self, par1, par2, par3):
+        return """
+        <p>
+        <b>Function symbols</b><br />
+        %s<br />
+        %s<br />
+        %s<br />
+        </p>
+        """ % (par1, par2, par3)
+    
+    def html_normalisation(self):
+        return u"""
+        <em>Normalisation:</em><br />
+        Equal tristimulus values for illuminant E for
+        <table>
+            <tr>
+                <td>Wavelength domain:</td>
+                <td valign="bottom">&nbsp;%0.1f\u2013%0.1f&nbsp;nm</td>
+            </tr>
+            <tr>
+                <td>Wavelength step:</td>
+                <td valign="bottom">&nbsp;%0.1f&nbsp;nm</td>
+            </tr>
+        </table>
+        """  % (self.lambda_min_spin.value(), self.lambda_max_spin.value(), self.resolution_spin.value())
+        
     def html_lms_to_xyz(self):
         html_string = """
-        <p>
-        The transformation from <em>L, M, S</em> to <em>X, Y, Z</em> is
-        </p>
-        <p>
-        <center>
+        <b>Transformation equation</b><br />
+        """ + self.html_normalisation() + """
+        <br />
         <table>
         <tr>
         <td>
         <table class="matrix">
             <tr>
-                <td align="center"><em>X</em></td>
+                <td align="center"><font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d</sub></td>
             </tr>
             <tr>
-                <td align="center"><em>Y</em></td>
+                <td align="center"><font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d</sub></td>
             </tr>
             <tr>
-                <td align="center"><em>Z</em></td>
+                <td align="center"><font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d</sub></td>
             </tr>
         </table>
         </td>
@@ -151,7 +197,7 @@ class AppForm(qt.QMainWindow):
         </td>
         <td>
         <table class="matrix">
-        """
+        """ % (self.last_field, self.last_age, self.last_field, self.last_age, self.last_field, self.last_age)
         for i in range(3):
             html_string = html_string + '<tr>\n'
             for j in range(3):
@@ -175,21 +221,19 @@ class AppForm(qt.QMainWindow):
         <td>
         <table class="matrix">
             <tr>
-                <td align="center"><em>L</em></td>
+                <td align="center"><font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%.1f,&nbsp;%d</sub></td>
             </tr>
             <tr>
-                <td align="center"><em>M</em></td>
+                <td align="center"><font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%.1f,&nbsp;%d</sub></td>
             </tr>
             <tr>
-                <td align="center"><em>S</em></td>
+                <td align="center"><font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%.1f,&nbsp;%d</sub></td>
             </tr>
         </table>
         </td>
         </tr>
         </table>
-        </center>
-        </p>
-        """
+        """ % (self.last_field, self.last_age, self.last_field, self.last_age, self.last_field, self.last_age)
         return html_string
 
     def on_about(self):
@@ -243,6 +287,11 @@ You should have received a copy of the GNU General Public License along with thi
             self.lambda_max_spin.hide()
 
         if self.plot_combo.currentIndex() == 0: # XYZ
+            html_string += (self.html_parameters() +
+                            self.html_functions('<font style="text-decoration: overline;"><em>x</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<font style="text-decoration: overline;"><em>y</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<font style="text-decoration: overline;"><em>z</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age)) +
+                            self.html_lms_to_xyz())
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
             self.wavelength_check.setDisabled(True)
@@ -282,6 +331,11 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 3]))
         elif self.plot_combo.currentIndex() == 1: # xy
+            html_string += (self.html_parameters() +
+                            self.html_functions('<font style="text-decoration: overline;"><em>x</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<font style="text-decoration: overline;"><em>y</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<font style="text-decoration: overline;"><em>z</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age)) +
+                            self.html_lms_to_xyz())
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
             self.wavelength_check.setEnabled(True)
@@ -365,6 +419,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 3]))
         elif self.plot_combo.currentIndex() == 2: # LMS standard
+            html_string += self.html_parameters()
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
@@ -396,6 +451,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 3]))
         elif self.plot_combo.currentIndex() == 3: # LMS base
+            html_string += self.html_parameters()
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
@@ -427,6 +483,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 3]))
         elif self.plot_combo.currentIndex() == 4: # BM
+            html_string += self.html_parameters()
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
@@ -498,6 +555,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 3]))
         elif self.plot_combo.currentIndex() == 5: # lm
+            html_string += self.html_parameters()
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
@@ -569,6 +627,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
+                html_string += self.html_sub_heading(u'CIE 1931 2\u00b0  XYZ CMFs')
                 self.compare_label_31.setDisabled(True)
                 self.compare_label_64.setEnabled(True)
                 self.cie31_check.setDisabled(True)
@@ -598,6 +657,7 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 3]))
             else: # 10 deg
+                html_string += self.html_sub_heading(u'CIE 1964 10\u00b0  XYZ CMFs')
                 self.compare_label_31.setEnabled(True)
                 self.compare_label_64.setDisabled(True)
                 self.cie31_check.setEnabled(True)
@@ -630,6 +690,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
+                html_string += self.html_sub_heading(u'CIE 1931 (x, y) chromaticity diagram')
                 self.compare_label_31.setDisabled(True)
                 self.compare_label_64.setEnabled(True)
                 self.cie31_check.setDisabled(True)
@@ -678,6 +739,7 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 3]))
             else: # 10 deg
+                html_string += self.html_sub_heading(u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram')
                 self.compare_label_31.setEnabled(True)
                 self.compare_label_64.setDisabled(True)
                 self.cie31_check.setEnabled(True)
@@ -725,9 +787,7 @@ You should have received a copy of the GNU General Public License along with thi
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 2]))
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 3]))
-        html_string += self.html_lms_to_xyz()
         self.transformation.setHtml(html_string)
-        print html_string
         self.canvas.draw()
 
     def on_compute(self):
@@ -857,8 +917,8 @@ You should have received a copy of the GNU General Public License along with thi
         self.plot_combo = qt.QComboBox()
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')
         self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
-        self.plot_combo.addItem('CIE LMS fundamentals')
-        self.plot_combo.addItem('CIE LMS fundamentals (9 sign. figs.)')
+        self.plot_combo.addItem('CIE LMS cone fundamentals')
+        self.plot_combo.addItem('CIE LMS cone fundamentals (9 sign. figs.)')
         self.plot_combo.addItem('CIE MacLeod-Boynton ls diagram')
         self.plot_combo.addItem('Equi-power normalised lm diagram')
         self.plot_combo.addItem('CIE XYZ standard CMFs')
