@@ -628,6 +628,37 @@ You should have received a copy of the GNU General Public License along with thi
                                                         self.last_lambda_min, self.last_lambda_max,
                                                         self.last_resolution)
         html_string = """
+        <head>
+<style>
+body {
+  font-family: Sans-Serif;
+}
+.matrix {
+    position: relative;
+    border-spacing: 10px 0;
+}
+.matrix:before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    top: 0;
+    border: 1px solid #000;
+    border-right: 0px;
+    width: 6px;
+    height: 100%;
+}
+.matrix:after {
+    content: "";
+    position: absolute;
+    right: -6px;
+    top: 0;
+    border: 1px solid #000;
+    border-left: 0px;
+    width: 6px;
+    height: 100%;
+}
+</style>
+</head>
         <h1>2 degrees, 32 years</h1>
         
         The transformation from <em>L, M, S</em> to <em>X, Y, Z</em> is<p>
@@ -843,9 +874,9 @@ You should have received a copy of the GNU General Public License along with thi
         
         self.table = qt.QTableWidget()
         self.transformation = qtweb.QWebView()
-        path = os.getcwdu() + os.sep + "ciestyle.css"
-        print path
-        self.transformation.settings().setUserStyleSheetUrl(qtcore.QUrl.fromLocalFile(path))
+#         path = os.getcwdu() + os.sep + "ciestyle.css"
+#         print path
+#         self.transformation.settings().setUserStyleSheetUrl(qtcore.QUrl.fromLocalFile(path))
 
         # Layout with labels
         # 
