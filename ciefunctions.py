@@ -844,6 +844,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.table = qt.QTableWidget()
         self.transformation = qtweb.QWebView()
         path = os.getcwd()
+        print path + "/ciestyle.css"
         self.transformation.settings().setUserStyleSheetUrl(qtcore.QUrl.fromLocalFile(path + "/ciestyle.css"))
 
         # Layout with labels
