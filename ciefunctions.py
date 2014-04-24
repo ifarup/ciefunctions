@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import tc
 import sys
-import os
 import numpy as np
 import PyQt4.QtGui as qt
 import PyQt4.QtCore as qtcore
@@ -84,6 +83,114 @@ class AppForm(qt.QMainWindow):
     def check_lambda_max(self):
         if self.lambda_max_spin.value() < self.lambda_min_spin.value():
             self.lambda_max_spin.setValue(self.lambda_min_spin.value())
+    
+    def html_head(self):
+        return """
+        <head>
+        <style>
+        body {
+          font-family: Sans-Serif;
+        }
+        .matrix {
+            position: relative;
+            border-spacing: 10px 0;
+        }
+        .matrix:before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 0;
+            border: 1px solid #000;
+            border-right: 0px;
+            width: 6px;
+            height: 100%;
+        }
+        .matrix:after {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: 0;
+            border: 1px solid #000;
+            border-left: 0px;
+            width: 6px;
+            height: 100%;
+        }
+        </style>
+        </head>
+        """
+    
+    def html_heading(self):
+        return """
+        <h2>%s</h2>
+        """ % self.plot_combo.currentText()
+    
+    def html_lms_to_xyz(self):
+        html_string = """
+        <p>
+        The transformation from <em>L, M, S</em> to <em>X, Y, Z</em> is
+        </p>
+        <p>
+        <center>
+        <table>
+        <tr>
+        <td>
+        <table class="matrix">
+            <tr>
+                <td align="center"><em>X</em></td>
+            </tr>
+            <tr>
+                <td align="center"><em>Y</em></td>
+            </tr>
+            <tr>
+                <td align="center"><em>Z</em></td>
+            </tr>
+        </table>
+        </td>
+        <td>
+        &nbsp;&nbsp;=&nbsp;&nbsp;
+        </td>
+        <td>
+        <table class="matrix">
+        """
+        for i in range(3):
+            html_string = html_string + '<tr>\n'
+            for j in range(3):
+                if self.results['trans_mat'][i][j] == 0:
+                    html_string = html_string + """
+                    <td align="center">
+                    0
+                    </td>
+                    """
+                else:
+                    html_string = html_string + '<td align="right">\n'
+                    html_string = html_string + '%0.8f\n' % self.results['trans_mat'][i][j]
+                    html_string = html_string + '</td>\n'
+            html_string = html_string + '</tr>\n'
+        html_string = html_string + """
+        </table>
+        </td>
+        <td>
+        &nbsp;&nbsp;&nbsp;
+        </td>
+        <td>
+        <table class="matrix">
+            <tr>
+                <td align="center"><em>L</em></td>
+            </tr>
+            <tr>
+                <td align="center"><em>M</em></td>
+            </tr>
+            <tr>
+                <td align="center"><em>S</em></td>
+            </tr>
+        </table>
+        </td>
+        </tr>
+        </table>
+        </center>
+        </p>
+        """
+        return html_string
 
     def on_about(self):
         msg = """
@@ -107,6 +214,8 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_min_spin.setValue(self.last_lambda_min)
         self.lambda_max_spin.setValue(self.last_lambda_max)
         self.resolution_spin.setValue(self.last_resolution)
+
+        html_string = self.html_head() + self.html_heading()
 
         if self.plot_combo.currentIndex() <= 5:
             self.field_spin.show()
@@ -616,6 +725,9 @@ You should have received a copy of the GNU General Public License along with thi
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 2]))
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 3]))
+        html_string += self.html_lms_to_xyz()
+        self.transformation.setHtml(html_string)
+        print html_string
         self.canvas.draw()
 
     def on_compute(self):
@@ -627,104 +739,6 @@ You should have received a copy of the GNU General Public License along with thi
         self.results, self.plots = tc.compute_tabulated(self.last_field, self.last_age,
                                                         self.last_lambda_min, self.last_lambda_max,
                                                         self.last_resolution)
-        html_string = """
-        <head>
-<style>
-body {
-  font-family: Sans-Serif;
-}
-.matrix {
-    position: relative;
-    border-spacing: 10px 0;
-}
-.matrix:before {
-    content: "";
-    position: absolute;
-    left: -6px;
-    top: 0;
-    border: 1px solid #000;
-    border-right: 0px;
-    width: 6px;
-    height: 100%;
-}
-.matrix:after {
-    content: "";
-    position: absolute;
-    right: -6px;
-    top: 0;
-    border: 1px solid #000;
-    border-left: 0px;
-    width: 6px;
-    height: 100%;
-}
-</style>
-</head>
-        <h1>2 degrees, 32 years</h1>
-        
-        The transformation from <em>L, M, S</em> to <em>X, Y, Z</em> is<p>
-        """
-        
-        html_string = html_string + """
-        <center>
-        <table>
-        <tr>
-        <td>
-        <table class="matrix">
-            <tr>
-                <td align="center"><em>X</em></td>
-            </tr>
-            <tr>
-                <td align="center"><em>Y</em></td>
-            </tr>
-            <tr>
-                <td align="center"><em>Z</em></td>
-            </tr>
-        </table>
-        </td>
-        <td>
-        &nbsp;&nbsp;=&nbsp;&nbsp;
-        </td>
-        <td>
-        <table class="matrix">
-        """
-        for i in range(3):
-            html_string = html_string + '<tr>\n'
-            for j in range(3):
-                if self.results['trans_mat'][i][j] == 0:
-                    html_string = html_string + """
-                    <td align="center">
-                    0
-                    </td>
-                    """
-                else:
-                    html_string = html_string + '<td align="right">\n'
-                    html_string = html_string + '%0.8f\n' % self.results['trans_mat'][i][j]
-                    html_string = html_string + '</td>\n'
-            html_string = html_string + '</tr>\n'
-        html_string = html_string + """
-        </table>
-        </td>
-        <td>
-        &nbsp;&nbsp;&nbsp;
-        </td>
-        <td>
-        <table class="matrix">
-            <tr>
-                <td align="center"><em>L</em></td>
-            </tr>
-            <tr>
-                <td align="center"><em>M</em></td>
-            </tr>
-            <tr>
-                <td align="center"><em>S</em></td>
-            </tr>
-        </table>
-        </td>
-        </tr>
-        </table>
-        </center>
-        """
-        self.transformation.setHtml(html_string)
         self.on_draw()
 
     def add_actions(self, target, actions):
@@ -874,9 +888,6 @@ body {
         
         self.table = qt.QTableWidget()
         self.transformation = qtweb.QWebView()
-#         path = os.getcwdu() + os.sep + "ciestyle.css"
-#         print path
-#         self.transformation.settings().setUserStyleSheetUrl(qtcore.QUrl.fromLocalFile(path))
 
         # Layout with labels
         # 
