@@ -171,6 +171,12 @@ class AppForm(qt.QMainWindow):
             </tr>
         </table>
         """  % (self.lambda_min_spin.value(), self.lambda_max_spin.value(), self.resolution_spin.value())
+    
+    def html_normalisation_lms(self):
+        return """
+        <b>Normalisation</b><br />
+        Peak value of unity at 0.1&nbsp;nm resolution<br />
+        """
         
     def html_lms_to_xyz(self):
         html_string = """
@@ -182,13 +188,13 @@ class AppForm(qt.QMainWindow):
         <td>
         <table class="matrix">
             <tr>
-                <td align="center"><font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d</sub></td>
+                <td align="center"><font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
             </tr>
             <tr>
-                <td align="center"><font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d</sub></td>
+                <td align="center"><font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
             </tr>
             <tr>
-                <td align="center"><font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d</sub></td>
+                <td align="center"><font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
             </tr>
         </table>
         </td>
@@ -221,13 +227,13 @@ class AppForm(qt.QMainWindow):
         <td>
         <table class="matrix">
             <tr>
-                <td align="center"><font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%.1f,&nbsp;%d</sub></td>
+                <td align="center"><font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
             </tr>
             <tr>
-                <td align="center"><font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%.1f,&nbsp;%d</sub></td>
+                <td align="center"><font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
             </tr>
             <tr>
-                <td align="center"><font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%.1f,&nbsp;%d</sub></td>
+                <td align="center"><font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
             </tr>
         </table>
         </td>
@@ -235,6 +241,171 @@ class AppForm(qt.QMainWindow):
         </table>
         """ % (self.last_field, self.last_age, self.last_field, self.last_age, self.last_field, self.last_age)
         return html_string
+    
+    def html_xyz_to_xy(self):
+        return """
+        <b>Transformation equation</b><br />
+        """ + self.html_normalisation() + """
+        <br />
+        <table>
+            <tr>
+                <td>
+                    <em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                </td>
+                <td>
+                    =
+                </td>
+                <td>
+                <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                / (
+                <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                +
+                <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                +
+                <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                )
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                </td>
+                <td>
+                    =
+                </td>
+                <td>
+                <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                / (
+                <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                +
+                <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                +
+                <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                )
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <em>z</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                </td>
+                <td>
+                    =
+                </td>
+                <td>
+                <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                / (
+                <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                +
+                <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                +
+                <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                )
+                </td>
+            </tr>
+        </table>
+        <br />
+        """ % (self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.last_field, self.last_age)
+    
+    def html_illuminant_E_cc(self):
+        return """
+        <b>Chromaticity point of illuminant E</b><br />
+        (<em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
+        <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
+        =
+        (%.5f, %.5f) <br /><br />
+        """ % (self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.results['cc_white'][0], self.results['cc_white'][1])
+    
+    def html_illuminant_E_lm(self):
+        return """
+        <b>Chromaticity point of illuminant E</b><br />
+        (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
+        <em>m</em><sub>,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
+        =
+        (%.5f, %.5f) <br /><br />
+        """ % (self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.results['lm_white'][0], self.results['lm_white'][1])
+    
+    def html_illuminant_E_bm(self):
+        return """
+        <b>Chromaticity point of illuminant E</b><br />
+        (<em>l</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
+        <em>s</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
+        =
+        (%.5f, %.5f) <br /><br />
+        """ % (self.last_field, self.last_age,
+               self.last_field, self.last_age,
+               self.results['bm_white'][0], self.results['bm_white'][2])
+    
+    def html_purple_cc(self):
+        return """
+        <b>Tangent points of the purple line</b><br />
+        (<em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+        <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+        &nbsp;=&nbsp;
+        (%.5f, %.5f) <br />
+        (<em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+        <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+        &nbsp;=&nbsp;
+        (%.5f, %.5f)
+        """ % (self.last_field, self.last_age, self.results['purple_line_cc'][0,0],
+               self.last_field, self.last_age, self.results['purple_line_cc'][0,0],
+               self.results['purple_line_cc'][0,1], self.results['purple_line_cc'][0,2],
+               self.last_field, self.last_age, self.results['purple_line_cc'][1,0],
+               self.last_field, self.last_age, self.results['purple_line_cc'][1,0],
+               self.results['purple_line_cc'][1,1], self.results['purple_line_cc'][1,2])
+
+    def html_purple_lm(self):
+        return """
+        <b>Tangent points of the purple line</b><br />
+        (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+        <em>m</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+        &nbsp;=&nbsp;
+        (%.5f, %.5f) <br />
+        (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+        <em>m</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+        &nbsp;=&nbsp;
+        (%.5f, %.5f)
+        """ % (self.last_field, self.last_age, self.results['purple_line_lm'][0,0],
+               self.last_field, self.last_age, self.results['purple_line_lm'][0,0],
+               self.results['purple_line_lm'][0,1], self.results['purple_line_lm'][0,2],
+               self.last_field, self.last_age, self.results['purple_line_lm'][1,0],
+               self.last_field, self.last_age, self.results['purple_line_lm'][1,0],
+               self.results['purple_line_lm'][1,1], self.results['purple_line_lm'][1,2])
+
+    def html_purple_bm(self):
+        return """
+        <b>Tangent points of the purple line</b><br />
+        (<em>l</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+        <em>s</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+        &nbsp;=&nbsp;
+        (%.5f, %.5f) <br />
+        (<em>l</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+        <em>s</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+        &nbsp;=&nbsp;
+        (%.5f, %.5f)
+        """ % (self.last_field, self.last_age, self.results['purple_line_bm'][0,0],
+               self.last_field, self.last_age, self.results['purple_line_bm'][0,0],
+               self.results['purple_line_bm'][0,1], self.results['purple_line_bm'][0,2],
+               self.last_field, self.last_age, self.results['purple_line_bm'][1,0],
+               self.last_field, self.last_age, self.results['purple_line_bm'][1,0],
+               self.results['purple_line_bm'][1,1], self.results['purple_line_bm'][1,2])
 
     def on_about(self):
         msg = """
@@ -332,10 +503,10 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 3]))
         elif self.plot_combo.currentIndex() == 1: # xy
             html_string += (self.html_parameters() +
-                            self.html_functions('<font style="text-decoration: overline;"><em>x</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
-                                                '<font style="text-decoration: overline;"><em>y</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
-                                                '<font style="text-decoration: overline;"><em>z</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age)) +
-                            self.html_lms_to_xyz())
+                            self.html_functions('<em>x</em><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<em>y</em><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<em>z</em><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age)) +
+                            self.html_xyz_to_xy() + self.html_illuminant_E_cc() + self.html_purple_cc())
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
             self.wavelength_check.setEnabled(True)
@@ -419,7 +590,11 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 3]))
         elif self.plot_combo.currentIndex() == 2: # LMS standard
-            html_string += self.html_parameters()
+            html_string += (self.html_parameters() +
+                            self.html_functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<font style="text-decoration: overline;"><em>s</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age)) +
+                            self.html_normalisation_lms())
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
@@ -451,7 +626,11 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 3]))
         elif self.plot_combo.currentIndex() == 3: # LMS base
-            html_string += self.html_parameters()
+            html_string += (self.html_parameters() + 
+                            self.html_functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age),
+                                                '<font style="text-decoration: overline;"><em>s</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age)) +
+                            self.html_normalisation_lms())
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
@@ -482,8 +661,8 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 3]))
-        elif self.plot_combo.currentIndex() == 4: # BM
-            html_string += self.html_parameters()
+        elif self.plot_combo.currentIndex() == 4: # bm
+            html_string += self.html_parameters() + self.html_illuminant_E_bm() + self.html_purple_bm()
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
@@ -555,7 +734,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 3]))
         elif self.plot_combo.currentIndex() == 5: # lm
-            html_string += self.html_parameters()
+            html_string += self.html_parameters() + self.html_illuminant_E_lm() + self.html_purple_lm()
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
