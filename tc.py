@@ -1019,9 +1019,9 @@ if __name__ == '__main__':
     import sys
     for age in np.arange(20, 71):
         for fs in np.arange(1, 10.1, .1):
-            print age, fs
+            print(age, fs)
             sys.stdout.flush()
             compute_tabulated(fs, age)
             sys.stderr.flush()
-            print '\t...ok'
+            print('\t...ok')
             sys.stdout.flush()
