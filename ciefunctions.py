@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import tc
+import htmlview
 import sys
 import numpy as np
 import PyQt4.QtGui as qt
@@ -457,7 +458,10 @@ You should have received a copy of the GNU General Public License along with thi
             self.lambda_min_spin.hide()
             self.lambda_max_spin.hide()
 
-        if self.plot_combo.currentIndex() == 0: # XYZ
+        #
+        # XYZ plot and table
+        #
+        if self.plot_combo.currentIndex() == 0:
             html_string += (self.html_parameters() +
                             self.html_functions('<font style="text-decoration: overline;"><em>x</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
                                                 '<font style="text-decoration: overline;"><em>y</em></font><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
@@ -501,7 +505,11 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 3]))
-        elif self.plot_combo.currentIndex() == 1: # xy
+        
+        #
+        # chromaticity diagram
+        #
+        elif self.plot_combo.currentIndex() == 1:
             html_string += (self.html_parameters() +
                             self.html_functions('<em>x</em><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
                                                 '<em>y</em><sub> F, %.1f, %d</sub>' % (self.last_field, self.last_age),
@@ -589,7 +597,11 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 3]))
-        elif self.plot_combo.currentIndex() == 2: # LMS standard
+        
+        #
+        # LMS standard
+        #
+        elif self.plot_combo.currentIndex() == 2:
             html_string += (self.html_parameters() +
                             self.html_functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age),
                                                 '<font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age),
@@ -625,7 +637,11 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 3]))
-        elif self.plot_combo.currentIndex() == 3: # LMS base
+        
+        #
+        # LMS base
+        #
+        elif self.plot_combo.currentIndex() == 3:
             html_string += (self.html_parameters() + 
                             self.html_functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age),
                                                 '<font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub>' % (self.last_field, self.last_age),
@@ -661,7 +677,10 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 3]))
-        elif self.plot_combo.currentIndex() == 4: # bm
+        #
+        # MacLeod-Boynton
+        #
+        elif self.plot_combo.currentIndex() == 4:
             html_string += self.html_parameters() + self.html_illuminant_E_bm() + self.html_purple_bm()
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
@@ -733,7 +752,11 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 3]))
-        elif self.plot_combo.currentIndex() == 5: # lm
+        
+        #
+        # Normalised lm-diagram
+        #
+        elif self.plot_combo.currentIndex() == 5:
             html_string += self.html_parameters() + self.html_illuminant_E_lm() + self.html_purple_lm()
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
@@ -802,7 +825,11 @@ You should have received a copy of the GNU General Public License along with thi
                                    qt.QTableWidgetItem('%.5f' % self.results['lm'][i, 2]))
                 self.table.setItem(i, 3,
                                    qt.QTableWidgetItem('%.5f' % self.results['lm'][i, 3]))
-        elif self.plot_combo.currentIndex() == 6: # CIE std XYZ
+        
+        #
+        # CIE standard XYZ
+        #
+        elif self.plot_combo.currentIndex() == 6:
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
@@ -865,7 +892,11 @@ You should have received a copy of the GNU General Public License along with thi
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 2]))
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 3]))
-        elif self.plot_combo.currentIndex() == 7: # CIE std xy
+        
+        #
+        # CIE standard chromaticity diagram
+        #
+        elif self.plot_combo.currentIndex() == 7:
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg

@@ -173,7 +173,7 @@ def gauss_func(param, docul2):
     """
     b = param[0]
     x0 = param[1]
-    f = 4*np.exp(-b*(docul2[:,0]-x0)**2)
+    f = 4*np.exp(-b*(docul2[:,0] - x0)**2)
     return f
 
 def rms_error(param, docul2):
