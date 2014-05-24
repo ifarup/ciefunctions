@@ -347,6 +347,23 @@ def _purple_bm(data):
            data['purple_line_bm'][1,1], data['purple_line_bm'][1,2])
 
 def xyz(data, heading, include_head=False):
+    """
+    Generate html page with information about the XYZ system.
+    
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
     html_string = ""
     if include_head:
         html_string += _head()
@@ -359,6 +376,23 @@ def xyz(data, heading, include_head=False):
     return html_string
 
 def xy(data, heading, include_head=False):
+    """
+    Generate html page with information about the xy system.
+    
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
     html_string = ""
     if include_head:
         html_string += _head()
@@ -371,6 +405,23 @@ def xy(data, heading, include_head=False):
     return html_string
 
 def lms(data, heading, include_head=False):
+    """
+    Generate html page with information about the LMS system.
+    
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
     html_string = ""
     if include_head:
         html_string += _head()
@@ -383,6 +434,23 @@ def lms(data, heading, include_head=False):
     return html_string
 
 def bm(data, heading, include_head=False):
+    """
+    Generate html page with information about the BM system.
+    
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
     html_string = ""
     if include_head:
         html_string += _head()
@@ -394,6 +462,23 @@ def bm(data, heading, include_head=False):
 
 
 def lm(data, heading, include_head=False):
+    """
+    Generate html page with information about the lm system.
+    
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
     html_string = ""
     if include_head:
         html_string += _head()
@@ -404,6 +489,23 @@ def lm(data, heading, include_head=False):
     return html_string
 
 def standard(heading, sub_heading, include_head=False):
+    """
+    Generate html page with information about the standard
+    
+    Parameters
+    ----------
+    heading : string
+        The heading of the page.
+    sub_heading : string
+        The sub-heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
     html_string = ""
     if include_head:
         html_string += _head()
