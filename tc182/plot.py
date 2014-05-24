@@ -139,7 +139,7 @@ def xy(axes, plots, options):
 
 def lms(axes, plots, options):
     """
-    Plot the chromaticity diagram onto the given axes.
+    Plot the lms functions onto the given axes.
     
     Parameters
     ----------
@@ -164,3 +164,31 @@ def lms(axes, plots, options):
                         u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                                 plots['lambda_max']) +
                         ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+
+def lms_9(axes, plots, options):
+    """
+    Plot the chromaticity diagram onto the given axes, 9 sign. figs.
+    
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    axes.clear()
+    axes.grid(options['grid'])
+    axes.plot(plots['lms'][:,0], plots['lms'][:,1], 'r')
+    axes.plot(plots['lms'][:,0], plots['lms'][:,2], 'g')
+    axes.plot(plots['lms'][:,0], plots['lms'][:,3], 'b')
+    axes.axis('normal')
+    axes.axis([350, 850, -.05, 1.05])
+    axes.set_xlabel('Wavelength [nm]', fontsize=12)
+    axes.set_ylabel('Relative energy sensitivities', fontsize=12)
+    axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)\nField size: ' + str(plots['field_size']) +
+                   u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                   u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                           plots['lambda_max']) +
+                   ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)

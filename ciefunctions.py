@@ -220,18 +220,8 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
-            self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,1], 'r')
-            self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,2], 'g')
-            self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,3], 'b')
-            self.axes.axis('normal')
-            self.axes.axis([350, 850, -.05, 1.05])
-            self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
-            self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
-            self.axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)\nField size: ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
-                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
-                                                                            self.lambda_max_spin.value()) +
-                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
+            tc182.plot.lms_9(self.axes, self.plots,
+                             { 'grid' : self.grid_check.isChecked() })
             self.table.setRowCount(np.shape(self.results['lms_base'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.results['lms_base'])[1])
