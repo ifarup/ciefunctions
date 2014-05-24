@@ -165,71 +165,6 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
-
-            lambdavalues = np.concatenate(([self.plots['cc'][0,0]], np.arange(470, 611, 10), [700], [self.plots['cc'][-1,0]]))
-            if self.cie31_check.isChecked():
-                self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k--')
-                self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k--')
-                for l in lambdavalues: # add wavelength parameters
-                    ind = np.nonzero(self.plots['cc31'][:,0] == l)[0]
-                    self.axes.plot(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], 'ko')
-            if self.cie64_check.isChecked():
-                self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k-.')
-                self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k-.')
-                for l in lambdavalues: # add wavelength parameters
-                    ind = np.nonzero(self.plots['cc64'][:,0] == l)[0]
-                    self.axes.plot(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], 'k^')
-            self.axes.plot(self.plots['cc'][:,1], self.plots['cc'][:,2], 'k')
-            self.axes.plot(self.plots['purple_line_cc'][:,1], self.plots['purple_line_cc'][:,2], 'k')
-            for l in lambdavalues: # add wavelength parameters
-                ind = np.nonzero(self.plots['cc'][:,0] == l)[0]
-                self.axes.plot(self.plots['cc'][ind,1], self.plots['cc'][ind,2], 'wo')
-                if l == 700 or l == 390:
-                    align = 'top'
-                elif l == 830:
-                    align = 'bottom'
-                else:
-                    align = 'center'
-                if self.wavelength_check.isChecked():
-                    if np.shape(ind)[0] > 0:
-                        self.axes.text(self.plots['cc'][ind,1], self.plots['cc'][ind,2], '   ' + str(l),
-                                       fontsize=7, verticalalignment=align)
-            self.axes.plot(self.results['cc_white'][0], self.results['cc_white'][1], 'kx')
-            if self.wavelength_check.isChecked():
-                self.axes.text(self.results['cc_white'][0], self.results['cc_white'][1], '   E',
-                               fontsize=7, verticalalignment=align)
-            self.axes.axis('scaled')
-            self.axes.set_xlim((-.05, 1.05))
-            self.axes.set_ylim((-.05, 1.05))
-            if (self.lambda_min_spin.value() == 390 and
-                self.lambda_max_spin.value() == 830 and
-                self.resolution_spin.value() == 1):
-                self.axes.set_xlabel('$x_\mathrm{\,F,\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) +'}$',
-                                     fontsize=16)
-                self.axes.set_ylabel('$y_\mathrm{\,F,\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '}$',
-                                     fontsize=16)
-            else:
-                self.axes.set_xlabel('$x_\mathrm{\,F,\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
-                                                                                               self.lambda_max_spin.value(),
-                                                                                               self.resolution_spin.value()),
-                                     fontsize=16)
-                self.axes.set_ylabel('$y_\mathrm{\,F,\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
-                                                                                               self.lambda_max_spin.value(),
-                                                                                               self.resolution_spin.value()),
-                                     fontsize=16)
-            self.axes.set_title('CIE xy fundamental chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
-                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
-                                                                            self.lambda_max_spin.value()) +
-                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
             tc182.plot.xy(self.axes, self.plots,
                           { 'grid' : self.grid_check.isChecked(),
                             'cie31' : self.cie31_check.isChecked(),
@@ -259,18 +194,8 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
-            self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,1], 'r')
-            self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,2], 'g')
-            self.axes.plot(self.plots['lms'][:,0], self.plots['lms'][:,3], 'b')
-            self.axes.axis('normal')
-            self.axes.axis([350, 850, -.05, 1.05])
-            self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
-            self.axes.set_ylabel('Relative energy sensitivities', fontsize=12)
-            self.axes.set_title('CIE 2006 LMS cone fundamentals\nField size: ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
-                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
-                                                                            self.lambda_max_spin.value()) +
-                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
+            tc182.plot.lms(self.axes, self.plots,
+                           { 'grid' : self.grid_check.isChecked() })
             self.table.setRowCount(np.shape(self.results['lms_standard'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.results['lms_standard'])[1])
