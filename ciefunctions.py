@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import tc182
 import tc182.html
+import tc182.plot
 import sys
 import numpy as np
 import PyQt4.QtGui as qt
@@ -76,14 +77,6 @@ class AppForm(qt.QMainWindow):
                 np.savetxt(path, self.results['bm'], '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == 5:
                 np.savetxt(path, self.results['lm'], '%.1f, %.5f, %.5f, %.5f')
-    
-    def check_lambda_min(self):
-        if self.lambda_min_spin.value() > self.lambda_max_spin.value():
-            self.lambda_min_spin.setValue(self.lambda_max_spin.value())
-
-    def check_lambda_max(self):
-        if self.lambda_max_spin.value() < self.lambda_min_spin.value():
-            self.lambda_max_spin.setValue(self.lambda_min_spin.value())
     
     def on_about(self):
         msg = """
@@ -144,26 +137,10 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
-            self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,1], 'r')
-            self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,2], 'g')
-            self.axes.plot(self.plots['xyz'][:,0], self.plots['xyz'][:,3], 'b')
-            if self.cie31_check.isChecked():
-                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,1], 'r--')
-                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,2], 'g--')
-                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,3], 'b--')
-            if self.cie64_check.isChecked():
-                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,1], 'r-.')
-                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,2], 'g-.')
-                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,3], 'b-.')
-            self.axes.axis('normal')
-            self.axes.axis([350, 850, -.2, 2.3])
-            self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
-            self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
-            self.axes.set_title('CIE XYZ fundamental CMFs\nField size: ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
-                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
-                                                                            self.lambda_max_spin.value()) +
-                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
+            tc182.plot.xyz(self.axes, self.plots,
+                           {'grid' : self.grid_check.isChecked(),
+                            'cie31' : self.cie31_check.isChecked(),
+                            'cie64' : self.cie64_check.isChecked()})
             self.table.setRowCount(np.shape(self.results['xyz'])[0])
             self.table.setColumnCount(np.shape(self.results['xyz'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
@@ -769,9 +746,6 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_min_spin.setDecimals(1)
         self.lambda_min_spin.setValue(390)
         self.lambda_min_spin.setSingleStep(0.1)
-        self.connect(self.lambda_min_spin,
-                     qtcore.SIGNAL('valueChanged(double)'),
-                     self.check_lambda_min)
 
         self.lambda_max_spin = qt.QDoubleSpinBox()
         self.lambda_max_spin.setMinimum(700)
@@ -779,9 +753,6 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_max_spin.setDecimals(1)
         self.lambda_max_spin.setValue(830)
         self.lambda_max_spin.setSingleStep(0.1)
-        self.connect(self.lambda_max_spin,
-                     qtcore.SIGNAL('valueChanged(double)'),
-                     self.check_lambda_max)
 
         self.plot_combo = qt.QComboBox()
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')

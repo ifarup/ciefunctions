@@ -1010,6 +1010,12 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     purple_line_cc64[1,2] = plots['cc64'][delaunay.convex_hull[ind,1], 2]
     plots['purple_line_cc64'] = purple_line_cc64.copy()
     
+    plots['field_size'] = field_size
+    plots['age'] = age
+    plots['lambda_min'] = lambda_min
+    plots['lambda_max'] = lambda_max
+    plots['lambda_step'] = lambda_step 
+
     results = dict()
     results['xyz'] = xyz_spec
     results['cc'] = cc_spec
