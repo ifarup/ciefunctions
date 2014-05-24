@@ -381,3 +381,98 @@ def xyz64(axes, plots, options):
     axes.set_xlabel('Wavelength [nm]', fontsize=12)
     axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
     axes.set_title(u'CIE 1964 XYZ standard 10\N{DEGREE SIGN}CMFs', fontsize=12)
+
+def xy31(axes, plots, options):
+    """
+    Plot the xy1931 chromaticity diagram onto the given axes.
+    
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    axes.clear()
+    axes.grid(options['grid'])
+    lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
+    if options['cie64']:
+        axes.plot(plots['cc64'][:,1], plots['cc64'][:,2], 'k-.')
+        axes.plot(plots['purple_line_cc64'][:,1], plots['purple_line_cc64'][:,2], 'k-.')
+        for l in lambdavalues: # add wavelength parameters
+            ind = np.nonzero(plots['cc64'][:,0] == l)[0]
+            axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'k^')
+    axes.plot(plots['cc31'][:,1], plots['cc31'][:,2], 'k')
+    axes.plot(plots['purple_line_cc31'][:,1], plots['purple_line_cc31'][:,2], 'k')
+    for l in lambdavalues: # add wavelength parameters
+        ind = np.nonzero(plots['cc31'][:,0] == l)[0]
+        axes.plot(plots['cc31'][ind,1], plots['cc31'][ind,2], 'ko')
+        if l == 700 or l == 390:
+            align = 'top'
+        elif l == 830:
+            align = 'bottom'
+        else:
+            align = 'center'
+        if options['labels']:
+            axes.text(plots['cc31'][ind,1], plots['cc31'][ind,2], '   ' + str(l),
+                           fontsize=7, verticalalignment=align)
+    axes.plot(1./3, 1./3, 'kx')
+    if options['labels']:
+        axes.text(1./3, 1./3, '   E',
+                       fontsize=7, verticalalignment=align)
+    axes.axis('scaled')
+    axes.set_xlim((-.05, 1.05))
+    axes.set_ylim((-.05, 1.05))
+    axes.set_xlabel('$x$', fontsize=16)
+    axes.set_ylabel('$y$', fontsize=16)
+    axes.set_title(u'CIE 1931 xy standard 2\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
+
+def xy64(axes, plots, options):
+    """
+    Plot the xy1964 chromaticity diagram onto the given axes.
+    
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    axes.clear()
+    axes.grid(options['grid'])
+    lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
+    if options['cie31']:
+        axes.plot(plots['cc31'][:,1], plots['cc31'][:,2], 'k--')
+        axes.plot(plots['purple_line_cc31'][:,1], plots['purple_line_cc31'][:,2], 'k--')
+        for l in lambdavalues: # add wavelength parameters
+            ind = np.nonzero(plots['cc31'][:,0] == l)[0]
+            axes.plot(plots['cc31'][ind,1], plots['cc31'][ind,2], 'ko')
+    axes.plot(plots['cc64'][:,1], plots['cc64'][:,2], 'k')
+    axes.plot(plots['purple_line_cc64'][:,1], plots['purple_line_cc64'][:,2], 'k')
+    for l in lambdavalues: # add wavelength parameters
+        ind = np.nonzero(plots['cc64'][:,0] == l)[0]
+        axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'k^')
+        if l == 700 or l == 390:
+            align = 'top'
+        elif l == 830:
+            align = 'bottom'
+        else:
+            align = 'center'
+        if options['labels']:
+            axes.text(plots['cc64'][ind,1], plots['cc64'][ind,2], '   ' + str(l),
+                           fontsize=7, verticalalignment=align)
+    axes.plot(1./3, 1./3, 'kx')
+    if options['labels']:
+        axes.text(1./3, 1./3, '   E',
+                       fontsize=7, verticalalignment=align)
+    axes.axis('scaled')
+    axes.set_xlim((-.05, 1.05))
+    axes.set_ylim((-.05, 1.05))
+    axes.set_xlabel('$x_{10}$', fontsize=16)
+    axes.set_ylabel('$y_{10}$', fontsize=16)
+    axes.set_title(u'CIE 1964 xy standard 10\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
+

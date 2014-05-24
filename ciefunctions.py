@@ -93,8 +93,8 @@ You should have received a copy of the GNU General Public License along with thi
         qt.QMessageBox.about(self, "About the demo", msg.strip())        
 
     def on_draw(self):
-        self.axes.clear()
-        self.axes.grid(self.grid_check.isChecked())
+
+        # Reset GUI values that have not been computed
         self.field_spin.setValue(self.last_field)
         self.age_spin.setValue(self.last_age)
         self.lambda_min_spin.setValue(self.last_lambda_min)
@@ -408,45 +408,29 @@ You should have received a copy of the GNU General Public License along with thi
         # CIE standard chromaticity diagram
         #
         elif self.plot_combo.currentIndex() == 7:
+            
+            # Setup GUI
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
+            
             if self.field_combo.currentIndex() == 0: # 2 deg
-                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
+                
+                # Setup GUI
                 self.compare_label_31.setDisabled(True)
                 self.compare_label_64.setEnabled(True)
                 self.cie31_check.setDisabled(True)
                 self.cie64_check.setEnabled(True)
-                lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
-                if self.cie64_check.isChecked():
-                    self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k-.')
-                    self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k-.')
-                    for l in lambdavalues: # add wavelength parameters
-                        ind = np.nonzero(self.plots['cc64'][:,0] == l)[0]
-                        self.axes.plot(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], 'k^')
-                self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k')
-                self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k')
-                for l in lambdavalues: # add wavelength parameters
-                    ind = np.nonzero(self.plots['cc31'][:,0] == l)[0]
-                    self.axes.plot(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], 'ko')
-                    if l == 700 or l == 390:
-                        align = 'top'
-                    elif l == 830:
-                        align = 'bottom'
-                    else:
-                        align = 'center'
-                    if self.wavelength_check.isChecked():
-                        self.axes.text(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], '   ' + str(l),
-                                       fontsize=7, verticalalignment=align)
-                self.axes.plot(1./3, 1./3, 'kx')
-                if self.wavelength_check.isChecked():
-                    self.axes.text(1./3, 1./3, '   E',
-                                   fontsize=7, verticalalignment=align)
-                self.axes.axis('scaled')
-                self.axes.set_xlim((-.05, 1.05))
-                self.axes.set_ylim((-.05, 1.05))
-                self.axes.set_xlabel('$x$', fontsize=16)
-                self.axes.set_ylabel('$y$', fontsize=16)
-                self.axes.set_title(u'CIE 1931 xy standard 2\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
+
+                # Create html description
+                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
+
+                # Create plot
+                tc182.plot.xy31(self.axes, self.plots,
+                                { 'grid' : self.grid_check.isChecked(),
+                                  'cie64' : self.cie64_check.isChecked(),
+                                  'labels' : self.wavelength_check.isChecked() })
+
+                # Create table
                 self.table.setRowCount(np.shape(self.plots['cc31'])[0])
                 self.table.setColumnCount(np.shape(self.plots['cc31'])[1])
                 self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
@@ -460,42 +444,23 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 3]))
             else: # 10 deg
-                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
+
+                # Setup GUI
                 self.compare_label_31.setEnabled(True)
                 self.compare_label_64.setDisabled(True)
                 self.cie31_check.setEnabled(True)
                 self.cie64_check.setDisabled(True)
-                lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
-                if self.cie31_check.isChecked():
-                    self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k--')
-                    self.axes.plot(self.plots['purple_line_cc31'][:,1], self.plots['purple_line_cc31'][:,2], 'k--')
-                    for l in lambdavalues: # add wavelength parameters
-                        ind = np.nonzero(self.plots['cc31'][:,0] == l)[0]
-                        self.axes.plot(self.plots['cc31'][ind,1], self.plots['cc31'][ind,2], 'ko')
-                self.axes.plot(self.plots['cc64'][:,1], self.plots['cc64'][:,2], 'k')
-                self.axes.plot(self.plots['purple_line_cc64'][:,1], self.plots['purple_line_cc64'][:,2], 'k')
-                for l in lambdavalues: # add wavelength parameters
-                    ind = np.nonzero(self.plots['cc64'][:,0] == l)[0]
-                    self.axes.plot(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], 'k^')
-                    if l == 700 or l == 390:
-                        align = 'top'
-                    elif l == 830:
-                        align = 'bottom'
-                    else:
-                        align = 'center'
-                    if self.wavelength_check.isChecked():
-                        self.axes.text(self.plots['cc64'][ind,1], self.plots['cc64'][ind,2], '   ' + str(l),
-                                       fontsize=7, verticalalignment=align)
-                self.axes.plot(1./3, 1./3, 'kx')
-                if self.wavelength_check.isChecked():
-                    self.axes.text(1./3, 1./3, '   E',
-                                   fontsize=7, verticalalignment=align)
-                self.axes.axis('scaled')
-                self.axes.set_xlim((-.05, 1.05))
-                self.axes.set_ylim((-.05, 1.05))
-                self.axes.set_xlabel('$x_{10}$', fontsize=16)
-                self.axes.set_ylabel('$y_{10}$', fontsize=16)
-                self.axes.set_title(u'CIE 1964 xy standard 10\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
+                
+                # Create html description
+                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
+
+                # Create plot
+                tc182.plot.xy31(self.axes, self.plots,
+                                { 'grid' : self.grid_check.isChecked(),
+                                  'cie64' : self.cie64_check.isChecked(),
+                                  'labels' : self.wavelength_check.isChecked() })
+
+                # Create table
                 self.table.setRowCount(np.shape(self.plots['cc64'])[0])
                 self.table.setColumnCount(np.shape(self.plots['cc64'])[1])
                 self.table.setHorizontalHeaderLabels(['lambda', 'x10', 'y10', 'z10'])
@@ -508,6 +473,8 @@ You should have received a copy of the GNU General Public License along with thi
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 2]))
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 3]))
+
+        # Refresh GUI        
         self.transformation.setHtml(html_string)
         self.canvas.draw()
 
