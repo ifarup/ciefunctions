@@ -165,7 +165,7 @@ def lms(axes, plots, options):
                                                                 plots['lambda_max']) +
                         ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
 
-def lms_9(axes, plots, options):
+def lms_base(axes, plots, options):
     """
     Plot the chromaticity diagram onto the given axes, 9 sign. figs.
     
@@ -192,3 +192,136 @@ def lms_9(axes, plots, options):
                    u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                            plots['lambda_max']) +
                    ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+
+def bm(axes, plots, options):
+    """
+    Plot the MacLeod-Boynton diagram onto the given axes
+    
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    axes.clear()
+    axes.grid(options['grid'])
+    axes.plot(plots['bm'][:,1], plots['bm'][:,3], 'k')
+    axes.plot(plots['purple_line_bm'][:,1], plots['purple_line_bm'][:,2], 'k')
+    lambdavalues = np.concatenate(([plots['bm'][0,0]], np.arange(410, 490, 10),
+                                   [500, 550, 575, 600, 700], [plots['bm'][-1,0]]))
+    for l in lambdavalues: # add wavelength parameters
+        ind = np.nonzero(plots['bm'][:,0] == l)[0]
+        axes.plot(plots['bm'][ind,1], plots['bm'][ind,3], 'wo')
+        if l > 490:
+            align = 'bottom'
+        elif l == 830:
+            align = 'top'
+        else:
+            align = 'center'
+        if options['labels'] and np.shape(ind)[0] > 0:
+            axes.text(plots['bm'][ind,1], plots['bm'][ind,3], '   ' + str(l),
+                           fontsize=7, verticalalignment=align)
+    axes.plot(plots['bm_white'][0], plots['bm_white'][2], 'kx')
+    if options['labels']:
+        axes.text(plots['bm_white'][0], plots['bm_white'][2], '   E',
+                       fontsize=7, verticalalignment=align)
+    axes.axis('scaled')
+    axes.set_xlim((-.05, 1.05))
+    axes.set_ylim((-.05, 1.05))
+    if (plots['lambda_min'] == 390 and
+        plots['lambda_max'] == 830 and
+        plots['lambda_step'] == 1):
+        axes.set_xlabel('$l_\mathrm{\,MB,\,' +
+                             str(plots['field_size']) + ',\,' +
+                             str(plots['age']) +'}$',
+                        fontsize=16)
+        axes.set_ylabel('$s_\mathrm{\,MB,\,' +
+                             str(plots['field_size']) + ',\,' +
+                             str(plots['age']) + '}$',
+                        fontsize=16)
+    else:
+        axes.set_xlabel('$l_\mathrm{\,MB,\,' +
+                             str(plots['field_size']) + ',\,' +
+                             str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                plots['lambda_max'],
+                                                                                plots['lambda_step']),
+                        fontsize=16)
+        axes.set_ylabel('$s_\mathrm{\,MB,\,' +
+                            str(plots['field_size']) + ',\,' +
+                            str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                               plots['lambda_max'],
+                                                                               plots['lambda_step']),
+                        fontsize=16)
+    axes.set_title('CIE MacLeod-Boynton chromaticity diagram\nField size: ' + str(plots['field_size']) +
+                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                        u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                                plots['lambda_max']) +
+                        ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+
+def lm(axes, plots, options):
+    """
+    Plot the normalised lm diagram onto the given axes.
+    
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    axes.clear()
+    axes.grid(options['grid'])
+    axes.plot(plots['lm'][:,1], plots['lm'][:,2], 'k')
+    axes.plot(plots['purple_line_lm'][:,1], plots['purple_line_lm'][:,2], 'k')
+    lambdavalues = np.concatenate((np.arange(450, 631, 10), [700], [plots['lm'][0,0]], [plots['lm'][-1,0]]))
+    for l in lambdavalues: # add wavelength parameters
+        ind = np.nonzero(plots['lm'][:,0] == l)[0]
+        axes.plot(plots['lm'][ind,1], plots['lm'][ind,2], 'wo')
+        if l == 390:
+            align = 'top'
+        else:
+            align = 'center'
+        if options['labels'] and np.shape(ind)[0] > 0:
+            axes.text(plots['lm'][ind,1], plots['lm'][ind,2], '   ' + str(l),
+                           fontsize=7, verticalalignment=align)
+    axes.plot(plots['lm_white'][0], plots['lm_white'][1], 'kx')
+    if options['labels']:
+            axes.text(plots['lm_white'][0], plots['lm_white'][1], '   E',
+                           fontsize=7, verticalalignment=align)
+    axes.axis('scaled')
+    axes.set_xlim((-.05, 1.05))
+    axes.set_ylim((-.05, .65))
+    if (plots['lambda_min'] == 390 and
+        plots['lambda_max'] == 830 and
+        plots['lambda_step'] == 1):
+        axes.set_xlabel('$l_\mathrm{\,' +
+                             str(plots['field_size']) + ',\,' +
+                             str(plots['age']) +'}$',
+                             fontsize=16)
+        axes.set_ylabel('$m_\mathrm{\,' +
+                             str(plots['field_size']) + ',\,' +
+                             str(plots['age']) + '}$',
+                             fontsize=16)
+    else:
+        axes.set_xlabel('$l_\mathrm{\,' +
+                             str(plots['field_size']) + ',\,' +
+                             str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                       plots['lambda_max'],
+                                                                                       plots['lambda_step']),
+                             fontsize=16)
+        axes.set_ylabel('$m_\mathrm{\,' +
+                             str(plots['field_size']) + ',\,' +
+                             str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                       plots['lambda_max'],
+                                                                                       plots['lambda_step']),
+                             fontsize=16)
+    axes.set_title('Equi-power normalised $lm$ chromaticity diagram\nField size: ' + str(plots['field_size']) +
+                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                        u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                                    plots['lambda_max']) +
+                        ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)

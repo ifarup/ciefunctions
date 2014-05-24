@@ -130,17 +130,25 @@ You should have received a copy of the GNU General Public License along with thi
         # XYZ plot and table
         #
         if self.plot_combo.currentIndex() == 0:
-            html_string = tc182.html.xyz(self.results, self.plot_combo.currentText(), True)
+
+            # Setup GUI
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
+
+            # Create plot
             tc182.plot.xyz(self.axes, self.plots,
                            { 'grid' : self.grid_check.isChecked(),
                              'cie31' : self.cie31_check.isChecked(),
                              'cie64' : self.cie64_check.isChecked() })
+
+            # Create html description
+            html_string = tc182.html.xyz(self.results, self.plot_combo.currentText(), True)
+
+            # Create table            
             self.table.setRowCount(np.shape(self.results['xyz'])[0])
             self.table.setColumnCount(np.shape(self.results['xyz'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
@@ -158,18 +166,25 @@ You should have received a copy of the GNU General Public License along with thi
         # chromaticity diagram
         #
         elif self.plot_combo.currentIndex() == 1:
-            html_string = tc182.html.xy(self.results, self.plot_combo.currentText(), True)
+            # Setup GUI
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
+            
+            # Create plot
             tc182.plot.xy(self.axes, self.plots,
                           { 'grid' : self.grid_check.isChecked(),
                             'cie31' : self.cie31_check.isChecked(),
                             'cie64' : self.cie64_check.isChecked(),
                             'labels' : self.wavelength_check.isChecked() })
+
+            # Greate html description
+            html_string = tc182.html.xy(self.results, self.plot_combo.currentText(), True)
+
+            # Create table
             self.table.setRowCount(np.shape(self.results['cc'])[0])
             self.table.setColumnCount(np.shape(self.results['cc'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
@@ -187,15 +202,23 @@ You should have received a copy of the GNU General Public License along with thi
         # LMS standard
         #
         elif self.plot_combo.currentIndex() == 2:
-            html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
+
+            # Setup GUI
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
+
+            # Create plot
             tc182.plot.lms(self.axes, self.plots,
                            { 'grid' : self.grid_check.isChecked() })
+
+            # Create html description
+            html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
+
+            # Create table
             self.table.setRowCount(np.shape(self.results['lms_standard'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.results['lms_standard'])[1])
@@ -213,15 +236,23 @@ You should have received a copy of the GNU General Public License along with thi
         # LMS base
         #
         elif self.plot_combo.currentIndex() == 3:
-            html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
+            
+            # Setup GUI
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
-            tc182.plot.lms_9(self.axes, self.plots,
+            
+            # Create plot
+            tc182.plot.lms_base(self.axes, self.plots,
                              { 'grid' : self.grid_check.isChecked() })
+            
+            # Create html description
+            html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
+            
+            # Create table
             self.table.setRowCount(np.shape(self.results['lms_base'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
             self.table.setColumnCount(np.shape(self.results['lms_base'])[1])
@@ -238,65 +269,24 @@ You should have received a copy of the GNU General Public License along with thi
         # MacLeod-Boynton
         #
         elif self.plot_combo.currentIndex() == 4:
-            html_string = tc182.html.bm(self.results, self.plot_combo.currentText(), True)
+            
+            # Setup GUI
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
-            self.axes.plot(self.plots['bm'][:,1], self.plots['bm'][:,3], 'k')
-            self.axes.plot(self.plots['purple_line_bm'][:,1], self.plots['purple_line_bm'][:,2], 'k')
-            lambdavalues = np.concatenate(([self.plots['bm'][0,0]], np.arange(410, 490, 10),
-                                           [500, 550, 575, 600, 700], [self.plots['bm'][-1,0]]))
-            for l in lambdavalues: # add wavelength parameters
-                ind = np.nonzero(self.plots['bm'][:,0] == l)[0]
-                self.axes.plot(self.plots['bm'][ind,1], self.plots['bm'][ind,3], 'wo')
-                if l > 490:
-                    align = 'bottom'
-                elif l == 830:
-                    align = 'top'
-                else:
-                    align = 'center'
-                if self.wavelength_check.isChecked() and np.shape(ind)[0] > 0:
-                    self.axes.text(self.plots['bm'][ind,1], self.plots['bm'][ind,3], '   ' + str(l),
-                                   fontsize=7, verticalalignment=align)
-            self.axes.plot(self.results['bm_white'][0], self.results['bm_white'][2], 'kx')
-            if self.wavelength_check.isChecked():
-                self.axes.text(self.results['bm_white'][0], self.results['bm_white'][2], '   E',
-                               fontsize=7, verticalalignment=align)
-            self.axes.axis('scaled')
-            self.axes.set_xlim((-.05, 1.05))
-            self.axes.set_ylim((-.05, 1.05))
-            if (self.lambda_min_spin.value() == 390 and
-                self.lambda_max_spin.value() == 830 and
-                self.resolution_spin.value() == 1):
-                self.axes.set_xlabel('$l_\mathrm{\,MB,\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) +'}$',
-                                     fontsize=16)
-                self.axes.set_ylabel('$s_\mathrm{\,MB,\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '}$',
-                                     fontsize=16)
-            else:
-                self.axes.set_xlabel('$l_\mathrm{\,MB,\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
-                                                                                               self.lambda_max_spin.value(),
-                                                                                               self.resolution_spin.value()),
-                                     fontsize=16)
-                self.axes.set_ylabel('$s_\mathrm{\,MB,\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
-                                                                                               self.lambda_max_spin.value(),
-                                                                                               self.resolution_spin.value()),
-                                     fontsize=16)
-            self.axes.set_title('CIE MacLeod-Boynton chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
-                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
-                                                                            self.lambda_max_spin.value()) +
-                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
+
+            # Create plot
+            tc182.plot.bm(self.axes, self.plots,
+                          { 'grid' : self.grid_check.isChecked(),
+                            'labels' : self.wavelength_check.isChecked() })
+
+            # Create html description
+            html_string = tc182.html.bm(self.results, self.plot_combo.currentText(), True)
+
+            # Create table
             self.table.setRowCount(np.shape(self.results['bm'])[0])
             self.table.setColumnCount(np.shape(self.results['bm'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'l', 'm', 's'])
@@ -314,62 +304,24 @@ You should have received a copy of the GNU General Public License along with thi
         # Normalised lm-diagram
         #
         elif self.plot_combo.currentIndex() == 5:
-            html_string = tc182.html.lm(self.results, self.plot_combo.currentText(), True)
+            
+            # Setup GUI
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
-            self.axes.plot(self.plots['lm'][:,1], self.plots['lm'][:,2], 'k')
-            self.axes.plot(self.plots['purple_line_lm'][:,1], self.plots['purple_line_lm'][:,2], 'k')
-            lambdavalues = np.concatenate((np.arange(450, 631, 10), [700], [self.plots['lm'][0,0]], [self.plots['lm'][-1,0]]))
-            for l in lambdavalues: # add wavelength parameters
-                ind = np.nonzero(self.plots['lm'][:,0] == l)[0]
-                self.axes.plot(self.plots['lm'][ind,1], self.plots['lm'][ind,2], 'wo')
-                if l == 390:
-                    align = 'top'
-                else:
-                    align = 'center'
-                if self.wavelength_check.isChecked() and np.shape(ind)[0] > 0:
-                    self.axes.text(self.plots['lm'][ind,1], self.plots['lm'][ind,2], '   ' + str(l),
-                                   fontsize=7, verticalalignment=align)
-            self.axes.plot(self.results['lm_white'][0], self.results['lm_white'][1], 'kx')
-            if self.wavelength_check.isChecked():
-                    self.axes.text(self.results['lm_white'][0], self.results['lm_white'][1], '   E',
-                                   fontsize=7, verticalalignment=align)
-            self.axes.axis('scaled')
-            self.axes.set_xlim((-.05, 1.05))
-            self.axes.set_ylim((-.05, .65))
-            if (self.lambda_min_spin.value() == 390 and
-                self.lambda_max_spin.value() == 830 and
-                self.resolution_spin.value() == 1):
-                self.axes.set_xlabel('$l_\mathrm{\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) +'}$',
-                                     fontsize=16)
-                self.axes.set_ylabel('$m_\mathrm{\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '}$',
-                                     fontsize=16)
-            else:
-                self.axes.set_xlabel('$l_\mathrm{\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
-                                                                                               self.lambda_max_spin.value(),
-                                                                                               self.resolution_spin.value()),
-                                     fontsize=16)
-                self.axes.set_ylabel('$m_\mathrm{\,' +
-                                     str(self.field_spin.value()) + ',\,' +
-                                     str(self.age_spin.value()) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (self.lambda_min_spin.value(),
-                                                                                               self.lambda_max_spin.value(),
-                                                                                               self.resolution_spin.value()),
-                                     fontsize=16)
-            self.axes.set_title('Equi-power normalised $lm$ chromaticity diagram\nField size: ' + str(self.field_spin.value()) +
-                                u'\N{DEGREE SIGN},  Age: ' + str(self.age_spin.value()) +
-                                u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
-                                                                            self.lambda_max_spin.value()) +
-                                ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
+            
+            # Create html description
+            html_string = tc182.html.lm(self.results, self.plot_combo.currentText(), True)
+
+            # Create plot
+            tc182.plot.lm(self.axes, self.plots,
+                          { 'grid' : self.grid_check.isChecked(),
+                            'labels' : self.wavelength_check.isChecked() })
+
+            # Create table            
             self.table.setRowCount(np.shape(self.results['lm'])[0])
             self.table.setColumnCount(np.shape(self.results['lm'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'lN', 'mN', 'sN'])
