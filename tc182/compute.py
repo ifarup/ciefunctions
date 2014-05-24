@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
+import inspect
 import numpy as np
 import scipy.optimize
 import scipy.interpolate
@@ -73,18 +74,34 @@ def significant_figures(x,n=0):
     b[x != 0] = np.ceil(np.log10(abs(x[x != 0])))
     return 10**b*my_round(x/10**b, n)
 
+# def resource_path(relative):
+#     """
+#     Extend relative path to full path (mainly for PyInstaller integration).
+#     """
+#     return os.path.join(
+#         os.environ.get(
+#             "_MEIPASS2",
+#             os.path.abspath(".")
+#         ),
+#         relative
+#     )
+#     
 def resource_path(relative):
     """
     Extend relative path to full path (mainly for PyInstaller integration).
-    """
-    return os.path.join(
-        os.environ.get(
-            "_MEIPASS2",
-            os.path.abspath(".")
-        ),
-        relative
-    )
     
+    Parameters
+    ----------
+    relative : string
+        The relative path name.
+    
+    Returns
+    -------
+    absolute : string
+        The absolute path name.
+    """
+    return os.path.dirname(os.path.abspath(inspect.getsourcefile(resource_path))) + '/' + relative
+
 def read_csv_file(filename, pad=-np.inf):
     """
     Read a CSV file and return pylab array.

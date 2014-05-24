@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import tc182
-import tc182html
+import tc182.html
 import sys
 import numpy as np
 import PyQt4.QtGui as qt
@@ -137,7 +137,7 @@ You should have received a copy of the GNU General Public License along with thi
         # XYZ plot and table
         #
         if self.plot_combo.currentIndex() == 0:
-            html_string = tc182html.xyz(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.html.xyz(self.results, self.plot_combo.currentText(), True)
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
             self.wavelength_check.setDisabled(True)
@@ -181,7 +181,7 @@ You should have received a copy of the GNU General Public License along with thi
         # chromaticity diagram
         #
         elif self.plot_combo.currentIndex() == 1:
-            html_string = tc182html.xy(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.html.xy(self.results, self.plot_combo.currentText(), True)
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
             self.wavelength_check.setEnabled(True)
@@ -269,7 +269,7 @@ You should have received a copy of the GNU General Public License along with thi
         # LMS standard
         #
         elif self.plot_combo.currentIndex() == 2:
-            html_string = tc182html.lms(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
@@ -305,7 +305,7 @@ You should have received a copy of the GNU General Public License along with thi
         # LMS base
         #
         elif self.plot_combo.currentIndex() == 3:
-            html_string = tc182html.lms(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setDisabled(True)
@@ -340,7 +340,7 @@ You should have received a copy of the GNU General Public License along with thi
         # MacLeod-Boynton
         #
         elif self.plot_combo.currentIndex() == 4:
-            html_string = tc182html.bm(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.html.bm(self.results, self.plot_combo.currentText(), True)
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
@@ -416,7 +416,7 @@ You should have received a copy of the GNU General Public License along with thi
         # Normalised lm-diagram
         #
         elif self.plot_combo.currentIndex() == 5:
-            html_string = tc182html.lm(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.html.lm(self.results, self.plot_combo.currentText(), True)
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
             self.wavelength_check.setEnabled(True)
@@ -492,7 +492,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
-                html_string = tc182html.standard(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
+                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
                 self.compare_label_31.setDisabled(True)
                 self.compare_label_64.setEnabled(True)
                 self.cie31_check.setDisabled(True)
@@ -522,7 +522,7 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 3]))
             else: # 10 deg
-                html_string = tc182html.standard(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
+                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
                 self.compare_label_31.setEnabled(True)
                 self.compare_label_64.setDisabled(True)
                 self.cie31_check.setEnabled(True)
@@ -559,7 +559,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
             if self.field_combo.currentIndex() == 0: # 2 deg
-                html_string = tc182html.standard(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
+                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
                 self.compare_label_31.setDisabled(True)
                 self.compare_label_64.setEnabled(True)
                 self.cie31_check.setDisabled(True)
@@ -608,7 +608,7 @@ You should have received a copy of the GNU General Public License along with thi
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 3]))
             else: # 10 deg
-                html_string = tc182html.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
+                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
                 self.compare_label_31.setEnabled(True)
                 self.compare_label_64.setDisabled(True)
                 self.cie31_check.setEnabled(True)
