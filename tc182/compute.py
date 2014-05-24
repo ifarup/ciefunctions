@@ -1015,6 +1015,9 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['lambda_min'] = lambda_min
     plots['lambda_max'] = lambda_max
     plots['lambda_step'] = lambda_step 
+    plots['cc_white'] = cc_white
+    plots['bm_white'] = bm_white
+    plots['lm_white'] = lm_white
 
     results = dict()
     results['xyz'] = xyz_spec

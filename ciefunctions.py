@@ -138,9 +138,9 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
             tc182.plot.xyz(self.axes, self.plots,
-                           {'grid' : self.grid_check.isChecked(),
-                            'cie31' : self.cie31_check.isChecked(),
-                            'cie64' : self.cie64_check.isChecked()})
+                           { 'grid' : self.grid_check.isChecked(),
+                             'cie31' : self.cie31_check.isChecked(),
+                             'cie64' : self.cie64_check.isChecked() })
             self.table.setRowCount(np.shape(self.results['xyz'])[0])
             self.table.setColumnCount(np.shape(self.results['xyz'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
@@ -165,6 +165,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.wavelength_label.setEnabled(True)
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
+
             lambdavalues = np.concatenate(([self.plots['cc'][0,0]], np.arange(470, 611, 10), [700], [self.plots['cc'][-1,0]]))
             if self.cie31_check.isChecked():
                 self.axes.plot(self.plots['cc31'][:,1], self.plots['cc31'][:,2], 'k--')
@@ -229,6 +230,11 @@ You should have received a copy of the GNU General Public License along with thi
                                 u' yr,  Domain: %0.1f\u2013%0.1f nm' % (self.lambda_min_spin.value(),
                                                                             self.lambda_max_spin.value()) +
                                 ',  Step: %0.1f nm' % self.resolution_spin.value(), fontsize=12)
+            tc182.plot.xy(self.axes, self.plots,
+                          { 'grid' : self.grid_check.isChecked(),
+                            'cie31' : self.cie31_check.isChecked(),
+                            'cie64' : self.cie64_check.isChecked(),
+                            'labels' : self.wavelength_check.isChecked() })
             self.table.setRowCount(np.shape(self.results['cc'])[0])
             self.table.setColumnCount(np.shape(self.results['cc'])[1])
             self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
