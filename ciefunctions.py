@@ -46,17 +46,17 @@ class AppForm(qt.QMainWindow):
         file_choices = "CSV (*.csv)|*.csv"
         
         suggest = ''
-        if self.plot_combo.currentIndex() == 0:
+        if self.plot_combo.currentIndex() == self.COMBO_XYZ:
             suggest += 'xyz_'
-        elif self.plot_combo.currentIndex() == 1:
+        elif self.plot_combo.currentIndex() == self.COMBO_LMS:
             suggest += 'lms_'
-        elif self.plot_combo.currentIndex() == 2:
+        elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
             suggest += 'lms_9_'
-        elif self.plot_combo.currentIndex() == 3:
+        elif self.plot_combo.currentIndex() == self.COMBO_XY:
             suggest += 'cc_'
-        elif self.plot_combo.currentIndex() == 4:
+        elif self.plot_combo.currentIndex() == self.COMBO_BM:
             suggest += 'bm_'
-        elif self.plot_combo.currentIndex() == 5:
+        elif self.plot_combo.currentIndex() == self.COBMO_LM:
             suggest += 'lm_'
         suggest += 'fs_' + str(self.field_spin.value()) + '_age_' + \
             str(self.age_spin.value()) + '_res_' + \
@@ -65,18 +65,27 @@ class AppForm(qt.QMainWindow):
                         'Save file', suggest, 
                         file_choices))
         if path:
-            if self.plot_combo.currentIndex() == 0:
+            if self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
-            elif self.plot_combo.currentIndex() == 1:
+            elif self.plot_combo.currentIndex() == self.COMBO_LMS:
                 np.savetxt(path, self.results['lms_standard'], '%.1f, %.5e, %.5e, %.5e')
-            elif self.plot_combo.currentIndex() == 2:
+            elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
                 np.savetxt(path, self.results['lms_base'], '%.1f, %.8e, %.8e, %.8e')
-            elif self.plot_combo.currentIndex() == 3:
+            elif self.plot_combo.currentIndex() == self.COMBO_XY:
                 np.savetxt(path, self.results['cc'], '%.1f, %.5f, %.5f, %.5f')
-            elif self.plot_combo.currentIndex() == 4:
+            elif self.plot_combo.currentIndex() == self.COMBO_BM:
                 np.savetxt(path, self.results['bm'], '%.1f, %.6f, %.6f, %.6f')
-            elif self.plot_combo.currentIndex() == 5:
+            elif self.plot_combo.currentIndex() == self.COMBO_LM:
                 np.savetxt(path, self.results['lm'], '%.1f, %.5f, %.5f, %.5f')
+    
+    def plot_options(self):
+        """
+        Return a dict() with the current plot options for use as argument to the plot module.
+        """
+        return { 'grid' : self.grid_check.isChecked(),
+                 'cie31' : self.cie31_check.isChecked(),
+                 'cie64' : self.cie64_check.isChecked(),
+                 'labels' : self.wavelength_check.isChecked() }
     
     def on_about(self):
         msg = """
@@ -101,7 +110,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_max_spin.setValue(self.last_lambda_max)
         self.resolution_spin.setValue(self.last_resolution)
 
-        if self.plot_combo.currentIndex() <= 5:
+        if self.plot_combo.currentIndex() not in [self.COMBO_XYSTD, self.COMBO_XYZSTD]:
             self.field_spin.show()
             self.field_combo.hide()
             self.age_label.show()
@@ -129,7 +138,7 @@ You should have received a copy of the GNU General Public License along with thi
         #
         # XYZ plot and table
         #
-        if self.plot_combo.currentIndex() == 0:
+        if self.plot_combo.currentIndex() == self.COMBO_XYZ:
 
             # Setup GUI
             self.compare_label_31.setEnabled(True)
@@ -140,10 +149,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(True)
 
             # Create plot
-            tc182.plot.xyz(self.axes, self.plots,
-                           { 'grid' : self.grid_check.isChecked(),
-                             'cie31' : self.cie31_check.isChecked(),
-                             'cie64' : self.cie64_check.isChecked() })
+            tc182.plot.xyz(self.axes, self.plots, self.plot_options())
 
             # Create html description
             html_string = tc182.html.xyz(self.results, self.plot_combo.currentText(), True)
@@ -165,7 +171,7 @@ You should have received a copy of the GNU General Public License along with thi
         #
         # chromaticity diagram
         #
-        elif self.plot_combo.currentIndex() == 1:
+        elif self.plot_combo.currentIndex() == self.COMBO_XY:
             # Setup GUI
             self.compare_label_31.setEnabled(True)
             self.compare_label_64.setEnabled(True)
@@ -175,11 +181,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(True)
             
             # Create plot
-            tc182.plot.xy(self.axes, self.plots,
-                          { 'grid' : self.grid_check.isChecked(),
-                            'cie31' : self.cie31_check.isChecked(),
-                            'cie64' : self.cie64_check.isChecked(),
-                            'labels' : self.wavelength_check.isChecked() })
+            tc182.plot.xy(self.axes, self.plots, self.plot_options())
 
             # Greate html description
             html_string = tc182.html.xy(self.results, self.plot_combo.currentText(), True)
@@ -201,7 +203,7 @@ You should have received a copy of the GNU General Public License along with thi
         #
         # LMS standard
         #
-        elif self.plot_combo.currentIndex() == 2:
+        elif self.plot_combo.currentIndex() == self.COMBO_LMS:
 
             # Setup GUI
             self.compare_label_31.setDisabled(True)
@@ -212,8 +214,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.lms(self.axes, self.plots,
-                           { 'grid' : self.grid_check.isChecked() })
+            tc182.plot.lms(self.axes, self.plots, self.plot_options())
 
             # Create html description
             html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
@@ -235,7 +236,7 @@ You should have received a copy of the GNU General Public License along with thi
         #
         # LMS base
         #
-        elif self.plot_combo.currentIndex() == 3:
+        elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
             
             # Setup GUI
             self.compare_label_31.setDisabled(True)
@@ -246,8 +247,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             
             # Create plot
-            tc182.plot.lms_base(self.axes, self.plots,
-                             { 'grid' : self.grid_check.isChecked() })
+            tc182.plot.lms_base(self.axes, self.plots, self.plot_options())
             
             # Create html description
             html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
@@ -268,7 +268,7 @@ You should have received a copy of the GNU General Public License along with thi
         #
         # MacLeod-Boynton
         #
-        elif self.plot_combo.currentIndex() == 4:
+        elif self.plot_combo.currentIndex() == self.COMBO_BM:
             
             # Setup GUI
             self.compare_label_31.setDisabled(True)
@@ -279,9 +279,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.bm(self.axes, self.plots,
-                          { 'grid' : self.grid_check.isChecked(),
-                            'labels' : self.wavelength_check.isChecked() })
+            tc182.plot.bm(self.axes, self.plots, self.plot_options())
 
             # Create html description
             html_string = tc182.html.bm(self.results, self.plot_combo.currentText(), True)
@@ -303,7 +301,7 @@ You should have received a copy of the GNU General Public License along with thi
         #
         # Normalised lm-diagram
         #
-        elif self.plot_combo.currentIndex() == 5:
+        elif self.plot_combo.currentIndex() == self.COMBO_LM:
             
             # Setup GUI
             self.compare_label_31.setDisabled(True)
@@ -317,9 +315,7 @@ You should have received a copy of the GNU General Public License along with thi
             html_string = tc182.html.lm(self.results, self.plot_combo.currentText(), True)
 
             # Create plot
-            tc182.plot.lm(self.axes, self.plots,
-                          { 'grid' : self.grid_check.isChecked(),
-                            'labels' : self.wavelength_check.isChecked() })
+            tc182.plot.lm(self.axes, self.plots, self.plot_options())
 
             # Create table            
             self.table.setRowCount(np.shape(self.results['lm'])[0])
@@ -338,7 +334,7 @@ You should have received a copy of the GNU General Public License along with thi
         #
         # CIE standard XYZ
         #
-        elif self.plot_combo.currentIndex() == 6:
+        elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD:
             
             # Setup GUI
             self.wavelength_check.setDisabled(True)
@@ -356,9 +352,7 @@ You should have received a copy of the GNU General Public License along with thi
                 html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
 
                 # Create plot                
-                tc182.plot.xyz31(self.axes, self.plots,
-                                 { 'grid' : self.grid_check.isChecked(),
-                                   'cie64' : self.cie64_check.isChecked() })
+                tc182.plot.xyz31(self.axes, self.plots, self.plot_options())
                 
                 # Create table
                 self.table.setRowCount(np.shape(self.plots['xyz31'])[0])
@@ -386,9 +380,7 @@ You should have received a copy of the GNU General Public License along with thi
                 html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
 
                 # Create plot
-                tc182.plot.xyz64(self.axes, self.plots,
-                                 { 'grid' : self.grid_check.isChecked(),
-                                   'cie31' : self.cie31_check.isChecked() })
+                tc182.plot.xyz64(self.axes, self.plots, self.plot_options())
                 
                 # Create table
                 self.table.setRowCount(np.shape(self.plots['xyz64'])[0])
@@ -407,7 +399,7 @@ You should have received a copy of the GNU General Public License along with thi
         #
         # CIE standard chromaticity diagram
         #
-        elif self.plot_combo.currentIndex() == 7:
+        elif self.plot_combo.currentIndex() == self.COMBO_XYSTD:
             
             # Setup GUI
             self.wavelength_check.setEnabled(True)
@@ -425,10 +417,7 @@ You should have received a copy of the GNU General Public License along with thi
                 html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
 
                 # Create plot
-                tc182.plot.xy31(self.axes, self.plots,
-                                { 'grid' : self.grid_check.isChecked(),
-                                  'cie64' : self.cie64_check.isChecked(),
-                                  'labels' : self.wavelength_check.isChecked() })
+                tc182.plot.xy31(self.axes, self.plots, self.plot_options())
 
                 # Create table
                 self.table.setRowCount(np.shape(self.plots['cc31'])[0])
@@ -455,10 +444,7 @@ You should have received a copy of the GNU General Public License along with thi
                 html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
 
                 # Create plot
-                tc182.plot.xy31(self.axes, self.plots,
-                                { 'grid' : self.grid_check.isChecked(),
-                                  'cie64' : self.cie64_check.isChecked(),
-                                  'labels' : self.wavelength_check.isChecked() })
+                tc182.plot.xy31(self.axes, self.plots, self.plot_options())
 
                 # Create table
                 self.table.setRowCount(np.shape(self.plots['cc64'])[0])
@@ -598,13 +584,21 @@ You should have received a copy of the GNU General Public License along with thi
 
         self.plot_combo = qt.QComboBox()
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')
+        self.COMBO_XYZ = 0
         self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
+        self.COMBO_XY = 1
         self.plot_combo.addItem('CIE LMS cone fundamentals')
+        self.COMBO_LMS = 2
         self.plot_combo.addItem('CIE LMS cone fundamentals (9 sign. figs.)')
+        self.COMBO_LMSBASE = 3
         self.plot_combo.addItem('CIE MacLeod-Boynton ls diagram')
+        self.COMBO_BM = 4
         self.plot_combo.addItem('Equi-power normalised lm diagram')
+        self.COMBO_LM = 5
         self.plot_combo.addItem('CIE XYZ standard CMFs')
+        self.COMBO_XYZSTD = 6
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
+        self.COMBO_XYSTD = 7
         self.connect(self.plot_combo,
                      qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
 
