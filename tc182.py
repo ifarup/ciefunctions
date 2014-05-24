@@ -1008,6 +1008,11 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['purple_line_cc'] = purple_line_cc
     results['purple_line_lm'] = purple_line_lm
     results['purple_line_bm'] = purple_line_bm
+    results['field_size'] = field_size
+    results['age'] = age
+    results['lambda_min'] = lambda_min
+    results['lambda_max'] = lambda_max
+    results['lambda_step'] = lambda_step 
 
     return results, plots
 
