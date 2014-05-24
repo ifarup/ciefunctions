@@ -325,3 +325,59 @@ def lm(axes, plots, options):
                         u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                                     plots['lambda_max']) +
                         ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+
+def xyz31(axes, plots, options):
+    """
+    Plot the xyz1931 standard CMFs onto the given axes.
+    
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    axes.clear()
+    axes.grid(options['grid'])
+    axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,1], 'r')
+    axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,2], 'g')
+    axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,3], 'b')
+    if options['cie64']:
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,1], 'r-.')
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,2], 'g-.')
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b-.')
+    axes.axis('normal')
+    axes.axis([350, 850, -.2, 2.3])
+    axes.set_xlabel('Wavelength [nm]', fontsize=12)
+    axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
+    axes.set_title(u'CIE 1931 XYZ standard 2\N{DEGREE SIGN} CMFs', fontsize=12)
+
+def xyz64(axes, plots, options):
+    """
+    Plot the xyz1964 standard CMFs onto the given axes.
+    
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    axes.clear()
+    axes.grid(options['grid'])
+    axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,1], 'r')
+    axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,2], 'g')
+    axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b')
+    if options['cie31']:
+        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,1], 'r-.')
+        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,2], 'g-.')
+        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,3], 'b-.')
+    axes.axis('normal')
+    axes.axis([350, 850, -.2, 2.3])
+    axes.set_xlabel('Wavelength [nm]', fontsize=12)
+    axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
+    axes.set_title(u'CIE 1964 XYZ standard 10\N{DEGREE SIGN}CMFs', fontsize=12)

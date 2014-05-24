@@ -339,26 +339,28 @@ You should have received a copy of the GNU General Public License along with thi
         # CIE standard XYZ
         #
         elif self.plot_combo.currentIndex() == 6:
+            
+            # Setup GUI
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
+
             if self.field_combo.currentIndex() == 0: # 2 deg
-                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
+                
+                # Setup GUI
                 self.compare_label_31.setDisabled(True)
                 self.compare_label_64.setEnabled(True)
                 self.cie31_check.setDisabled(True)
                 self.cie64_check.setEnabled(True)
-                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,1], 'r')
-                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,2], 'g')
-                self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,3], 'b')
-                if self.cie64_check.isChecked():
-                    self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,1], 'r-.')
-                    self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,2], 'g-.')
-                    self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,3], 'b-.')
-                self.axes.axis('normal')
-                self.axes.axis([350, 850, -.2, 2.3])
-                self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
-                self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
-                self.axes.set_title(u'CIE 1931 XYZ standard 2\N{DEGREE SIGN} CMFs', fontsize=12)
+                
+                # Create html descrption
+                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
+
+                # Create plot                
+                tc182.plot.xyz31(self.axes, self.plots,
+                                 { 'grid' : self.grid_check.isChecked(),
+                                   'cie64' : self.cie64_check.isChecked() })
+                
+                # Create table
                 self.table.setRowCount(np.shape(self.plots['xyz31'])[0])
                 self.table.setColumnCount(np.shape(self.plots['xyz31'])[1])
                 self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
@@ -371,24 +373,24 @@ You should have received a copy of the GNU General Public License along with thi
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 2]))
                     self.table.setItem(i, 3,
                                        qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 3]))
+
             else: # 10 deg
-                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
+                
+                # Setup GUI
                 self.compare_label_31.setEnabled(True)
                 self.compare_label_64.setDisabled(True)
                 self.cie31_check.setEnabled(True)
                 self.cie64_check.setDisabled(True)
-                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,1], 'r')
-                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,2], 'g')
-                self.axes.plot(self.plots['xyz64'][:,0], self.plots['xyz64'][:,3], 'b')
-                if self.cie31_check.isChecked():
-                    self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,1], 'r--')
-                    self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,2], 'g--')
-                    self.axes.plot(self.plots['xyz31'][:,0], self.plots['xyz31'][:,3], 'b--')
-                self.axes.axis('normal')
-                self.axes.axis([350, 850, -.2, 2.3])
-                self.axes.set_xlabel('Wavelength [nm]', fontsize=12)
-                self.axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
-                self.axes.set_title(u'CIE 1964 XYZ standard 10\N{DEGREE SIGN}CMFs', fontsize=12)
+
+                # Create html descption
+                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
+
+                # Create plot
+                tc182.plot.xyz64(self.axes, self.plots,
+                                 { 'grid' : self.grid_check.isChecked(),
+                                   'cie31' : self.cie31_check.isChecked() })
+                
+                # Create table
                 self.table.setRowCount(np.shape(self.plots['xyz64'])[0])
                 self.table.setColumnCount(np.shape(self.plots['xyz64'])[1])
                 self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
