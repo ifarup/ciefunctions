@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 ciefunctions: GUI application for the calculation of CIE functions.
@@ -19,8 +19,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import tc
-import htmlview
+import tc182
+import tc182html
 import sys
 import numpy as np
 import PyQt4.QtGui as qt
@@ -1006,9 +1006,9 @@ You should have received a copy of the GNU General Public License along with thi
         self.last_resolution = self.resolution_spin.value()
         self.last_lambda_min = self.lambda_min_spin.value()
         self.last_lambda_max = self.lambda_max_spin.value()
-        self.results, self.plots = tc.compute_tabulated(self.last_field, self.last_age,
-                                                        self.last_lambda_min, self.last_lambda_max,
-                                                        self.last_resolution)
+        self.results, self.plots = tc182.compute_tabulated(self.last_field, self.last_age,
+                                                           self.last_lambda_min, self.last_lambda_max,
+                                                           self.last_resolution)
         self.on_draw()
 
     def add_actions(self, target, actions):

@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-tc: CIE TC1-82 Computations
+tc182: CIE TC1-82 Computations
 
 Copyright (C) 2012-2014 Ivar Farup and Jan Henrik Wold
 

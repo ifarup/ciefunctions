@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-htmlview: Generate html strings for the ciefunctions GUI application.
+tc182html: Generate html strings for the ciefunctions GUI and web applications.
 
 Copyright (C) 2014 Ivar Farup and Jan Henrik Wold
 
