@@ -61,9 +61,9 @@ class AppForm(qt.QMainWindow):
         suggest += 'fs_' + str(self.field_spin.value()) + '_age_' + \
             str(self.age_spin.value()) + '_res_' + \
             str(self.resolution_spin.value()) + '.csv'
-        path = unicode(qt.QFileDialog.getSaveFileName(self, 
+        path = qt.QFileDialog.getSaveFileName(self, 
                         'Save file', suggest, 
-                        file_choices))
+                        file_choices)
         if path:
             if self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
@@ -525,7 +525,7 @@ You should have received a copy of the GNU General Public License along with thi
         # 5x4 inches, 100 dots-per-inch
         #
         self.dpi = 100
-        self.fig = Figure((8.0, 6.0), dpi=self.dpi)
+        self.fig = Figure((10.0, 8.0), dpi=self.dpi)
         self.canvas = FigureCanvas(self.fig)
         self.canvas.setParent(self.main_frame)
         
@@ -583,18 +583,18 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_max_spin.setSingleStep(0.1)
 
         self.plot_combo = qt.QComboBox()
-        self.plot_combo.addItem('CIE XYZ fundamental CMFs')
-        self.COMBO_XYZ = 0
-        self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
-        self.COMBO_XY = 1
         self.plot_combo.addItem('CIE LMS cone fundamentals')
-        self.COMBO_LMS = 2
+        self.COMBO_LMS = 0
         self.plot_combo.addItem('CIE LMS cone fundamentals (9 sign. figs.)')
-        self.COMBO_LMSBASE = 3
-        self.plot_combo.addItem('CIE MacLeod-Boynton ls diagram')
-        self.COMBO_BM = 4
+        self.COMBO_LMSBASE = 1
         self.plot_combo.addItem('Equi-power normalised lm diagram')
-        self.COMBO_LM = 5
+        self.COMBO_LM = 2
+        self.plot_combo.addItem('CIE MacLeod-Boynton ls diagram')
+        self.COMBO_BM = 3
+        self.plot_combo.addItem('CIE XYZ fundamental CMFs')
+        self.COMBO_XYZ = 4
+        self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
+        self.COMBO_XY = 5
         self.plot_combo.addItem('CIE XYZ standard CMFs')
         self.COMBO_XYZSTD = 6
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
@@ -685,17 +685,12 @@ You should have received a copy of the GNU General Public License along with thi
         spectral_splitter = qt.QSplitter()
         spectral_splitter.addWidget(spectral_innerwidget)
         spectral_splitter.addWidget(self.transformation)
-#        spectral_hbox.addWidget(spectral_innerwidget)
-        #spectral_hbox.addWidget(self.transformation)
-        spectral_widget = qt.QWidget()
-        spectral_widget.setLayout(spectral_hbox)
-        # main_tabs = qt.QTabWidget()
-        # main_tabs.addTab(spectral_widget, 'Spectral')
-        # main_tabs.addTab(qt.QTabWidget(), 'Purples')
+#         main_tabs = qt.QTabWidget()
+#         main_tabs.addTab(spectral_splitter, 'Spectral')
+#         main_tabs.addTab(qt.QTabWidget(), 'Purples')
 
         vbox = qt.QVBoxLayout()
-        # vbox.addWidget(main_tabs)
-#        vbox.addWidget(spectral_widget)
+#         vbox.addWidget(main_tabs)
         vbox.addWidget(spectral_splitter)
         vbox.addLayout(grid)
         self.main_frame.setLayout(vbox)
