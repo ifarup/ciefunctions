@@ -19,11 +19,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import tc
+import tc182
 import numpy as np
 import matplotlib.pyplot as plt
 
-res, plots = tc.compute_tabulated(10, 70)
+res, plots = tc182.compute_tabulated(10, 70)
 
 lambda_b = plots['purple_line_cc'][0,0]
 lambda_r = plots['purple_line_cc'][1,0]
