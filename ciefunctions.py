@@ -525,7 +525,7 @@ You should have received a copy of the GNU General Public License along with thi
         # 5x4 inches, 100 dots-per-inch
         #
         self.dpi = 100
-        self.fig = Figure((10.0, 8.0), dpi=self.dpi)
+        self.fig = Figure((8.0, 6.0), dpi=self.dpi)
         self.canvas = FigureCanvas(self.fig)
         self.canvas.setParent(self.main_frame)
         

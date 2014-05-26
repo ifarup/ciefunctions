@@ -172,48 +172,6 @@ def chromaticities_from_XYZ(xyz31, xyz64):
                           cc64[-1,0]])
     return cc31, cc64, cc31knots, cc64knots
 
-def gauss_func(param, docul2):
-    """
-    Gaussian function to be fitted to docul2.
-    
-    Parameters
-    ----------
-    param : ndarray
-        Parameters b and x0 of the Gaussian
-    docul2 : ndarray
-        The tabulated docul2 function
-    
-    Returns
-    -------
-    gauss_func : ndarray
-        The tabulated Gaussian function with the given parameters
-    """
-    b = param[0]
-    x0 = param[1]
-    f = 4*np.exp(-b*(docul2[:,0] - x0)**2)
-    return f
-
-def rms_error(param, docul2):
-    """
-    RMS error between docul2 and gaussian function.
-    
-    For use in optimisation in function docul_fine.
-    
-    Parameters
-    ----------
-    param : ndarray
-        Parameters b and x0 of the Gaussian
-    docul2 : ndarray
-        The tabulated docul2 function
-    
-    Returns
-    -------
-    rms_error : float
-        The RMS error
-    """
-    f = gauss_func(param, docul2)
-    return sum((f - docul2[:,1])**2)
-
 def docul_fine(ocular_sum_32, docul2):
     """
     Calculate the two parts of docul.
@@ -231,13 +189,10 @@ def docul_fine(ocular_sum_32, docul2):
     docul2_fine : ndarray
         Tabulated docul2 with high resolution
     """
-    param = scipy.optimize.fmin(rms_error, [8e-4, 350], (docul2,), disp=False)
-    docul2_add = np.array([[390, 4*np.exp(-param[0]*(390 - param[1])**2)],
-                           [395, 4*np.exp(-param[0]*(395 - param[1])**2)]])
     docul2_pad = np.zeros((75,2))
     docul2_pad[:,0] = np.arange(460, 835, 5)
     docul2_pad[:,1] = 0
-    docul2 = np.concatenate((docul2_add, docul2, docul2_pad))
+    docul2 = np.concatenate((docul2, docul2_pad))
     spl = scipy.interpolate.InterpolatedUnivariateSpline(docul2[:,0],
                                                          docul2[:,1])
     docul2_fine = ocular_sum_32.copy()
@@ -252,10 +207,6 @@ class VisualData:
     
     All data are read from files in the 'data' folder.
     """
-#   old_absorbance = read_csv_file('data/ssabance_fine.csv')
-#   old_macula = read_csv_file('data/macss_fine.csv')
-#   old_ocular_sum_32 = read_csv_file('data/lensss_fine.csv') # 32 years only!!!
-    
     absorbance = read_csv_file('data/absorbances0_1nm.csv')[:,[0,2,3,4]]
     macula = read_csv_file('data/absorbances0_1nm.csv')[:,[0,6]]
     ocular_sum_32 = read_csv_file('data/absorbances0_1nm.csv')[:,[0,5]]  # 32 years only!!! 
@@ -1047,12 +998,10 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    import sys
-    for age in np.arange(20, 71):
-        for fs in np.arange(1, 10.1, .1):
-            print((age, fs))
-            sys.stdout.flush()
-            compute_tabulated(fs, age)
-            sys.stderr.flush()
-            print('\t...ok')
-            sys.stdout.flush()
+    import matplotlib.pyplot as plt
+    plt.plot(VisualData.docul2[:,0], VisualData.docul2[:,1], 'o')
+    plt.plot(VisualData.docul2_fine[:,0], VisualData.docul2_fine[:,1])
+#     plt.clf()
+#     plt.loglog(VisualData.docul2[:,0], VisualData.docul2[:,1])
+#     plt.loglog(extrapoints[:,0], extrapoints[:,1])
+    plt.show()
