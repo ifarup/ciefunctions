@@ -1,5 +1,9 @@
 /* App */
 
+.plot {			display: none; }
+
+.html_text { 	display: none; }
+
 .float-bottom { height: 0px;
 				clear:both;
 				}
@@ -8,18 +12,16 @@
 				margin: auto;
  }
  
-#leftSpalte	{ 	width: 60%;
+#leftSpalte	{ 	width: 50%;
 				height: 80%;
-				background-color: #555;
 				float: left;
  }
-#rightSpalte { 	width: 40%;
-				background-color: #999;
-				float: right;
+#rightSpalte { 	width: 45%;
+				float: left;
+				padding: 20px 10px 0px 20px;
 }
 
 #bottomSpalte { width: 100%;
-				background-color: #eee;
 				clear:both;
 }
 
@@ -29,7 +31,6 @@ div.htmlWrapper {	height: 95%;
 				}
 
 div#input-params, div#figOptions {  width: 100%;
-									background-color: wheat;
     								margin: 10px auto 10px auto;
     								margin-left: auto; 
     								margin-right: auto;
