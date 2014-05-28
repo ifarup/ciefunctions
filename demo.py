@@ -34,13 +34,13 @@ ax = fig.add_subplot(111)
 
 results, plots = tc182.compute_tabulated(2, 20, 390, 830, 1)
 options = { 'grid' : True,
-            'cie31' : True,
+            'cie31' : False,
             'cie64' : False,
             'labels' : True }
-tc182.plot.xy(ax, plots, options)
+tc182.plot.bm(ax, plots, options)
 html_string = tc182.html.xy(results,'Heading')
 
 # Show the result
 
-plt.show()
 print(html_string)
+plt.show()
