@@ -107,7 +107,7 @@ def home(request):
 	
 	tc182.plot.xyz(ax, plots, options)
 	
-	html_string = mark_safe(tc182.html.xyz(results,'Heading'))
+	html_string = mark_safe(tc182.html.xyz(results,'XYZ'))
 	html_list.append(html_string)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
@@ -117,7 +117,7 @@ def home(request):
     
 	tc182.plot.xy(ax, plots, options)
 	
-	html_string = mark_safe(tc182.html.xy(results,'Heading'))
+	html_string = mark_safe(tc182.html.xy(results,'XY'))
 	html_list.append(html_string)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
@@ -127,7 +127,7 @@ def home(request):
     
 	tc182.plot.lms(ax, plots, options)
 	
-	html_string = mark_safe(tc182.html.lms(results,'Heading'))
+	html_string = mark_safe(tc182.html.lms(results,'LMS'))
 	html_list.append(html_string)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
@@ -137,7 +137,7 @@ def home(request):
     
 	tc182.plot.lms_base(ax, plots, options)
 	
-	html_string = mark_safe(tc182.html.lms_base(results,'Heading'))
+	html_string = mark_safe(tc182.html.lms_base(results,'LMS BASE'))
 	html_list.append(html_string)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
@@ -147,7 +147,7 @@ def home(request):
 	
 	tc182.plot.bm(ax, plots, options)
 	
-	html_string = mark_safe(tc182.html.bm(results,'Heading'))
+	html_string = mark_safe(tc182.html.bm(results,'BM'))
 	html_list.append(html_string)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
