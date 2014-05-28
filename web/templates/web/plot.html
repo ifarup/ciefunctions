@@ -1,0 +1,138 @@
+{% load staticfiles %}
+<html>
+	<head>
+		<title>Ciefunctions</title>
+		<link rel="stylesheet" href="{% static 'web/css/redmond/jquery-ui-1.10.4.custom.min.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/tc.css' %}"></link>
+		<script src="{% static 'web/js/jquery-1.10.2.js' %}"></script>
+		<script src="{% static 'web/js/jquery-ui-1.10.4.custom.min.js' %}"></srcipt>
+
+	<script>
+		
+	
+	</script>
+
+	</head>
+	<body>
+		<div id="appWrapper">
+			<div id="leftSpalte">	
+				<div id="tc-Tabs">
+					<ul>
+						<li><a href="#tabs-1">Plot</a></li>
+						<li><a href="#tabs-2">Table</a></li>		
+					</ul>
+					<div id="tabs-1">
+						<div id="theFig">
+							{{ xyzFig }}
+						</div>
+						<div id="figOptions">
+							<div>
+								<label for="#compare1931-2">Compare with CIE 1931 2 &deg;</label>
+								<input type="checkbox" id="compare1931-2"/>
+							</div>
+							<div>
+								<label for="#compare1964-10">Compare with CIE 1964 10 &deg;</label>
+								<input type="checkbox" id="compare1964-10"/>
+							</div>
+							<div>
+								<label for="#showGrid">Grid</label>
+								<input id ="showGrid" type="checkbox"/>
+							</div>
+							<div>
+								<label for="#showLabels">Labels</label>
+								<input id ="showLabels" type="checkbox"/>
+							</div>
+						</div>
+						<span class="stretch"></span>
+						<div class="float-bottom"></div>
+					</div><!-- end #tabs-1 -->
+					<div id="tabs-2">
+						<div class="tableWrapper">
+							<table class="dataTable">
+								<tr>
+									<td> lambda </td>
+									<td> X </td>
+									<td> Y </td>
+									<td> Z </td>
+								</tr>
+		
+							{% for rows in tab_str %}
+								<tr>
+									<td> {{ rows.0 }} </td>
+									<td> {{ rows.1 }} </td>
+									<td> {{ rows.2 }} </td>
+									<td> {{ rows.3 }} </td>
+								</tr>
+							{% endfor %}		
+							</table> <!-- end .datatable -->
+							<div class="float-bottom"></div>
+						</div>	<!-- end .tableWrapper -->
+						<div class="float-bottom"></div>
+					</div><!-- end #tabs-2 -->
+				</div><!-- end #tc-Tabs -->	
+				<div id="plot-select">
+					<select id="plot-select">
+						<option plot="0">CIE XYZ fundamental CMFs</option>
+						<option plot="0">CIE xy fundamental chromacity diagram</option>
+						<option plot="0">CIE LMS cone fundamentals</option>
+						<option plot="0">CIE LMS cone fundamentals (9 sign.flgs.)</option>
+						<option plot="0">CIE MacLeod-Boynton ls diagram</option>
+						<option plot="0">Equi-power normalised lm diagram</option>
+						<option plot="0">CIE XYZ standard CMFs</option>
+						<option plot="0">CIE xy standard chromacity diagram</option>
+					</select>
+					<div class="float-bottom"></div>
+				</div><!-- end #plot-select -->
+			</div><!-- end #leftSpalte -->
+			<div id="rightSpalte">
+				<div class="htmlWrapper">
+					<h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2><h2>HEre comes a lot of html beauty.</h2>
+				</div>
+				<div class="float-bottom"></div>
+			</div><!-- end #rightSpalte -->
+			<div id="bottomSpalte">
+				<div id="input-params">
+					<form id="paramForm" method="POST" action="/plot1/">
+						{% csrf_token %}
+						<div id="field_size-wrap" class="input-field">
+							<label for="field_size">field_size</label>
+							<input id="field_size" name="field_size"/>
+						</div>
+						<div id="age-wrap" class="input-field">
+							<label for="age">age</label>
+							<input id="age" name="age"/>
+						</div>
+						<div id="lambda_min-wrap" class="input-field">
+							<label for="lambda_min">lambda_min</label>
+							<input id="lambda_min" name="lambda_min"/>
+						</div>
+						<div id="lambda_max-wrap" class="input-field">			
+							<label for="lambda_max">lambda_max</label>
+							<input id="lambda_max" name="lambda_max"/>
+						</div>
+						<div id="lambda_step-wrap" class="input-field">			
+							<label for="lambda_step">lambda_step</label>
+							<input id="lambda_step" name="lambda_step"/>	
+						</div>
+						<div id="computeBtn" class="input-field">
+							<button style="width: 150px" type="submit">Compute</button>
+						</div>
+						<span class="stretch"></span>
+					</form>		
+				</div><!-- end #input-params -->
+				<div class="float-bottom"></div>
+			</div><!--end #bottomSpalte -->
+			<div class="float-bottom"></div>
+		</div><!-- end #appWrapper -->
+
+<script>
+		$( document ).ready(function(){
+				$( "#tc-Tabs" ).tabs({
+					heightStyle: "content",
+				});
+				$( "image" ).css("opacity", 1); //To make the nav elements more visible.
+			});
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,124 @@
+/* App */
+
+.float-bottom { height: 0px;
+				clear:both;
+				}
+
+#appWrapper {	width: 100%;
+				margin: auto;
+ }
+ 
+#leftSpalte	{ 	width: 60%;
+				height: 80%;
+				background-color: #555;
+				float: left;
+ }
+#rightSpalte { 	width: 40%;
+				background-color: #999;
+				float: right;
+}
+
+#bottomSpalte { width: 100%;
+				background-color: #eee;
+				clear:both;
+}
+
+
+div.htmlWrapper {	height: 95%;
+					overflow-y: scroll;
+				}
+
+div#input-params, div#figOptions {  width: 100%;
+									background-color: wheat;
+    								margin: 10px auto 10px auto;
+    								margin-left: auto; 
+    								margin-right: auto;
+
+     								text-align: center;
+    								-ms-text-justify: distribute-all-lines;
+    								text-justify: distribute-all-lines;
+}
+div.input-field, div#figOptions div { 	vertical-align: top;
+    									display: inline-block;
+    									*display: inline;
+    									zoom: 1;
+    									margin-right: 10px;
+    									margin-left: 10px;
+}
+.stretch {
+    				width: 100%;
+    				display: inline-block;
+    				font-size: 0;
+    				line-height: 0
+}
+
+#tc-Tabs { height: 100% }
+
+
+				
+
+div#theFig{ text-align: center;
+			border: 1px solid red;
+}
+			
+.dataTable { 	
+			margin-left: auto;
+			margin-right: auto;
+			border: 1px solid steelBlue;
+			width: 100%;
+			
+}
+			
+.dataTable tr:nth-child(even){ background-color: lightSteelBlue; } 	
+		
+.dataTable td { padding: 0px 10px 0px 10px;
+				text-align: center;
+				font-family: "Lucida Console", Monaco, monospace;
+				font-size: 0.9em;
+}
+
+.tableWrapper { height: 450px;
+				overflow-y: scroll;
+}
+
+
+/* From jquery-ui theme */
+
+body{
+		font: 62.5% "Trebuchet MS", sans-serif;
+		margin: 20px;
+	}
+	.demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	.fakewindowcontain .ui-widget-overlay {
+		position: absolute;
+	}
