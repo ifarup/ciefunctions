@@ -3,3 +3,6 @@ generateplots.py
 /.project
 /.pydevproject
 *~
+.DS_Store
+*.bbprojectd
+Icon
