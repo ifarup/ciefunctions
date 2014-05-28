@@ -99,7 +99,12 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
         """
-        qt.QMessageBox.about(self, "About the demo", msg.strip())        
+        qt.QMessageBox.about(self, "About the demo", msg.strip())  
+
+
+    def on_grid(self):
+        self.axes.grid(self.grid_check.isChecked())
+        self.canvas.draw()
 
     def on_draw(self):
 
@@ -502,14 +507,14 @@ You should have received a copy of the GNU General Public License along with thi
     def create_menu(self):
         self.file_menu = self.menuBar().addMenu("&File")
         
-        load_file_action = self.create_action("&Save table",
+        save_table_action = self.create_action("&Save table",
             shortcut="Ctrl+S", slot=self.save_table, 
             tip="Save the table")
         quit_action = self.create_action("&Quit", slot=self.close, 
             shortcut="Ctrl+Q", tip="Close the application")
         
         self.add_actions(self.file_menu, 
-            (load_file_action, None, quit_action))
+            (save_table_action, None, quit_action))
         
         self.help_menu = self.menuBar().addMenu("&Help")
         about_action = self.create_action("&About", 
@@ -604,7 +609,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         self.grid_check = qt.QCheckBox()
         self.connect(self.grid_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_grid)
 
         self.wavelength_check = qt.QCheckBox()
         self.connect(self.wavelength_check,
