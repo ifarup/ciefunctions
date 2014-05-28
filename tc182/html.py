@@ -433,6 +433,12 @@ def lms(data, heading, include_head=False):
                     _normalisation_lms())
     return html_string
 
+def lms_base(data, heading, include_head=False):
+    """
+    Wrapper for consistency.
+    """
+    return lms(data, heading, include_head)
+
 def bm(data, heading, include_head=False):
     """
     Generate html page with information about the BM system.
