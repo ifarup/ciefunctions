@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import tc182 # the base package, includes the computational part
 import tc182.plot # if you want to do the plots as well
-import tc182.html # if you want to generate the html descriptions
+import tc182.description # if you want to generate the html descriptions
 
 import matplotlib.pyplot as plt
 
@@ -38,7 +38,7 @@ options = { 'grid' : True,
             'cie64' : False,
             'labels' : True }
 tc182.plot.bm(ax, plots, options)
-html_string = tc182.html.xy(results,'Heading')
+html_string = tc182.description.xy(results,'Heading')
 
 # Show the result
 

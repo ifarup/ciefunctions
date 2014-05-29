@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import tc182
-import tc182.html
+import tc182.description
 import tc182.plot
 import sys
 import numpy as np
@@ -157,7 +157,7 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.xyz(self.axes, self.plots, self.plot_options())
 
             # Create html description
-            html_string = tc182.html.xyz(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.xyz(self.results, self.plot_combo.currentText(), True)
 
             # Create table            
             self.table.setRowCount(np.shape(self.results['xyz'])[0])
@@ -189,7 +189,7 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.xy(self.axes, self.plots, self.plot_options())
 
             # Greate html description
-            html_string = tc182.html.xy(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.xy(self.results, self.plot_combo.currentText(), True)
 
             # Create table
             self.table.setRowCount(np.shape(self.results['cc'])[0])
@@ -222,7 +222,7 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.lms(self.axes, self.plots, self.plot_options())
 
             # Create html description
-            html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), True)
 
             # Create table
             self.table.setRowCount(np.shape(self.results['lms_standard'])[0])
@@ -255,7 +255,7 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.lms_base(self.axes, self.plots, self.plot_options())
             
             # Create html description
-            html_string = tc182.html.lms(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), True)
             
             # Create table
             self.table.setRowCount(np.shape(self.results['lms_base'])[0])
@@ -287,7 +287,7 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.bm(self.axes, self.plots, self.plot_options())
 
             # Create html description
-            html_string = tc182.html.bm(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.bm(self.results, self.plot_combo.currentText(), True)
 
             # Create table
             self.table.setRowCount(np.shape(self.results['bm'])[0])
@@ -317,7 +317,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             
             # Create html description
-            html_string = tc182.html.lm(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lm(self.results, self.plot_combo.currentText(), True)
 
             # Create plot
             tc182.plot.lm(self.axes, self.plots, self.plot_options())
@@ -354,7 +354,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
                 
                 # Create html descrption
-                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
+                html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
 
                 # Create plot                
                 tc182.plot.xyz31(self.axes, self.plots, self.plot_options())
@@ -382,7 +382,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
 
                 # Create html descption
-                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
+                html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
 
                 # Create plot
                 tc182.plot.xyz64(self.axes, self.plots, self.plot_options())
@@ -419,7 +419,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
 
                 # Create html description
-                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
+                html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
 
                 # Create plot
                 tc182.plot.xy31(self.axes, self.plots, self.plot_options())
@@ -446,7 +446,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
                 
                 # Create html description
-                html_string = tc182.html.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
+                html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
 
                 # Create plot
                 tc182.plot.xy31(self.axes, self.plots, self.plot_options())
