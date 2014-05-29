@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-html: Generate html strings for the tc182 package.
+description: Generate html description strings for the tc182 package.
 
 Copyright (C) 2014 Ivar Farup and Jan Henrik Wold
 

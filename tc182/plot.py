@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-plot: Generate plots for the tc182 package.
+plot: Generate matplotlib plots for the tc182 package.
 
 Copyright (C) 2014 Ivar Farup and Jan Henrik Wold
 

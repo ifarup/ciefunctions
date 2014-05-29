@@ -990,6 +990,10 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['lambda_min'] = lambda_min
     results['lambda_max'] = lambda_max
     results['lambda_step'] = lambda_step 
+    results['xyz31'] = VisualData.xyz31.copy()
+    results['xyz64'] = VisualData.xyz64.copy()
+    results['cc31'] = my_round(VisualData.cc31, 5)
+    results['cc64'] = my_round(VisualData.cc64, 5)
 
     return results, plots
 
