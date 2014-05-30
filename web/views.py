@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import tc182 as tc # the base package, includes the computational part
 import tc182.plot # if you want to do the plots as well
 import tc182.description # if you want to generate the html descriptions
+import tc182.table # For the tables
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -91,7 +92,7 @@ def home(request):
 		lambda_step = 1.0
 		print "lambda_step: %s" % lambda_step
 		
-	html_list = [] #List containing all the html_strings
+	html_list = [] #List containing all the theDescriptions
 	fig_list = []  #List containing all the figures/plots
 	tab_list = []  #List containing all the tabulated data
 	
@@ -103,68 +104,141 @@ def home(request):
             	'cie31' : True,
             	'cie64' : False,
             	'labels' : True }
-    #xyz
+    #0 #xyz 
 	
 	tc182.plot.xyz(ax, plots, options)
 	
-	html_string = mark_safe(tc182.description.xyz(results,'XYZ'))
-	html_list.append(html_string)
+	theDescription = mark_safe(tc182.description.xyz(results,'XYZ'))
+	html_list.append(theDescription)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	fig_list.append(theFig)
 	
-    #xy
+	theTable = mark_safe(tc182.table.xyz(results));
+	tab_list.append(theTable)
+	
+    #1 #xy
     
 	tc182.plot.xy(ax, plots, options)
 	
-	html_string = mark_safe(tc182.description.xy(results,'XY'))
-	html_list.append(html_string)
+	theDescription = mark_safe(tc182.description.xy(results,'XY'))
+	html_list.append(theDescription)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	fig_list.append(theFig)
+
+	theTable = mark_safe(tc182.table.xy(results));
+	tab_list.append(theTable)
+
 	
-	#lms
+	#2 #lms
     
 	tc182.plot.lms(ax, plots, options)
 	
-	html_string = mark_safe(tc182.description.lms(results,'LMS'))
-	html_list.append(html_string)
+	theDescription = mark_safe(tc182.description.lms(results,'LMS'))
+	html_list.append(theDescription)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	fig_list.append(theFig)
 	
-	#lms_base
+	theTable = mark_safe(tc182.table.lms(results));
+	tab_list.append(theTable)
+
+	
+	#3 #lms_base
     
 	tc182.plot.lms_base(ax, plots, options)
 	
-	html_string = mark_safe(tc182.description.lms_base(results,'LMS BASE'))
-	html_list.append(html_string)
+	theDescription = mark_safe(tc182.description.lms_base(results,'LMS BASE'))
+	html_list.append(theDescription)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	fig_list.append(theFig)
 	
-	#bm
+	theTable = mark_safe(tc182.table.lms_base(results));
+	tab_list.append(theTable)
+
+	#4 #bm
 	
 	tc182.plot.bm(ax, plots, options)
 	
-	html_string = mark_safe(tc182.description.bm(results,'BM'))
-	html_list.append(html_string)
+	theDescription = mark_safe(tc182.description.bm(results,'BM'))
+	html_list.append(theDescription)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	fig_list.append(theFig)
 	
+	theTable = mark_safe(tc182.table.bm(results));
+	tab_list.append(theTable)
+
+	#5 #lm
 	
+	tc182.plot.lm(ax, plots, options)
 	
-	### TABULATED DATA ###
+	theDescription = mark_safe(tc182.description.lm(results,'LM'))
+	html_list.append(theDescription)
 	
-	#tab_str = tab["lms_standard"].tolist()
+	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
+	fig_list.append(theFig)
 	
-	#for j in range(1,4):
-	#	for i in range(len(tab_str)):
-	#		tab_str[i][j] = "%.6e" % tab_str[i][j]
+	theTable = mark_safe(tc182.table.lm(results));
+	tab_list.append(theTable)
+	
+	# #6 #xyz31
+# 	
+# 	tc182.plot.xyz31(ax, plots, options)
+# 	
+# 	theDescription = mark_safe(tc182.description.xyz31(results,'XYZ31'))
+# 	html_list.append(theDescription)
+# 	
+# 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
+# 	fig_list.append(theFig)
+# 	
+# 	theTable = mark_safe(tc182.table.xyz31(results));
+# 	tab_list.append(theTable)
+# 	
+# 	#7 #xyz64
+# 
+# 	tc182.plot.xyz64(ax, plots, options)
+# 	
+# 	theDescription = mark_safe(tc182.description.xyz64(results,'XYZ64'))
+# 	html_list.append(theDescription)
+# 	
+# 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
+# 	fig_list.append(theFig)
+# 	
+# 	theTable = mark_safe(tc182.table.xyz64(results));
+# 	tab_list.append(theTable)
+# 
+# 	
+# 	#8 #xy31
+# 	
+# 	tc182.plot.xy31(ax, plots, options)
+# 	
+# 	theDescription = mark_safe(tc182.description.xy31(results,'XY31'))
+# 	html_list.append(theDescription)
+# 	
+# 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
+# 	fig_list.append(theFig)
+# 	
+# 	theTable = mark_safe(tc182.table.xy31(results));
+# 	tab_list.append(theTable)
+# 
+# 	
+# 	#9 #xy64
+# 	tc182.plot.xy64(ax, plots, options)
+# 	
+# 	theDescription = mark_safe(tc182.description.xy64(results,'XY64'))
+# 	html_list.append(theDescription)
+# 	
+# 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
+# 	fig_list.append(theFig)
+# 	
+# 	theTable = mark_safe(tc182.table.xy64(results));
+# 	tab_list.append(theTable)
 
 
-	context = { #'tab_str' : tab_str,
+	context = { 'tab_list' : tab_list,
 				'fig_list' : fig_list,
 				'html_list' : html_list,
 				'field_size' : field_size,
@@ -173,9 +247,6 @@ def home(request):
 				'lambda_max' : lambda_max,
 				'lambda_step'	: lambda_step,
 	}
-		
-	
-	return render(request, 'web/plot.html', context)	
-	
-	
-	
+
+
+	return render(request, 'web/plot.html', context)

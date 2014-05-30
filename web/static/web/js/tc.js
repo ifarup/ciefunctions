@@ -7,15 +7,17 @@ $( ).ready(function(){
 	$( "#tc-Tabs" ).tabs({
 					heightStyle: "content",
 					});
+	
+	$( "#tc-Tabs" ).css('height','auto');
 
 //@TODO: Need to make navigation buttons (home, magnifier, cross) more visible.
 	$( "image" ).css("opacity", 1); //To make the nav elements more visible.
-
 
 //Start by showing XYZ plot + data:
 
 	$( "#xyz_plot" ).show();
 	$( "#xyz_html" ).show();
+	$( "#xyz_table" ).show();
 
 
 //Changing plots:
@@ -26,8 +28,10 @@ $( ).ready(function(){
 		
 		$( "div.plot" ).hide(); 				//Hide all plots
 		$( "div.html_text" ).hide();			//Hide all HTML
+		$( "div.table" ).hide();				//Hide all tables
 		$( "div#" + plot + "_plot" ).show();	//Show selected plot
 		$( "div#" + plot + "_html" ).show();	//Show selected HTML
+		$( "div#" + plot + "_table" ).show();	//Show selected table
 	});
 
 

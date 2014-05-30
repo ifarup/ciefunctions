@@ -56,12 +56,12 @@ def _head():
 
 def _heading(heading):
     return """
-    <h2 class="description-header-2">%s</h2>
+    <h2 class="description-heading-2">%s</h2>
     """ % heading
 
 def _sub_heading(sub_heading):
     return """
-    <h4 class="description-header-4">%s</h4>
+    <h4 class="description-heading-4">%s</h4>
     """ % sub_heading
 
 def _parameters(data):

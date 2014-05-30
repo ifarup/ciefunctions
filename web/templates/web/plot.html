@@ -38,6 +38,9 @@
 							<div id="bm_plot" class="plot">
 								{{ fig_list.4 }}
 							</div>
+							<div id="lm_plot" class="plot">
+								{{ fig_list.5 }}
+							</div>	
 						</div>
 						<div id="figOptions">
 							<div>
@@ -62,23 +65,25 @@
 					</div><!-- end #tabs-1 -->
 					<div id="tabs-2">
 						<div class="tableWrapper">
-							<table class="dataTable">
-								<tr>
-									<td> lambda </td>
-									<td> X </td>
-									<td> Y </td>
-									<td> Z </td>
-								</tr>
-		
-							{% for rows in tab_str %}
-								<tr>
-									<td> {{ rows.0 }} </td>
-									<td> {{ rows.1 }} </td>
-									<td> {{ rows.2 }} </td>
-									<td> {{ rows.3 }} </td>
-								</tr>
-							{% endfor %}		
-							</table> <!-- end .datatable -->
+							<div id="xyz_table" class="table">
+								{{ tab_list.0 }}
+							</div>
+							<div id="xy_table" class="table">
+								{{ tab_list.1 }}
+							</div>
+							<div id="lms_table" class="table">
+								{{ tab_list.2 }}
+							</div>
+							<div id="lms_base_table" class="table">
+								{{ tab_list.3 }}
+							</div>
+							<div id="bm_table" class="table">
+								{{ tab_list.4 }}
+							</div>
+							<div id="lm_table" class="table">
+								{{ tab_list.5 }}
+							</div>
+						
 							<div class="float-bottom"></div>
 						</div>	<!-- end .tableWrapper -->
 						<div class="float-bottom"></div>
@@ -91,8 +96,8 @@
 						<option plot="lms">CIE LMS cone fundamentals</option>
 						<option plot="lms_base">CIE LMS cone fundamentals (9 sign.flgs.)</option>
 						<option plot="bm">CIE MacLeod-Boynton ls diagram</option>
-						<!--<option plot="0">Equi-power normalised lm diagram</option>
-						<option plot="0">CIE XYZ standard CMFs</option>
+						<option plot="lm">Equi-power normalised lm diagram</option>
+						<!--<option plot="0">CIE XYZ standard CMFs</option>
 						<option plot="0">CIE xy standard chromacity diagram</option>-->
 					</select>
 					<div class="float-bottom"></div>
@@ -113,7 +118,10 @@
 						{{ html_list.3 }}
 					</div>
 					<div id="bm_html" class="html_text">
-						{{ html_list.3 }}
+						{{ html_list.4 }}
+					</div>
+					<div id="bm_html" class="html_text">
+						{{ html_list.5 }}
 					</div>
 				</div>
 				<div class="float-bottom"></div>

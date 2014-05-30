@@ -4,6 +4,8 @@
 
 .html_text { 	display: none; }
 
+.table { display: none; }
+
 .float-bottom { height: 0px;
 				clear:both;
 				}
@@ -18,7 +20,7 @@
  }
 #rightSpalte { 	width: 45%;
 				float: left;
-				padding: 20px 10px 0px 20px;
+				padding: 0px 10px 0px 20px;
 }
 
 #bottomSpalte { width: 100%;
@@ -53,7 +55,9 @@ div.input-field, div#figOptions div { 	vertical-align: top;
     				line-height: 0
 }
 
-#tc-Tabs { height: 100% }
+#tc-Tabs { 	height: 100%;}
+
+#tc-Tabs a { outline: none; }
 
 
 				
@@ -62,32 +66,49 @@ div#theFig{ text-align: center;
 			border: 1px solid red;
 }
 			
-.dataTable { 	
-			margin-left: auto;
-			margin-right: auto;
-			border: 1px solid steelBlue;
-			width: 100%;
-			
+div.table table { 	
+							margin-left: auto;
+							margin-right: auto;
+							width: 100%;
 }
 			
-.dataTable tr:nth-child(even){ background-color: lightSteelBlue; } 	
+div.table table tr:nth-child(even){ background-color: lightSteelBlue; } 	
 		
-.dataTable td { padding: 0px 10px 0px 10px;
-				text-align: center;
-				font-family: "Lucida Console", Monaco, monospace;
-				font-size: 0.9em;
+div.table table td { 		padding: 0px 10px 0px 10px;
+							text-align: center;
+							font-family: "Lucida Console", Monaco, monospace;
+							font-size: 0.9em;
 }
 
-.tableWrapper { height: 450px;
+div.table table tr:hover{ 	text-shadow: 1px 1px 1px #aaa;
+							background-color: coral;
+							cursor: pointer;
+ 						}
+
+.tableWrapper { height: 100%;
 				overflow-y: scroll;
+				border: 1px solid steelBlue;
 }
 /* HTML Text */
 
-div.html_text { padding-left: 5px; }
+div.html_text { padding-left: 5px; 
+				
+}
 
-div.html_text h2 { color: blue;
-					font-size: 3em;
-				}
+div.html_text sub { font-size: 1em;}
+
+.description-heading-2 { color: #333;
+						font-size: 3em;
+						margin-top: 10px;
+					}
+				
+.description-heading-4 {	color: blue;
+						font-size: 2em;
+					}
+					
+.description-subtitle { color:#333; 
+					font-size: 2em;
+					}
 				
 div.html_text .matrix {
         position: relative;
@@ -119,7 +140,7 @@ div.html_text .matrix:after {
 /* From jquery-ui theme */
 
 body{
-		font: 62.5% "Trebuchet MS", sans-serif;
+		font: 80% "Trebuchet MS", sans-serif;
 		margin: 20px;
 	}
 	.demoHeaders {
