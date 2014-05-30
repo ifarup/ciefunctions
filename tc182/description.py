@@ -56,18 +56,18 @@ def _head():
 
 def _heading(heading):
     return """
-    <h2>%s</h2>
+    <h2 class="description-header-2">%s</h2>
     """ % heading
 
 def _sub_heading(sub_heading):
     return """
-    <h4>%s</h4>
+    <h4 class="description-header-4">%s</h4>
     """ % sub_heading
 
 def _parameters(data):
     return u"""
     <p>
-    <b>Parameters</b>
+    <b class="description-subtitle">Parameters</b>
     <table>
     <tr>
         <td>Field size</td>
@@ -84,7 +84,7 @@ def _parameters(data):
 def _functions(par1, par2, par3):
     return """
     <p>
-    <b>Function symbols</b><br />
+    <b class="description-subtitle">Function symbols</b><br />
     %s<br />
     %s<br />
     %s<br />
@@ -93,7 +93,7 @@ def _functions(par1, par2, par3):
 
 def _normalisation(data):
     return u"""
-    <em>Normalisation:</em><br />
+    <em class="description-subtitle">Normalisation:</em><br />
     Equal tristimulus values for illuminant E for
     <table>
         <tr>
@@ -109,13 +109,13 @@ def _normalisation(data):
 
 def _normalisation_lms():
     return """
-    <b>Normalisation</b><br />
+    <b class="description-subtitle">Normalisation</b><br />
     Peak value of unity at 0.1&nbsp;nm resolution<br />
     """
     
 def _lms_to_xyz(data):
     html_string = """
-    <b>Transformation equation</b><br />
+    <b class="description-subtitle">Transformation equation</b><br />
     """ + _normalisation(data) + """
     <br />
     <table>
@@ -183,7 +183,7 @@ def _lms_to_xyz(data):
 
 def _xyz_to_xy(data):
     return """
-    <b>Transformation equation</b><br />
+    <b class="description-subtitle">Transformation equation</b><br />
     """ + _normalisation(data) + """
     <br />
     <table>
@@ -261,7 +261,7 @@ def _xyz_to_xy(data):
 
 def _illuminant_E_cc(data):
     return """
-    <b>Chromaticity point of illuminant E</b><br />
+    <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
     (<em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
     <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
     =
@@ -272,7 +272,7 @@ def _illuminant_E_cc(data):
 
 def _illuminant_E_lm(data):
     return """
-    <b>Chromaticity point of illuminant E</b><br />
+    <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
     (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
     <em>m</em><sub>,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
     =
@@ -283,7 +283,7 @@ def _illuminant_E_lm(data):
 
 def _illuminant_E_bm(data):
     return """
-    <b>Chromaticity point of illuminant E</b><br />
+    <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
     (<em>l</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
     <em>s</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
     =
@@ -294,7 +294,7 @@ def _illuminant_E_bm(data):
 
 def _purple_cc(data):
     return """
-    <b>Tangent points of the purple line</b><br />
+    <b class="description-subtitle">Tangent points of the purple line</b><br />
     (<em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
     <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
@@ -312,7 +312,7 @@ def _purple_cc(data):
 
 def _purple_lm(data):
     return """
-    <b>Tangent points of the purple line</b><br />
+    <b class="description-subtitle">Tangent points of the purple line</b><br />
     (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
     <em>m</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
@@ -330,7 +330,7 @@ def _purple_lm(data):
 
 def _purple_bm(data):
     return """
-    <b>Tangent points of the purple line</b><br />
+    <b class="description-subtitle">Tangent points of the purple line</b><br />
     (<em>l</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
     <em>s</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
