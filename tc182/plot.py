@@ -20,6 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import numpy as np
+import threading
+
+lock = threading.Lock()
 
 def xyz(axes, plots, options):
     """
@@ -34,6 +37,7 @@ def xyz(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     axes.plot(plots['xyz'][:,0], plots['xyz'][:,1], 'r')
@@ -56,6 +60,7 @@ def xyz(axes, plots, options):
                     u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                             plots['lambda_max']) +
                     ',  Step: %0.1f nm' % plots['lambda_step']), fontsize=12)
+    lock.release()
 
 def xy(axes, plots, options):
     """
@@ -70,6 +75,7 @@ def xy(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     lambdavalues = np.concatenate(([plots['cc'][0,0]], np.arange(470, 611, 10), [700], [plots['cc'][-1,0]]))
@@ -136,6 +142,7 @@ def xy(axes, plots, options):
                         u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                                 plots['lambda_max']) +
                         ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    lock.release()
 
 def lms(axes, plots, options):
     """
@@ -150,6 +157,7 @@ def lms(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     axes.plot(plots['lms'][:,0], plots['lms'][:,1], 'r')
@@ -164,6 +172,7 @@ def lms(axes, plots, options):
                         u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                                 plots['lambda_max']) +
                         ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    lock.release()
 
 def lms_base(axes, plots, options):
     """
@@ -178,6 +187,7 @@ def lms_base(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     axes.plot(plots['lms'][:,0], plots['lms'][:,1], 'r')
@@ -192,6 +202,7 @@ def lms_base(axes, plots, options):
                    u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                            plots['lambda_max']) +
                    ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    lock.release()
 
 def bm(axes, plots, options):
     """
@@ -206,6 +217,7 @@ def bm(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     axes.plot(plots['bm'][:,1], plots['bm'][:,3], 'k')
@@ -260,6 +272,7 @@ def bm(axes, plots, options):
                         u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                                 plots['lambda_max']) +
                         ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    lock.release()
 
 def lm(axes, plots, options):
     """
@@ -274,6 +287,7 @@ def lm(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     axes.plot(plots['lm'][:,1], plots['lm'][:,2], 'k')
@@ -325,6 +339,7 @@ def lm(axes, plots, options):
                         u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                                     plots['lambda_max']) +
                         ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    lock.release()
 
 def xyz31(axes, plots, options):
     """
@@ -339,6 +354,7 @@ def xyz31(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,1], 'r')
@@ -353,6 +369,7 @@ def xyz31(axes, plots, options):
     axes.set_xlabel('Wavelength [nm]', fontsize=12)
     axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
     axes.set_title(u'CIE 1931 XYZ standard 2\N{DEGREE SIGN} CMFs', fontsize=12)
+    lock.release()
 
 def xyz64(axes, plots, options):
     """
@@ -367,6 +384,7 @@ def xyz64(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,1], 'r')
@@ -381,6 +399,7 @@ def xyz64(axes, plots, options):
     axes.set_xlabel('Wavelength [nm]', fontsize=12)
     axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
     axes.set_title(u'CIE 1964 XYZ standard 10\N{DEGREE SIGN}CMFs', fontsize=12)
+    lock.release()
 
 def xy31(axes, plots, options):
     """
@@ -395,6 +414,7 @@ def xy31(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
@@ -428,6 +448,7 @@ def xy31(axes, plots, options):
     axes.set_xlabel('$x$', fontsize=16)
     axes.set_ylabel('$y$', fontsize=16)
     axes.set_title(u'CIE 1931 xy standard 2\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
+    lock.release()
 
 def xy64(axes, plots, options):
     """
@@ -442,6 +463,7 @@ def xy64(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
+    lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
@@ -475,4 +497,4 @@ def xy64(axes, plots, options):
     axes.set_xlabel('$x_{10}$', fontsize=16)
     axes.set_ylabel('$y_{10}$', fontsize=16)
     axes.set_title(u'CIE 1964 xy standard 10\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
-
+    lock.release()
