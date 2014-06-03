@@ -450,7 +450,7 @@ You should have received a copy of the GNU General Public License along with thi
                 html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
 
                 # Create plot
-                tc182.plot.xy31(self.axes, self.plots, self.plot_options())
+                tc182.plot.xy64(self.axes, self.plots, self.plot_options())
 
                 # Create table
                 self.table.setRowCount(np.shape(self.plots['cc64'])[0])
