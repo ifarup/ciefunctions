@@ -196,13 +196,11 @@ def _xyz_to_xy(data):
             </td>
             <td>
             <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (
-            <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
             <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            )
+            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
             </td>
         </tr>
         <tr>
@@ -214,13 +212,11 @@ def _xyz_to_xy(data):
             </td>
             <td>
             <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (
-            <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
             <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            )
+            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
             </td>
         </tr>
         <tr>
@@ -232,13 +228,11 @@ def _xyz_to_xy(data):
             </td>
             <td>
             <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (
-            <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
             <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            )
+            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
             </td>
         </tr>
     </table>
