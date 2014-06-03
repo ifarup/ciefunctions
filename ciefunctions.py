@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import tc182
 import tc182.description
 import tc182.plot
+import tc182.table
 import sys
 import numpy as np
 import PyQt4.QtGui as qt
@@ -160,6 +161,9 @@ You should have received a copy of the GNU General Public License along with thi
             # Create html description
             html_string = tc182.description.xyz(self.results, self.plot_combo.currentText(), True)
 
+            # Create html table
+            html_table = tc182.table.xyz(self.results, True)
+
             # Create table            
             self.table.setRowCount(np.shape(self.results['xyz'])[0])
             self.table.setColumnCount(np.shape(self.results['xyz'])[1])
@@ -188,6 +192,9 @@ You should have received a copy of the GNU General Public License along with thi
             
             # Create plot
             tc182.plot.xy(self.axes, self.plots, self.plot_options())
+
+            # Create html table
+            html_table = tc182.table.xy(self.results, True)
 
             # Greate html description
             html_string = tc182.description.xy(self.results, self.plot_combo.currentText(), True)
@@ -225,6 +232,9 @@ You should have received a copy of the GNU General Public License along with thi
             # Create html description
             html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), True)
 
+            # Create html table
+            html_table = tc182.table.lms(self.results, True)
+
             # Create table
             self.table.setRowCount(np.shape(self.results['lms_standard'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
@@ -256,8 +266,11 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.lms_base(self.axes, self.plots, self.plot_options())
             
             # Create html description
-            html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lms_base(self.results, self.plot_combo.currentText(), True)
             
+            # Create html table
+            html_table = tc182.table.lms_base(self.results, True)
+
             # Create table
             self.table.setRowCount(np.shape(self.results['lms_base'])[0])
             self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
@@ -289,6 +302,9 @@ You should have received a copy of the GNU General Public License along with thi
 
             # Create html description
             html_string = tc182.description.bm(self.results, self.plot_combo.currentText(), True)
+
+            # Create html table
+            html_table = tc182.table.bm(self.results, True)
 
             # Create table
             self.table.setRowCount(np.shape(self.results['bm'])[0])
@@ -322,6 +338,9 @@ You should have received a copy of the GNU General Public License along with thi
 
             # Create plot
             tc182.plot.lm(self.axes, self.plots, self.plot_options())
+
+            # Create html table
+            html_table = tc182.table.lm(self.results, True)
 
             # Create table            
             self.table.setRowCount(np.shape(self.results['lm'])[0])
@@ -357,6 +376,9 @@ You should have received a copy of the GNU General Public License along with thi
                 # Create html descrption
                 html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
 
+                # Create html table
+                html_table = tc182.table.xyz31(self.results, True)
+
                 # Create plot                
                 tc182.plot.xyz31(self.axes, self.plots, self.plot_options())
                 
@@ -385,6 +407,9 @@ You should have received a copy of the GNU General Public License along with thi
                 # Create html descption
                 html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
 
+                # Create html table
+                html_table = tc182.table.xyz64(self.results, True)
+    
                 # Create plot
                 tc182.plot.xyz64(self.axes, self.plots, self.plot_options())
                 
@@ -422,6 +447,9 @@ You should have received a copy of the GNU General Public License along with thi
                 # Create html description
                 html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
 
+                # Create html table
+                html_table = tc182.table.xy31(self.results, True)
+    
                 # Create plot
                 tc182.plot.xy31(self.axes, self.plots, self.plot_options())
 
@@ -449,6 +477,9 @@ You should have received a copy of the GNU General Public License along with thi
                 # Create html description
                 html_string = tc182.description.standard(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
 
+                # Create html table
+                html_table = tc182.table.xy64(self.results, True)
+    
                 # Create plot
                 tc182.plot.xy64(self.axes, self.plots, self.plot_options())
 
@@ -468,6 +499,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         # Refresh GUI        
         self.transformation.setHtml(html_string)
+        self.html_table.setHtml(html_table)
         self.canvas.draw()
 
     def on_compute(self):
@@ -630,6 +662,7 @@ You should have received a copy of the GNU General Public License along with thi
         
         self.table = qt.QTableWidget()
         self.transformation = qtweb.QWebView()
+        self.html_table = qtweb.QWebView()
 
         # Layout with labels
         # 
@@ -679,7 +712,8 @@ You should have received a copy of the GNU General Public License along with thi
 
         spectral_tabs = qt.QTabWidget()
         spectral_tabs.addTab(inner_widget, 'Plot')
-        spectral_tabs.addTab(self.table, 'Table')
+        spectral_tabs.addTab(self.html_table, 'Table')
+        spectral_tabs.addTab(self.table, 'Old Table')
 
         spectral_vbox = qt.QVBoxLayout()
         spectral_vbox.addWidget(spectral_tabs)
