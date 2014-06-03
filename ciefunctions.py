@@ -85,7 +85,8 @@ class AppForm(qt.QMainWindow):
         return { 'grid' : self.grid_check.isChecked(),
                  'cie31' : self.cie31_check.isChecked(),
                  'cie64' : self.cie64_check.isChecked(),
-                 'labels' : self.wavelength_check.isChecked() }
+                 'labels' : self.wavelength_check.isChecked(),
+                 'label_fontsize' : 7 }
     
     def on_about(self):
         msg = """
