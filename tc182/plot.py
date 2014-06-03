@@ -99,11 +99,11 @@ def xy(axes, plots, options):
         if options['labels']:
             if np.shape(ind)[0] > 0:
                 axes.text(plots['cc'][ind,1], plots['cc'][ind,2], '   ' + str(l),
-                               fontsize=7, verticalalignment=align)
+                               fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(plots['cc_white'][0], plots['cc_white'][1], 'kx')
     if options['labels']:
         axes.text(plots['cc_white'][0], plots['cc_white'][1], '   E',
-                       fontsize=7, verticalalignment=align)
+                       fontsize=options['label_fontsize'], verticalalignment=align)
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
@@ -223,11 +223,11 @@ def bm(axes, plots, options):
             align = 'center'
         if options['labels'] and np.shape(ind)[0] > 0:
             axes.text(plots['bm'][ind,1], plots['bm'][ind,3], '   ' + str(l),
-                           fontsize=7, verticalalignment=align)
+                           fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(plots['bm_white'][0], plots['bm_white'][2], 'kx')
     if options['labels']:
         axes.text(plots['bm_white'][0], plots['bm_white'][2], '   E',
-                       fontsize=7, verticalalignment=align)
+                       fontsize=options['label_fontsize'], verticalalignment=align)
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
@@ -288,11 +288,11 @@ def lm(axes, plots, options):
             align = 'center'
         if options['labels'] and np.shape(ind)[0] > 0:
             axes.text(plots['lm'][ind,1], plots['lm'][ind,2], '   ' + str(l),
-                           fontsize=7, verticalalignment=align)
+                           fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(plots['lm_white'][0], plots['lm_white'][1], 'kx')
     if options['labels']:
             axes.text(plots['lm_white'][0], plots['lm_white'][1], '   E',
-                           fontsize=7, verticalalignment=align)
+                           fontsize=options['label_fontsize'], verticalalignment=align)
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, .65))
@@ -417,11 +417,11 @@ def xy31(axes, plots, options):
             align = 'center'
         if options['labels']:
             axes.text(plots['cc31'][ind,1], plots['cc31'][ind,2], '   ' + str(l),
-                           fontsize=7, verticalalignment=align)
+                           fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(1./3, 1./3, 'kx')
     if options['labels']:
         axes.text(1./3, 1./3, '   E',
-                       fontsize=7, verticalalignment=align)
+                       fontsize=options['label_fontsize'], verticalalignment=align)
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
@@ -464,11 +464,11 @@ def xy64(axes, plots, options):
             align = 'center'
         if options['labels']:
             axes.text(plots['cc64'][ind,1], plots['cc64'][ind,2], '   ' + str(l),
-                           fontsize=7, verticalalignment=align)
+                           fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(1./3, 1./3, 'kx')
     if options['labels']:
         axes.text(1./3, 1./3, '   E',
-                       fontsize=7, verticalalignment=align)
+                       fontsize=options['label_fontsize'], verticalalignment=align)
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
