@@ -24,22 +24,22 @@
 					<div id="tabs-1">
 						<div id="theFig">
 							<div id="xyz_plot" class="plot">
-								{{ fig_list.0 }}
+								<!-- ajax plot xyz -->
 							</div>
 							<div id="xy_plot" class="plot">
-								{{ fig_list.1 }}
+								<!-- ajax plot xy -->
 							</div>
 							<div id="lms_plot" class="plot">
-								{{ fig_list.2 }}
+								<!-- ajax plot lms -->
 							</div>
 							<div id="lms_base_plot" class="plot">
-								{{ fig_list.3 }}
+								<!-- ajax plot lms_base -->
 							</div>
 							<div id="bm_plot" class="plot">
-								{{ fig_list.4 }}
+								<!-- ajax plot bm -->
 							</div>
 							<div id="lm_plot" class="plot">
-								{{ fig_list.5 }}
+								<!-- ajax plot lm -->
 							</div>	
 						</div>
 						<div id="figOptions">
@@ -162,20 +162,7 @@
 		</div><!-- end #appWrapper -->
 
 	<script src="{% static 'web/js/tc.js' %}"></script>
-	<script>
-		$( document ).ready(function(){
-			//Ajax test
-			var ajaxUrl = "/ajax/";
-			
-			var jqxhr = $.ajax( ajaxUrl )
-  					.done(function( data ) {
-    					console.log( data );
-  					})
-  					.fail(function() {
-    					console.log( "error when getting from server" );
-  					})
-			});
-		</script>
+	
 
 	</body>
 </html>
