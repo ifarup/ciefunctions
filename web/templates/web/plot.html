@@ -14,7 +14,11 @@
 
 	</head>
 	<body>
+		
 		<div id="appWrapper">
+			<div id="header">
+				<img src="{% static 'web/img/logo_final.jpg' %}"/>
+			</div>
 			<div id="leftSpalte">	
 				<div id="tc-Tabs">
 					<ul>
@@ -25,21 +29,27 @@
 						<div id="theFig">
 							<div id="xyz_plot" class="plot">
 								<!-- ajax plot xyz -->
+								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="xy_plot" class="plot">
 								<!-- ajax plot xy -->
+								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="lms_plot" class="plot">
 								<!-- ajax plot lms -->
+								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="lms_base_plot" class="plot">
 								<!-- ajax plot lms_base -->
+								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="bm_plot" class="plot">
 								<!-- ajax plot bm -->
+								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="lm_plot" class="plot">
 								<!-- ajax plot lm -->
+								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>	
 						</div>
 						<div id="figOptions">

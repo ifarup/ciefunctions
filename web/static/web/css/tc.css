@@ -1,5 +1,15 @@
 /* App */
 
+div#header img {	height: 70px;
+					margin: 0px 0px 10px 10px;
+ }
+
+img#loader { 	width: 50px;
+				margin: 50px auto 50px auto;
+			}
+
+select#plot-select { width: 700px; }
+
 .plot {			display: none; }
 
 .html_text { 	display: none; }
@@ -14,8 +24,8 @@
 				margin: auto;
  }
  
-#leftSpalte	{ 	width: 50%;
-				height: 80%;
+#leftSpalte	{ 	width: 700px;
+				height: 70%;
 				float: left;
  }
 #rightSpalte { 	width: 47%;
@@ -29,7 +39,7 @@
 }
 
 
-div.htmlWrapper {	height: 95%;
+div.htmlWrapper {	height: auto;
 					overflow-y: scroll;
 				}
 
@@ -64,7 +74,7 @@ div.input-field, div#figOptions div { 	vertical-align: top;
 				
 
 div#theFig{ text-align: center;
-			border: 1px solid red;
+			border: 1px solid #dc670b;
 }
 			
 div.table table { 	
