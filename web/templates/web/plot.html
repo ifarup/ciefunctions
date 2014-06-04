@@ -29,37 +29,33 @@
 						<div id="theFig">
 							<div id="xyz_plot" class="plot">
 								<!-- ajax plot xyz -->
-								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="xy_plot" class="plot">
 								<!-- ajax plot xy -->
-								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="lms_plot" class="plot">
 								<!-- ajax plot lms -->
-								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="lms_base_plot" class="plot">
 								<!-- ajax plot lms_base -->
-								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="bm_plot" class="plot">
 								<!-- ajax plot bm -->
-								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							</div>
 							<div id="lm_plot" class="plot">
 								<!-- ajax plot lm -->
-								<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
-							</div>	
+							</div>
+							<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 						</div>
 						<div id="figOptions">
+							<!-- Start with default enabled ticks, might need to go to an init function -->
 							<div>
 								<label for="#compare1931-2">Compare with CIE 1931 2 &deg;</label>
-								<input type="checkbox" id="compare1931-2"/>
+								<input type="checkbox" id="compare1931-2" disabled/>
 							</div>
 							<div>
 								<label for="#compare1964-10">Compare with CIE 1964 10 &deg;</label>
-								<input type="checkbox" id="compare1964-10"/>
+								<input type="checkbox" id="compare1964-10" disabled/>
 							</div>
 							<div>
 								<label for="#showGrid">Grid</label>
@@ -67,7 +63,7 @@
 							</div>
 							<div>
 								<label for="#showLabels">Labels</label>
-								<input id ="showLabels" type="checkbox"/>
+								<input id ="showLabels" type="checkbox" disabled/>
 							</div>
 						</div>
 						<span class="stretch"></span>

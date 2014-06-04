@@ -18,17 +18,17 @@ from django.utils.safestring import mark_safe
 from celery import shared_task
 from numpy import *
 
-def get_plot(request, plot):
+def get_plot(request, plot, grid, cie31, cie64, labels):
 	
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
 	results = request.session['results']
 	
-	options = { 'grid' : True,
-            	'cie31' : True,
-            	'cie64' : False,
-            	'labels' : True,
+	options = { 'grid' : int(grid),
+            	'cie31' : int(cie31),
+            	'cie64' : int(cie64),
+            	'labels' : int(labels),
             	'label_fontsize' : 12 }
             	
 	if (plot == 'xyz'):
