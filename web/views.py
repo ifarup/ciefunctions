@@ -11,11 +11,17 @@ from django.contrib.auth.decorators import login_required
 
 from mpld3 import plugins
 import matplotlib as mpl
-import matplotlib.pyplot as plt, mpld3
+mpl.use("AGG")
+import matplotlib.pyplot as plt
+import mpld3
 from django.utils.safestring import mark_safe
 from celery import shared_task
 from numpy import *
 	
+def gimmeAjax(request):
+
+	return HttpResponse("Some data from the server sent via Ajax!");
+
 def home(request):
 
 #	Returns
@@ -103,7 +109,8 @@ def home(request):
 	options = { 'grid' : True,
             	'cie31' : True,
             	'cie64' : False,
-            	'labels' : True }
+            	'labels' : True,
+            	'label_fontsize' : 12 }
     #0 #xyz 
 	
 	tc182.plot.xyz(ax, plots, options)

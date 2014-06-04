@@ -120,7 +120,7 @@
 					<div id="bm_html" class="html_text">
 						{{ html_list.4 }}
 					</div>
-					<div id="bm_html" class="html_text">
+					<div id="lm_html" class="html_text">
 						{{ html_list.5 }}
 					</div>
 				</div>
@@ -164,7 +164,16 @@
 	<script src="{% static 'web/js/tc.js' %}"></script>
 	<script>
 		$( document ).ready(function(){
-				
+			//Ajax test
+			var ajaxUrl = "/ajax/";
+			
+			var jqxhr = $.ajax( ajaxUrl )
+  					.done(function( data ) {
+    					console.log( data );
+  					})
+  					.fail(function() {
+    					console.log( "error when getting from server" );
+  					})
 			});
 		</script>
 

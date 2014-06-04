@@ -18,7 +18,8 @@
 				height: 80%;
 				float: left;
  }
-#rightSpalte { 	width: 45%;
+#rightSpalte { 	width: 47%;
+				min-width: 47%;
 				float: left;
 				padding: 0px 10px 0px 20px;
 }
