@@ -21,7 +21,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import numpy as np
 
-def xyz(results):
+def _head():
+    return """
+    <head>
+    <style>
+    body {
+      font-family: Sans-Serif;
+    }
+    table {
+    	margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+    }
+    tr:nth-child(even){
+        background-color: #ddd;
+    }
+    td {
+        padding: 0px 10px 0px 10px;
+        text-align: center;
+    }
+    </style>
+    </head>
+    """
+
+def xyz(results, include_head=False):
     """
     Generate html table of XYZ values for inclusion in GUI app and web app.
     
@@ -35,7 +58,10 @@ def xyz(results):
     html_table : string
         HTML representation of the XYZ table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -63,7 +89,7 @@ def xyz(results):
     """
     return html_table
 
-def xy(results):
+def xy(results, include_head=False):
     """
     Generate html table of chromaticity values for inclusion in GUI app and web app.
     
@@ -77,7 +103,10 @@ def xy(results):
     html_table : string
         HTML representation of the chromatictiy table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -105,7 +134,7 @@ def xy(results):
     """
     return html_table
 
-def lms(results):
+def lms(results, include_head=False):
     """
     Generate html table of LMS functions for inclusion in GUI app and web app.
     
@@ -119,7 +148,10 @@ def lms(results):
     html_table : string
         HTML representation of the LMS table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -147,7 +179,7 @@ def lms(results):
     """
     return html_table
 
-def lms_base(results):
+def lms_base(results, include_head=False):
     """
     Generate html table of LMS base functions for inclusion in GUI app and web app.
     
@@ -161,7 +193,10 @@ def lms_base(results):
     html_table : string
         HTML representation of the LMS base table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -189,7 +224,7 @@ def lms_base(results):
     """
     return html_table
 
-def bm(results):
+def bm(results, include_head=False):
     """
     Generate html table of MacLeod-Boynton diagram for inclusion in GUI app and web app.
     
@@ -203,7 +238,10 @@ def bm(results):
     html_table : string
         HTML representation of the MacLeod-Boynton table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -231,7 +269,7 @@ def bm(results):
     """
     return html_table
 
-def lm(results):
+def lm(results, include_head=False):
     """
     Generate html table of normalised lm diagram for inclusion in GUI app and web app.
     
@@ -245,7 +283,10 @@ def lm(results):
     html_table : string
         HTML representation of the tablulated normalised lm diagram
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -273,7 +314,7 @@ def lm(results):
     """
     return html_table
 
-def xyz31(results):
+def xyz31(results, include_head=False):
     """
     Generate html table of CIE 1931 XYZ values for inclusion in GUI app and web app.
     
@@ -287,7 +328,10 @@ def xyz31(results):
     html_table : string
         HTML representation of the XYZ table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -313,7 +357,7 @@ def xyz31(results):
     """
     return html_table
 
-def xyz64(results):
+def xyz64(results, include_head=False):
     """
     Generate html table of CIE 1964 XYZ values for inclusion in GUI app and web app.
     
@@ -327,7 +371,10 @@ def xyz64(results):
     html_table : string
         HTML representation of the XYZ table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -353,7 +400,7 @@ def xyz64(results):
     """
     return html_table
 
-def xy31(results):
+def xy31(results, include_head=False):
     """
     Generate html table of CIE 1931 chromaticity values for inclusion in GUI app and web app.
     
@@ -367,7 +414,10 @@ def xy31(results):
     html_table : string
         HTML representation of the chromatictiy table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
@@ -393,7 +443,7 @@ def xy31(results):
     """
     return html_table
 
-def xy64(results):
+def xy64(results, include_head=False):
     """
     Generate html table of CIE 1964 chromaticity values for inclusion in GUI app and web app.
     
@@ -407,7 +457,10 @@ def xy64(results):
     html_table : string
         HTML representation of the chromatictiy table
     """
-    html_table = """
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
     <table>
       <tr>
         <th>&lambda;</th>
