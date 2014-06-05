@@ -22,24 +22,27 @@ select#plot-select { width: 700px; }
 
 #appWrapper {	width: 100%;
 				margin: auto;
+				padding-left: 15px;
  }
  
 #leftSpalte	{ 	width: 700px;
-				height: 70%;
+				height: auto;
 				float: left;
  }
-#rightSpalte { 	width: 47%;
-				min-width: 47%;
+#rightSpalte { 
+				width: 680px;
 				float: left;
-				padding: 0px 10px 0px 20px;
 }
 
 #bottomSpalte { width: 100%;
 				clear:both;
+				padding-top: 10px;
 }
 
 
-div.htmlWrapper {	height: auto;
+div.htmlWrapper {	padding-left: 10;
+					height: auto;
+					max-height: 600px;
 					overflow-y: scroll;
 				}
 
@@ -65,8 +68,6 @@ div.input-field, div#figOptions div { 	vertical-align: top;
     				font-size: 0;
     				line-height: 0
 }
-
-#tc-Tabs { 	height: 100%;}
 
 #tc-Tabs a { outline: none; }
 
@@ -152,7 +153,7 @@ div.html_text .matrix:after {
 
 body{
 		font: 80% "Trebuchet MS", sans-serif;
-		margin: 20px;
+		margin: 0px;
 	}
 	.demoHeaders {
 		margin-top: 2em;

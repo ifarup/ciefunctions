@@ -2,23 +2,35 @@
 $( ).ready(function(){	
 
 
+
+
+
 //Load the default plots via ajax:
 	
 
 var availablePlots = [ 'xyz', 'xy', 'lms', 'lms_base', 'bm', 'lm' ];
 var plot_options = {
-					 'grid' 	: 0,
-					 'cie31'	: 0,
-					 'cie64'	: 0,
-					 'labels'	: 0
+					 'grid' 		: 0,
+					 'full_title'	: 0,
+					 'cie31'		: 0,
+					 'cie64'		: 0,
+					 'labels'		: 0
 		}
+
+//Plot title in HTML description.
+
+for ( i=0; i < availablePlots.length; i++ ){
+	$( "div#" + availablePlots[i] + "_html .description-heading-2" )
+		.html($( "option[plot=" + availablePlots[i] + "]").html());
+
+}
 
 
 //@TODO: Need to asynch this. I will repeat the code for now:
 
 
 //xyz
-			$.get( "/get_plot/" + availablePlots[0] + "/0/0/0/0/")
+			$.get( "/get_plot/" + availablePlots[0] + "/0/0/0/0/0/")
 				.done(function( data ) {
 					$( "div#" + availablePlots[0] +"_plot" ).append(data);
 					$( "img#loader" ).hide(); //Hide spinning wheel
@@ -28,7 +40,7 @@ var plot_options = {
 				});	
 
 //xy
-			$.get( "/get_plot/" + availablePlots[1] + "/0/0/0/0/")
+			$.get( "/get_plot/" + availablePlots[1] + "/0/0/0/0/0/")
 				.done(function( data ) {
 					$( "div#" + availablePlots[1] +"_plot" ).append(data);
   				})
@@ -37,7 +49,7 @@ var plot_options = {
 				});	
 
 //lms
-			$.get( "/get_plot/" + availablePlots[2] + "/0/0/0/0/")
+			$.get( "/get_plot/" + availablePlots[2] + "/0/0/0/0/0/")
 				.done(function( data ) {
 					$( "div#" + availablePlots[2] +"_plot" ).append(data);
   				})
@@ -46,7 +58,7 @@ var plot_options = {
 				});	
 
 // lms_base
-			$.get( "/get_plot/" + availablePlots[3] + "/0/0/0/0/")
+			$.get( "/get_plot/" + availablePlots[3] + "/0/0/0/0/0/")
 				.done(function( data ) {
 					$( "div#" + availablePlots[3] +"_plot" ).append(data);
   				})
@@ -55,7 +67,7 @@ var plot_options = {
 				});	
 
 //bm
-			$.get( "/get_plot/" + availablePlots[4] + "/0/0/0/0/")
+			$.get( "/get_plot/" + availablePlots[4] + "/0/0/0/0/0/")
 				.done(function( data ) {
 					$( "div#" + availablePlots[4] +"_plot" ).append(data);
   				})
@@ -65,7 +77,7 @@ var plot_options = {
 
 //lm
 
-			$.get( "/get_plot/" + availablePlots[5] + "/0/0/0/0/")
+			$.get( "/get_plot/" + availablePlots[5] + "/0/0/0/0/0/")
 				.done(function( data ) {
 					$( "div#" + availablePlots[5] +"_plot" ).append(data);
   				})
@@ -116,6 +128,7 @@ var plot_options = {
 				$.get( '/get_plot/' + 
 						plot + '/' + 
 						plot_options.grid + "/" + 
+						plot_options.full_title + "/" +
 						plot_options.cie31 + "/" + 
 						plot_options.cie64 + "/" + 
 						plot_options.labels + "/" )
