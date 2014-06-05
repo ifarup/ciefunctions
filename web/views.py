@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import tc182 as tc # the base package, includes the computational part
 import tc182.plot # if you want to do the plots as well
 import tc182.description # if you want to generate the html descriptions
+import tc182.table # For the tables
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -10,51 +11,50 @@ from django.contrib.auth.decorators import login_required
 
 from mpld3 import plugins
 import matplotlib as mpl
-import matplotlib.pyplot as plt, mpld3
+mpl.use("AGG")
+import matplotlib.pyplot as plt
+import mpld3
 from django.utils.safestring import mark_safe
 from celery import shared_task
 from numpy import *
+
+def get_plot(request, plot, grid, cie31, cie64, labels):
 	
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	plots = request.session['plots']
+	results = request.session['results']
+	
+	options = { 'grid' : int(grid),
+            	'cie31' : int(cie31),
+            	'cie64' : int(cie64),
+            	'labels' : int(labels),
+            	'label_fontsize' : 12 }
+            	
+	if (plot == 'xyz'):
+		tc182.plot.xyz(ax, plots, options)
+		
+	elif (plot == 'xy'):
+		tc182.plot.xy(ax, plots, options)
+	
+	elif (plot == 'lms'):
+		tc182.plot.lms(ax, plots, options)
+	
+	elif (plot == 'lms_base'):
+		tc182.plot.lms_base(ax, plots, options)
+	
+	elif (plot == 'bm'):
+		tc182.plot.bm(ax, plots, options)
+	
+	elif (plot == 'lm'):
+		tc182.plot.lm(ax, plots, options)
+		
+	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
+	resulting_plot = theFig;
+	return HttpResponse(resulting_plot);
+
+
 def home(request):
-
-#	Returns
-#    -------
-#    xyz : ndarray
-#       	The computed colour matching functions.
-#    cc : ndarray
-#        The chromaticity coordinates.
-#    cc_white : ndarray
-#        The chromaticity coordinates for equi-energy stimulus.
-#    mat : ndarray
-#        The 3x3 matrix for converting from LMS to XYZ.
-#    lms_standard : ndarray
-#        The computed LMS functions at the given standard resolution.
-#    lms_base : ndarray
-#        The computed LMS functions at full available resolution (9 sign. fig.).        
-#    bm : ndarray
-#        The computed Boynton-MacLeod chromaticity coordinates.
-#    bm_white : ndarray
-#        The Boynton-MacLeod coordinates for equi-energy stimulus.
-#    lm : ndarray
-#        The computed normalised lm coordinates.
-#    lm_white : ndarray
-#        The lm coordinates for equi-energy stimulus.
-#    lambda_test_min : int
-#        The wavelength of minimum x chromaticity value.
-#    purple_line_cc : ndarray
-#        Chromaticity coordinates for the endpoints of the purple line.
-#    purple_line_bm : ndarray
-#        Boynton-MacLeod coordinates for the endpoints of the purple line.
-#    purple_line_lm : ndarray
-#        lm coordinates for the endpoints of the purple line.
-#    plots : dict
-#        Versions of xyz, cc, lms, bm, lm at 0.1 nm for plotting. Includes also CIE1964 and CIE1931 data. 
-
-	#field_size = 2.0;
-	#age = 32;
-	#lambda_min = 390.0;
-	#lambda_max = 830.0;
-	#lambda_step = 1.0;
 
 	try:
 		field_size = float(request.POST["field_size"])
@@ -91,81 +91,68 @@ def home(request):
 		lambda_step = 1.0
 		print "lambda_step: %s" % lambda_step
 		
-	html_list = [] #List containing all the html_strings
-	fig_list = []  #List containing all the figures/plots
+	html_list = [] #List containing all the theDescriptions
 	tab_list = []  #List containing all the tabulated data
 	
-	fig = plt.figure()
-	ax = fig.add_subplot(111)
+	results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 	
-	results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)	
-	options = { 'grid' : True,
-            	'cie31' : True,
-            	'cie64' : False,
-            	'labels' : True }
-    #xyz
+	request.session['results'] = results
+	request.session['plots'] = plots
 	
-	tc182.plot.xyz(ax, plots, options)
+    #0 #xyz 
 	
-	html_string = mark_safe(tc182.description.xyz(results,'XYZ'))
-	html_list.append(html_string)
+	theDescription = mark_safe(tc182.description.xyz(results,'XYZ'))
+	html_list.append(theDescription)
 	
-	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
-	fig_list.append(theFig)
+	theTable = mark_safe(tc182.table.xyz(results));
+	tab_list.append(theTable)
 	
-    #xy
+    #1 #xy
+	
+	theDescription = mark_safe(tc182.description.xy(results,'XY'))
+	html_list.append(theDescription)
+	
+	theTable = mark_safe(tc182.table.xy(results));
+	tab_list.append(theTable)
+
+	
+	#2 #lms
+	
+	theDescription = mark_safe(tc182.description.lms(results,'LMS'))
+	html_list.append(theDescription)
+	
+	theTable = mark_safe(tc182.table.lms(results));
+	tab_list.append(theTable)
+
+	
+	#3 #lms_base
     
-	tc182.plot.xy(ax, plots, options)
+	theDescription = mark_safe(tc182.description.lms_base(results,'LMS BASE'))
+	html_list.append(theDescription)
 	
-	html_string = mark_safe(tc182.description.xy(results,'XY'))
-	html_list.append(html_string)
+	theTable = mark_safe(tc182.table.lms_base(results));
+	tab_list.append(theTable)
+
+	#4 #bm
 	
-	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
-	fig_list.append(theFig)
+	theDescription = mark_safe(tc182.description.bm(results,'BM'))
+	html_list.append(theDescription)
 	
-	#lms
-    
-	tc182.plot.lms(ax, plots, options)
+	theTable = mark_safe(tc182.table.bm(results));
+	tab_list.append(theTable)
+
+	#5 #lm
 	
-	html_string = mark_safe(tc182.description.lms(results,'LMS'))
-	html_list.append(html_string)
+	theDescription = mark_safe(tc182.description.lm(results,'LM'))
+	html_list.append(theDescription)
 	
-	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
-	fig_list.append(theFig)
+	theTable = mark_safe(tc182.table.lm(results));
+	tab_list.append(theTable)
 	
-	#lms_base
-    
-	tc182.plot.lms_base(ax, plots, options)
-	
-	html_string = mark_safe(tc182.description.lms_base(results,'LMS BASE'))
-	html_list.append(html_string)
-	
-	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
-	fig_list.append(theFig)
-	
-	#bm
-	
-	tc182.plot.bm(ax, plots, options)
-	
-	html_string = mark_safe(tc182.description.bm(results,'BM'))
-	html_list.append(html_string)
-	
-	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
-	fig_list.append(theFig)
-	
-	
-	
-	### TABULATED DATA ###
-	
-	#tab_str = tab["lms_standard"].tolist()
-	
-	#for j in range(1,4):
-	#	for i in range(len(tab_str)):
-	#		tab_str[i][j] = "%.6e" % tab_str[i][j]
 
 
-	context = { #'tab_str' : tab_str,
-				'fig_list' : fig_list,
+
+	context = { 'tab_list' : tab_list,
 				'html_list' : html_list,
 				'field_size' : field_size,
 				'age'	: age,
@@ -173,9 +160,6 @@ def home(request):
 				'lambda_max' : lambda_max,
 				'lambda_step'	: lambda_step,
 	}
-		
-	
-	return render(request, 'web/plot.html', context)	
-	
-	
-	
+
+
+	return render(request, 'web/plot.html', context)
