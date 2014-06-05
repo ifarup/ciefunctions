@@ -87,7 +87,8 @@ class AppForm(qt.QMainWindow):
                  'cie31' : self.cie31_check.isChecked(),
                  'cie64' : self.cie64_check.isChecked(),
                  'labels' : self.wavelength_check.isChecked(),
-                 'label_fontsize' : 7 }
+                 'label_fontsize' : 7,
+                 'full_title' : True }
     
     def on_about(self):
         msg = """

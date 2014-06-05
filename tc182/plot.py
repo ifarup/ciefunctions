@@ -55,11 +55,14 @@ def xyz(axes, plots, options):
     axes.axis([350, 850, -.2, 2.3])
     axes.set_xlabel('Wavelength [nm]', fontsize=12)
     axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
-    axes.set_title(('CIE XYZ fundamental CMFs\nField size: %.1f' % plots['field_size'] +
-                    u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-                    u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
-                                                            plots['lambda_max']) +
-                    ',  Step: %0.1f nm' % plots['lambda_step']), fontsize=12)
+    if options['full_title']:
+        axes.set_title(('CIE XYZ fundamental CMFs\nField size: %.1f' % plots['field_size'] +
+                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                        u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                                plots['lambda_max']) +
+                        ',  Step: %0.1f nm' % plots['lambda_step']), fontsize=12)
+    else:
+        axes.set_title('CIE XYZ fundamental CMFs', fontsize=12)
     lock.release()
 
 def xy(axes, plots, options):
@@ -137,11 +140,14 @@ def xy(axes, plots, options):
                                                                                 plots['lambda_max'],
                                                                                 plots['lambda_step']),
                              fontsize=16)
-    axes.set_title('CIE xy fundamental chromaticity diagram\nField size: ' + str(plots['field_size']) +
-                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-                        u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
-                                                                plots['lambda_max']) +
-                        ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    if options['full_title']:
+        axes.set_title('CIE xy fundamental chromaticity diagram\nField size: ' + str(plots['field_size']) +
+                            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                            u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                                    plots['lambda_max']) +
+                            ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    else:
+        axes.set_title('CIE xy fundamental chromaticity diagram', fontsize=12)        
     lock.release()
 
 def lms(axes, plots, options):
@@ -167,11 +173,14 @@ def lms(axes, plots, options):
     axes.axis([350, 850, -.05, 1.05])
     axes.set_xlabel('Wavelength [nm]', fontsize=12)
     axes.set_ylabel('Relative energy sensitivities', fontsize=12)
-    axes.set_title('CIE 2006 LMS cone fundamentals\nField size: ' + str(plots['field_size']) +
-                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-                        u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
-                                                                plots['lambda_max']) +
-                        ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    if options['full_title']:
+        axes.set_title('CIE 2006 LMS cone fundamentals\nField size: ' + str(plots['field_size']) +
+                            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                            u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                                    plots['lambda_max']) +
+                            ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    else:
+        axes.set_title('CIE 2006 LMS cone fundamentals', fontsize=12)
     lock.release()
 
 def lms_base(axes, plots, options):
@@ -197,11 +206,14 @@ def lms_base(axes, plots, options):
     axes.axis([350, 850, -.05, 1.05])
     axes.set_xlabel('Wavelength [nm]', fontsize=12)
     axes.set_ylabel('Relative energy sensitivities', fontsize=12)
-    axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)\nField size: ' + str(plots['field_size']) +
-                   u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-                   u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
-                                                           plots['lambda_max']) +
-                   ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    if options['full_title']:
+        axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)\nField size: ' + str(plots['field_size']) +
+                       u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                       u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                               plots['lambda_max']) +
+                       ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    else:
+        axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)', fontsize=12)
     lock.release()
 
 def bm(axes, plots, options):
@@ -267,11 +279,14 @@ def bm(axes, plots, options):
                                                                                plots['lambda_max'],
                                                                                plots['lambda_step']),
                         fontsize=16)
-    axes.set_title('CIE MacLeod-Boynton chromaticity diagram\nField size: ' + str(plots['field_size']) +
-                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-                        u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
-                                                                plots['lambda_max']) +
-                        ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    if options['full_title']:
+        axes.set_title('CIE MacLeod-Boynton chromaticity diagram\nField size: ' + str(plots['field_size']) +
+                            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                            u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                                    plots['lambda_max']) +
+                            ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    else:
+        axes.set_title('CIE MacLeod-Boynton chromaticity diagram', fontsize=12)
     lock.release()
 
 def lm(axes, plots, options):
@@ -334,11 +349,14 @@ def lm(axes, plots, options):
                                                                                        plots['lambda_max'],
                                                                                        plots['lambda_step']),
                              fontsize=16)
-    axes.set_title('Equi-power normalised $lm$ chromaticity diagram\nField size: ' + str(plots['field_size']) +
-                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-                        u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
-                                                                    plots['lambda_max']) +
-                        ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    if options['full_title']:
+        axes.set_title('Equi-power normalised $lm$ chromaticity diagram\nField size: ' + str(plots['field_size']) +
+                            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+                            u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
+                                                                        plots['lambda_max']) +
+                            ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
+    else:
+        axes.set_title('Equi-power normalised $lm$ chromaticity diagram', fontsize=12)
     lock.release()
 
 def xyz31(axes, plots, options):
