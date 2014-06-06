@@ -53,8 +53,9 @@ def xyz(axes, plots, options):
         axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b-.')
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
-    axes.set_xlabel('Wavelength [nm]', fontsize=12)
-    axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
+    if options['axis_labels']:
+        axes.set_xlabel('Wavelength [nm]', fontsize=12)
+        axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
     if options['full_title']:
         axes.set_title(('CIE XYZ fundamental CMFs\nField size: %.1f' % plots['field_size'] +
                         u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -116,30 +117,31 @@ def xy(axes, plots, options):
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
-    if (plots['lambda_min'] == 390 and
-        plots['lambda_max'] == 830 and
-        plots['lambda_step'] == 1):
-        axes.set_xlabel('$x_\mathrm{\,F,\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) +'}$',
-                             fontsize=16)
-        axes.set_ylabel('$y_\mathrm{\,F,\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) + '}$',
-                             fontsize=16)
-    else:
-        axes.set_xlabel('$x_\mathrm{\,F,\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
-                                                                                plots['lambda_max'],
-                                                                                plots['lambda_step']),
-                             fontsize=16)
-        axes.set_ylabel('$y_\mathrm{\,F,\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
-                                                                                plots['lambda_max'],
-                                                                                plots['lambda_step']),
-                             fontsize=16)
+    if options['axis_labels']:
+        if (plots['lambda_min'] == 390 and
+            plots['lambda_max'] == 830 and
+            plots['lambda_step'] == 1):
+            axes.set_xlabel('$x_\mathrm{\,F,\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) +'}$',
+                                 fontsize=16)
+            axes.set_ylabel('$y_\mathrm{\,F,\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) + '}$',
+                                 fontsize=16)
+        else:
+            axes.set_xlabel('$x_\mathrm{\,F,\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                    plots['lambda_max'],
+                                                                                    plots['lambda_step']),
+                                 fontsize=16)
+            axes.set_ylabel('$y_\mathrm{\,F,\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                    plots['lambda_max'],
+                                                                                    plots['lambda_step']),
+                                 fontsize=16)
     if options['full_title']:
         axes.set_title('CIE xy fundamental chromaticity diagram\nField size: ' + str(plots['field_size']) +
                             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -171,8 +173,9 @@ def lms(axes, plots, options):
     axes.plot(plots['lms'][:,0], plots['lms'][:,3], 'b')
     axes.axis('normal')
     axes.axis([350, 850, -.05, 1.05])
-    axes.set_xlabel('Wavelength [nm]', fontsize=12)
-    axes.set_ylabel('Relative energy sensitivities', fontsize=12)
+    if options['axis_labels']:
+        axes.set_xlabel('Wavelength [nm]', fontsize=12)
+        axes.set_ylabel('Relative energy sensitivities', fontsize=12)
     if options['full_title']:
         axes.set_title('CIE 2006 LMS cone fundamentals\nField size: ' + str(plots['field_size']) +
                             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -204,8 +207,9 @@ def lms_base(axes, plots, options):
     axes.plot(plots['lms'][:,0], plots['lms'][:,3], 'b')
     axes.axis('normal')
     axes.axis([350, 850, -.05, 1.05])
-    axes.set_xlabel('Wavelength [nm]', fontsize=12)
-    axes.set_ylabel('Relative energy sensitivities', fontsize=12)
+    if options['axis_labels']:
+        axes.set_xlabel('Wavelength [nm]', fontsize=12)
+        axes.set_ylabel('Relative energy sensitivities', fontsize=12)
     if options['full_title']:
         axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)\nField size: ' + str(plots['field_size']) +
                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -255,30 +259,31 @@ def bm(axes, plots, options):
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
-    if (plots['lambda_min'] == 390 and
-        plots['lambda_max'] == 830 and
-        plots['lambda_step'] == 1):
-        axes.set_xlabel('$l_\mathrm{\,MB,\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) +'}$',
-                        fontsize=16)
-        axes.set_ylabel('$s_\mathrm{\,MB,\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) + '}$',
-                        fontsize=16)
-    else:
-        axes.set_xlabel('$l_\mathrm{\,MB,\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
-                                                                                plots['lambda_max'],
-                                                                                plots['lambda_step']),
-                        fontsize=16)
-        axes.set_ylabel('$s_\mathrm{\,MB,\,' +
-                            str(plots['field_size']) + ',\,' +
-                            str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
-                                                                               plots['lambda_max'],
-                                                                               plots['lambda_step']),
-                        fontsize=16)
+    if options['axis_labels']:
+        if (plots['lambda_min'] == 390 and
+            plots['lambda_max'] == 830 and
+            plots['lambda_step'] == 1):
+            axes.set_xlabel('$l_\mathrm{\,MB,\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) +'}$',
+                            fontsize=16)
+            axes.set_ylabel('$s_\mathrm{\,MB,\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) + '}$',
+                            fontsize=16)
+        else:
+            axes.set_xlabel('$l_\mathrm{\,MB,\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                    plots['lambda_max'],
+                                                                                    plots['lambda_step']),
+                            fontsize=16)
+            axes.set_ylabel('$s_\mathrm{\,MB,\,' +
+                                str(plots['field_size']) + ',\,' +
+                                str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                   plots['lambda_max'],
+                                                                                   plots['lambda_step']),
+                            fontsize=16)
     if options['full_title']:
         axes.set_title('CIE MacLeod-Boynton chromaticity diagram\nField size: ' + str(plots['field_size']) +
                             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -325,30 +330,31 @@ def lm(axes, plots, options):
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, .65))
-    if (plots['lambda_min'] == 390 and
-        plots['lambda_max'] == 830 and
-        plots['lambda_step'] == 1):
-        axes.set_xlabel('$l_\mathrm{\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) +'}$',
-                             fontsize=16)
-        axes.set_ylabel('$m_\mathrm{\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) + '}$',
-                             fontsize=16)
-    else:
-        axes.set_xlabel('$l_\mathrm{\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
-                                                                                       plots['lambda_max'],
-                                                                                       plots['lambda_step']),
-                             fontsize=16)
-        axes.set_ylabel('$m_\mathrm{\,' +
-                             str(plots['field_size']) + ',\,' +
-                             str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
-                                                                                       plots['lambda_max'],
-                                                                                       plots['lambda_step']),
-                             fontsize=16)
+    if options['axis_labels']:
+        if (plots['lambda_min'] == 390 and
+            plots['lambda_max'] == 830 and
+            plots['lambda_step'] == 1):
+            axes.set_xlabel('$l_\mathrm{\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) +'}$',
+                                 fontsize=16)
+            axes.set_ylabel('$m_\mathrm{\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) + '}$',
+                                 fontsize=16)
+        else:
+            axes.set_xlabel('$l_\mathrm{\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                           plots['lambda_max'],
+                                                                                           plots['lambda_step']),
+                                 fontsize=16)
+            axes.set_ylabel('$m_\mathrm{\,' +
+                                 str(plots['field_size']) + ',\,' +
+                                 str(plots['age']) + '\,(%0.1f-%0.1f,\,%0.1f)}$' % (plots['lambda_min'],
+                                                                                           plots['lambda_max'],
+                                                                                           plots['lambda_step']),
+                                 fontsize=16)
     if options['full_title']:
         axes.set_title('Equi-power normalised $lm$ chromaticity diagram\nField size: ' + str(plots['field_size']) +
                             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -384,8 +390,9 @@ def xyz31(axes, plots, options):
         axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b-.')
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
-    axes.set_xlabel('Wavelength [nm]', fontsize=12)
-    axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
+    if options['axis_labels']:
+        axes.set_xlabel('Wavelength [nm]', fontsize=12)
+        axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
     axes.set_title(u'CIE 1931 XYZ standard 2\N{DEGREE SIGN} CMFs', fontsize=12)
     lock.release()
 
@@ -414,8 +421,9 @@ def xyz64(axes, plots, options):
         axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,3], 'b-.')
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
-    axes.set_xlabel('Wavelength [nm]', fontsize=12)
-    axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
+    if options['axis_labels']:
+        axes.set_xlabel('Wavelength [nm]', fontsize=12)
+        axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
     axes.set_title(u'CIE 1964 XYZ standard 10\N{DEGREE SIGN}CMFs', fontsize=12)
     lock.release()
 
@@ -463,8 +471,9 @@ def xy31(axes, plots, options):
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
-    axes.set_xlabel('$x$', fontsize=16)
-    axes.set_ylabel('$y$', fontsize=16)
+    if options['axis_labels']:
+        axes.set_xlabel('$x$', fontsize=16)
+        axes.set_ylabel('$y$', fontsize=16)
     axes.set_title(u'CIE 1931 xy standard 2\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
     lock.release()
 
@@ -512,7 +521,8 @@ def xy64(axes, plots, options):
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
-    axes.set_xlabel('$x_{10}$', fontsize=16)
-    axes.set_ylabel('$y_{10}$', fontsize=16)
+    if options['axis_labels']:
+        axes.set_xlabel('$x_{10}$', fontsize=16)
+        axes.set_ylabel('$y_{10}$', fontsize=16)
     axes.set_title(u'CIE 1964 xy standard 10\N{DEGREE SIGN} chromaticity diagram', fontsize=12)
     lock.release()
