@@ -75,8 +75,28 @@ div.input-field, div#figOptions div { 	vertical-align: top;
 
 				
 
-div#theFig{ text-align: center;
+div#theFig{ position: relative;
+			text-align: center;
 			border: 1px solid #dc670b;
+}
+
+div.label { position: absolute;
+			width: 30px;
+			height: 30px;
+			padding-top: 10px;
+		}
+	
+div.x_label { 	bottom: 0;
+				width: 100%;
+				text-align: center;
+}
+div.y_label {	top:0; left:0; bottom: 0;
+				padding-top: 50px;
+				margin: auto;
+				writing-mode:tb-rl;
+    			-webkit-transform:rotate(-90deg);
+    			-moz-transform:rotate(-90deg);
+    			-o-transform: rotate(-90deg);
 }
 			
 div.table table { 	
@@ -98,7 +118,7 @@ div.table table tr:hover{ 	text-shadow: 1px 1px 1px #aaa;
 							cursor: pointer;
  						}
 
-.tableWrapper { height: 100%;
+.tableWrapper { height: 519px; /* Size of figure is fixed, so I adjust this to the figure */
 				overflow-y: scroll;
 				border: 1px solid steelBlue;
 }

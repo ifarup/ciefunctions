@@ -5,10 +5,15 @@ $( ).ready(function(){
 	
 
 var availablePlots = [ 'xyz', 'xy', 'lms', 'lms_base', 'bm', 'lm' ];
+
+function axis_labels(x, y){
+	this.x = x;
+	this.y = y;
+}
+
 var currentPlot = availablePlots[0];
 var plot_options = {
 					 'grid' 		: 0,
-					 'full_title'	: 0,
 					 'cie31'		: 0,
 					 'cie64'		: 0,
 					 'labels'		: 0
@@ -28,7 +33,6 @@ function refreshPlot(plot){
 				$.get( '/get_plot/' + 
 						plot + '/' + 
 						plot_options.grid + "/" + 
-						plot_options.full_title + "/" +
 						plot_options.cie31 + "/" + 
 						plot_options.cie64 + "/" + 
 						plot_options.labels + "/" )
