@@ -1,14 +1,11 @@
 /* Script to manage tc web app */
 $( ).ready(function(){	
 
-
-
-
-
 //Load the default plots via ajax:
 	
 
 var availablePlots = [ 'xyz', 'xy', 'lms', 'lms_base', 'bm', 'lm' ];
+var currentPlot = availablePlots[0];
 var plot_options = {
 					 'grid' 		: 0,
 					 'full_title'	: 0,
@@ -25,65 +22,41 @@ for ( i=0; i < availablePlots.length; i++ ){
 
 }
 
+//This function retrieves a plot from the server via AJAX
+function refreshPlot(plot){
+		console.log("refreshPlot: " + plot);
+				$.get( '/get_plot/' + 
+						plot + '/' + 
+						plot_options.grid + "/" + 
+						plot_options.full_title + "/" +
+						plot_options.cie31 + "/" + 
+						plot_options.cie64 + "/" + 
+						plot_options.labels + "/" )
+							.done(function( data ) {
+								$( "div#" + plot + "_plot" ).empty();
+								$( "div#" + plot + "_plot" ).append(data);
+								$( "img#loader" ).hide(); //Hide spinning wheel
+  							})
+  							.fail(function() {
+    							console.log( "error when getting " + plot + " plot from server" );
+				});
+}
 
-//@TODO: Need to asynch this. I will repeat the code for now:
+//This will load all the plots from the server.
+function refreshAllPlots(){
+	for (i=0; i < availablePlots.length; i++){
+		refreshPlot(availablePlots[i]);
+	}
+}
 
-
-//xyz
-			$.get( "/get_plot/" + availablePlots[0] + "/0/0/0/0/0/")
-				.done(function( data ) {
-					$( "div#" + availablePlots[0] +"_plot" ).append(data);
-					$( "img#loader" ).hide(); //Hide spinning wheel
-  				})
-  				.fail(function() {
-    				alert( "error when getting " + availablePlots[0] + " plot from server" );
-				});	
-
-//xy
-			$.get( "/get_plot/" + availablePlots[1] + "/0/0/0/0/0/")
-				.done(function( data ) {
-					$( "div#" + availablePlots[1] +"_plot" ).append(data);
-  				})
-  				.fail(function() {
-    				alert( "error when getting " + availablePlots[1] + " plot from server" );
-				});	
-
-//lms
-			$.get( "/get_plot/" + availablePlots[2] + "/0/0/0/0/0/")
-				.done(function( data ) {
-					$( "div#" + availablePlots[2] +"_plot" ).append(data);
-  				})
-  				.fail(function() {
-    				alert( "error when getting " + availablePlots[2] + " plot from server" );
-				});	
-
-// lms_base
-			$.get( "/get_plot/" + availablePlots[3] + "/0/0/0/0/0/")
-				.done(function( data ) {
-					$( "div#" + availablePlots[3] +"_plot" ).append(data);
-  				})
-  				.fail(function() {
-    				alert( "error when getting " + availablePlots[3] + " plot from server" );
-				});	
-
-//bm
-			$.get( "/get_plot/" + availablePlots[4] + "/0/0/0/0/0/")
-				.done(function( data ) {
-					$( "div#" + availablePlots[4] +"_plot" ).append(data);
-  				})
-  				.fail(function() {
-    				alert( "error when getting " + availablePlots[4] + " plot from server" );
-				});	
-
-//lm
-
-			$.get( "/get_plot/" + availablePlots[5] + "/0/0/0/0/0/")
-				.done(function( data ) {
-					$( "div#" + availablePlots[5] +"_plot" ).append(data);
-  				})
-  				.fail(function() {
-    				alert( "error when getting " + availablePlots[5] + " plot from server" );
-				});	
+//This will load all the plots EXCEPT for 'plot'
+function refreshAllOthers(plot){
+	for (i=0; i < availablePlots.length; i++){
+		if ( availablePlots[i] != plot ){
+			refreshPlot(availablePlots[i]);
+		}
+	}
+}
 
 //Initialization of jQuery UI tabs
 
@@ -106,9 +79,10 @@ for ( i=0; i < availablePlots.length; i++ ){
 
 //Changing plots:
 
-	$( "select#plot-select" ).on("change", function(){
-		console.log("change");
+	$( "select#plot-select" ).on("keydown change", function(){
+
 		var plot = $('option:selected', this).attr('plot');
+		currentPlot = plot; //update current plot
 		
 		$( "div.plot" ).hide(); 				//Hide all plots
 		$( "div.html_text" ).hide();			//Hide all HTML
@@ -116,321 +90,109 @@ for ( i=0; i < availablePlots.length; i++ ){
 		$( "div#" + plot + "_plot" ).show();	//Show selected plot
 		$( "div#" + plot + "_html" ).show();	//Show selected HTML
 		$( "div#" + plot + "_table" ).show();	//Show selected table
-		
-		//Enable or disable checkboxes
-		
-		function enableAll(){
-			$( "#figOptions input" ).prop("disabled", false);
-		}
-		
-		function refreshPlot(plot){
-				
-				$.get( '/get_plot/' + 
-						plot + '/' + 
-						plot_options.grid + "/" + 
-						plot_options.full_title + "/" +
-						plot_options.cie31 + "/" + 
-						plot_options.cie64 + "/" + 
-						plot_options.labels + "/" )
-							.done(function( data ) {
-								$( "div#" + plot + "_plot" ).empty();
-								$( "div#" + plot + "_plot" ).append(data);
-								$( "img#loader" ).hide(); //Hide spinning wheel
-  							})
-  							.fail(function() {
-    							console.log( "error when getting " + plot + " plot from server" );
-				});
-		}
-		
-		//Remove all previously assigned event listeners.
-		
-		$( "#figOptions input" ).off("click");
-		
-		
+	
+		updateCheckboxes(plot);
+	});
+	
+	//Enable or disable checkboxes
+	function updateCheckboxes(plot){	
 		switch(plot){
 			
 			case "xyz":
-				enableAll();
 				
-				$( "#showGrid" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showGrid" ).prop("checked") ){
-						plot_options.grid = 1;
-					} else { 
-						plot_options.grid = 0;
-					}
-					refreshPlot(plot);
-				})
-								
-				$( "#compare1931-2" ).prop("disabled", false)
-				.click(function(){
-					
-					if ( $( "#compare1931-2" ).prop("checked") ){
-						plot_options.cie31 = 1;
-					} else { 
-						plot_options.cie31 = 0;
-					}
-					refreshPlot(plot);
-				})
-				
-				$( "#compare1964-10" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#compare1964-10" ).prop("checked") ){
-						plot_options.cie64 = 1;
-					} else { 
-						plot_options.cie64 = 0;
-					}
-					refreshPlot(plot);
-				})
-				
-				
-				$( "#showLabels" ).prop("disabled", true)
-				.click(function(){
-					if ( $( "#showLabels" ).prop("checked") ){
-						plot_options.labels = 1;
-					} else { 
-						plot_options.labels = 0;
-					}
-					refreshPlot(plot);
-				})
-
+				$( "#showGrid" ).prop("disabled", false);
+				$( "#compare1931-2" ).prop("disabled", false);
+				$( "#compare1964-10" ).prop("disabled", false);
+				$( "#showLabels" ).prop("disabled", true);
 				
 			break;
 			
 			case "xy": // CIE xy fundamental chromacity diagram
-				enableAll();
 				
-				$( "#showGrid" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showGrid" ).prop("checked") ){
-						plot_options.grid = 1;
-					} else { 
-						plot_options.grid = 0;
-					}
-					refreshPlot(plot);
-				})
-								
-				$( "#compare1931-2" ).prop("disabled", false)
-				.click(function(){
-					
-					if ( $( "#compare1931-2" ).prop("checked") ){
-						plot_options.cie31 = 1;
-					} else { 
-						plot_options.cie31 = 0;
-					}
-					refreshPlot(plot);
-				})
+				$( "#showGrid" ).prop("disabled", false);
+				$( "#compare1931-2" ).prop("disabled", false);
+				$( "#compare1964-10" ).prop("disabled", false);
+				$( "#showLabels" ).prop("disabled", false);
 				
-				$( "#compare1964-10" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#compare1964-10" ).prop("checked") ){
-						plot_options.cie64 = 1;
-					} else { 
-						plot_options.cie64 = 0;
-					}
-					refreshPlot(plot);
-				})
-				
-				
-				$( "#showLabels" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showLabels" ).prop("checked") ){
-						plot_options.labels = 1;
-					} else { 
-						plot_options.labels = 0;
-					}
-					refreshPlot(plot);
-				})
-			
 			break;
 			
 			case "lms": //CIE LMS cone fundamentals
-				enableAll();
 				
-				$( "#showGrid" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showGrid" ).prop("checked") ){
-						plot_options.grid = 1;
-					} else { 
-						plot_options.grid = 0;
-					}
-					refreshPlot(plot);
-				})
-								
-				$( "#compare1931-2" ).prop("disabled", true)
-				.click(function(){
-					
-					if ( $( "#compare1931-2" ).prop("checked") ){
-						plot_options.cie31 = 1;
-					} else { 
-						plot_options.cie31 = 0;
-					}
-					refreshPlot(plot);
-				})
+				$( "#showGrid" ).prop("disabled", false);
+				$( "#compare1931-2" ).prop("disabled", true);
+				$( "#compare1964-10" ).prop("disabled", true);
+				$( "#showLabels" ).prop("disabled", true);
 				
-				$( "#compare1964-10" ).prop("disabled", true)
-				.click(function(){
-					if ( $( "#compare1964-10" ).prop("checked") ){
-						plot_options.cie64 = 1;
-					} else { 
-						plot_options.cie64 = 0;
-					}
-					refreshPlot(plot);
-				})
-				
-				
-				$( "#showLabels" ).prop("disabled", true)
-				.click(function(){
-					if ( $( "#showLabels" ).prop("checked") ){
-						plot_options.labels = 1;
-					} else { 
-						plot_options.labels = 0;
-					}
-					refreshPlot(plot);
-				})
 			break;
 			
 			case "lms_base": //CIE LMS cone fundamentals (9 sign.flgs.)
-				enableAll();
 				
-				$( "#showGrid" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showGrid" ).prop("checked") ){
-						plot_options.grid = 1;
-					} else { 
-						plot_options.grid = 0;
-					}
-					refreshPlot(plot);
-				})
-								
-				$( "#compare1931-2" ).prop("disabled", true)
-				.click(function(){
-					
-					if ( $( "#compare1931-2" ).prop("checked") ){
-						plot_options.cie31 = 1;
-					} else { 
-						plot_options.cie31 = 0;
-					}
-					refreshPlot(plot);
-				})
+				$( "#showGrid" ).prop("disabled", false);
+				$( "#compare1931-2" ).prop("disabled", true);
+				$( "#compare1964-10" ).prop("disabled", true);
+				$( "#showLabels" ).prop("disabled", true);
 				
-				$( "#compare1964-10" ).prop("disabled", true)
-				.click(function(){
-					if ( $( "#compare1964-10" ).prop("checked") ){
-						plot_options.cie64 = 1;
-					} else { 
-						plot_options.cie64 = 0;
-					}
-					refreshPlot(plot);
-				})
-				
-				$( "#showLabels" ).prop("disabled", true)
-				.click(function(){
-					if ( $( "#showLabels" ).prop("checked") ){
-						plot_options.labels = 1;
-					} else { 
-						plot_options.labels = 0;
-					}
-					refreshPlot(plot);
-				})
-
 			break;
 			
 			case "bm": //CIE MacLeod-Boynton ls diagram
-				enableAll();
 				
-				$( "#showGrid" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showGrid" ).prop("checked") ){
-						plot_options.grid = 1;
-					} else { 
-						plot_options.grid = 0;
-					}
-					refreshPlot(plot);
-				})
-								
-				$( "#compare1931-2" ).prop("disabled", true)
-				.click(function(){
-					
-					if ( $( "#compare1931-2" ).prop("checked") ){
-						plot_options.cie31 = 1;
-					} else { 
-						plot_options.cie31 = 0;
-					}
-					refreshPlot(plot);
-				})
+				$( "#showGrid" ).prop("disabled", false);
+				$( "#compare1931-2" ).prop("disabled", true);
+				$( "#compare1964-10" ).prop("disabled", true);
+				$( "#showLabels" ).prop("disabled", false);
 				
-				$( "#compare1964-10" ).prop("disabled", true)
-				.click(function(){
-					if ( $( "#compare1964-10" ).prop("checked") ){
-						plot_options.cie64 = 1;
-					} else { 
-						plot_options.cie64 = 0;
-					}
-					refreshPlot(plot);
-				})
-				
-				
-				$( "#showLabels" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showLabels" ).prop("checked") ){
-						plot_options.labels = 1;
-					} else { 
-						plot_options.labels = 0;
-					}
-					refreshPlot(plot);
-				})
 			break;
 			
 			case "lm": //Equi-power normalised lm diagram
-				enableAll();
 				
-				$( "#showGrid" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showGrid" ).prop("checked") ){
-						plot_options.grid = 1;
-					} else { 
-						plot_options.grid = 0;
-					}
-					refreshPlot(plot);
-				})
-								
-				$( "#compare1931-2" ).prop("disabled", true)
-				.click(function(){
-					
-					if ( $( "#compare1931-2" ).prop("checked") ){
-						plot_options.cie31 = 1;
-					} else { 
-						plot_options.cie31 = 0;
-					}
-					refreshPlot(plot);
-				})
+				$( "#showGrid" ).prop("disabled", false);					
+				$( "#compare1931-2" ).prop("disabled", true);
+				$( "#compare1964-10" ).prop("disabled", true);
+				$( "#showLabels" ).prop("disabled", false);
 				
-				$( "#compare1964-10" ).prop("disabled", true)
-				.click(function(){
-					if ( $( "#compare1964-10" ).prop("checked") ){
-						plot_options.cie64 = 1;
-					} else { 
-						plot_options.cie64 = 0;
-					}
-					refreshPlot(plot);
-				})
-				
-				
-				$( "#showLabels" ).prop("disabled", false)
-				.click(function(){
-					if ( $( "#showLabels" ).prop("checked") ){
-						plot_options.labels = 1;
-					} else { 
-						plot_options.labels = 0;
-					}
-					refreshPlot(plot);
-				})
 			break;
 		}
-		
-	});
+	}
 	
-		$( "#plot-select" ).change(); //Force trigger a change event to initialize checkbox functionality.
+	// Checkbox events (Bit ugly, but OK)
+	
+				$( "#showGrid" ).on("click", function(){
+					if (plot_options.grid==1) {
+						plot_options.grid = 0;
+					} else {
+						plot_options.grid = 1;
+					}
+					refreshPlot(currentPlot);
+					refreshAllOthers(currentPlot);
+				});					
+				$( "#compare1931-2" ).on("click", function(){
+					if (plot_options.cie31==1) {
+						plot_options.cie31 = 0;
+					} else {
+						plot_options.cie31 = 1;
+					}
+					refreshPlot(currentPlot);
+					refreshAllOthers(currentPlot);
+				});
+				$( "#compare1964-10" ).on("click", function(){
+					if (plot_options.cie64==1) {
+						plot_options.cie64 = 0;
+					} else {
+						plot_options.cie64 = 1;
+					}
+					refreshPlot(currentPlot);
+					refreshAllOthers(currentPlot);
+				});
+				$( "#showLabels" ).on("click", function(){
+					if (plot_options.labels==1) {
+						plot_options.labels = 0;
+					} else {
+						plot_options.labels = 1;
+					}
+					refreshPlot(currentPlot);
+					refreshAllOthers(currentPlot);
+				});
+		refreshAllPlots();
+	});
+		
 
-});
