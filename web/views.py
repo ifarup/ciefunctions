@@ -53,6 +53,7 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 		
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	resulting_plot = theFig;
+	plt.close(fig)
 	return HttpResponse(resulting_plot);
 
 
