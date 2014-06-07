@@ -137,23 +137,23 @@
 					<form id="paramForm" method="POST" action="">
 						{% csrf_token %}
 						<div id="field_size-wrap" class="input-field">
-							<label for="field_size">field_size</label>
+							<label for="field_size">Field size (&deg;)</label>
 							<input id="field_size" name="field_size" value="{{ field_size }}"/>
 						</div>
 						<div id="age-wrap" class="input-field">
-							<label for="age">age</label>
+							<label for="age">Age (yr)</label>
 							<input id="age" name="age" value="{{ age }}"/>
 						</div>
 						<div id="lambda_min-wrap" class="input-field">
-							<label for="lambda_min">lambda_min</label>
+							<label for="lambda_min">Domain (nm)</label>
 							<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
 						</div>
 						<div id="lambda_max-wrap" class="input-field">			
-							<label for="lambda_max">lambda_max</label>
+							<label for="lambda_max"> - </label>
 							<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
 						</div>
 						<div id="lambda_step-wrap" class="input-field">			
-							<label for="lambda_step">lambda_step</label>
+							<label for="lambda_step">Step (nm)</label>
 							<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
 						</div>
 						<div id="computeBtn" class="input-field">

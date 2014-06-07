@@ -11,6 +11,16 @@ function axis_labels(x, y){
 	this.y = y;
 }
 
+var axis_labels = ({ 	'xyz' 		: new axis_labels("x_xyz", "y_xyz"),
+						'xy'		: new axis_labels("x_xy", "y_xy"),
+						'lms'		: new axis_labels("x_lms", "y_lms"),
+						'lms_base'	: new axis_labels("x_base", "y_base"),
+						'bm'		: new axis_labels("x_bm", "y_bm"),
+						'lm'		: new axis_labels("x_lm", "y_lm"),
+});
+
+console.log(axis_labels);
+
 var currentPlot = availablePlots[0];
 var plot_options = {
 					 'grid' 		: 0,
@@ -27,9 +37,13 @@ for ( i=0; i < availablePlots.length; i++ ){
 
 }
 
+//Init labels
+
+$( "div.x_label" ).html(axis_labels[availablePlots[0]].x);
+$( "div.y_label" ).html(axis_labels[availablePlots[0]].y);
+
 //This function retrieves a plot from the server via AJAX
 function refreshPlot(plot){
-		console.log("refreshPlot: " + plot);
 				$.get( '/get_plot/' + 
 						plot + '/' + 
 						plot_options.grid + "/" + 
@@ -94,7 +108,10 @@ function refreshAllOthers(plot){
 		$( "div#" + plot + "_plot" ).show();	//Show selected plot
 		$( "div#" + plot + "_html" ).show();	//Show selected HTML
 		$( "div#" + plot + "_table" ).show();	//Show selected table
-	
+		
+		$( "div.x_label" ).html(axis_labels[plot].x);
+		$( "div.y_label" ).html(axis_labels[plot].y);
+								
 		updateCheckboxes(plot);
 	});
 	
