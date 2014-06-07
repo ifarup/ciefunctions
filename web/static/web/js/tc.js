@@ -1,10 +1,12 @@
 /* Script to manage tc web app */
+var availablePlots = [ 'xyz', 'xy', 'lms', 'lms_base', 'bm', 'lm' ];
+
 $( ).ready(function(){	
 
 //Load the default plots via ajax:
 	
 
-var availablePlots = [ 'xyz', 'xy', 'lms', 'lms_base', 'bm', 'lm' ];
+
 
 function axis_labels(x, y){
 	this.x = x;
@@ -42,22 +44,40 @@ for ( i=0; i < availablePlots.length; i++ ){
 $( "div.x_label" ).html(axis_labels[availablePlots[0]].x);
 $( "div.y_label" ).html(axis_labels[availablePlots[0]].y);
 
+function getOptionsString(){
+	return "" + plot_options.grid + plot_options.cie31 + plot_options.cie64 + plot_options.labels;
+}
+
 //This function retrieves a plot from the server via AJAX
 function refreshPlot(plot){
-				$.get( '/get_plot/' + 
+
+ var data = all_plots[plot].getPlot(getOptionsString());
+
+if (data == null) { //If data is not cached, get it from the server.
+					$.get( '/get_plot/' + 
 						plot + '/' + 
 						plot_options.grid + "/" + 
 						plot_options.cie31 + "/" + 
 						plot_options.cie64 + "/" + 
 						plot_options.labels + "/" )
 							.done(function( data ) {
+								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
 								$( "div#" + plot + "_plot" ).append(data);
 								$( "img#loader" ).hide(); //Hide spinning wheel
+								$( "div.label" ).fadeIn(); //Show the labels
   							})
   							.fail(function() {
     							console.log( "error when getting " + plot + " plot from server" );
 				});
+} else { //Present cached data.
+
+		$( "div#" + plot + "_plot" ).empty();
+		$( "div#" + plot + "_plot" ).append(data);
+		$( "img#loader" ).hide(); //Hide spinning wheel
+}
+
+
 }
 
 //This will load all the plots from the server.
