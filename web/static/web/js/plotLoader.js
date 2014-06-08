@@ -11,7 +11,9 @@ var availablePlots = [ 	'lms',
 						'lm',
 						'bm',
 						'xy', 
-						'xyz' ];
+						'xyz',
+						'xyz31',
+						'xy31' ];
 						
 function Plot ( name ){
 	

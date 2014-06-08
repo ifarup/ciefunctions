@@ -53,6 +53,12 @@ var axis_labels = ({ 	'xyz' 		: new axis_labels("Wavelength [nm]", "Fundamental 
 													  
 						'lm'		: new axis_labels("l<sub>" + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>",
 													  "m<sub>" + currentForm['field_size'] + ", " + currentForm['age']+ "</sub>"),
+						
+						'xyz31'		: new axis_labels("Wavelength [nm]", "Fundamental tristimulus values"),
+						
+						'xy31'		: new axis_labels("x", "y"),
+						
+						'xyz64'		: new axis_labels("x", "y"),
 });
 
 
@@ -223,6 +229,25 @@ function refreshAllOthers(plot){
 				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
 				
 			break;
+			
+			case "xyz31": //Equi-power normalised lm diagram
+				
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
+				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				
+			break;
+			
+			case "xy31": //Equi-power normalised lm diagram
+				
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
+				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
+				
+			break;
+			
 		}
 	}
 	

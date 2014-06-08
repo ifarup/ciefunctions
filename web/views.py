@@ -50,7 +50,13 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 	
 	elif (plot == 'lm'):
 		tc182.plot.lm(ax, plots, options)
-		
+	
+	elif (plot == 'xyz31'):
+		tc182.plot.xyz31(ax, plots, options)
+	
+	elif (plot == 'xy31'):
+		tc182.plot.xy31(ax, plots, options)
+	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	resulting_plot = theFig;
 	plt.close(fig)
@@ -150,6 +156,24 @@ def home(request):
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.lm(results));
+	tab_list.append(theTable)
+	
+	#6 xyz31 (CHECK THIS ONE!!!)
+	
+	#theDescription = mark_safe(tc182.description.standard(results,'xyz31'))
+	theDescription = mark_safe("<i>Description for xyz31</i>")
+	html_list.append(theDescription)
+	
+	theTable = mark_safe(tc182.table.xyz31(results));
+	tab_list.append(theTable)
+	
+	#xy31 (AND THIS ONE!!)
+	
+	#theDescription = mark_safe(tc182.description.xy31(results,'xy31'))
+	theDescription = mark_safe("<i>Description for xy31</i>")
+	html_list.append(theDescription)
+	
+	theTable = mark_safe(tc182.table.xy31(results));
 	tab_list.append(theTable)
 
 	context = { 'tab_list' : tab_list,

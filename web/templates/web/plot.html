@@ -48,6 +48,12 @@
 							<div id="lm_plot" class="plot">
 								<!-- ajax plot lm -->
 							</div>
+							<div id="xyz31_plot" class="plot">
+								<!-- ajax plot xyz31 -->
+							</div>
+							<div id="xy31_plot" class="plot">
+								<!-- ajax plot standard -->
+							</div>
 							<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							<div class="label x_label">Wavelength</div>
 							<div class="label y_label">Wavelength</div>
@@ -94,6 +100,12 @@
 							<div id="lm_table" class="table">
 								{{ tab_list.5 }}
 							</div>
+							<div id="xyz31_table" class="table">
+								{{ tab_list.6 }}
+							</div>
+							<div id="xy31_table" class="table">
+								{{ tab_list.7 }}
+							</div>
 						</div>	<!-- end .tableWrapper -->
 					</div><!-- end #tabs-2 -->
 				</div><!-- end #tc-Tabs -->	
@@ -105,8 +117,8 @@
 						<option plot="bm">CIE MacLeod-Boynton ls diagram</option>
 						<option plot="xyz">CIE XYZ fundamental CMFs</option>
 						<option plot="xy">CIE xy fundamental chromacity diagram</option>
-						<!--<option plot="0">CIE XYZ standard CMFs</option>
-						<option plot="0">CIE xy standard chromacity diagram</option>-->
+						<option plot="xyz31">CIE XYZ standard CMFs</option>
+						<option plot="xy31">CIE xy standard chromaticity diagram</option>
 					</select>
 					<br style="clear:both"/>
 				</div><!-- end #plot-select -->
@@ -131,6 +143,12 @@
 					</div>
 					<div id="lm_html" class="html_text">
 						{{ html_list.5 }}
+					</div>
+					<div id="xyz31_html" class="html_text">
+						{{ html_list.6 }}
+					</div>
+					<div id="xy31_html" class="html_text">
+						{{ html_list.7 }}
 					</div>
 				</div>
 				<div class="float-bottom"></div>
