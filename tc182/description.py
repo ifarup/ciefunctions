@@ -512,3 +512,27 @@ def standard(heading, sub_heading, include_head=False):
     html_string += (_heading(heading) +
                     _sub_heading(sub_heading))
     return html_string
+
+def xyz31(heading, sub_heading, include_head=False):
+    """
+    Simply wrap the standard function.
+    """
+    return standard(heading, sub_heading, include_head)
+
+def xyz64(heading, sub_heading, include_head=False):
+    """
+    Simply wrap the standard function.
+    """
+    return standard(heading, sub_heading, include_head)
+
+def xy31(heading, sub_heading, include_head=False):
+    """
+    Simply wrap the standard function.
+    """
+    return standard(heading, sub_heading, include_head)
+
+def xy64(heading, sub_heading, include_head=False):
+    """
+    Simply wrap the standard function.
+    """
+    return standard(heading, sub_heading, include_head)
