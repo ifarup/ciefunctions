@@ -1,29 +1,62 @@
 /* Script to manage tc web app */
-var availablePlots = [ 'xyz', 'xy', 'lms', 'lms_base', 'bm', 'lm' ];
+$( window ).load(function(){
 
-$( ).ready(function(){	
 
-//Load the default plots via ajax:
-	
+//Spinner init.
 
+$( "input#age" ).spinner({	
+							min: 20,
+							max: 70,
+							step: 1,
+});
+
+$( "input#field_size" ).spinner({
+									min: 1.0,
+									max: 10.0,
+									step: .1
+});
+
+$( "input#lambda_min" ).spinner({
+									min: 390.0,
+									max: 400.0,
+									step: .1
+});
+
+$( "input#lambda_max" ).spinner({
+									min: 700.0,
+									max: 830.0,
+									step: .1
+});
+
+$( "input#lambda_step" ).spinner({
+									min: 0.1,
+									max: 5.0,
+									step: .1,
+									numberFormat: 'd'
+});
 
 
 function axis_labels(x, y){
 	this.x = x;
 	this.y = y;
 }
-
-var axis_labels = ({ 	'xyz' 		: new axis_labels("x_xyz", "y_xyz"),
-						'xy'		: new axis_labels("x_xy", "y_xy"),
-						'lms'		: new axis_labels("x_lms", "y_lms"),
+	
+var axis_labels = ({ 	'xyz' 		: new axis_labels("Wavelength [nm]", "Fundamental tristimulus values"),
+						'xy'		: new axis_labels("x<sub>F, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>", 
+													  "y<sub>F, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>"),
+													  
+						'lms'		: new axis_labels("Wavelength [nm]", "Relative energy sensitivities"),
 						'lms_base'	: new axis_labels("x_base", "y_base"),
-						'bm'		: new axis_labels("x_bm", "y_bm"),
-						'lm'		: new axis_labels("x_lm", "y_lm"),
+						
+						'bm'		: new axis_labels("l<sub>MB, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>", 
+													  "m<sub>MB, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>"),
+													  
+						'lm'		: new axis_labels("l<sub>" + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>",
+													  "m<sub>" + currentForm['field_size'] + ", " + currentForm['age']+ "</sub>"),
 });
 
-console.log(axis_labels);
 
-var currentPlot = availablePlots[0];
+var currentPlot = availablePlots[0]; //Current plot LMS
 var plot_options = {
 					 'grid' 		: 0,
 					 'cie31'		: 0,
@@ -51,9 +84,9 @@ function getOptionsString(){
 //This function retrieves a plot from the server via AJAX
 function refreshPlot(plot){
 
- var data = all_plots[plot].getPlot(getOptionsString());
+ 	var data = all_plots[plot].getPlot(getOptionsString());
 
-if (data == null) { //If data is not cached, get it from the server.
+	if (data == null) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
 						plot + '/' + 
 						plot_options.grid + "/" + 
@@ -70,24 +103,22 @@ if (data == null) { //If data is not cached, get it from the server.
   							.fail(function() {
     							console.log( "error when getting " + plot + " plot from server" );
 				});
-} else { //Present cached data.
+	} else { //Present cached data.
 
 		$( "div#" + plot + "_plot" ).empty();
 		$( "div#" + plot + "_plot" ).append(data);
 		$( "img#loader" ).hide(); //Hide spinning wheel
+	}
 }
 
-
-}
-
-//This will load all the plots from the server.
+//This will load all the plots.
 function refreshAllPlots(){
 	for (i=0; i < availablePlots.length; i++){
 		refreshPlot(availablePlots[i]);
 	}
 }
 
-//This will load all the plots EXCEPT for 'plot'
+//This will load all the plots EXCEPT for 'plot'.
 function refreshAllOthers(plot){
 	for (i=0; i < availablePlots.length; i++){
 		if ( availablePlots[i] != plot ){
@@ -108,11 +139,11 @@ function refreshAllOthers(plot){
 	$( "image" ).css("opacity", 1); //To make the nav elements more visible.
 	
 
-//Start by showing XYZ plot + data:
+//Start by showing first plot + data:
 
-	$( "#xyz_plot" ).show();
-	$( "#xyz_html" ).show();
-	$( "#xyz_table" ).show();
+	$( "#" + availablePlots[0] + "_plot" ).show();
+	$( "#" + availablePlots[0] + "_html" ).show();
+	$( "#" + availablePlots[0] + "_table" ).show();
 
 
 //Changing plots:
@@ -141,55 +172,55 @@ function refreshAllOthers(plot){
 			
 			case "xyz":
 				
-				$( "#showGrid" ).prop("disabled", false);
-				$( "#compare1931-2" ).prop("disabled", false);
-				$( "#compare1964-10" ).prop("disabled", false);
-				$( "#showLabels" ).prop("disabled", true);
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");;
 				
 			break;
 			
 			case "xy": // CIE xy fundamental chromacity diagram
 				
-				$( "#showGrid" ).prop("disabled", false);
-				$( "#compare1931-2" ).prop("disabled", false);
-				$( "#compare1964-10" ).prop("disabled", false);
-				$( "#showLabels" ).prop("disabled", false);
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
 				
 			break;
 			
 			case "lms": //CIE LMS cone fundamentals
 				
-				$( "#showGrid" ).prop("disabled", false);
-				$( "#compare1931-2" ).prop("disabled", true);
-				$( "#compare1964-10" ).prop("disabled", true);
-				$( "#showLabels" ).prop("disabled", true);
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
 				
 			break;
 			
 			case "lms_base": //CIE LMS cone fundamentals (9 sign.flgs.)
 				
-				$( "#showGrid" ).prop("disabled", false);
-				$( "#compare1931-2" ).prop("disabled", true);
-				$( "#compare1964-10" ).prop("disabled", true);
-				$( "#showLabels" ).prop("disabled", true);
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
 				
 			break;
 			
 			case "bm": //CIE MacLeod-Boynton ls diagram
 				
-				$( "#showGrid" ).prop("disabled", false);
-				$( "#compare1931-2" ).prop("disabled", true);
-				$( "#compare1964-10" ).prop("disabled", true);
-				$( "#showLabels" ).prop("disabled", false);
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
 				
 			break;
 			
 			case "lm": //Equi-power normalised lm diagram
 				
-				$( "#showGrid" ).prop("disabled", false);					
-				$( "#compare1931-2" ).prop("disabled", true);
-				$( "#compare1964-10" ).prop("disabled", true);
-				$( "#showLabels" ).prop("disabled", false);
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
+				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
 				
 			break;
 		}

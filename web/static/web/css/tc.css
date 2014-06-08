@@ -72,7 +72,7 @@ div.input-field, div#figOptions div { 	vertical-align: top;
 
 #tc-Tabs a { outline: none; }
 
-
+.disabled { color: #aaa; }
 				
 
 div#theFig{ position: relative;
@@ -81,7 +81,7 @@ div#theFig{ position: relative;
 }
 
 div.label { position: absolute;
-			width: 30px;
+			width: auto;
 			height: 30px;
 			padding-top: 10px;
 			display: none;
@@ -91,9 +91,9 @@ div.x_label { 	bottom: 0;
 				width: 100%;
 				text-align: center;
 }
-div.y_label {	top:0; left:0; bottom: 0;
+div.y_label {	top:200; left:-630; bottom: 0; right: 0;
 				padding-top: 50px;
-				margin: auto;
+				margin: 0;
 				writing-mode:tb-rl;
     			-webkit-transform:rotate(-90deg);
     			-moz-transform:rotate(-90deg);

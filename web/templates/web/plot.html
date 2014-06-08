@@ -5,16 +5,19 @@
 		<link rel="stylesheet" href="{% static 'web/css/redmond/jquery-ui-1.10.4.custom.min.css' %}"></link>
 		<link rel="stylesheet" href="{% static 'web/css/tc.css' %}"></link>
 		<script src="{% static 'web/js/jquery-1.10.2.js' %}"></script>
-		<script src="{% static 'web/js/jquery-ui-1.10.4.custom.min.js' %}"></srcipt>
-
-	<script>
-		
-	
-	</script>
-
+		<script src="{% static 'web/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+		<script src="{% static 'web/js/plotLoader.js' %}"></script>
+		<script>
+			//Namespace for current form_values
+			currentForm = (	{	age: '{{ age }}',
+								field_size: '{{ field_size }}',
+								lambda_min: '{{ lambda_min }}',
+								lambda_max: '{{ lambda_max }}',
+								lambda_step: '{{ lambda_step }}'
+							});
+		</script>
 	</head>
 	<body>
-		
 		<div id="appWrapper">
 			<div id="header">
 				<img src="{% static 'web/img/logo_final.jpg' %}"/>
@@ -96,12 +99,12 @@
 				</div><!-- end #tc-Tabs -->	
 				<div id="plot-select-div">
 					<select id="plot-select">
-						<option plot="xyz">CIE XYZ fundamental CMFs</option>
-						<option plot="xy">CIE xy fundamental chromacity diagram</option>
 						<option plot="lms">CIE LMS cone fundamentals</option>
 						<option plot="lms_base">CIE LMS cone fundamentals (9 sign.flgs.)</option>
-						<option plot="bm">CIE MacLeod-Boynton ls diagram</option>
 						<option plot="lm">Equi-power normalised lm diagram</option>
+						<option plot="bm">CIE MacLeod-Boynton ls diagram</option>
+						<option plot="xyz">CIE XYZ fundamental CMFs</option>
+						<option plot="xy">CIE xy fundamental chromacity diagram</option>
 						<!--<option plot="0">CIE XYZ standard CMFs</option>
 						<option plot="0">CIE xy standard chromacity diagram</option>-->
 					</select>
@@ -138,23 +141,23 @@
 						{% csrf_token %}
 						<div id="field_size-wrap" class="input-field">
 							<label for="field_size">Field size (&deg;)</label>
-							<input id="field_size" name="field_size" value="{{ field_size }}"/>
+							<input id="field_size" name="field_size" value="{{ field_size }}" readonly/>
 						</div>
 						<div id="age-wrap" class="input-field">
 							<label for="age">Age (yr)</label>
-							<input id="age" name="age" value="{{ age }}"/>
+							<input id="age" name="age" value="{{ age }}" readonly/>
 						</div>
 						<div id="lambda_min-wrap" class="input-field">
 							<label for="lambda_min">Domain (nm)</label>
-							<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
+							<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}" readonly/>
 						</div>
 						<div id="lambda_max-wrap" class="input-field">			
 							<label for="lambda_max"> - </label>
-							<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
+							<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}" readonly/>
 						</div>
 						<div id="lambda_step-wrap" class="input-field">			
 							<label for="lambda_step">Step (nm)</label>
-							<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
+							<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}" readonly/>
 						</div>
 						<div id="computeBtn" class="input-field">
 							<button style="width: 150px" type="submit">Compute</button>
@@ -167,7 +170,6 @@
 			<br style="clear:both"/>
 		</div><!-- end #appWrapper -->
 	
-	<script src="{% static 'web/js/plotLoader.js' %}"></script>
 	<script src="{% static 'web/js/tc.js' %}"></script>
 
 

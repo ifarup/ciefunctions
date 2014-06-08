@@ -6,9 +6,13 @@
 
 //Object to store all variants of a plot.
 var all_plots = [];
-
-$( ).ready(function(){
-
+var availablePlots = [ 	'lms', 
+						'lms_base', 
+						'lm',
+						'bm',
+						'xy', 
+						'xyz' ];
+						
 function Plot ( name ){
 	
 	var plot_name = this.name = name;
@@ -27,8 +31,6 @@ for (i=0; i < availablePlots.length; i++){
 	all_plots[availablePlots[i]] = new Plot(availablePlots[i]);
 
 }
-
-});
 
 
 

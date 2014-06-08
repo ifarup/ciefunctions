@@ -74,21 +74,21 @@ def home(request):
 		print "age: %s" % age
 	
 	try:
-		lambda_min = int(request.POST["lambda_min"])
+		lambda_min = float(request.POST["lambda_min"])
 		print "lambda_min: %s" % lambda_min
 	except:
 		lambda_min = 390.0
 		print "lambda_min: %s" % lambda_min
 	
 	try:
-		lambda_max = int(request.POST["lambda_max"])
+		lambda_max = float(request.POST["lambda_max"])
 		print "lambda_max: %s" % lambda_max
 	except:
 		lambda_max = 830.0
 		print "lambda_max: %s" % lambda_max
 	
 	try:
-		lambda_step = int(request.POST["lambda_step"])
+		lambda_step = float(request.POST["lambda_step"])
 		print "lambda_step: %s" % lambda_step
 	except:
 		lambda_step = 1.0
@@ -151,9 +151,6 @@ def home(request):
 	
 	theTable = mark_safe(tc182.table.lm(results));
 	tab_list.append(theTable)
-	
-
-
 
 	context = { 'tab_list' : tab_list,
 				'html_list' : html_list,
