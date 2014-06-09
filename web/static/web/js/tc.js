@@ -89,7 +89,7 @@ function getOptionsString(){
 
 //This function retrieves a plot from the server via AJAX
 function refreshPlot(plot){
-
+	$( "img#loader" ).show();
  	var data = all_plots[plot].getPlot(getOptionsString());
 
 	if (data == null) { //If data is not cached, get it from the server.

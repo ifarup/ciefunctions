@@ -22,8 +22,11 @@ from django.shortcuts import get_object_or_404
 
 from django.utils import simplejson as json
 
+import logging
+log = logging.getLogger(__name__)
+
 def get_plot(request, plot, grid, cie31, cie64, labels):
-	
+	#log.debug("Requesting %s/%s/%s/%s/%s" % (plot, grid, cie31, cie64, labels))
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
@@ -104,6 +107,9 @@ def home(request):
 		lambda_step = 1.0
 		print "lambda_step: %s" % lambda_step
 		
+	log.debug("Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
+				% ( age, field_size, lambda_min, lambda_max, lambda_step))
+				
 	html_list = [] #List containing all the theDescriptions
 	tab_list = []  #List containing all the tabulated data
 	

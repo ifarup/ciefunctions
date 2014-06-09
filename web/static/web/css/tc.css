@@ -11,7 +11,11 @@ div#header img {	height: 70px;
  }
 
 img#loader { 	width: 50px;
-				margin: 50px auto 50px auto;
+				top: 210;
+				left: 300;
+				opacity: 0.5;
+				position: absolute;
+				z-index: 50;
 			}
 
 select#plot-select { width: 700px; }
@@ -86,6 +90,7 @@ div.input-field, div#figOptions div { 	vertical-align: top;
 div#theFig{ position: relative;
 			text-align: center;
 			border: 1px solid #dc670b;
+			min-height: 510px;
 }
 
 div.label { 
@@ -131,6 +136,10 @@ div.table table tr:hover{ 	text-shadow: 1px 1px 1px #aaa;
 							background-color: coral;
 							cursor: pointer;
  						}
+div.table th:first-of-type { 	width: 100px;
+}
+
+
 
 .tableWrapper { height: 519px; /* Size of figure is fixed, so I adjust this to the figure */
 				overflow-y: scroll;
