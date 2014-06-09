@@ -26,7 +26,7 @@ import logging
 log = logging.getLogger(__name__)
 
 def get_plot(request, plot, grid, cie31, cie64, labels):
-	#log.debug("Requesting %s/%s/%s/%s/%s" % (plot, grid, cie31, cie64, labels))
+	log.debug("Requesting %s/%s/%s/%s/%s" % (plot, grid, cie31, cie64, labels))
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
