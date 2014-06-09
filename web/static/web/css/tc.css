@@ -1,3 +1,9 @@
+/* font */
+
+@font-face { 	font-family: math;
+				src: url("../fonts/cmunci.ttf");
+			}
+
 /* App */
 
 div#header img {	height: 70px;
@@ -11,6 +17,8 @@ img#loader { 	width: 50px;
 select#plot-select { width: 700px; }
 
 .plot {			display: none; }
+
+.math { font-family: math; }
 
 .html_text { 	display: none; }
 
@@ -80,19 +88,24 @@ div#theFig{ position: relative;
 			border: 1px solid #dc670b;
 }
 
-div.label { position: absolute;
-			width: auto;
+div.label { 
+			font-family: math;
+			font-size: 1.2em;
 			height: 30px;
-			padding-top: 10px;
 			display: none;
 		}
 	
-div.x_label { 	bottom: 0;
-				width: 100%;
+div.x_label { 	position: relative;
+				bottom: 0;
+				z-index: 1;
 				text-align: center;
+				left: 80px;
+				width: 500px;
 }
-div.y_label {	top:200; left:-630; bottom: 0; right: 0;
-				padding-top: 50px;
+
+div.y_label {	position:absolute;
+				top:220; left: -180;
+				width: 400px;
 				margin: 0;
 				writing-mode:tb-rl;
     			-webkit-transform:rotate(-90deg);

@@ -46,7 +46,7 @@ var axis_labels = ({ 	'xyz' 		: new axis_labels("Wavelength [nm]", "Fundamental 
 													  "y<sub>F, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>"),
 													  
 						'lms'		: new axis_labels("Wavelength [nm]", "Relative energy sensitivities"),
-						'lms_base'	: new axis_labels("x_base", "y_base"),
+						'lms_base'	: new axis_labels("Wavelength [nm]", "Relative energy sensitivities"),
 						
 						'bm'		: new axis_labels("l<sub>MB, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>", 
 													  "m<sub>MB, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>"),
@@ -105,6 +105,7 @@ function refreshPlot(plot){
 								$( "div#" + plot + "_plot" ).append(data);
 								$( "img#loader" ).hide(); //Hide spinning wheel
 								$( "div.label" ).fadeIn(); //Show the labels
+								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
   							})
   							.fail(function() {
     							console.log( "error when getting " + plot + " plot from server" );
@@ -239,7 +240,7 @@ function refreshAllOthers(plot){
 				
 			break;
 			
-			case "xy31": //Equi-power normalised lm diagram
+			case "xy31": //CIE xy standard chromaticity diagram
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");

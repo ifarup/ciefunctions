@@ -160,8 +160,8 @@ def home(request):
 	
 	#6 xyz31 (CHECK THIS ONE!!!)
 	
-	#theDescription = mark_safe(tc182.description.standard(results,'xyz31'))
-	theDescription = mark_safe("<i>Description for xyz31</i>")
+	theDescription = mark_safe(tc182.description.standard(results,'xyz31'))
+	#theDescription = mark_safe("<i>Description for xyz31</i>")
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.xyz31(results));
@@ -169,8 +169,8 @@ def home(request):
 	
 	#xy31 (AND THIS ONE!!)
 	
-	#theDescription = mark_safe(tc182.description.xy31(results,'xy31'))
-	theDescription = mark_safe("<i>Description for xy31</i>")
+	theDescription = mark_safe(tc182.description.xy31(results,'xy31'))
+	#theDescription = mark_safe("<i>Description for xy31</i>")
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.xy31(results));
