@@ -15,8 +15,12 @@ mpl.use("AGG")
 import matplotlib.pyplot as plt
 import mpld3
 from django.utils.safestring import mark_safe
-from celery import shared_task
 from numpy import *
+
+from web.models import Result, Plot
+from django.shortcuts import get_object_or_404
+
+from django.utils import simplejson as json
 
 def get_plot(request, plot, grid, cie31, cie64, labels):
 	
@@ -103,11 +107,49 @@ def home(request):
 	html_list = [] #List containing all the theDescriptions
 	tab_list = []  #List containing all the tabulated data
 	
-	results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
+	try:
+		serialized_test_results = Result.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
+		test_results = json.loads(serialized_test_results)
+		request.session['results'] = test_results.get_data()
+		results = test_results.get_data()
 	
-	request.session['results'] = results
-	request.session['plots'] = plots
-	
+		serialized_test_plots = Plot.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
+		test_plot = serializers.loads(serialized_test_plots)
+		request.session['plots'] = test_plots.get_data()
+		plots = test_plots.get_data()
+		
+	except Exception as e:
+		print "1st try %s" % e
+		print "Computing ..."
+		results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
+		request.session['results'] = results
+		request.session['plots'] = plots
+		
+		try:
+			serialized_results = json.dumps(results)
+			#new_result = Result( 	field_size=field_size, 
+			#						age=age, 
+			#						lambda_min=lambda_min, 
+			#						lambda_max=lambda_max, 
+			#						lambda_step=lambda_step, 
+			#						data=serialized_results )
+			#new_result.save()
+		except Exception as e:
+			print "Can't serialize results: %s" % e
+			
+		try:
+			serialized_plots = json.dumps(plots)
+			#new_plot = Plot ( 	field_size=field_size,
+			#					age=age, 
+			#					lambda_min=lambda_min, 
+			#					lambda_max=lambda_max, 
+			#					lambda_step=lambda_step, 
+			#					data=plots )
+			#new_plot.save()
+		except Exception as e:
+			print "Can't serialize plots: %s" % e
+			print e
+		
     #0 #xyz 
 	
 	theDescription = mark_safe(tc182.description.xyz(results,'XYZ'))
