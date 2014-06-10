@@ -55,14 +55,14 @@ select#plot-select { width: 650px; }
 
 div.htmlWrapper {	padding-left: 10;
 					height: auto;
-					height: 565px;
+					height: 545px;
 					max-height: 565px;
 					max-width: 620px;
 					overflow-y: scroll;
 				}
 
-div#input-params, div#figOptions {  
-    								margin: 10px auto 10px auto;
+div#input-params, div#figOptions {  font-size: 0.9em;
+    								margin: 5px auto 0px auto;
     								margin-left: auto; 
     								margin-right: auto;
 
@@ -84,7 +84,7 @@ table#inputTable .minus-sign { text-align: center;
 								width: 30px;
 }
 
-table#inputTable .btnCell { text-align: right; }
+table#inputTable .btnCell { text-align: left; }
 table#inputTable .btnCell button { font-size: 0.9em;}
 
 table#inputTable .lblTd { text-align: left; }
@@ -93,8 +93,9 @@ table#inputTable .lblTd { text-align: left; }
 
 
 table#inputTable { 	text-align: left;
-					margin-right: 0px;
-					margin-left: auto;
+					width: 540px;
+					margin-right: auto;
+					margin-left: 10px;
 					}
 
 
