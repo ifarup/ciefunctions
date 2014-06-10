@@ -65,9 +65,9 @@ def xyz(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>x</em></font><sub> F, %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>y</em></font><sub> F, %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>z</em></font><sub> F, %.1f, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>x</em></font><sub> F, %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>z</em></font><sub> F, %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
@@ -123,9 +123,9 @@ def xy(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><em>x</em><sub> F, %.1f, %d</sub></th>
-        <th><em>y</em><sub> F, %.1f, %d</sub></th>
-        <th><em>z</em><sub> F, %.1f, %d</sub></th>
+        <th><em>x</em><sub> F, %s, %d</sub></th>
+        <th><em>y</em><sub> F, %s, %d</sub></th>
+        <th><em>z</em><sub> F, %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
@@ -181,9 +181,9 @@ def lms(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %.1f, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
@@ -239,9 +239,9 @@ def lms_base(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %.1f, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
@@ -297,9 +297,9 @@ def bm(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><em>l</em><sub> %.1f, %d</sub></th>
-        <th><em>m</em><sub> %.1f, %d</sub></th>
-        <th><em>s</em><sub> %.1f, %d</sub></th>
+        <th><em>l</em><sub> %s, %d</sub></th>
+        <th><em>m</em><sub> %s, %d</sub></th>
+        <th><em>s</em><sub> %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
@@ -356,9 +356,9 @@ def lm(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><em>l</em><sub> %.1f, %d</sub></th>
-        <th><em>m</em><sub> %.1f, %d</sub></th>
-        <th><em>s</em><sub> %.1f, %d</sub></th>
+        <th><em>l</em><sub> %s, %d</sub></th>
+        <th><em>m</em><sub> %s, %d</sub></th>
+        <th><em>s</em><sub> %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
