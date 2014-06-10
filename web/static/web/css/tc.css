@@ -18,7 +18,7 @@ img#loader { 	width: 50px;
 				z-index: 50;
 			}
 
-select#plot-select { width: 700px; }
+select#plot-select { width: 650px; }
 
 .plot {			display: none; }
 
@@ -37,12 +37,12 @@ select#plot-select { width: 700px; }
 				padding-left: 15px;
  }
  
-#leftSpalte	{ 	width: 700px;
+#leftSpalte	{ 	width: 650px;
 				height: auto;
 				float: left;
  }
 #rightSpalte { 
-				width: 680px;
+				/*width: 680px;*/
 				overflow-y: auto;
 				float: left;
 }
