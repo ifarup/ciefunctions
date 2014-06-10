@@ -362,7 +362,7 @@ def lm(axes, plots, options):
                                                                         plots['lambda_max']) +
                             ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
     else:
-        axes.set_title('Equi-power normalised $lm$ chromaticity diagram', fontsize=12)
+        axes.set_title('Equi-power normalised <i>lm</i> chromaticity diagram', fontsize=12)
     lock.release()
 
 def xyz31(axes, plots, options):
