@@ -47,7 +47,7 @@ select#plot-select { width: 650px; }
 				float: left;
 }
 
-#bottomSpalte { width: 700px;
+#bottomSpalte { width: 600px;
 				clear:both;
 				padding-top: 10px;
 }
@@ -55,7 +55,9 @@ select#plot-select { width: 650px; }
 
 div.htmlWrapper {	padding-left: 10;
 					height: auto;
-					max-height: 600px;
+					height: 565px;
+					max-height: 565px;
+					max-width: 620px;
 					overflow-y: scroll;
 				}
 
@@ -76,7 +78,26 @@ div.input-field, div#figOptions div { 	vertical-align: top;
     									margin-left: 10px;
 }
 
-div.input-field input { width: 40px; }
+table#inputTable input { 	width: 40px; }
+
+table#inputTable .minus-sign { text-align: center; 
+								width: 30px;
+}
+
+table#inputTable .btnCell { text-align: right; }
+table#inputTable .btnCell button { font-size: 0.9em;}
+
+table#inputTable .lblTd { text-align: left; }
+
+
+
+
+table#inputTable { 	text-align: left;
+					margin-right: 0px;
+					margin-left: auto;
+					}
+
+
 .stretch {
     				width: 100%;
     				display: inline-block;
