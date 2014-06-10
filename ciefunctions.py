@@ -166,20 +166,6 @@ You should have received a copy of the GNU General Public License along with thi
             # Create html table
             html_table = tc182.table.xyz(self.results, True)
 
-            # Create table            
-            self.table.setRowCount(np.shape(self.results['xyz'])[0])
-            self.table.setColumnCount(np.shape(self.results['xyz'])[1])
-            self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
-            for i in range(np.shape(self.results['xyz'])[0]):
-                self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.results['xyz'][i, 0]))
-                self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 1]))
-                self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 2]))
-                self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.6e' % self.results['xyz'][i, 3]))
-        
         #
         # chromaticity diagram
         #
@@ -201,20 +187,6 @@ You should have received a copy of the GNU General Public License along with thi
             # Greate html description
             html_string = tc182.description.xy(self.results, self.plot_combo.currentText(), True)
 
-            # Create table
-            self.table.setRowCount(np.shape(self.results['cc'])[0])
-            self.table.setColumnCount(np.shape(self.results['cc'])[1])
-            self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
-            for i in range(np.shape(self.results['xyz'])[0]):
-                self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.results['cc'][i, 0]))
-                self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 1]))
-                self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 2]))
-                self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.5f' % self.results['cc'][i, 3]))
-        
         #
         # LMS standard
         #
@@ -237,20 +209,6 @@ You should have received a copy of the GNU General Public License along with thi
             # Create html table
             html_table = tc182.table.lms(self.results, True)
 
-            # Create table
-            self.table.setRowCount(np.shape(self.results['lms_standard'])[0])
-            self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
-            self.table.setColumnCount(np.shape(self.results['lms_standard'])[1])
-            for i in range(np.shape(self.results['xyz'])[0]):
-                self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.results['lms_standard'][i, 0]))
-                self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 1]))
-                self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 2]))
-                self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.5e' % self.results['lms_standard'][i, 3]))
-        
         #
         # LMS base
         #
@@ -273,19 +231,6 @@ You should have received a copy of the GNU General Public License along with thi
             # Create html table
             html_table = tc182.table.lms_base(self.results, True)
 
-            # Create table
-            self.table.setRowCount(np.shape(self.results['lms_base'])[0])
-            self.table.setHorizontalHeaderLabels(['lambda', 'L', 'M', 'S'])
-            self.table.setColumnCount(np.shape(self.results['lms_base'])[1])
-            for i in range(np.shape(self.results['xyz'])[0]):
-                self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.results['lms_base'][i, 0]))
-                self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 1]))
-                self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 2]))
-                self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.8e' % self.results['lms_base'][i, 3]))
         #
         # MacLeod-Boynton
         #
@@ -308,20 +253,6 @@ You should have received a copy of the GNU General Public License along with thi
             # Create html table
             html_table = tc182.table.bm(self.results, True)
 
-            # Create table
-            self.table.setRowCount(np.shape(self.results['bm'])[0])
-            self.table.setColumnCount(np.shape(self.results['bm'])[1])
-            self.table.setHorizontalHeaderLabels(['lambda', 'l', 'm', 's'])
-            for i in range(np.shape(self.results['xyz'])[0]):
-                self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.results['bm'][i, 0]))
-                self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 1]))
-                self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 2]))
-                self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.6f' % self.results['bm'][i, 3]))
-        
         #
         # Normalised lm-diagram
         #
@@ -344,20 +275,6 @@ You should have received a copy of the GNU General Public License along with thi
             # Create html table
             html_table = tc182.table.lm(self.results, True)
 
-            # Create table            
-            self.table.setRowCount(np.shape(self.results['lm'])[0])
-            self.table.setColumnCount(np.shape(self.results['lm'])[1])
-            self.table.setHorizontalHeaderLabels(['lambda', 'lN', 'mN', 'sN'])
-            for i in range(np.shape(self.results['xyz'])[0]):
-                self.table.setItem(i, 0,
-                                   qt.QTableWidgetItem('%.1f' % self.results['lm'][i, 0]))
-                self.table.setItem(i, 1,
-                                   qt.QTableWidgetItem('%.5f' % self.results['lm'][i, 1]))
-                self.table.setItem(i, 2,
-                                   qt.QTableWidgetItem('%.5f' % self.results['lm'][i, 2]))
-                self.table.setItem(i, 3,
-                                   qt.QTableWidgetItem('%.5f' % self.results['lm'][i, 3]))
-        
         #
         # CIE standard XYZ
         #
@@ -384,20 +301,6 @@ You should have received a copy of the GNU General Public License along with thi
                 # Create plot                
                 tc182.plot.xyz31(self.axes, self.plots, self.plot_options())
                 
-                # Create table
-                self.table.setRowCount(np.shape(self.plots['xyz31'])[0])
-                self.table.setColumnCount(np.shape(self.plots['xyz31'])[1])
-                self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
-                for i in range(np.shape(self.plots['xyz31'])[0]):
-                    self.table.setItem(i, 0,
-                                       qt.QTableWidgetItem('%.1f' % self.plots['xyz31'][i, 0]))
-                    self.table.setItem(i, 1,
-                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 1]))
-                    self.table.setItem(i, 2,
-                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 2]))
-                    self.table.setItem(i, 3,
-                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz31'][i, 3]))
-
             else: # 10 deg
                 
                 # Setup GUI
@@ -415,20 +318,6 @@ You should have received a copy of the GNU General Public License along with thi
                 # Create plot
                 tc182.plot.xyz64(self.axes, self.plots, self.plot_options())
                 
-                # Create table
-                self.table.setRowCount(np.shape(self.plots['xyz64'])[0])
-                self.table.setColumnCount(np.shape(self.plots['xyz64'])[1])
-                self.table.setHorizontalHeaderLabels(['lambda', 'X', 'Y', 'Z'])
-                for i in range(np.shape(self.plots['xyz64'])[0]):
-                    self.table.setItem(i, 0,
-                                       qt.QTableWidgetItem('%.1f' % self.plots['xyz64'][i, 0]))
-                    self.table.setItem(i, 1,
-                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 1]))
-                    self.table.setItem(i, 2,
-                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 2]))
-                    self.table.setItem(i, 3,
-                                       qt.QTableWidgetItem('%.6e' % self.plots['xyz64'][i, 3]))
-        
         #
         # CIE standard chromaticity diagram
         #
@@ -455,19 +344,6 @@ You should have received a copy of the GNU General Public License along with thi
                 # Create plot
                 tc182.plot.xy31(self.axes, self.plots, self.plot_options())
 
-                # Create table
-                self.table.setRowCount(np.shape(self.plots['cc31'])[0])
-                self.table.setColumnCount(np.shape(self.plots['cc31'])[1])
-                self.table.setHorizontalHeaderLabels(['lambda', 'x', 'y', 'z'])
-                for i in range(np.shape(self.results['xyz'])[0]):
-                    self.table.setItem(i, 0,
-                                       qt.QTableWidgetItem('%.1f' % self.plots['cc31'][i, 0]))
-                    self.table.setItem(i, 1,
-                                       qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 1]))
-                    self.table.setItem(i, 2,
-                                       qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 2]))
-                    self.table.setItem(i, 3,
-                                       qt.QTableWidgetItem('%.5f' % self.plots['cc31'][i, 3]))
             else: # 10 deg
 
                 # Setup GUI
@@ -484,20 +360,6 @@ You should have received a copy of the GNU General Public License along with thi
     
                 # Create plot
                 tc182.plot.xy64(self.axes, self.plots, self.plot_options())
-
-                # Create table
-                self.table.setRowCount(np.shape(self.plots['cc64'])[0])
-                self.table.setColumnCount(np.shape(self.plots['cc64'])[1])
-                self.table.setHorizontalHeaderLabels(['lambda', 'x10', 'y10', 'z10'])
-                for i in range(np.shape(self.results['xyz'])[0]):
-                    self.table.setItem(i, 0,
-                                       qt.QTableWidgetItem('%.1f' % self.plots['cc64'][i, 0]))
-                    self.table.setItem(i, 1,
-                                       qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 1]))
-                    self.table.setItem(i, 2,
-                                       qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 2]))
-                    self.table.setItem(i, 3,
-                                       qt.QTableWidgetItem('%.5f' % self.plots['cc64'][i, 3]))
 
         # Refresh GUI        
         self.transformation.setHtml(html_string)
@@ -627,10 +489,10 @@ You should have received a copy of the GNU General Public License along with thi
         self.COMBO_LMS = 0
         self.plot_combo.addItem('CIE LMS cone fundamentals (9 sign. figs.)')
         self.COMBO_LMSBASE = 1
-        self.plot_combo.addItem('Equi-power normalised lm diagram')
-        self.COMBO_LM = 2
-        self.plot_combo.addItem('CIE MacLeod-Boynton ls diagram')
-        self.COMBO_BM = 3
+        self.plot_combo.addItem('MacLeod-Boynton ls diagram')
+        self.COMBO_BM = 2
+        self.plot_combo.addItem('Maxwellian lm diagram')
+        self.COMBO_LM = 3
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')
         self.COMBO_XYZ = 4
         self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
@@ -662,7 +524,6 @@ You should have received a copy of the GNU General Public License along with thi
         self.connect(self.compute_button,
                      qtcore.SIGNAL('clicked(bool)'), self.on_compute)
         
-        self.table = qt.QTableWidget()
         self.transformation = qtweb.QWebView()
         self.html_table = qtweb.QWebView()
 
@@ -715,7 +576,6 @@ You should have received a copy of the GNU General Public License along with thi
         spectral_tabs = qt.QTabWidget()
         spectral_tabs.addTab(inner_widget, 'Plot')
         spectral_tabs.addTab(self.html_table, 'Table')
-        spectral_tabs.addTab(self.table, 'Old Table')
 
         spectral_vbox = qt.QVBoxLayout()
         spectral_vbox.addWidget(spectral_tabs)
