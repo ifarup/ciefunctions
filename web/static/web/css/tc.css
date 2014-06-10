@@ -184,12 +184,12 @@ div.html_text { padding-left: 5px;
 div.html_text sub { font-size: 1em;}
 
 .description-heading-2 { color: #333;
-						font-size: 3em;
-						margin-top: 10px;
+						font-size: 2em;
+						margin-top: 5px;
 					}
 				
 .description-heading-4 {	color: blue;
-						font-size: 2em;
+						font-size: 1.4em;
 					}
 					
 .description-subtitle { color:#333; 
