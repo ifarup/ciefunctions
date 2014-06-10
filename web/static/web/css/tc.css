@@ -82,6 +82,7 @@ table#inputTable input { 	width: 40px; }
 
 table#inputTable .minus-sign { text-align: center; 
 								width: 30px;
+								font-size: 2.5em;
 }
 
 table#inputTable .btnCell { text-align: left; }
