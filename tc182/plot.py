@@ -48,9 +48,9 @@ def xyz(axes, plots, options):
         axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,2], 'g--')
         axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,3], 'b--')
     if options['cie64']:
-        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,1], 'r-.')
-        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,2], 'g-.')
-        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b-.')
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,1], 'r:')
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,2], 'g:')
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b:')
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
@@ -90,11 +90,11 @@ def xy(axes, plots, options):
             ind = np.nonzero(plots['cc31'][:,0] == l)[0]
             axes.plot(plots['cc31'][ind,1], plots['cc31'][ind,2], 'ko')
     if options['cie64']:
-        axes.plot(plots['cc64'][:,1], plots['cc64'][:,2], 'k-.')
-        axes.plot(plots['purple_line_cc64'][:,1], plots['purple_line_cc64'][:,2], 'k-.')
+        axes.plot(plots['cc64'][:,1], plots['cc64'][:,2], 'k:')
+        axes.plot(plots['purple_line_cc64'][:,1], plots['purple_line_cc64'][:,2], 'k:')
         for l in lambdavalues: # add wavelength parameters
             ind = np.nonzero(plots['cc64'][:,0] == l)[0]
-            axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'k^')
+            axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'ks')
     axes.plot(plots['cc'][:,1], plots['cc'][:,2], 'k')
     axes.plot(plots['purple_line_cc'][:,1], plots['purple_line_cc'][:,2], 'k')
     for l in lambdavalues: # add wavelength parameters
@@ -385,9 +385,9 @@ def xyz31(axes, plots, options):
     axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,2], 'g')
     axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,3], 'b')
     if options['cie64']:
-        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,1], 'r-.')
-        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,2], 'g-.')
-        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b-.')
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,1], 'r:')
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,2], 'g:')
+        axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b:')
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
@@ -416,9 +416,9 @@ def xyz64(axes, plots, options):
     axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,2], 'g')
     axes.plot(plots['xyz64'][:,0], plots['xyz64'][:,3], 'b')
     if options['cie31']:
-        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,1], 'r-.')
-        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,2], 'g-.')
-        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,3], 'b-.')
+        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,1], 'r:')
+        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,2], 'g:')
+        axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,3], 'b:')
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
@@ -445,11 +445,11 @@ def xy31(axes, plots, options):
     axes.grid(options['grid'])
     lambdavalues = np.concatenate(([390], np.arange(470, 611, 10), [700, 830]))
     if options['cie64']:
-        axes.plot(plots['cc64'][:,1], plots['cc64'][:,2], 'k-.')
-        axes.plot(plots['purple_line_cc64'][:,1], plots['purple_line_cc64'][:,2], 'k-.')
+        axes.plot(plots['cc64'][:,1], plots['cc64'][:,2], 'k:')
+        axes.plot(plots['purple_line_cc64'][:,1], plots['purple_line_cc64'][:,2], 'k:')
         for l in lambdavalues: # add wavelength parameters
             ind = np.nonzero(plots['cc64'][:,0] == l)[0]
-            axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'k^')
+            axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'ks')
     axes.plot(plots['cc31'][:,1], plots['cc31'][:,2], 'k')
     axes.plot(plots['purple_line_cc31'][:,1], plots['purple_line_cc31'][:,2], 'k')
     for l in lambdavalues: # add wavelength parameters
@@ -504,7 +504,7 @@ def xy64(axes, plots, options):
     axes.plot(plots['purple_line_cc64'][:,1], plots['purple_line_cc64'][:,2], 'k')
     for l in lambdavalues: # add wavelength parameters
         ind = np.nonzero(plots['cc64'][:,0] == l)[0]
-        axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'k^')
+        axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'ks')
         if l == 700 or l == 390:
             align = 'top'
         elif l == 830:
