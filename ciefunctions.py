@@ -77,7 +77,7 @@ class AppForm(qt.QMainWindow):
             elif self.plot_combo.currentIndex() == self.COMBO_BM:
                 np.savetxt(path, self.results['bm'], '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == self.COMBO_LM:
-                np.savetxt(path, self.results['lm'], '%.1f, %.5f, %.5f, %.5f')
+                np.savetxt(path, self.results['lm'], '%.1f, %.6f, %.6f, %.6f')
     
     def plot_options(self):
         """

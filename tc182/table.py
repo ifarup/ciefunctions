@@ -368,9 +368,9 @@ def lm(results, include_head=False):
             html_table += """
             <tr>
                <td>%.0f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
+               <td>%.6f</td>
+               <td>%.6f</td>
+               <td>%.6f</td>
             </tr>
             """ % (results['lm'][i, 0],
                    results['lm'][i, 1],

@@ -696,7 +696,7 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
         return err
 
 def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_step=1,
-                      xyz_signfig=7, cc_dp=5, mat_dp=8, lms_signfig=6, bm_dp=6, lm_dp=5):
+                      xyz_signfig=7, cc_dp=5, mat_dp=8, lms_signfig=6, bm_dp=6, lm_dp=6):
     """
     Compute tabulated quantities as a function of field size and age.
     

@@ -270,7 +270,7 @@ def _illuminant_E_lm(data):
     (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
     <em>m</em><sub>,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
     =
-    (%.5f, %.5f) <br /><br />
+    (%.6f, %.6f) <br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['lm_white'][0], data['lm_white'][1])
@@ -310,11 +310,11 @@ def _purple_lm(data):
     (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
     <em>m</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
-    (%.5f, %.5f) <br />
+    (%.6f, %.6f) <br />
     (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
     <em>m</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
-    (%.5f, %.5f)
+    (%.6f, %.6f)
     """ % (data['field_size'], data['age'], data['purple_line_lm'][0,0],
            data['field_size'], data['age'], data['purple_line_lm'][0,0],
            data['purple_line_lm'][0,1], data['purple_line_lm'][0,2],
