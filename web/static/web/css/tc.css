@@ -43,7 +43,8 @@ select#plot-select { width: 650px; }
 				float: left;
  }
 #rightSpalte { 
-				/*width: 680px;*/
+				width: auto;
+				max-width: 650px;
 				overflow-y: auto;
 				float: left;
 }
@@ -55,10 +56,9 @@ select#plot-select { width: 650px; }
 
 
 div.htmlWrapper {	padding-left: 10;
-					height: auto;
 					height: 545px;
 					max-height: 565px;
-					max-width: 620px;
+					width: auto;
 					overflow-y: auto;
 				}
 
