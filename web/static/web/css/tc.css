@@ -78,11 +78,12 @@ div.input-field, div#figOptions div { 	vertical-align: top;
     									margin-left: 10px;
 }
 
+
 table#inputTable input { 	width: 40px; }
 
 table#inputTable .minus-sign { text-align: center; 
 								width: 30px;
-								font-size: 2.5em;
+								font-size: 1.5em;
 }
 
 table#inputTable .btnCell { text-align: left; }
@@ -94,11 +95,13 @@ table#inputTable .lblTd { text-align: left; }
 
 
 table#inputTable { 	text-align: left;
-					width: 540px;
 					margin-right: auto;
 					margin-left: 10px;
 					}
 
+table#inputTable td { 	width: auto; 
+						padding-top: 3px;
+}
 
 .stretch {
     				width: 100%;
