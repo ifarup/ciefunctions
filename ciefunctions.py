@@ -627,10 +627,10 @@ You should have received a copy of the GNU General Public License along with thi
         self.COMBO_LMS = 0
         self.plot_combo.addItem('CIE LMS cone fundamentals (9 sign. figs.)')
         self.COMBO_LMSBASE = 1
-        self.plot_combo.addItem('Equi-power normalised lm diagram')
-        self.COMBO_LM = 2
-        self.plot_combo.addItem('CIE MacLeod-Boynton ls diagram')
-        self.COMBO_BM = 3
+        self.plot_combo.addItem('MacLeod-Boynton ls diagram')
+        self.COMBO_BM = 2
+        self.plot_combo.addItem('Maxwellian lm diagram')
+        self.COMBO_LM = 3
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')
         self.COMBO_XYZ = 4
         self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
