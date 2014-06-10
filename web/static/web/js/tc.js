@@ -141,6 +141,9 @@ function refreshAllOthers(plot){
 					});
 	
 	$( "#tc-Tabs" ).css({'height': 'auto', 'width': 'auto'});
+	
+//And button
+	$( "button#btnCompute" ).button();
 
 //@TODO: Need to make navigation buttons (home, magnifier, cross) more visible.
 	$( "image" ).css("opacity", 1); //To make the nav elements more visible.

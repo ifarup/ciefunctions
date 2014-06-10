@@ -58,7 +58,7 @@ div.htmlWrapper {	padding-left: 10;
 					height: 545px;
 					max-height: 565px;
 					max-width: 620px;
-					overflow-y: scroll;
+					overflow-y: auto;
 				}
 
 div#input-params, div#figOptions {  font-size: 0.9em;
@@ -100,7 +100,8 @@ table#inputTable { 	text-align: left;
 					}
 
 table#inputTable td { 	width: auto; 
-						padding-top: 3px;
+						padding: 5px;
+						
 }
 
 .stretch {
