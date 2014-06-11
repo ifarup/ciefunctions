@@ -297,9 +297,9 @@ def bm(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><em>l</em><sub> %s, %d</sub></th>
-        <th><em>m</em><sub> %s, %d</sub></th>
-        <th><em>s</em><sub> %s, %d</sub></th>
+        <th><em>l</em><sub> MB, %s, %d</sub></th>
+        <th><em>m</em><sub> MB, %s, %d</sub></th>
+        <th><em>s</em><sub> MB, %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
