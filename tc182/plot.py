@@ -285,13 +285,13 @@ def bm(axes, plots, options):
                                                                                    plots['lambda_step']),
                             fontsize=16)
     if options['full_title']:
-        axes.set_title('CIE MacLeod-Boynton chromaticity diagram\nField size: ' + str(plots['field_size']) +
+        axes.set_title('MacLeod-Boynton ls chromaticity diagram\nField size: ' + str(plots['field_size']) +
                             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
                             u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                                     plots['lambda_max']) +
                             ',  Step: %0.1f nm' % plots['lambda_step'], fontsize=12)
     else:
-        axes.set_title('CIE MacLeod-Boynton chromaticity diagram', fontsize=12)
+        axes.set_title('MacLeod-Boynton ls chromaticity diagram', fontsize=12)
     lock.release()
 
 def lm(axes, plots, options):
