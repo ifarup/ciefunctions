@@ -15,7 +15,9 @@ mpl.use("AGG")
 import matplotlib.pyplot as plt
 import mpld3
 from django.utils.safestring import mark_safe
-from numpy import *
+#from numpy import *
+import numpy as np
+import StringIO
 
 from web.models import Result, Plot
 from django.shortcuts import get_object_or_404
@@ -69,43 +71,60 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 	plt.close(fig)
 	return HttpResponse(resulting_plot);
 
+def get_csv(request, plot):
+
+	
+	format = { 'xyz' 		:  '%.1f, %.6e, %.6e, %.6e',
+			   'lms' 		: '%.1f, %.5e, %.5e, %.5e',
+			   'lms_base'	: '%.1f, %.8e, %.8e, %.8e',
+			   'bm'			: '%.1f, %.6f, %.6f, %.6f',
+			   'lm'			: '%.1f, %.6f, %.6f, %.6f',
+			   'cc'			: '%.1f, %.5f, %.5f, %.5f'
+	}
+
+	plot = str(plot)
+	output = StringIO.StringIO()
+	thePlot = request.session['results']
+	np.savetxt(output, thePlot[plot], format[plot])
+	response = HttpResponse(output.getvalue(), mimetype='text/csv')
+	response['Content-Disposition'] = 'attachment; filename = "%s.csv"' % plot
+	return response
 
 def home(request):
 
 	try:
 		field_size = float(request.POST["field_size"])
-		print "field_size: %s " % field_size
+		
 	except:
 		field_size = 2.0
-		print "field_size: %s " % field_size
 		
 	try:
 		age = int(request.POST["age"])
-		print "age: %s" % age
+		
 	except:
 		age = 32
-		print "age: %s" % age
+		
 	
 	try:
 		lambda_min = float(request.POST["lambda_min"])
-		print "lambda_min: %s" % lambda_min
+		
 	except:
 		lambda_min = 390.0
-		print "lambda_min: %s" % lambda_min
+		
 	
 	try:
 		lambda_max = float(request.POST["lambda_max"])
-		print "lambda_max: %s" % lambda_max
+		
 	except:
 		lambda_max = 830.0
-		print "lambda_max: %s" % lambda_max
+		
 	
 	try:
 		lambda_step = float(request.POST["lambda_step"])
-		print "lambda_step: %s" % lambda_step
+		
 	except:
 		lambda_step = 1.0
-		print "lambda_step: %s" % lambda_step
+		
 		
 	log.debug("Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
 				% ( age, field_size, lambda_min, lambda_max, lambda_step))
@@ -158,7 +177,7 @@ def home(request):
 		
     #0 #xyz 
 	
-	theDescription = mark_safe(tc182.description.xyz(results,'XYZ'))
+	theDescription = mark_safe(tc182.description.xyz(results, ''))
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.xyz(results));
@@ -166,7 +185,7 @@ def home(request):
 	
     #1 #xy
 	
-	theDescription = mark_safe(tc182.description.xy(results,'XY'))
+	theDescription = mark_safe(tc182.description.xy(results, ''))
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.xy(results));
@@ -175,7 +194,7 @@ def home(request):
 	
 	#2 #lms
 	
-	theDescription = mark_safe(tc182.description.lms(results,'LMS'))
+	theDescription = mark_safe(tc182.description.lms(results, ''))
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.lms(results));
@@ -184,7 +203,7 @@ def home(request):
 	
 	#3 #lms_base
     
-	theDescription = mark_safe(tc182.description.lms_base(results,'LMS BASE'))
+	theDescription = mark_safe(tc182.description.lms_base(results, ''))
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.lms_base(results));
@@ -192,7 +211,7 @@ def home(request):
 
 	#4 #bm
 	
-	theDescription = mark_safe(tc182.description.bm(results,'BM'))
+	theDescription = mark_safe(tc182.description.bm(results, ''))
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.bm(results));
@@ -200,7 +219,7 @@ def home(request):
 
 	#5 #lm
 	
-	theDescription = mark_safe(tc182.description.lm(results,'LM'))
+	theDescription = mark_safe(tc182.description.lm(results, ''))
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.lm(results));
@@ -208,8 +227,7 @@ def home(request):
 	
 	#6 xyz31 (CHECK THIS ONE!!!)
 	
-	theDescription = mark_safe(tc182.description.standard(results,'xyz31'))
-	#theDescription = mark_safe("<i>Description for xyz31</i>")
+	theDescription = mark_safe(tc182.description.xyz31(results, ''))
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.xyz31(results));
@@ -217,8 +235,7 @@ def home(request):
 	
 	#xy31 (AND THIS ONE!!)
 	
-	theDescription = mark_safe(tc182.description.xy31(results,'xy31'))
-	#theDescription = mark_safe("<i>Description for xy31</i>")
+	theDescription = mark_safe(tc182.description.xy31(results, ''))
 	html_list.append(theDescription)
 	
 	theTable = mark_safe(tc182.table.xy31(results));
