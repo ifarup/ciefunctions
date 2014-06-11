@@ -79,8 +79,11 @@ div.input-field, div#figOptions div { 	vertical-align: top;
     									margin-left: 10px;
 }
 
+table.matrix td { font-size: 0.9em; }
 
-table#inputTable input { 	width: 40px; }
+table#inputTable input { 	width: 40px;
+							font-size: 0.8em;
+ }
 
 table#inputTable .minus-sign { text-align: center; 
 								width: 30px;
