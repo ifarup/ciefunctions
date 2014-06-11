@@ -11,12 +11,12 @@ div#header img {	height: 55px;
 					margin: 0px 0px 10px 10px;
  }
 
-img#loader { 	width: 50px;
-				top: 210;
-				left: 300;
-				opacity: 0.5;
-				position: absolute;
-				z-index: 50;
+img#plot_loader, img#table_loader { 	width: 50px;
+										top: 210;
+										left: 300;
+										opacity: 0.5;
+										position: absolute;
+										z-index: 50;
 			}
 
 select#plot-select { width: 650px; }
@@ -28,6 +28,9 @@ select#plot-select { width: 650px; }
 .html_text { 	display: none; }
 
 .table { display: none; }
+
+div#getCsv-container { text-align: right; }
+button#getCsv { margin: 5px auto auto auto; }
 
 .float-bottom { height: 0px;
 				clear:both;

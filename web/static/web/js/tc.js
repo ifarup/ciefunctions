@@ -35,6 +35,10 @@ $( "input#lambda_step" ).spinner({
 									numberFormat: 'd'
 });
 
+//Hide table_loader
+
+$( "img#table_loader" ).hide();
+
 
 function axis_labels(x, y){
 	this.x = x;
@@ -89,7 +93,7 @@ function getOptionsString(){
 
 //This function retrieves a plot from the server via AJAX
 function refreshPlot(plot){
-	$( "img#loader" ).show();
+	$( "img#plot_loader" ).show();
  	var data = all_plots[plot].getPlot(getOptionsString());
 
 	if (data == null) { //If data is not cached, get it from the server.
@@ -103,7 +107,7 @@ function refreshPlot(plot){
 								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
 								$( "div#" + plot + "_plot" ).append(data);
-								$( "img#loader" ).hide(); //Hide spinning wheel
+								$( "img#plot_loader" ).hide(); //Hide spinning wheel
 								$( "div.label" ).fadeIn(); //Show the labels
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
   							})
@@ -114,9 +118,16 @@ function refreshPlot(plot){
 
 		$( "div#" + plot + "_plot" ).empty();
 		$( "div#" + plot + "_plot" ).append(data);
-		$( "img#loader" ).hide(); //Hide spinning wheel
+		$( "img#plot_loader" ).hide(); //Hide spinning wheel
 	}
 }
+
+//This function sends table data to the user
+
+$( "button#getCsv" ).on("click", function(){
+	location.href = "/get_csv/" + currentPlot + "/";
+});
+
 
 //This will load all the plots.
 function refreshAllPlots(){
@@ -144,6 +155,10 @@ function refreshAllOthers(plot){
 	
 //And button
 	$( "button#btnCompute" ).button();
+
+//Save table
+
+	$( "button#getCsv" ).button();
 
 //@TODO: Need to make navigation buttons (home, magnifier, cross) more visible.
 	$( "image" ).css("opacity", 1); //To make the nav elements more visible.

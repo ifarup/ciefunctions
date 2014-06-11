@@ -54,7 +54,7 @@
 							<div id="xy31_plot" class="plot">
 								<!-- ajax plot standard -->
 							</div>
-							<img id="loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
+							<img id="plot_loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 							<div class="label x_label">Wavelength</div>
 							<div class="label y_label">Wavelength</div>
 						</div>
@@ -106,7 +106,11 @@
 							<div id="xy31_table" class="table">
 								{{ tab_list.7 }}
 							</div>
+							<img id="table_loader" src="{% static 'web/img/spinner-blue.gif' %}"/>
 						</div>	<!-- end .tableWrapper -->
+						<div id="getCsv-container">
+							<button id="getCsv">Save Table</button>
+						</div>
 					</div><!-- end #tabs-2 -->
 				</div><!-- end #tc-Tabs -->	
 				<div id="plot-select-div">
