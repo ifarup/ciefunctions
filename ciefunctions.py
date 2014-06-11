@@ -69,7 +69,7 @@ class AppForm(qt.QMainWindow):
             if self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMS:
-                np.savetxt(path, self.results['lms_standard'], '%.1f, %.5e, %.5e, %.5e')
+                np.savetxt(path, self.results['lms'], '%.1f, %.5e, %.5e, %.5e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
                 np.savetxt(path, self.results['lms_base'], '%.1f, %.8e, %.8e, %.8e')
             elif self.plot_combo.currentIndex() == self.COMBO_XY:

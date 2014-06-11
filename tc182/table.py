@@ -188,7 +188,7 @@ def lms(results, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(results['lms_standard'])[0]):
+    for i in range(np.shape(results['lms'])[0]):
         if results['lambda_step'] == np.round(results['lambda_step']):
             html_table += """
             <tr>
@@ -197,10 +197,10 @@ def lms(results, include_head=False):
                <td>%.5e</td>
                <td>%.5e</td>
             </tr>
-            """ % (results['lms_standard'][i, 0],
-                   results['lms_standard'][i, 1],
-                   results['lms_standard'][i, 2],
-                   results['lms_standard'][i, 3])
+            """ % (results['lms'][i, 0],
+                   results['lms'][i, 1],
+                   results['lms'][i, 2],
+                   results['lms'][i, 3])
         else:
             html_table += """
             <tr>
@@ -209,10 +209,10 @@ def lms(results, include_head=False):
                <td>%.5e</td>
                <td>%.5e</td>
             </tr>
-            """ % (results['lms_standard'][i, 0],
-                   results['lms_standard'][i, 1],
-                   results['lms_standard'][i, 2],
-                   results['lms_standard'][i, 3])
+            """ % (results['lms'][i, 0],
+                   results['lms'][i, 1],
+                   results['lms'][i, 2],
+                   results['lms'][i, 3])
     html_table += """
     </table>
     """

@@ -978,7 +978,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['cc'] = cc_spec
     results['cc_white'] = cc_white
     results['trans_mat'] = trans_mat
-    results['lms_standard'] = lms_standard_spec
+    results['lms'] = lms_standard_spec
     results['lms_base'] = lms_spec
     results['bm'] = bm_spec
     results['bm_white'] = bm_white
