@@ -1,7 +1,6 @@
 /* Script to manage tc web app */
 $( window ).load(function(){
 
-
 //Spinner init.
 
 $( "input#age" ).spinner({	
@@ -34,6 +33,118 @@ $( "input#lambda_step" ).spinner({
 									step: .1,
 									numberFormat: 'd'
 });
+
+
+$( "form#paramForm" ).on('submit', function(){
+	var validates = true;
+
+	function flash(component){
+		component
+		.animate({backgroundColor: "rgb(255,0,0)"}, 500 )
+		.animate({backgroundColor: "rgb(255,255,255)"}, 500 );
+		return;
+	}
+	
+	//Age
+	min_age = parseInt($( "input#age" ).attr("aria-valuemin"));
+	max_age = parseInt($( "input#age" ).attr("aria-valuemax"));
+	age 	= parseInt($( "input#age" ).val());
+
+	if (age < min_age){
+		flash($( "input#age" ));
+		$( "input#age" ).val(min_age);
+		validates = false;
+	} else if ( age > max_age ){
+		flash($("input#age"));
+		$( "input#age" ).val(max_age);
+		validates = false;
+	} else if ( isNaN(age) ){
+		flash($("input#age"));
+		$( "input#age" ).val(min_age);
+		validates = false;
+	}
+	
+	//field_size
+	min_field_size 	= parseInt($( "input#field_size" ).attr("aria-valuemin"));
+	max_field_size 	= parseInt($( "input#field_size" ).attr("aria-valuemax"));
+	field_size 		= parseInt($( "input#field_size" ).val());
+	
+	if (field_size < min_field_size){
+		flash($( "input#field_size" ));
+		$( "input#field_size" ).val(min_field_size);
+		validates = false;
+	} else if ( field_size > max_field_size ){
+		flash($("input#field_size"));
+		$( "input#field_size" ).val(max_field_size);
+		validates = false;
+	} else if ( isNaN(field_size) ){
+		flash($("input#field_size"));
+		$( "input#field_size" ).val(min_field_size);
+		validates = false;
+	}
+	
+	//lambda_min
+	min_lambda_min 	= parseInt($( "input#lambda_min" ).attr("aria-valuemin"));
+	max_lambda_min 	= parseInt($( "input#lambda_min" ).attr("aria-valuemax"));
+	lambda_min 		= parseInt($( "input#lambda_min" ).val());
+	
+	if ( lambda_min < min_lambda_min ){
+		flash($( "input#lambda_min" ));
+		$( "input#lambda_min" ).val(min_lambda_min);
+		validates = false;
+	} else if ( lambda_min > max_lambda_min ){
+		flash($("input#lambda_min"));
+		$( "input#lambda_min" ).val(max_lambda_min);
+		validates = false;
+	} else if ( isNaN(lambda_min) ){
+		flash($("input#lambda_min"));
+		$( "input#lambda_min" ).val(min_lambda_min);
+		validates = false;
+	}
+	
+	//lambda_max
+	min_lambda_max 	= parseInt($( "input#lambda_max" ).attr("aria-valuemin"));
+	max_lambda_max 	= parseInt($( "input#lambda_max" ).attr("aria-valuemax"));
+	lambda_max 		= parseInt($( "input#lambda_max" ).val());
+	
+	if ( lambda_max < min_lambda_max ){
+		flash($( "input#lambda_max" ));
+		$( "input#lambda_max" ).val(min_lambda_max);
+		validates = false;
+	} else if ( lambda_max > max_lambda_max ){
+		flash($("input#lambda_max"));
+		$( "input#lambda_max" ).val(max_lambda_max);
+		validates = false;
+	} else if ( isNaN(lambda_max) ){
+		flash($("input#lambda_max"));
+		$( "input#lambda_max" ).val(min_lambda_max);
+		validates = false;
+	}
+	
+	//lambda_step
+	min_lambda_step 	= parseInt($( "input#lambda_step" ).attr("aria-valuemin"));
+	max_lambda_step 	= parseInt($( "input#lambda_step" ).attr("aria-valuemax"));
+	lambda_step 		= parseInt($( "input#lambda_step" ).val());
+	
+	if ( lambda_step < min_lambda_step ){
+		flash($( "input#lambda_step" ));
+		$( "input#lambda_step" ).val(min_lambda_step);
+		validates = false;
+	} else if ( lambda_step > max_lambda_step ){
+		flash($("input#lambda_step"));
+		$( "input#lambda_step" ).val(max_lambda_step);
+		validates = false;
+	}  else if ( isNaN(lambda_step) ){
+		flash($("input#lambda_step"));
+		$( "input#lambda_step" ).val(min_lambda_step);
+		validates = false;
+	}
+
+	return validates;
+});
+
+
+
 
 //Hide table_loader
 
