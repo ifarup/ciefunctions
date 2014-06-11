@@ -293,7 +293,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
                 
                 # Create html descrption
-                html_string = tc182.description.xyz31(self.plot_combo.currentText(), u'CIE 1931 2\u00b0  XYZ CMFs', True)
+                html_string = tc182.description.xyz31(self.plot_combo.currentText(), True)
 
                 # Create html table
                 html_table = tc182.table.xyz31(self.results, True)
@@ -310,7 +310,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
 
                 # Create html descption
-                html_string = tc182.description.xyz64(self.plot_combo.currentText(), u'CIE 1964 10\u00b0  XYZ CMFs', True)
+                html_string = tc182.description.xyz64(self.plot_combo.currentText(), True)
 
                 # Create html table
                 html_table = tc182.table.xyz64(self.results, True)
@@ -336,7 +336,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
 
                 # Create html description
-                html_string = tc182.description.xy31(self.plot_combo.currentText(), u'CIE 1931 (x, y) chromaticity diagram', True)
+                html_string = tc182.description.xy31(self.plot_combo.currentText(), True)
 
                 # Create html table
                 html_table = tc182.table.xy31(self.results, True)
@@ -353,7 +353,7 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
                 
                 # Create html description
-                html_string = tc182.description.xy64(self.plot_combo.currentText(), u'CIE 1964 (x<sub>10</sub>, y<sub>10</sub>) chromaticity diagram', True)
+                html_string = tc182.description.xy64(self.plot_combo.currentText(), True)
 
                 # Create html table
                 html_table = tc182.table.xy64(self.results, True)
@@ -495,7 +495,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.COMBO_LM = 3
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')
         self.COMBO_XYZ = 4
-        self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
+        self.plot_combo.addItem('CIE fundamental xy diagram')
         self.COMBO_XY = 5
         self.plot_combo.addItem('CIE XYZ standard CMFs')
         self.COMBO_XYZSTD = 6

@@ -80,16 +80,65 @@ def _parameters(data):
     </table>
     </p>
     """ % (data['field_size'], data['age'])
+    
+def _parameters_31():
+    return u"""
+    <p>
+    <b class="description-subtitle">Parameters</b>
+    <table>
+    <tr>
+        <td>Field size</td>
+        <td>: &nbsp;&nbsp; 2\u00b0 </td>
+    </tr>
+    </table>
+    </p>
+    """
+
+def _parameters_64():
+    return u"""
+    <p>
+    <b class="description-subtitle">Parameters</b>
+    <table>
+    <tr>
+        <td>Field size</td>
+        <td>: &nbsp;&nbsp; 10\u00b0 </td>
+    </tr>
+    </table>
+    </p>
+    """
 
 def _functions(par1, par2, par3):
     return """
     <p>
     <b class="description-subtitle">Function symbols</b><br />
-    %s<br />
-    %s<br />
-    %s<br />
+    %s &nbsp;&nbsp; %s &nbsp;&nbsp; %s
     </p>
     """ % (par1, par2, par3)
+
+def _coordinates(par1, par2, par3):
+    return """
+    <p>
+    <b class="description-subtitle">Coordinate symbols</b><br />
+    %s &nbsp;&nbsp; %s &nbsp;&nbsp; %s
+    </p>
+    """ % (par1, par2, par3)
+
+def _wavelenghts(data):
+    return u"""
+    <p>
+    <b class="description-subtitle">Selected wavelenghts</b>
+    <table>
+    <tr>
+        <td>Domain</td>
+        <td>: &nbsp;&nbsp; %.1f &ndash; %.1f nm</td>
+    </tr>
+    <tr>
+        <td>Step</td>
+        <td>: &nbsp;&nbsp; %.1f nm</td>
+    </tr>
+    </table>
+    </p>
+    """ % (data['lambda_min'], data['lambda_max'], data['lambda_step'])
 
 def _normalisation(data):
     return u"""
@@ -109,14 +158,74 @@ def _normalisation(data):
 
 def _normalisation_lms():
     return """
+    <p>
     <b class="description-subtitle">Normalisation</b><br />
-    Peak value of unity at 0.1&nbsp;nm resolution<br />
+    Function values peaking at unity at 0.1&nbsp;nm resolution<br />
+    </p>
+    """
+    
+def _normalisation_xyz(data):
+    return """
+    <p>
+    <b class="description-subtitle">Normalisation</b><br />
+    <ul>
+    <li>Equal tristimulus values for Illuminant E</li>
+    <li>Values of <font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub> peaking at unity at 0.1 nm resolution</li>
+    </ul>
+    </p>
+    """ % (data['field_size'], data['age'])
+    
+def _precision_lms():
+    return """
+    <p>
+    <b class="description-subtitle">Precision of tabulated values</b><br />
+    6 significant figures<br />
+    </p>
+    """
+    
+def _precision_lms_base():
+    return """
+    <p>
+    <b class="description-subtitle">Precision of tabulated values</b><br />
+    9 significant figures<br />
+    </p>
+    """
+    
+def _precision_bm():
+    return """
+    <p>
+    <b class="description-subtitle">Precision of tabulated values</b><br />
+    6 decimal places<br />
+    </p>
+    """
+    
+def _precision_lm():
+    return """
+    <p>
+    <b class="description-subtitle">Precision of tabulated values</b><br />
+    6 decimal places<br />
+    </p>
+    """
+    
+def _precision_xyz():
+    return """
+    <p>
+    <b class="description-subtitle">Precision of tabulated values</b><br />
+    7 significant figures<br />
+    </p>
+    """
+    
+def _precision_xy():
+    return """
+    <p>
+    <b class="description-subtitle">Precision of tabulated values</b><br />
+    5 decimal places<br />
+    </p>
     """
     
 def _lms_to_xyz(data):
     html_string = """
     <b class="description-subtitle">Transformation equation</b><br />
-    """ + _normalisation(data) + """
     <br />
     <table>
     <tr>
@@ -179,12 +288,37 @@ def _lms_to_xyz(data):
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['field_size'], data['age'])
+    html_string += """
+    <p>
+    In the above transformation the cone fundamentals 
+    <font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;),
+    <font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;) and
+    <font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;) are given to the precision of 9 significant figures.
+    </p>
+    """ % (data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'])
     return html_string
+
+def _lms_to_bm(data):
+    return """
+    <p>
+    <b class="description-subtitle">Transformation equations</b><br />
+    TODO
+    </p>
+    """
+
+def _lms_to_lm(data):
+    return """
+    <p>
+    <b class="description-subtitle">Transformation equations</b><br />
+    TODO
+    </p>
+    """
 
 def _xyz_to_xy(data):
     return """
-    <b class="description-subtitle">Transformation equation</b><br />
-    """ + _normalisation(data) + """
+    <b class="description-subtitle">Transformation equations</b><br />
     <br />
     <table>
         <tr>
@@ -366,7 +500,10 @@ def xyz(data, heading, include_head=False):
                     _functions('<font style="text-decoration: overline;"><em>x</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
                                '<font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
                                '<font style="text-decoration: overline;"><em>z</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age'])) +
-                    _lms_to_xyz(data))
+                    _wavelenghts(data) +
+                    _normalisation_xyz(data) +
+                    _lms_to_xyz(data) +
+                    _precision_xyz())
     return html_string
 
 def xy(data, heading, include_head=False):
@@ -392,10 +529,14 @@ def xy(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _functions('<em>x</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
+                    _coordinates('<em>x</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
                                '<em>y</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
                                '<em>z</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age'])) +
-                    _xyz_to_xy(data) + _illuminant_E_cc(data) + _purple_cc(data))
+                    _wavelenghts(data) +
+                    _xyz_to_xy(data) +
+                    _precision_xy() +
+                    _illuminant_E_cc(data) +
+                    _purple_cc(data))
     return html_string
 
 def lms(data, heading, include_head=False):
@@ -424,14 +565,41 @@ def lms(data, heading, include_head=False):
                     _functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
                                '<font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
                                '<font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
-                    _normalisation_lms())
+                    _wavelenghts(data) +
+                    _normalisation_lms() +
+                    _precision_lms())
     return html_string
 
 def lms_base(data, heading, include_head=False):
     """
-    Wrapper for consistency.
+    Generate html page with information about the LMS system.
+    
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
     """
-    return lms(data, heading, include_head)
+    html_string = ""
+    if include_head:
+        html_string += _head()
+    html_string += (_heading(heading) +
+                    _parameters(data) +
+                    _functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
+                    _wavelenghts(data) +
+                    _normalisation_lms() +
+                    _precision_lms_base())
+    return html_string
 
 def bm(data, heading, include_head=False):
     """
@@ -456,6 +624,10 @@ def bm(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
+                    _coordinates('TODO', 'TODO', 'TODO') +
+                    _wavelenghts(data) +
+                    _lms_to_bm(data) +
+                    _precision_bm() +
                     _illuminant_E_bm(data) +
                     _purple_bm(data))
     return html_string
@@ -484,11 +656,15 @@ def lm(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
+                    _coordinates('TODO', 'TODO', 'TODO') +
+                    _wavelenghts(data) +
+                    _lms_to_lm(data) +
+                    _precision_lm() +
                     _illuminant_E_lm(data) +
                     _purple_lm(data))
     return html_string
 
-def standard(heading, sub_heading, include_head=False):
+def xyz31(heading, include_head=False):
     """
     Generate html page with information about the standard
     
@@ -510,29 +686,81 @@ def standard(heading, sub_heading, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _sub_heading(sub_heading))
+                    _parameters_31())
     return html_string
 
-def xyz31(heading, sub_heading, include_head=False):
-    """
-    Simply wrap the standard function.
-    """
-    return standard(heading, sub_heading, include_head)
+def xyz64(heading, include_head=False):
 
-def xyz64(heading, sub_heading, include_head=False):
     """
-    Simply wrap the standard function.
+    Generate html page with information about the standard
+    
+    Parameters
+    ----------
+    heading : string
+        The heading of the page.
+    sub_heading : string
+        The sub-heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
     """
-    return standard(heading, sub_heading, include_head)
+    html_string = ""
+    if include_head:
+        html_string += _head()
+    html_string += (_heading(heading) +
+                    _parameters_64())
+    return html_string
 
-def xy31(heading, sub_heading, include_head=False):
+def xy31(heading, include_head=False):
     """
-    Simply wrap the standard function.
+    Generate html page with information about the standard
+    
+    Parameters
+    ----------
+    heading : string
+        The heading of the page.
+    sub_heading : string
+        The sub-heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
     """
-    return standard(heading, sub_heading, include_head)
+    html_string = ""
+    if include_head:
+        html_string += _head()
+    html_string += (_heading(heading) +
+                    _parameters_31())
+    return html_string
 
-def xy64(heading, sub_heading, include_head=False):
+def xy64(heading, include_head=False):
     """
-    Simply wrap the standard function.
+    Generate html page with information about the standard
+    
+    Parameters
+    ----------
+    heading : string
+        The heading of the page.
+    sub_heading : string
+        The sub-heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+        
+    Returns
+    -------
+    html_string : string
+        The generated page.
     """
-    return standard(heading, sub_heading, include_head)
+    html_string = ""
+    if include_head:
+        html_string += _head()
+    html_string += (_heading(heading) +
+                    _parameters_64())
+    return html_string
