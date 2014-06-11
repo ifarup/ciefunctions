@@ -130,7 +130,7 @@ def xy(results, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(results['cc'])[0]):
+    for i in range(np.shape(results['xy'])[0]):
         if results['lambda_step'] == np.round(results['lambda_step']):
             html_table += """
             <tr>
@@ -139,10 +139,10 @@ def xy(results, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (results['cc'][i, 0],
-                   results['cc'][i, 1],
-                   results['cc'][i, 2],
-                   results['cc'][i, 3])
+            """ % (results['xy'][i, 0],
+                   results['xy'][i, 1],
+                   results['xy'][i, 2],
+                   results['xy'][i, 3])
         else:
             html_table += """
             <tr>
@@ -151,10 +151,10 @@ def xy(results, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (results['cc'][i, 0],
-                   results['cc'][i, 1],
-                   results['cc'][i, 2],
-                   results['cc'][i, 3])
+            """ % (results['xy'][i, 0],
+                   results['xy'][i, 1],
+                   results['xy'][i, 2],
+                   results['xy'][i, 3])
     html_table += """
     </table>
     """

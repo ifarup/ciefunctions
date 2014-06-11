@@ -829,11 +829,11 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     # Versions for plotting and purple line
     plots['xyz'] = np.dot(trans_mat, plots['lms'][:,1:].T)
     plots['xyz'] = significant_figures(plots['xyz'], xyz_signfig)
-    plots['cc'] = np.array([plots['xyz'][0,:] / (plots['xyz'][0,:] + plots['xyz'][1,:] + plots['xyz'][2,:]),
+    plots['xy'] = np.array([plots['xyz'][0,:] / (plots['xyz'][0,:] + plots['xyz'][1,:] + plots['xyz'][2,:]),
                    plots['xyz'][1,:] / (plots['xyz'][0,:] + plots['xyz'][1,:] + plots['xyz'][2,:]),
                    plots['xyz'][2,:] / (plots['xyz'][0,:] + plots['xyz'][1,:] + plots['xyz'][2,:])])
     plots['xyz'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xyz'].T), axis=1)
-    plots['cc'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['cc'].T), axis=1)
+    plots['xy'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xy'].T), axis=1)
     
     # Boynton-MacLeod
     bm_spec = lms_spec.copy()
@@ -883,15 +883,15 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['lm'][:,3] = lms_N_fine[:,3] / (lms_N_fine[:,1] + lms_N_fine[:,2] + lms_N_fine[:,3])
     
     # Compute purple line for cc
-    delaunay = Delaunay(plots['cc'][:,1:3])
+    delaunay = Delaunay(plots['xy'][:,1:3])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
     purple_line_cc = np.zeros((2,3))
-    purple_line_cc[0,0] = plots['cc'][delaunay.convex_hull[ind,0], 0]
-    purple_line_cc[0,1] = plots['cc'][delaunay.convex_hull[ind,0], 1]
-    purple_line_cc[0,2] = plots['cc'][delaunay.convex_hull[ind,0], 2]
-    purple_line_cc[1,0] = plots['cc'][delaunay.convex_hull[ind,1], 0]
-    purple_line_cc[1,1] = plots['cc'][delaunay.convex_hull[ind,1], 1]
-    purple_line_cc[1,2] = plots['cc'][delaunay.convex_hull[ind,1], 2]
+    purple_line_cc[0,0] = plots['xy'][delaunay.convex_hull[ind,0], 0]
+    purple_line_cc[0,1] = plots['xy'][delaunay.convex_hull[ind,0], 1]
+    purple_line_cc[0,2] = plots['xy'][delaunay.convex_hull[ind,0], 2]
+    purple_line_cc[1,0] = plots['xy'][delaunay.convex_hull[ind,1], 0]
+    purple_line_cc[1,1] = plots['xy'][delaunay.convex_hull[ind,1], 1]
+    purple_line_cc[1,2] = plots['xy'][delaunay.convex_hull[ind,1], 2]
     plots['purple_line_cc'] = purple_line_cc.copy()
     purple_line_cc[:,1:] = my_round(purple_line_cc[:,1:], cc_dp)
 
@@ -975,7 +975,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 
     results = dict()
     results['xyz'] = xyz_spec
-    results['cc'] = cc_spec
+    results['xy'] = cc_spec
     results['cc_white'] = cc_white
     results['trans_mat'] = trans_mat
     results['lms'] = lms_standard_spec

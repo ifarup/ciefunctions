@@ -82,7 +82,7 @@ def xy(axes, plots, options):
     lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
-    lambdavalues = np.concatenate(([plots['cc'][0,0]], np.arange(470, 611, 10), [700], [plots['cc'][-1,0]]))
+    lambdavalues = np.concatenate(([plots['xy'][0,0]], np.arange(470, 611, 10), [700], [plots['xy'][-1,0]]))
     if options['cie31']:
         axes.plot(plots['cc31'][:,1], plots['cc31'][:,2], 'k--')
         axes.plot(plots['purple_line_cc31'][:,1], plots['purple_line_cc31'][:,2], 'k--')
@@ -95,11 +95,11 @@ def xy(axes, plots, options):
         for l in lambdavalues: # add wavelength parameters
             ind = np.nonzero(plots['cc64'][:,0] == l)[0]
             axes.plot(plots['cc64'][ind,1], plots['cc64'][ind,2], 'ks')
-    axes.plot(plots['cc'][:,1], plots['cc'][:,2], 'k')
+    axes.plot(plots['xy'][:,1], plots['xy'][:,2], 'k')
     axes.plot(plots['purple_line_cc'][:,1], plots['purple_line_cc'][:,2], 'k')
     for l in lambdavalues: # add wavelength parameters
-        ind = np.nonzero(plots['cc'][:,0] == l)[0]
-        axes.plot(plots['cc'][ind,1], plots['cc'][ind,2], 'wo')
+        ind = np.nonzero(plots['xy'][:,0] == l)[0]
+        axes.plot(plots['xy'][ind,1], plots['xy'][ind,2], 'wo')
         if l == 700 or l == 390:
             align = 'top'
         elif l == 830:
@@ -108,7 +108,7 @@ def xy(axes, plots, options):
             align = 'center'
         if options['labels']:
             if np.shape(ind)[0] > 0:
-                axes.text(plots['cc'][ind,1], plots['cc'][ind,2], '   ' + str(l),
+                axes.text(plots['xy'][ind,1], plots['xy'][ind,2], '   ' + str(l),
                                fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(plots['cc_white'][0], plots['cc_white'][1], 'kx')
     if options['labels']:
