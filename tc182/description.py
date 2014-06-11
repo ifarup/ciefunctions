@@ -71,7 +71,7 @@ def _parameters(data):
     <table>
     <tr>
         <td>Field size</td>
-        <td>: &nbsp;&nbsp; %.1f\u00b0 </td>
+        <td>: &nbsp;&nbsp; %s\u00b0 </td>
     </tr>
     <tr>
         <td>Age</td>
@@ -123,13 +123,13 @@ def _lms_to_xyz(data):
     <td>
     <table class="matrix">
         <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
+            <td align="center"><font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
         </tr>
         <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
+            <td align="center"><font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
         </tr>
         <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
+            <td align="center"><font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
         </tr>
     </table>
     </td>
@@ -164,13 +164,13 @@ def _lms_to_xyz(data):
     <td>
     <table class="matrix">
         <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
+            <td align="center"><font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
         </tr>
         <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
+            <td align="center"><font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
         </tr>
         <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
+            <td align="center"><font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
         </tr>
     </table>
     </td>
@@ -189,50 +189,50 @@ def _xyz_to_xy(data):
     <table>
         <tr>
             <td>
-                <em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                <em>x</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             </td>
             <td>
                 =
             </td>
             <td>
-            <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
+            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
             </td>
         </tr>
         <tr>
             <td>
-                <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                <em>y</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             </td>
             <td>
                 =
             </td>
             <td>
-            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
+            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
             </td>
         </tr>
         <tr>
             <td>
-                <em>z</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+                <em>z</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             </td>
             <td>
                 =
             </td>
             <td>
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)
+            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
             +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
+            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
             </td>
         </tr>
     </table>
@@ -256,8 +256,8 @@ def _xyz_to_xy(data):
 def _illuminant_E_cc(data):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
-    <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
+    (<em>x</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>, 
+    <em>y</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
     =
     (%.5f, %.5f) <br /><br />
     """ % (data['field_size'], data['age'],
@@ -267,10 +267,10 @@ def _illuminant_E_cc(data):
 def _illuminant_E_lm(data):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
-    <em>m</em><sub>,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
+    (<em>l</em><sub>&nbsp;%s,&nbsp;%d;&nbsp;E</sub>, 
+    <em>m</em><sub>,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
     =
-    (%.5f, %.5f) <br /><br />
+    (%.6f, %.6f) <br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['lm_white'][0], data['lm_white'][1])
@@ -278,8 +278,8 @@ def _illuminant_E_lm(data):
 def _illuminant_E_bm(data):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>l</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>, 
-    <em>s</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d;&nbsp;E</sub>)
+    (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>, 
+    <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
     =
     (%.5f, %.5f) <br /><br />
     """ % (data['field_size'], data['age'],
@@ -289,12 +289,12 @@ def _illuminant_E_bm(data):
 def _purple_cc(data):
     return """
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    (<em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+    (<em>x</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+    <em>y</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
     (%.5f, %.5f) <br />
-    (<em>x</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>y</em><sub>&nbsp;F,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+    (<em>x</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+    <em>y</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
     (%.5f, %.5f)
     """ % (data['field_size'], data['age'], data['purple_line_cc'][0,0],
@@ -307,14 +307,14 @@ def _purple_cc(data):
 def _purple_lm(data):
     return """
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>m</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+    (<em>l</em><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+    <em>m</em><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
-    (%.5f, %.5f) <br />
-    (<em>l</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>m</em><sub>&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+    (%.6f, %.6f) <br />
+    (<em>l</em><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+    <em>m</em><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
-    (%.5f, %.5f)
+    (%.6f, %.6f)
     """ % (data['field_size'], data['age'], data['purple_line_lm'][0,0],
            data['field_size'], data['age'], data['purple_line_lm'][0,0],
            data['purple_line_lm'][0,1], data['purple_line_lm'][0,2],
@@ -325,12 +325,12 @@ def _purple_lm(data):
 def _purple_bm(data):
     return """
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    (<em>l</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>s</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+    (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+    <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
     (%.5f, %.5f) <br />
-    (<em>l</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>s</em><sub>&nbsp;MB,&nbsp;%.1f,&nbsp;%d&nbsp;</sub>(%.1f nm))
+    (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
+    <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
     (%.5f, %.5f)
     """ % (data['field_size'], data['age'], data['purple_line_bm'][0,0],
@@ -363,9 +363,9 @@ def xyz(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _functions('<font style="text-decoration: overline;"><em>x</em></font><sub> F, %.1f, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>y</em></font><sub> F, %.1f, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>z</em></font><sub> F, %.1f, %d</sub>' % (data['field_size'], data['age'])) +
+                    _functions('<font style="text-decoration: overline;"><em>x</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<font style="text-decoration: overline;"><em>z</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age'])) +
                     _lms_to_xyz(data))
     return html_string
 
@@ -392,9 +392,9 @@ def xy(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _functions('<em>x</em><sub> F, %.1f, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>y</em><sub> F, %.1f, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>z</em><sub> F, %.1f, %d</sub>' % (data['field_size'], data['age'])) +
+                    _functions('<em>x</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<em>y</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<em>z</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age'])) +
                     _xyz_to_xy(data) + _illuminant_E_cc(data) + _purple_cc(data))
     return html_string
 
@@ -421,9 +421,9 @@ def lms(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>s</em></font><sub> %.1f, %d</sub>' % (data['field_size'], data['age'])) +
+                    _functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
                     _normalisation_lms())
     return html_string
 

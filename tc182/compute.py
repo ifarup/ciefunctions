@@ -696,7 +696,7 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
         return err
 
 def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_step=1,
-                      xyz_signfig=7, cc_dp=5, mat_dp=8, lms_signfig=6, bm_dp=6, lm_dp=5):
+                      xyz_signfig=7, cc_dp=5, mat_dp=8, lms_signfig=6, bm_dp=6, lm_dp=6):
     """
     Compute tabulated quantities as a function of field size and age.
     
@@ -961,7 +961,10 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     purple_line_cc64[1,2] = plots['cc64'][delaunay.convex_hull[ind,1], 2]
     plots['purple_line_cc64'] = purple_line_cc64.copy()
     
-    plots['field_size'] = field_size
+    if field_size == np.round(field_size):
+        plots['field_size'] = "%.0f" % field_size
+    else:
+        plots['field_size'] = "%.1f" % field_size
     plots['age'] = age
     plots['lambda_min'] = lambda_min
     plots['lambda_max'] = lambda_max
@@ -985,7 +988,10 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['purple_line_cc'] = purple_line_cc
     results['purple_line_lm'] = purple_line_lm
     results['purple_line_bm'] = purple_line_bm
-    results['field_size'] = field_size
+    if field_size == np.round(field_size):
+        results['field_size'] = "%.0f" % field_size
+    else:
+        results['field_size'] = "%.1f" % field_size
     results['age'] = age
     results['lambda_min'] = lambda_min
     results['lambda_max'] = lambda_max

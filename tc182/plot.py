@@ -57,7 +57,7 @@ def xyz(axes, plots, options):
         axes.set_xlabel('Wavelength [nm]', fontsize=12)
         axes.set_ylabel('Fundamental tristimulus values', fontsize=12)
     if options['full_title']:
-        axes.set_title(('CIE XYZ fundamental CMFs\nField size: %.1f' % plots['field_size'] +
+        axes.set_title(('CIE XYZ fundamental CMFs\nField size: %s' % plots['field_size'] +
                         u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
                         u' yr,  Domain: %0.1f\u2013%0.1f nm' % (plots['lambda_min'],
                                                                 plots['lambda_max']) +

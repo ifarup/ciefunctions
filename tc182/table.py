@@ -65,25 +65,38 @@ def xyz(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>x</em></font><sub> F, %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>y</em></font><sub> F, %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>z</em></font><sub> F, %.1f, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>x</em></font><sub> F, %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>z</em></font><sub> F, %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['xyz'])[0]):
-        html_table += """
-        <tr>
-           <td>%.1f</td>
-           <td>%.6e</td>
-           <td>%.6e</td>
-           <td>%.6e</td>
-        </tr>
-        """ % (results['xyz'][i, 0],
-               results['xyz'][i, 1],
-               results['xyz'][i, 2],
-               results['xyz'][i, 3])
+        if results['lambda_step'] == np.round(results['lambda_step']):
+            html_table += """
+            <tr>
+               <td>%.0f</td>
+               <td>%.6e</td>
+               <td>%.6e</td>
+               <td>%.6e</td>
+            </tr>
+            """ % (results['xyz'][i, 0],
+                   results['xyz'][i, 1],
+                   results['xyz'][i, 2],
+                   results['xyz'][i, 3])
+        else:
+            html_table += """
+            <tr>
+               <td>%.1f</td>
+               <td>%.6e</td>
+               <td>%.6e</td>
+               <td>%.6e</td>
+            </tr>
+            """ % (results['xyz'][i, 0],
+                   results['xyz'][i, 1],
+                   results['xyz'][i, 2],
+                   results['xyz'][i, 3])
     html_table += """
     </table>
     """
@@ -110,25 +123,38 @@ def xy(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><em>x</em><sub> F, %.1f, %d</sub></th>
-        <th><em>y</em><sub> F, %.1f, %d</sub></th>
-        <th><em>z</em><sub> F, %.1f, %d</sub></th>
+        <th><em>x</em><sub> F, %s, %d</sub></th>
+        <th><em>y</em><sub> F, %s, %d</sub></th>
+        <th><em>z</em><sub> F, %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['cc'])[0]):
-        html_table += """
-        <tr>
-           <td>%.1f</td>
-           <td>%.5f</td>
-           <td>%.5f</td>
-           <td>%.5f</td>
-        </tr>
-        """ % (results['cc'][i, 0],
-               results['cc'][i, 1],
-               results['cc'][i, 2],
-               results['cc'][i, 3])
+        if results['lambda_step'] == np.round(results['lambda_step']):
+            html_table += """
+            <tr>
+               <td>%.0f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+            </tr>
+            """ % (results['cc'][i, 0],
+                   results['cc'][i, 1],
+                   results['cc'][i, 2],
+                   results['cc'][i, 3])
+        else:
+            html_table += """
+            <tr>
+               <td>%.1f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+            </tr>
+            """ % (results['cc'][i, 0],
+                   results['cc'][i, 1],
+                   results['cc'][i, 2],
+                   results['cc'][i, 3])
     html_table += """
     </table>
     """
@@ -155,25 +181,38 @@ def lms(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %.1f, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lms_standard'])[0]):
-        html_table += """
-        <tr>
-           <td>%.1f</td>
-           <td>%.5e</td>
-           <td>%.5e</td>
-           <td>%.5e</td>
-        </tr>
-        """ % (results['lms_standard'][i, 0],
-               results['lms_standard'][i, 1],
-               results['lms_standard'][i, 2],
-               results['lms_standard'][i, 3])
+        if results['lambda_step'] == np.round(results['lambda_step']):
+            html_table += """
+            <tr>
+               <td>%.0f</td>
+               <td>%.5e</td>
+               <td>%.5e</td>
+               <td>%.5e</td>
+            </tr>
+            """ % (results['lms_standard'][i, 0],
+                   results['lms_standard'][i, 1],
+                   results['lms_standard'][i, 2],
+                   results['lms_standard'][i, 3])
+        else:
+            html_table += """
+            <tr>
+               <td>%.1f</td>
+               <td>%.5e</td>
+               <td>%.5e</td>
+               <td>%.5e</td>
+            </tr>
+            """ % (results['lms_standard'][i, 0],
+                   results['lms_standard'][i, 1],
+                   results['lms_standard'][i, 2],
+                   results['lms_standard'][i, 3])
     html_table += """
     </table>
     """
@@ -200,25 +239,38 @@ def lms_base(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %.1f, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %.1f, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub></th>
+        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lms_base'])[0]):
-        html_table += """
-        <tr>
-           <td>%.1f</td>
-           <td>%.8e</td>
-           <td>%.8e</td>
-           <td>%.8e</td>
-        </tr>
-        """ % (results['lms_base'][i, 0],
-               results['lms_base'][i, 1],
-               results['lms_base'][i, 2],
-               results['lms_base'][i, 3])
+        if results['lambda_step'] == np.round(results['lambda_step']):
+            html_table += """
+            <tr>
+               <td>%.0f</td>
+               <td>%.8e</td>
+               <td>%.8e</td>
+               <td>%.8e</td>
+            </tr>
+            """ % (results['lms_base'][i, 0],
+                   results['lms_base'][i, 1],
+                   results['lms_base'][i, 2],
+                   results['lms_base'][i, 3])
+        else:
+            html_table += """
+            <tr>
+               <td>%.1f</td>
+               <td>%.8e</td>
+               <td>%.8e</td>
+               <td>%.8e</td>
+            </tr>
+            """ % (results['lms_base'][i, 0],
+                   results['lms_base'][i, 1],
+                   results['lms_base'][i, 2],
+                   results['lms_base'][i, 3])
     html_table += """
     </table>
     """
@@ -245,25 +297,39 @@ def bm(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><em>l</em><sub> %.1f, %d</sub></th>
-        <th><em>m</em><sub> %.1f, %d</sub></th>
-        <th><em>s</em><sub> %.1f, %d</sub></th>
+        <th><em>l</em><sub> %s, %d</sub></th>
+        <th><em>m</em><sub> %s, %d</sub></th>
+        <th><em>s</em><sub> %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['bm'])[0]):
-        html_table += """
-        <tr>
-           <td>%.1f</td>
-           <td>%.6f</td>
-           <td>%.6f</td>
-           <td>%.6f</td>
-        </tr>
-        """ % (results['bm'][i, 0],
-               results['bm'][i, 1],
-               results['bm'][i, 2],
-               results['bm'][i, 3])
+        if results['lambda_step'] == np.round(results['lambda_step']):
+            html_table += """
+            <tr>
+               <td>%.0f</td>
+               <td>%.6f</td>
+               <td>%.6f</td>
+               <td>%.6f</td>
+            </tr>
+            """ % (results['bm'][i, 0],
+                   results['bm'][i, 1],
+                   results['bm'][i, 2],
+                   results['bm'][i, 3])
+        else:
+            html_table += """
+            <tr>
+               <td>%.1f</td>
+               <td>%.6f</td>
+               <td>%.6f</td>
+               <td>%.6f</td>
+            </tr>
+            """ % (results['bm'][i, 0],
+                   results['bm'][i, 1],
+                   results['bm'][i, 2],
+                   results['bm'][i, 3])
+    
     html_table += """
     </table>
     """
@@ -290,25 +356,39 @@ def lm(results, include_head=False):
     <table>
       <tr>
         <th>&lambda;</th>
-        <th><em>l</em><sub> %.1f, %d</sub></th>
-        <th><em>m</em><sub> %.1f, %d</sub></th>
-        <th><em>s</em><sub> %.1f, %d</sub></th>
+        <th><em>l</em><sub> %s, %d</sub></th>
+        <th><em>m</em><sub> %s, %d</sub></th>
+        <th><em>s</em><sub> %s, %d</sub></th>
       <tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lm'])[0]):
-        html_table += """
-        <tr>
-           <td>%.1f</td>
-           <td>%.5f</td>
-           <td>%.5f</td>
-           <td>%.5f</td>
-        </tr>
-        """ % (results['lm'][i, 0],
-               results['lm'][i, 1],
-               results['lm'][i, 2],
-               results['lm'][i, 3])
+        if results['lambda_step'] == np.round(results['lambda_step']):
+            html_table += """
+            <tr>
+               <td>%.0f</td>
+               <td>%.6f</td>
+               <td>%.6f</td>
+               <td>%.6f</td>
+            </tr>
+            """ % (results['lm'][i, 0],
+                   results['lm'][i, 1],
+                   results['lm'][i, 2],
+                   results['lm'][i, 3])
+        else:
+            html_table += """
+            <tr>
+               <td>%.1f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+            </tr>
+            """ % (results['lm'][i, 0],
+                   results['lm'][i, 1],
+                   results['lm'][i, 2],
+                   results['lm'][i, 3])
+
     html_table += """
     </table>
     """
@@ -343,7 +423,7 @@ def xyz31(results, include_head=False):
     for i in range(np.shape(results['xyz31'])[0]):
         html_table += """
         <tr>
-           <td>%.1f</td>
+           <td>%.0f</td>
            <td>%.6e</td>
            <td>%.6e</td>
            <td>%.6e</td>
@@ -386,7 +466,7 @@ def xyz64(results, include_head=False):
     for i in range(np.shape(results['xyz64'])[0]):
         html_table += """
         <tr>
-           <td>%.1f</td>
+           <td>%.0f</td>
            <td>%.6e</td>
            <td>%.6e</td>
            <td>%.6e</td>
@@ -429,7 +509,7 @@ def xy31(results, include_head=False):
     for i in range(np.shape(results['cc31'])[0]):
         html_table += """
         <tr>
-           <td>%.1f</td>
+           <td>%.0f</td>
            <td>%.5f</td>
            <td>%.5f</td>
            <td>%.5f</td>
@@ -472,7 +552,7 @@ def xy64(results, include_head=False):
     for i in range(np.shape(results['cc64'])[0]):
         html_table += """
         <tr>
-           <td>%.1f</td>
+           <td>%.0f</td>
            <td>%.5f</td>
            <td>%.5f</td>
            <td>%.5f</td>
