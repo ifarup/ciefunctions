@@ -140,6 +140,23 @@ def _wavelenghts(data):
     </p>
     """ % (data['lambda_min'], data['lambda_max'], data['lambda_step'])
 
+def _wavelenghts_std():
+    return u"""
+    <p>
+    <b class="description-subtitle">Selected wavelenghts</b>
+    <table>
+    <tr>
+        <td>Domain</td>
+        <td>: &nbsp;&nbsp; %d &ndash; %d nm</td>
+    </tr>
+    <tr>
+        <td>Step</td>
+        <td>: &nbsp;&nbsp; %d nm</td>
+    </tr>
+    </table>
+    </p>
+    """ % (360, 830, 1)
+
 def _normalisation(data):
     return u"""
     <em class="description-subtitle">Normalisation:</em><br />
@@ -174,6 +191,28 @@ def _normalisation_xyz(data):
     </ul>
     </p>
     """ % (data['field_size'], data['age'])
+    
+def _normalisation_31():
+    return """
+    <p>
+    <b class="description-subtitle">Normalisation</b><br />
+    <ul>
+    <li>Equal tristimulus values for Illuminant E</li>
+    <li>Values of <font style="text-decoration: overline;"><em>y</em></font> peaking at unity at 1 nm resolution</li>
+    </ul>
+    </p>
+    """
+    
+def _normalisation_64():
+    return """
+    <p>
+    <b class="description-subtitle">Normalisation</b><br />
+    <ul>
+    <li>Equal tristimulus values for Illuminant E</li>
+    <li>Values of <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub> peaking at unity at 1 nm resolution</li>
+    </ul>
+    </p>
+    """
     
 def _precision_lms():
     return """
@@ -686,7 +725,13 @@ def xyz31(heading, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _parameters_31())
+                    _parameters_31() +
+                    _functions('<font style="text-decoration: overline;"><em>x</em></font>',
+                               '<font style="text-decoration: overline;"><em>y</em></font>',
+                               '<font style="text-decoration: overline;"><em>z</em></font>') +
+                    _wavelenghts_std() +
+                    _normalisation_31() +
+                    _precision_xyz())
     return html_string
 
 def xyz64(heading, include_head=False):
@@ -712,7 +757,13 @@ def xyz64(heading, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _parameters_64())
+                    _parameters_64() +
+                    _functions('<font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>',
+                               '<font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>',
+                               '<font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>') +
+                    _wavelenghts_std() +
+                    _normalisation_64() +
+                    _precision_xyz())
     return html_string
 
 def xy31(heading, include_head=False):
@@ -737,7 +788,9 @@ def xy31(heading, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _parameters_31())
+                    _parameters_31() +
+                    _coordinates('<em>x</em>', '<em>y</em>', '<em>z</em>') +
+                    _wavelenghts_std())
     return html_string
 
 def xy64(heading, include_head=False):
