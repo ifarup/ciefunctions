@@ -986,6 +986,8 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['lm_white'] = lm_white
     results['lambda_ref_min'] = lambda_x_min_ref
     results['purple_line_cc'] = purple_line_cc
+    results['purple_line_cc31'] = plots['purple_line_cc31']
+    results['purple_line_cc64'] = plots['purple_line_cc64']
     results['purple_line_lm'] = purple_line_lm
     results['purple_line_bm'] = purple_line_bm
     if field_size == np.round(field_size):

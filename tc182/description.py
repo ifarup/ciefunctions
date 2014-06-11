@@ -184,7 +184,7 @@ def _normalisation_lms():
 def _normalisation_xyz(data):
     return """
     <p>
-    <b class="description-subtitle">Normalisation</b><br />
+    <b class="description-subtitle">Normalisation</b>
     <ul>
     <li>Equal tristimulus values for Illuminant E</li>
     <li>Values of <font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub> peaking at unity at 0.1 nm resolution</li>
@@ -265,7 +265,6 @@ def _precision_xy():
 def _lms_to_xyz(data):
     html_string = """
     <b class="description-subtitle">Transformation equation</b><br />
-    <br />
     <table>
     <tr>
     <td>
@@ -428,17 +427,117 @@ def _xyz_to_xy(data):
 
 def _xyz_to_xy_31():
     return """
-    <p>
     <b class="description-subtitle">Transformation equations</b><br />
-    TODO
+    <p>
+    <table>
+        <tr>
+            <td>
+                <em>x</em>(&lambda;)
+            </td>
+            <td>
+                =
+            </td>
+            <td>
+            <font style="text-decoration: overline;"><em>x</em></font>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>y</em></font>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>z</em></font>(&lambda;)&nbsp;)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <em>y</em>(&lambda;)
+            </td>
+            <td>
+                =
+            </td>
+            <td>
+            <font style="text-decoration: overline;"><em>y</em></font>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>y</em></font>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>z</em></font>(&lambda;)&nbsp;)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <em>z</em>(&lambda;)
+            </td>
+            <td>
+                =
+            </td>
+            <td>
+            <font style="text-decoration: overline;"><em>z</em></font>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>y</em></font>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>z</em></font>(&lambda;)&nbsp;)
+            </td>
+        </tr>
+    </table>
+    <br />
     </p>
     """
 
 def _xyz_to_xy_64():
     return """
-    <p>
     <b class="description-subtitle">Transformation equations</b><br />
-    TODO
+    <p>
+    <table>
+        <tr>
+            <td>
+                <em>x</em><sub>10</sub>(&lambda;)
+            </td>
+            <td>
+                =
+            </td>
+            <td>
+            <font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>(&lambda;)&nbsp;)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <em>y</em><sub>10</sub>(&lambda;)
+            </td>
+            <td>
+                =
+            </td>
+            <td>
+            <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>(&lambda;)&nbsp;)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <em>z</em><sub>10</sub>(&lambda;)
+            </td>
+            <td>
+                =
+            </td>
+            <td>
+            <font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>(&lambda;)
+            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>(&lambda;)
+            +
+            <font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>(&lambda;)&nbsp;)
+            </td>
+        </tr>
+    </table>
+    <br />
     </p>
     """
 
@@ -457,14 +556,22 @@ def _illuminant_E_cc_31():
     return """
     <p>
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    TODO</p>
+    (<em>x</em><sub>E</sub>, 
+    <em>y</em><sub>E</sub>)
+    =
+    (0.33333, 0.33333)
+    </p>
     """
 
 def _illuminant_E_cc_64():
     return """
     <p>
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    TODO</p>
+    (<em>x</em><sub>10;&nbsp;E</sub>, 
+    <em>y</em><sub>10;&nbsp;E</sub>)
+    =
+    (0.33333, 0.33333)
+    </p>
     """
 
 def _illuminant_E_lm(data):
@@ -507,19 +614,41 @@ def _purple_cc(data):
            data['field_size'], data['age'], data['purple_line_cc'][1,0],
            data['purple_line_cc'][1,1], data['purple_line_cc'][1,2])
 
-def _purple_31():
+def _purple_31(data):
     return """
-    <p>
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    TODO</p>
-    """
+    (<em>x</em>(%.0f nm), 
+    <em>y</em>(%.0f nm))
+    &nbsp;=&nbsp;
+    (%.5f, %.5f) <br />
+    (<em>x</em>(%.0f nm), 
+    <em>y</em>(%.0f nm))
+    &nbsp;=&nbsp;
+    (%.5f, %.5f)
+    """ % (data['purple_line_cc31'][0,0],
+           data['purple_line_cc31'][0,0],
+           data['purple_line_cc31'][0,1], data['purple_line_cc31'][0,2],
+           data['purple_line_cc31'][1,0],
+           data['purple_line_cc31'][1,0],
+           data['purple_line_cc31'][1,1], data['purple_line_cc31'][1,2])
 
-def _purple_64():
+def _purple_64(data):
     return """
-    <p>
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    TODO</p>
-    """
+    (<em>x</em><sub>10</sub>(%.0f nm), 
+    <em>y</em><sub>10</sub>(%.0f nm))
+    &nbsp;=&nbsp;
+    (%.5f, %.5f) <br />
+    (<em>x</em><sub>10</sub>(%.0f nm), 
+    <em>y</em><sub>10</sub>(%.0f nm))
+    &nbsp;=&nbsp;
+    (%.5f, %.5f)
+    """ % (data['purple_line_cc64'][0,0],
+           data['purple_line_cc64'][0,0],
+           data['purple_line_cc64'][0,1], data['purple_line_cc64'][0,2],
+           data['purple_line_cc64'][1,0],
+           data['purple_line_cc64'][1,0],
+           data['purple_line_cc64'][1,1], data['purple_line_cc64'][1,2])
 
 def _purple_lm(data):
     return """
@@ -707,7 +836,9 @@ def bm(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _coordinates('TODO', 'TODO', 'TODO') +
+                    _coordinates('<em>l</em><sub> MB, %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<em>m</em><sub> MB, %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<em>s</em><sub> MB, %s, %d</sub>' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _lms_to_bm(data) +
                     _precision_bm() +
@@ -739,7 +870,9 @@ def lm(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _coordinates('TODO', 'TODO', 'TODO') +
+                    _coordinates('<em>l</em><sub>%s, %d</sub>' % (data['field_size'], data['age']),
+                               '<em>m</em><sub>%s, %d</sub>' % (data['field_size'], data['age']),
+                               '<em>s</em><sub>%s, %d</sub>' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _lms_to_lm(data) +
                     _precision_lm() +
@@ -747,7 +880,7 @@ def lm(data, heading, include_head=False):
                     _purple_lm(data))
     return html_string
 
-def xyz31(heading, include_head=False):
+def xyz31(data, heading, include_head=False):
     """
     Generate html page with information about the standard
     
@@ -778,7 +911,7 @@ def xyz31(heading, include_head=False):
                     _precision_xyz())
     return html_string
 
-def xyz64(heading, include_head=False):
+def xyz64(data, heading, include_head=False):
 
     """
     Generate html page with information about the standard
@@ -810,7 +943,7 @@ def xyz64(heading, include_head=False):
                     _precision_xyz())
     return html_string
 
-def xy31(heading, include_head=False):
+def xy31(data, heading, include_head=False):
     """
     Generate html page with information about the standard
     
@@ -838,10 +971,10 @@ def xy31(heading, include_head=False):
                     _xyz_to_xy_31() + 
                     _precision_xy() +
                     _illuminant_E_cc_31() +
-                    _purple_31())
+                    _purple_31(data))
     return html_string
 
-def xy64(heading, include_head=False):
+def xy64(data, heading, include_head=False):
     """
     Generate html page with information about the standard
     
@@ -869,5 +1002,5 @@ def xy64(heading, include_head=False):
                     _xyz_to_xy_64() + 
                     _precision_xy() +
                     _illuminant_E_cc_64() +
-                    _purple_64())
+                    _purple_64(data))
     return html_string
