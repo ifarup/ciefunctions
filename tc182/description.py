@@ -426,6 +426,22 @@ def _xyz_to_xy(data):
            data['field_size'], data['age'],
            data['field_size'], data['age'])
 
+def _xyz_to_xy_31():
+    return """
+    <p>
+    <b class="description-subtitle">Transformation equations</b><br />
+    TODO
+    </p>
+    """
+
+def _xyz_to_xy_64():
+    return """
+    <p>
+    <b class="description-subtitle">Transformation equations</b><br />
+    TODO
+    </p>
+    """
+
 def _illuminant_E_cc(data):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
@@ -436,6 +452,20 @@ def _illuminant_E_cc(data):
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['cc_white'][0], data['cc_white'][1])
+
+def _illuminant_E_cc_31():
+    return """
+    <p>
+    <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
+    TODO</p>
+    """
+
+def _illuminant_E_cc_64():
+    return """
+    <p>
+    <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
+    TODO</p>
+    """
 
 def _illuminant_E_lm(data):
     return """
@@ -476,6 +506,20 @@ def _purple_cc(data):
            data['field_size'], data['age'], data['purple_line_cc'][1,0],
            data['field_size'], data['age'], data['purple_line_cc'][1,0],
            data['purple_line_cc'][1,1], data['purple_line_cc'][1,2])
+
+def _purple_31():
+    return """
+    <p>
+    <b class="description-subtitle">Tangent points of the purple line</b><br />
+    TODO</p>
+    """
+
+def _purple_64():
+    return """
+    <p>
+    <b class="description-subtitle">Tangent points of the purple line</b><br />
+    TODO</p>
+    """
 
 def _purple_lm(data):
     return """
@@ -790,7 +834,11 @@ def xy31(heading, include_head=False):
     html_string += (_heading(heading) +
                     _parameters_31() +
                     _coordinates('<em>x</em>', '<em>y</em>', '<em>z</em>') +
-                    _wavelenghts_std())
+                    _wavelenghts_std() +
+                    _xyz_to_xy_31() + 
+                    _precision_xy() +
+                    _illuminant_E_cc_31() +
+                    _purple_31())
     return html_string
 
 def xy64(heading, include_head=False):
@@ -815,5 +863,11 @@ def xy64(heading, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _parameters_64())
+                    _parameters_64() +
+                    _coordinates('<em>x</em>', '<em>y</em>', '<em>z</em>') +
+                    _wavelenghts_std() +
+                    _xyz_to_xy_64() + 
+                    _precision_xy() +
+                    _illuminant_E_cc_64() +
+                    _purple_64())
     return html_string

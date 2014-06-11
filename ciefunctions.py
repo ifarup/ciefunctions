@@ -54,7 +54,7 @@ class AppForm(qt.QMainWindow):
         elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
             suggest += 'lms_9_'
         elif self.plot_combo.currentIndex() == self.COMBO_XY:
-            suggest += 'cc_'
+            suggest += 'xy_'
         elif self.plot_combo.currentIndex() == self.COMBO_BM:
             suggest += 'bm_'
         elif self.plot_combo.currentIndex() == self.COBMO_LM:
