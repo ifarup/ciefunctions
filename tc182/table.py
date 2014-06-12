@@ -73,7 +73,7 @@ def xyz(results, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['xyz'])[0]):
-        if results['lambda_step'] == np.round(results['lambda_step']):
+        if float(results['lambda_step']) == np.round(float(results['lambda_step'])):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -131,7 +131,7 @@ def xy(results, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['xy'])[0]):
-        if results['lambda_step'] == np.round(results['lambda_step']):
+        if float(results['lambda_step']) == np.round(float(results['lambda_step'])):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -190,7 +190,7 @@ def lms(results, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lms'])[0]):
-        if results['lambda_step'] == np.round(results['lambda_step']):
+        if float(results['lambda_step']) == np.round(float(results['lambda_step'])):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -249,7 +249,7 @@ def lms_base(results, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lms_base'])[0]):
-        if results['lambda_step'] == np.round(results['lambda_step']):
+        if float(results['lambda_step']) == np.round(float(results['lambda_step'])):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -308,7 +308,7 @@ def bm(results, include_head=False):
            results['field_size'], results['age'])
     results['bm'][results['bm'] <= 0] = 0
     for i in range(np.shape(results['bm'])[0]):
-        if results['lambda_step'] == np.round(results['lambda_step']):
+        if float(results['lambda_step']) == np.round(float(results['lambda_step'])):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -367,7 +367,7 @@ def lm(results, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lm'])[0]):
-        if results['lambda_step'] == np.round(results['lambda_step']):
+        if float(results['lambda_step']) == np.round(float(results['lambda_step'])):
             html_table += """
             <tr>
                <td>%.0f</td>

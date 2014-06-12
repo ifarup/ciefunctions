@@ -991,18 +991,31 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['purple_line_cc64'] = plots['purple_line_cc64']
     results['purple_line_lm'] = purple_line_lm
     results['purple_line_bm'] = purple_line_bm
-    if field_size == np.round(field_size):
-        results['field_size'] = "%.0f" % field_size
-    else:
-        results['field_size'] = "%.1f" % field_size
     results['age'] = age
-    results['lambda_min'] = lambda_min
-    results['lambda_max'] = lambda_max
-    results['lambda_step'] = lambda_step 
     results['xyz31'] = VisualData.xyz31.copy()
     results['xyz64'] = VisualData.xyz64.copy()
     results['cc31'] = my_round(VisualData.cc31, 5)
     results['cc64'] = my_round(VisualData.cc64, 5)
+    if field_size == np.round(field_size):
+        results['field_size'] = "%.0f" % field_size
+    else:
+        results['field_size'] = "%.1f" % field_size
+    if (lambda_step == np.round(lambda_step) and
+        lambda_min == np.round(lambda_min) and
+        lambda_max == np.round(lambda_max)):
+        results['lambda_min'] = '%.0f' % lambda_min
+        results['lambda_max'] = '%.0f' % lambda_max
+        results['lambda_step'] = '%.0f' % lambda_step 
+        plots['lambda_min'] = '%.0f' % lambda_min
+        plots['lambda_max'] = '%.0f' % lambda_max
+        plots['lambda_step'] = '%.0f' % lambda_step
+    else: 
+        results['lambda_min'] = '%.1f' % lambda_min
+        results['lambda_max'] = '%.1f' % lambda_max
+        results['lambda_step'] = '%.1f' % lambda_step 
+        plots['lambda_min'] = '%.1f' % lambda_min
+        plots['lambda_max'] = '%.1f' % lambda_max
+        plots['lambda_step'] = '%.1f' % lambda_step
 
     return results, plots
 

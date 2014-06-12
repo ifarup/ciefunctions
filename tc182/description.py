@@ -130,11 +130,11 @@ def _wavelenghts(data):
     <table>
     <tr>
         <td>Domain</td>
-        <td>: &nbsp;&nbsp; %.1f &ndash; %.1f nm</td>
+        <td>: &nbsp;&nbsp; %s &ndash; %s nm</td>
     </tr>
     <tr>
         <td>Step</td>
-        <td>: &nbsp;&nbsp; %.1f nm</td>
+        <td>: &nbsp;&nbsp; %s nm</td>
     </tr>
     </table>
     </p>
@@ -164,11 +164,11 @@ def _normalisation(data):
     <table>
         <tr>
             <td>Wavelength domain:</td>
-            <td valign="bottom">&nbsp;%0.1f\u2013%0.1f&nbsp;nm</td>
+            <td valign="bottom">&nbsp;%s\u2013%s&nbsp;nm</td>
         </tr>
         <tr>
             <td>Wavelength step:</td>
-            <td valign="bottom">&nbsp;%0.1f&nbsp;nm</td>
+            <td valign="bottom">&nbsp;%s&nbsp;nm</td>
         </tr>
     </table>
     """  % (data['lambda_min'], data['lambda_max'], data['lambda_step'])
