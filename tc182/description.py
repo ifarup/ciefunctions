@@ -130,7 +130,7 @@ def _wavelenghts(data):
     <table>
     <tr>
         <td>Domain</td>
-        <td>: &nbsp;&nbsp; %s &ndash; %s nm</td>
+        <td>: &nbsp;&nbsp; %s&ndash;%s nm</td>
     </tr>
     <tr>
         <td>Step</td>
@@ -147,7 +147,7 @@ def _wavelenghts_std():
     <table>
     <tr>
         <td>Domain</td>
-        <td>: &nbsp;&nbsp; %d &ndash; %d nm</td>
+        <td>: &nbsp;&nbsp; %d&ndash;%d nm</td>
     </tr>
     <tr>
         <td>Step</td>
