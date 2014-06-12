@@ -496,7 +496,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.COMBO_LM = 3
         self.plot_combo.addItem('CIE XYZ fundamental CMFs')
         self.COMBO_XYZ = 4
-        self.plot_combo.addItem('CIE fundamental xy diagram')
+        self.plot_combo.addItem('CIE fundamental xy chromaticity diagram')
         self.COMBO_XY = 5
         self.plot_combo.addItem('CIE XYZ standard CMFs')
         self.COMBO_XYZSTD = 6
