@@ -996,13 +996,13 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['xyz64'] = VisualData.xyz64.copy()
     results['cc31'] = my_round(VisualData.cc31, 5)
     results['cc64'] = my_round(VisualData.cc64, 5)
-    if field_size == np.round(field_size):
+    if np.round(field_size, 5) == np.round(field_size):
         results['field_size'] = "%.0f" % field_size
     else:
         results['field_size'] = "%.1f" % field_size
-    if (lambda_step == np.round(lambda_step) and
-        lambda_min == np.round(lambda_min) and
-        lambda_max == np.round(lambda_max)):
+    if (np.round(lambda_step, 5) == np.round(lambda_step) and
+        np.round(lambda_min, 5) == np.round(lambda_min) and
+        np.round(lambda_max, 5) == np.round(lambda_max)):
         results['lambda_min'] = '%.0f' % lambda_min
         results['lambda_max'] = '%.0f' % lambda_max
         results['lambda_step'] = '%.0f' % lambda_step 
