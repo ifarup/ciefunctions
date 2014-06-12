@@ -447,6 +447,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.age_spin.setValue(32)     
 
         self.field_spin = qt.QDoubleSpinBox()
+        self.field_spin.textFromValue = lambda x : "%.1f" % x
         self.field_spin.setMinimum(1)
         self.field_spin.setMaximum(10)
         self.field_spin.setDecimals(1)
@@ -461,6 +462,7 @@ You should have received a copy of the GNU General Public License along with thi
                      qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
 
         self.resolution_spin = qt.QDoubleSpinBox()
+        self.resolution_spin.textFromValue = lambda x : "%.1f" % x
         self.resolution_spin.setMinimum(0.1)
         self.resolution_spin.setMaximum(5)
         self.resolution_spin.setDecimals(1)
@@ -468,6 +470,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.resolution_spin.setSingleStep(0.1)
         
         self.lambda_min_spin = qt.QDoubleSpinBox()
+        self.lambda_min_spin.textFromValue = lambda x : "%.1f" % x
         self.lambda_min_spin.setMinimum(390)
         self.lambda_min_spin.setMaximum(400)
         self.lambda_min_spin.setDecimals(1)
@@ -475,6 +478,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_min_spin.setSingleStep(0.1)
 
         self.lambda_max_spin = qt.QDoubleSpinBox()
+        self.lambda_max_spin.textFromValue = lambda x : "%.1f" % x
         self.lambda_max_spin.setMinimum(700)
         self.lambda_max_spin.setMaximum(830)
         self.lambda_max_spin.setDecimals(1)
