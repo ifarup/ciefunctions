@@ -585,7 +585,7 @@ def _illuminant_E_bm(data):
     (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>, 
     <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
     =
-    (%.5f, %.5f) <br /><br />
+    (%.6f, %.6f) <br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['bm_white'][0], data['bm_white'][2])
@@ -668,11 +668,11 @@ def _purple_bm(data):
     (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
     <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
-    (%.5f, %.5f) <br />
+    (%.6f, %.6f) <br />
     (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
     <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
     &nbsp;=&nbsp;
-    (%.5f, %.5f)
+    (%.6f, %.6f)
     """ % (data['field_size'], data['age'], data['purple_line_bm'][0,0],
            data['field_size'], data['age'], data['purple_line_bm'][0,0],
            data['purple_line_bm'][0,1], data['purple_line_bm'][0,2],
