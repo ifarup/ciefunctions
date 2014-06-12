@@ -184,11 +184,9 @@ def _normalisation_lms():
 def _normalisation_xyz(data):
     return """
     <p>
-    <b class="description-subtitle">Normalisation</b>
-    <ul>
-    <li>Equal tristimulus values for Illuminant E</li>
-    <li>Values of <font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub> peaking at unity at 0.1 nm resolution</li>
-    </ul>
+    <b class="description-subtitle">Normalisation</b><br />
+    &ndash; Equal tristimulus values for Illuminant E<br />
+    &ndash; Values of <font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub> peaking at unity at 0.1 nm resolution
     </p>
     """ % (data['field_size'], data['age'])
     
@@ -196,10 +194,8 @@ def _normalisation_31():
     return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    <ul>
-    <li>Equal tristimulus values for Illuminant E</li>
-    <li>Values of <font style="text-decoration: overline;"><em>y</em></font> peaking at unity at 1 nm resolution</li>
-    </ul>
+    &ndash; Equal tristimulus values for Illuminant E<br />
+    &ndash; Values of <font style="text-decoration: overline;"><em>y</em></font> peaking at unity at 1 nm resolution
     </p>
     """
     
@@ -207,10 +203,8 @@ def _normalisation_64():
     return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    <ul>
-    <li>Equal tristimulus values for Illuminant E</li>
-    <li>Values of <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub> peaking at unity at 1 nm resolution</li>
-    </ul>
+    &ndash; Equal tristimulus values for Illuminant E<br />
+    &ndash; Values of <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub> peaking at unity at 1 nm resolution
     </p>
     """
     
