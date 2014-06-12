@@ -404,14 +404,11 @@ You should have received a copy of the GNU General Public License along with thi
     def create_menu(self):
         self.file_menu = self.menuBar().addMenu("&File")
         
-        save_table_action = self.create_action("&Save table",
-            shortcut="Ctrl+S", slot=self.save_table, 
-            tip="Save the table")
         quit_action = self.create_action("&Quit", slot=self.close, 
             shortcut="Ctrl+Q", tip="Close the application")
         
         self.add_actions(self.file_menu, 
-            (save_table_action, None, quit_action))
+            (quit_action,))
         
         self.help_menu = self.menuBar().addMenu("&Help")
         about_action = self.create_action("&About", 
@@ -519,6 +516,9 @@ You should have received a copy of the GNU General Public License along with thi
         self.cie64_check = qt.QCheckBox()
         self.connect(self.cie64_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+        
+        self.save_table_button = qt.QPushButton('&Save table')
+        self.connect(self.save_table_button, qtcore.SIGNAL('clicked(bool)'), self.save_table)
 
         self.compute_button = qt.QPushButton('       &Compute       ')
         self.connect(self.compute_button,
@@ -572,10 +572,16 @@ You should have received a copy of the GNU General Public License along with thi
         inner_vbox.addWidget(check_widget)
         inner_widget = qt.QWidget()
         inner_widget.setLayout(inner_vbox)
+        
+        table_vbox = qt.QVBoxLayout()
+        table_vbox.addWidget(self.html_table)
+        table_vbox.addWidget(self.save_table_button)
+        table_widget = qt.QWidget()
+        table_widget.setLayout(table_vbox)
 
         spectral_tabs = qt.QTabWidget()
         spectral_tabs.addTab(inner_widget, 'Plot')
-        spectral_tabs.addTab(self.html_table, 'Table')
+        spectral_tabs.addTab(table_widget, 'Table')
 
         spectral_vbox = qt.QVBoxLayout()
         spectral_vbox.addWidget(spectral_tabs)
