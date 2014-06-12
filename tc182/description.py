@@ -331,7 +331,7 @@ def _lms_to_xyz(data):
     with the cone fundamentals 
     <font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;),
     <font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;) and
-    <font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;) given to the precision of 9 significant figures.
+    <font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;) given to the precision of 9 significant figures
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
