@@ -306,6 +306,7 @@ def bm(results, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
+    results['bm'][results['bm'] <= 0] = 0
     for i in range(np.shape(results['bm'])[0]):
         if results['lambda_step'] == np.round(results['lambda_step']):
             html_table += """

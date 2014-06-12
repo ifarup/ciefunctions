@@ -842,7 +842,8 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     bm_spec[:,3] = lms_spec[:,3] / Vl[:,1]
     bm_spec[:,3] = bm_spec[:,3] / bm_s_max
     bm_spec[:,1:] = my_round(bm_spec[:,1:], bm_dp)
-    
+    bm_spec[bm_spec <= 0] = 0
+        
     # Version for plotting and purple line
     plots['bm'] = plots['lms'].copy()
     plots['bm'][:,1] = trans_mat[1,0] * plots['lms'][:,1] / plots['xyz'][:,2]
