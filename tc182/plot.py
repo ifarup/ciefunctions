@@ -356,7 +356,7 @@ def lm(axes, plots, options):
                                                                            plots['lambda_step']),
                                  fontsize=16)
     if options['full_title']:
-        axes.set_title('Maxwellian $lm$ chromaticity diagram\nField size: ' + str(plots['field_size']) +
+        axes.set_title('Maxwellian lm chromaticity diagram\nField size: ' + str(plots['field_size']) +
                             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
                             u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
                                                               plots['lambda_max']) +
