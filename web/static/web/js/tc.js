@@ -216,6 +216,10 @@ var plot_options = {
 //Init
 var currentPlot = availablePlots[0]; //Current plot LMS
 $( "#descriptionTitle" ).html($( "option[plot=" + currentPlot + "]").html());
+updateLabels();
+$( "div.x_label" ).html(axis_labels[currentPlot].x);
+$( "div.y_label" ).html(axis_labels[currentPlot].y);
+
 
 function getOptionsString(){
 	return "" + plot_options.grid + plot_options.cie31 + plot_options.cie64 + plot_options.labels;
@@ -261,7 +265,6 @@ function refreshPlot(plot){
 								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
 								$( "div#" + plot + "_plot" ).append(data);
-								$( "div.label" ).fadeIn(); //Show the labels
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
   							})
   							.fail(function() {
@@ -273,6 +276,7 @@ function refreshPlot(plot){
 		$( "div.velo" ).hide();
 	}
 	updateLabels();
+	
 }
 
 //This function sends table data to the user
@@ -333,7 +337,7 @@ function refreshAllOthers(plot){
 		$( "#descriptionTitle" ).html($( "option[plot=" + plot + "]").html());
 		$( "div.x_label" ).html(axis_labels[plot].x);
 		$( "div.y_label" ).html(axis_labels[plot].y);
-								
+
 		updateCheckboxes(plot);
 		refreshAllObjects();
 	});

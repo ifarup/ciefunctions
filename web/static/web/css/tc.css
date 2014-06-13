@@ -34,6 +34,7 @@ select#plot-select { width: 650px; }
 
 .math { font-family: math; 
 		font-size: 1.2em;
+		letter-spacing: 5px;
 }
 
 .html_text { 	display: none; }
@@ -142,9 +143,11 @@ div#theFig{ position: relative;
 }
 
 div.label { 
-			font-size: 1.2em;
+			font-size: 0.9em;
 			height: 30px;
-			display: none;
+		}
+
+div.label sub { font-size: 0.8em;
 		}
 	
 div.x_label { 	position: relative;
