@@ -184,23 +184,23 @@ var lambda_max= parseInt($( "input#lambda_max" ).val());
 var lambda_step = parseInt($( "input#lambda_step" ).val());
 
 	axis_labels = ({ 	'xyz' 		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
-						'xy'		: new axis_label("x<sub>F, " + field_size + ", " + age + "</sub>", 
+						'xy'		: new axis_label("<span class='math'>x</span><sub>F, " + field_size + ", " + age + "</sub>", 
 													  "y<sub>F, " + field_size + ", " + age + "</sub>"),
 													  
 						'lms'		: new axis_label("Wavelength [nm]", "Relative energy sensitivities"),
 						'lms_base'	: new axis_label("Wavelength [nm]", "Relative energy sensitivities"),
 						
-						'bm'		: new axis_label("l<sub>MB, " + field_size + ", " + age + "</sub>", 
-													  "m<sub>MB, " + field_size + ", " + age + "</sub>"),
+						'bm'		: new axis_label("<span class='math'>l</span><sub>MB, " + field_size + ", " + age + "</sub>", 
+													  "<span class='math'>m</span><sub>MB, " + field_size + ", " + age + "</sub>"),
 													  
-						'lm'		: new axis_label("l<sub>" + field_size + ", " + age + "</sub>",
-													  "m<sub>" + field_size + ", " + age + "</sub>"),
+						'lm'		: new axis_label("<span class='math'>l</span><sub>" + field_size + ", " + age + "</sub>",
+													  "<span class='math'>m</span><sub>" + field_size + ", " + age + "</sub>"),
 						
 						'xyz31'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
 						
-						'xy31'		: new axis_label("x", "y"),
+						'xy31'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 						
-						'xyz64'		: new axis_label("x", "y"),
+						'xyz64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 
 	});
 }

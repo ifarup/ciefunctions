@@ -32,7 +32,9 @@ select#plot-select { width: 650px; }
 
 .plot {			display: none; }
 
-.math { font-family: math; }
+.math { font-family: math; 
+		font-size: 1.2em;
+}
 
 .html_text { 	display: none; }
 
@@ -140,14 +142,13 @@ div#theFig{ position: relative;
 }
 
 div.label { 
-			font-family: math;
 			font-size: 1.2em;
 			height: 30px;
 			display: none;
 		}
 	
 div.x_label { 	position: relative;
-				bottom: 0;
+				bottom: 10;
 				z-index: 1;
 				text-align: center;
 				left: 80px;
