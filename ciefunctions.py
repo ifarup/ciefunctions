@@ -490,7 +490,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.COMBO_LMS = 0
         self.plot_combo.addItem('CIE LMS cone fundamentals (9 sign. figs.)')
         self.COMBO_LMSBASE = 1
-        self.plot_combo.addItem('MacLeod\u2013Boynton ls chromaticity diagram')
+        self.plot_combo.addItem(u'MacLeod\u2013Boynton ls chromaticity diagram')
         self.COMBO_BM = 2
         self.plot_combo.addItem('Maxwellian lm chromaticity diagram')
         self.COMBO_LM = 3
