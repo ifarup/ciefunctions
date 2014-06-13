@@ -164,7 +164,7 @@ def get_csv(request, plot):
 	response['Content-Disposition'] = 'attachment; filename = "%s.csv"' % plot
 	return response
 	
-def calculate(request, field_size, age, lambda_min, lambda_max, lambda_step):
+def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 # The values here are sanitized on the client side, so we can trust them.
 	print "Updating results ..."
 	field_size 	= 	float(field_size)
@@ -213,7 +213,7 @@ def calculate(request, field_size, age, lambda_min, lambda_max, lambda_step):
 			#					data=plots )
 			#new_plot.save()
 		except Exception as e:
-			print "Can't serialize plots: %s" % e
+			#print "Can't serialize plots: %s" % e
 			print e
 	print "results updated ... going back to the server"
 	return HttpResponse('Calculate fields updated')

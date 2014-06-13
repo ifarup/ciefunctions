@@ -39,12 +39,7 @@ $( document ).ajaxComplete(function() {
 	$("div.velo").hide();
 });
 
-$( document ).ajaxStart(function() {
-	$("div.velo").show();
-});
-
-$( "form#paramForm" ).on('submit', function(){
-	var validates = true;
+$( "button#btnCompute" ).on('click', function(){
 
 	function flash(component){
 		component
@@ -61,141 +56,154 @@ $( "form#paramForm" ).on('submit', function(){
 	if (age < min_age){
 		flash($( "input#age" ));
 		$( "input#age" ).val(min_age);
-		validates = false;
+		return false;
 	} else if ( age > max_age ){
 		flash($("input#age"));
 		$( "input#age" ).val(max_age);
-		validates = false;
+		return false;
 	} else if ( isNaN(age) ){
 		flash($("input#age"));
 		$( "input#age" ).val(min_age);
-		validates = false;
+		return false;
 	}
 	
 	//field_size
-	min_field_size 	= parseInt($( "input#field_size" ).attr("aria-valuemin"));
-	max_field_size 	= parseInt($( "input#field_size" ).attr("aria-valuemax"));
-	field_size 		= parseInt($( "input#field_size" ).val());
+	min_field_size 	= parseFloat($( "input#field_size" ).attr("aria-valuemin"));
+	max_field_size 	= parseFloat($( "input#field_size" ).attr("aria-valuemax"));
+	field_size 		= parseFloat($( "input#field_size" ).val()).toFixed(1);
+
 	
 	if (field_size < min_field_size){
 		flash($( "input#field_size" ));
 		$( "input#field_size" ).val(min_field_size);
-		validates = false;
+		return false;
 	} else if ( field_size > max_field_size ){
 		flash($("input#field_size"));
 		$( "input#field_size" ).val(max_field_size);
-		validates = false;
+		return false;
 	} else if ( isNaN(field_size) ){
 		flash($("input#field_size"));
 		$( "input#field_size" ).val(min_field_size);
-		validates = false;
+		return false;
 	}
 	
 	//lambda_min
-	min_lambda_min 	= parseInt($( "input#lambda_min" ).attr("aria-valuemin"));
-	max_lambda_min 	= parseInt($( "input#lambda_min" ).attr("aria-valuemax"));
-	lambda_min 		= parseInt($( "input#lambda_min" ).val());
+	min_lambda_min 	= parseFloat($( "input#lambda_min" ).attr("aria-valuemin"));
+	max_lambda_min 	= parseFloat($( "input#lambda_min" ).attr("aria-valuemax"));
+	lambda_min 		= parseFloat($( "input#lambda_min" ).val());
 	
 	if ( lambda_min < min_lambda_min ){
 		flash($( "input#lambda_min" ));
 		$( "input#lambda_min" ).val(min_lambda_min);
-		validates = false;
+		return false;
 	} else if ( lambda_min > max_lambda_min ){
 		flash($("input#lambda_min"));
 		$( "input#lambda_min" ).val(max_lambda_min);
-		validates = false;
+		return false;
 	} else if ( isNaN(lambda_min) ){
 		flash($("input#lambda_min"));
 		$( "input#lambda_min" ).val(min_lambda_min);
-		validates = false;
+		return false;
 	}
 	
 	//lambda_max
-	min_lambda_max 	= parseInt($( "input#lambda_max" ).attr("aria-valuemin"));
-	max_lambda_max 	= parseInt($( "input#lambda_max" ).attr("aria-valuemax"));
-	lambda_max 		= parseInt($( "input#lambda_max" ).val());
+	min_lambda_max 	= parseFloat($( "input#lambda_max" ).attr("aria-valuemin"));
+	max_lambda_max 	= parseFloat($( "input#lambda_max" ).attr("aria-valuemax"));
+	lambda_max 		= parseFloat($( "input#lambda_max" ).val());
 	
 	if ( lambda_max < min_lambda_max ){
 		flash($( "input#lambda_max" ));
 		$( "input#lambda_max" ).val(min_lambda_max);
-		validates = false;
+		return false;
 	} else if ( lambda_max > max_lambda_max ){
 		flash($("input#lambda_max"));
 		$( "input#lambda_max" ).val(max_lambda_max);
-		validates = false;
+		return false;
 	} else if ( isNaN(lambda_max) ){
 		flash($("input#lambda_max"));
 		$( "input#lambda_max" ).val(min_lambda_max);
-		validates = false;
+		return false;
 	}
 	
 	//lambda_step
-	min_lambda_step 	= parseInt($( "input#lambda_step" ).attr("aria-valuemin"));
-	max_lambda_step 	= parseInt($( "input#lambda_step" ).attr("aria-valuemax"));
-	lambda_step 		= parseInt($( "input#lambda_step" ).val());
+	min_lambda_step 	= parseFloat($( "input#lambda_step" ).attr("aria-valuemin"));
+	max_lambda_step 	= parseFloat($( "input#lambda_step" ).attr("aria-valuemax"));
+	lambda_step 		= parseFloat($( "input#lambda_step" ).val());
 	
 	if ( lambda_step < min_lambda_step ){
 		flash($( "input#lambda_step" ));
 		$( "input#lambda_step" ).val(min_lambda_step);
-		validates = false;
+		return false;
 	} else if ( lambda_step > max_lambda_step ){
 		flash($("input#lambda_step"));
 		$( "input#lambda_step" ).val(max_lambda_step);
-		validates = false;
+		return false;
 	}  else if ( isNaN(lambda_step) ){
 		flash($("input#lambda_step"));
 		$( "input#lambda_step" ).val(min_lambda_step);
-		validates = false;
+		return false;
 	}
 
-//Trigger a new calculation
-ajaxUrl = 	"/calculate/" 	+ 
-			field_size 		+ "/" + 
-			age 			+ "/" + 
-			lambda_min		+ "/" +
-			lambda_max		+ "/" +
-			lambda_step		+ "/";
+	//Trigger a new calculation
+	ajaxUrl = 	"/compute/" 	+ 
+				field_size 		+ "/" + 
+				age 			+ "/" + 
+				lambda_min		+ "/" +
+				lambda_max		+ "/" +
+				lambda_step		+ "/";
 
-$( "div.velo" ).show(); //We disable the page and show a loader.
-$.get( ajaxUrl )
+	$( "div.velo" ).show(); //We disable the page and show a loader.
+	flushCache();
+	$.get( ajaxUrl )
 				.done(function( data ) {
-					refreshAllPlots();
+					dontCache = true;
 					refreshAllObjects();
 
   				}).fail(function() {
-    				console.log( "error when calling calculate." );
+    				console.log( "error when calling compute." );
 	});
-	return false; //We don't send this as a form anyway
+
+	return false;
+
 });
 
-//Hide table_loader
-$( "img#table_loader" ).hide();
-
 //Object definition for axis
-function axis_labels(x, y){
+function axis_label(x, y){
 	this.x = x;
 	this.y = y;
 }
-	
-var axis_labels = ({ 	'xyz' 		: new axis_labels("Wavelength [nm]", "Fundamental tristimulus values"),
-						'xy'		: new axis_labels("x<sub>F, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>", 
-													  "y<sub>F, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>"),
+
+var axis_labels;
+
+function updateLabels(){
+
+var age = parseInt($( "input#age" ).val());
+var field_size = parseInt($( "input#field_size" ).val());
+var lambda_min = parseInt($( "input#lambda_min" ).val());
+var lambda_max= parseInt($( "input#lambda_max" ).val());
+var lambda_step = parseInt($( "input#lambda_step" ).val());
+
+	axis_labels = ({ 	'xyz' 		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
+						'xy'		: new axis_label("x<sub>F, " + field_size + ", " + age + "</sub>", 
+													  "y<sub>F, " + field_size + ", " + age + "</sub>"),
 													  
-						'lms'		: new axis_labels("Wavelength [nm]", "Relative energy sensitivities"),
-						'lms_base'	: new axis_labels("Wavelength [nm]", "Relative energy sensitivities"),
+						'lms'		: new axis_label("Wavelength [nm]", "Relative energy sensitivities"),
+						'lms_base'	: new axis_label("Wavelength [nm]", "Relative energy sensitivities"),
 						
-						'bm'		: new axis_labels("l<sub>MB, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>", 
-													  "m<sub>MB, " + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>"),
+						'bm'		: new axis_label("l<sub>MB, " + field_size + ", " + age + "</sub>", 
+													  "m<sub>MB, " + field_size + ", " + age + "</sub>"),
 													  
-						'lm'		: new axis_labels("l<sub>" + currentForm['field_size'] + ", " + currentForm['age'] + "</sub>",
-													  "m<sub>" + currentForm['field_size'] + ", " + currentForm['age']+ "</sub>"),
+						'lm'		: new axis_label("l<sub>" + field_size + ", " + age + "</sub>",
+													  "m<sub>" + field_size + ", " + age + "</sub>"),
 						
-						'xyz31'		: new axis_labels("Wavelength [nm]", "Fundamental tristimulus values"),
+						'xyz31'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
 						
-						'xy31'		: new axis_labels("x", "y"),
+						'xy31'		: new axis_label("x", "y"),
 						
-						'xyz64'		: new axis_labels("x", "y"),
-});
+						'xyz64'		: new axis_label("x", "y"),
+
+	});
+}
 
 //Object for plotting options
 var plot_options = {
@@ -207,13 +215,7 @@ var plot_options = {
 
 //Init
 var currentPlot = availablePlots[0]; //Current plot LMS
-
-//Plot title in HTML description.
-$( "#descriptionTitle" ).html($( "option[plot=" + availablePlots[0] + "]").html());
-
-//Init labels
-$( "div.x_label" ).html(axis_labels[availablePlots[0]].x);
-$( "div.y_label" ).html(axis_labels[availablePlots[0]].y);
+$( "#descriptionTitle" ).html($( "option[plot=" + currentPlot + "]").html());
 
 function getOptionsString(){
 	return "" + plot_options.grid + plot_options.cie31 + plot_options.cie64 + plot_options.labels;
@@ -221,7 +223,6 @@ function getOptionsString(){
 
 //This function retrieves an object (table or description, file an issue for plot)
 function refreshObject(object, name){
-
 /* object is a String: can be 'table' or 'description'*/
 	$( "div.velo" ).show();
 	ajaxUrl = '/get_'+ object + '/' + name + '/';
@@ -231,7 +232,7 @@ function refreshObject(object, name){
 					$( "div#" + name + "_" + object ).empty();
 					$( "div#" + name + "_" + object ).append(data);
   				}).fail(function() {
-    				console.log( "error when getting " + plot + " " + object + " from server" );
+    				console.log( "error when getting " + name + " " + object + " from server" );
 	});
 }
 
@@ -240,15 +241,16 @@ function refreshAllObjects(){
 	for (i=0; i < availablePlots.length; i++){
 		refreshObject('table', availablePlots[i]);
 		refreshObject('description', availablePlots[i]);
+		refreshPlot(availablePlots[i]);
 	}
 }
 
 //This function retrieves a plot from the server via AJAX
-function refreshPlot(plot){
-	$( "img#plot_loader" ).show();
- 	var data = all_plots[plot].getPlot(getOptionsString());
 
-	if (data == null) { //If data is not cached, get it from the server.
+function refreshPlot(plot){
+ 	var data = all_plots[plot].getPlot(getOptionsString());
+	$( "div.velo" ).show();
+	if ((data == null)) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
 						plot + '/' + 
 						plot_options.grid + "/" + 
@@ -259,7 +261,6 @@ function refreshPlot(plot){
 								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
 								$( "div#" + plot + "_plot" ).append(data);
-								$( "img#plot_loader" ).hide(); //Hide spinning wheel
 								$( "div.label" ).fadeIn(); //Show the labels
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
   							})
@@ -267,11 +268,11 @@ function refreshPlot(plot){
     							console.log( "error when getting " + plot + " plot from server" );
 				});
 	} else { //Present cached data.
-
 		$( "div#" + plot + "_plot" ).empty();
 		$( "div#" + plot + "_plot" ).append(data);
-		$( "img#plot_loader" ).hide(); //Hide spinning wheel
+		$( "div.velo" ).hide();
 	}
+	updateLabels();
 }
 
 //This function sends table data to the user
@@ -280,13 +281,6 @@ $( "button#getCsv" ).on("click", function(){
 	location.href = "/get_csv/" + currentPlot + "/";
 });
 
-
-//This will load all the plots.
-function refreshAllPlots(){
-	for (i=0; i < availablePlots.length; i++){
-		refreshPlot(availablePlots[i]);
-	}
-}
 
 //This will load all the plots EXCEPT for 'plot'.
 function refreshAllOthers(plot){
@@ -466,7 +460,6 @@ function refreshAllOthers(plot){
 					refreshAllOthers(currentPlot);
 					
 				});
-		refreshAllPlots();
 		refreshAllObjects();
 	});
 		

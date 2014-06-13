@@ -29,6 +29,14 @@ function Plot ( name ){
 	}
 }
 
+function flushCache(){
+	for (i=0; i < availablePlots.length; i++){
+		all_plots[availablePlots[i]] = new Plot(availablePlots[i]);
+	}
+	console.log("Cache flushed");
+}
+
+
 for (i=0; i < availablePlots.length; i++){
 	all_plots[availablePlots[i]] = new Plot(availablePlots[i]);
 
