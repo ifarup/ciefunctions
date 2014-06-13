@@ -62,9 +62,9 @@ class AppForm(qt.QMainWindow):
         suggest += 'fs_' + str(self.field_spin.value()) + '_age_' + \
             str(self.age_spin.value()) + '_res_' + \
             str(self.resolution_spin.value()) + '.csv'
-        path = qt.QFileDialog.getSaveFileName(self, 
+        path = str(qt.QFileDialog.getSaveFileName(self, 
                         'Save file', suggest, 
-                        file_choices)
+                        file_choices))
         if path:
             if self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
