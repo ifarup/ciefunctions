@@ -112,7 +112,7 @@
 					</div><!-- end #tabs-2 -->
 				</div><!-- end #tc-Tabs -->	
 				<div id="plot-select-div">
-					<select id="plot-select">
+					<select id="plot-select" class="ui-widget ui-widget-content">
 						<option plot="lms">CIE LMS cone fundamentals</option>
 						<option plot="lms_base">CIE LMS cone fundamentals (9 sign.figs.)</option>
 						<option plot="lm">Equi-power normalised lm diagram</option>
@@ -156,6 +156,12 @@
 				</div>
 				<div class="float-bottom"></div>
 				<div id="bottomSpalte">
+				<div id="std-params">
+					<select id="field_size" class="ui-widget ui-widget-content">
+						<option value="2">2&deg; (1931)</option>
+						<option value="10">10&deg; (1964)</option>
+					</select>
+				</div>
 				<div id="input-params">
 					<form id="paramForm" method="POST" action="http://disney.com">
 						{% csrf_token %}

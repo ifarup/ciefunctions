@@ -6,6 +6,9 @@
 
 /* App */
 
+div#std-params { 	margin-left: 10px; 
+}
+
 div.velo {  position: fixed;
 			top: 0; left:0;
 			z-index: 50;
