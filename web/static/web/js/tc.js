@@ -34,6 +34,14 @@ $( "input#lambda_step" ).spinner({
 									numberFormat: 'd'
 });
 
+//Show the global loader when ajax.
+$( document ).ajaxComplete(function() {
+	$("div.velo").hide();
+});
+
+$( document ).ajaxStart(function() {
+	$("div.velo").show();
+});
 
 $( "form#paramForm" ).on('submit', function(){
 	var validates = true;
@@ -140,17 +148,30 @@ $( "form#paramForm" ).on('submit', function(){
 		validates = false;
 	}
 
-	return validates;
+//Trigger a new calculation
+ajaxUrl = 	"/calculate/" 	+ 
+			field_size 		+ "/" + 
+			age 			+ "/" + 
+			lambda_min		+ "/" +
+			lambda_max		+ "/" +
+			lambda_step		+ "/";
+
+$( "div.velo" ).show(); //We disable the page and show a loader.
+$.get( ajaxUrl )
+				.done(function( data ) {
+					refreshAllPlots();
+					refreshAllObjects();
+
+  				}).fail(function() {
+    				console.log( "error when calling calculate." );
+	});
+	return false; //We don't send this as a form anyway
 });
 
-
-
-
 //Hide table_loader
-
 $( "img#table_loader" ).hide();
 
-
+//Object definition for axis
 function axis_labels(x, y){
 	this.x = x;
 	this.y = y;
@@ -176,8 +197,7 @@ var axis_labels = ({ 	'xyz' 		: new axis_labels("Wavelength [nm]", "Fundamental 
 						'xyz64'		: new axis_labels("x", "y"),
 });
 
-
-var currentPlot = availablePlots[0]; //Current plot LMS
+//Object for plotting options
 var plot_options = {
 					 'grid' 		: 0,
 					 'cie31'		: 0,
@@ -185,21 +205,42 @@ var plot_options = {
 					 'labels'		: 0
 		}
 
+//Init
+var currentPlot = availablePlots[0]; //Current plot LMS
+
 //Plot title in HTML description.
-
-for ( i=0; i < availablePlots.length; i++ ){
-	$( "div#" + availablePlots[i] + "_html .description-heading-2" )
-		.html($( "option[plot=" + availablePlots[i] + "]").html());
-
-}
+$( "#descriptionTitle" ).html($( "option[plot=" + availablePlots[0] + "]").html());
 
 //Init labels
-
 $( "div.x_label" ).html(axis_labels[availablePlots[0]].x);
 $( "div.y_label" ).html(axis_labels[availablePlots[0]].y);
 
 function getOptionsString(){
 	return "" + plot_options.grid + plot_options.cie31 + plot_options.cie64 + plot_options.labels;
+}
+
+//This function retrieves an object (table or description, file an issue for plot)
+function refreshObject(object, name){
+
+/* object is a String: can be 'table' or 'description'*/
+	$( "div.velo" ).show();
+	ajaxUrl = '/get_'+ object + '/' + name + '/';
+
+	$.get( ajaxUrl )
+				.done(function( data ) {
+					$( "div#" + name + "_" + object ).empty();
+					$( "div#" + name + "_" + object ).append(data);
+  				}).fail(function() {
+    				console.log( "error when getting " + plot + " " + object + " from server" );
+	});
+}
+
+//This will load all the tables and descriptions.
+function refreshAllObjects(){
+	for (i=0; i < availablePlots.length; i++){
+		refreshObject('table', availablePlots[i]);
+		refreshObject('description', availablePlots[i]);
+	}
 }
 
 //This function retrieves a plot from the server via AJAX
@@ -278,7 +319,7 @@ function refreshAllOthers(plot){
 //Start by showing first plot + data:
 
 	$( "#" + availablePlots[0] + "_plot" ).show();
-	$( "#" + availablePlots[0] + "_html" ).show();
+	$( "#" + availablePlots[0] + "_description" ).show();
 	$( "#" + availablePlots[0] + "_table" ).show();
 
 
@@ -293,13 +334,14 @@ function refreshAllOthers(plot){
 		$( "div.html_text" ).hide();			//Hide all HTML
 		$( "div.table" ).hide();				//Hide all tables
 		$( "div#" + plot + "_plot" ).show();	//Show selected plot
-		$( "div#" + plot + "_html" ).show();	//Show selected HTML
+		$( "div#" + plot + "_description" ).show();	//Show selected HTML
 		$( "div#" + plot + "_table" ).show();	//Show selected table
-		
+		$( "#descriptionTitle" ).html($( "option[plot=" + plot + "]").html());
 		$( "div.x_label" ).html(axis_labels[plot].x);
 		$( "div.y_label" ).html(axis_labels[plot].y);
 								
 		updateCheckboxes(plot);
+		refreshAllObjects();
 	});
 	
 	//Enable or disable checkboxes
@@ -389,8 +431,10 @@ function refreshAllOthers(plot){
 					} else {
 						plot_options.grid = 1;
 					}
+					
 					refreshPlot(currentPlot);
 					refreshAllOthers(currentPlot);
+					
 				});					
 				$( "#compare1931-2" ).on("click", function(){
 					if (plot_options.cie31==1) {
@@ -400,6 +444,7 @@ function refreshAllOthers(plot){
 					}
 					refreshPlot(currentPlot);
 					refreshAllOthers(currentPlot);
+					
 				});
 				$( "#compare1964-10" ).on("click", function(){
 					if (plot_options.cie64==1) {
@@ -409,6 +454,7 @@ function refreshAllOthers(plot){
 					}
 					refreshPlot(currentPlot);
 					refreshAllOthers(currentPlot);
+					
 				});
 				$( "#showLabels" ).on("click", function(){
 					if (plot_options.labels==1) {
@@ -418,8 +464,10 @@ function refreshAllOthers(plot){
 					}
 					refreshPlot(currentPlot);
 					refreshAllOthers(currentPlot);
+					
 				});
 		refreshAllPlots();
+		refreshAllObjects();
 	});
 		
 

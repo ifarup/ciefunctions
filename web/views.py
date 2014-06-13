@@ -71,9 +71,83 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 	plt.close(fig)
 	return HttpResponse(resulting_plot);
 
+def get_table(request, plot):
+	results = request.session['results']
+	
+	if (plot == 'xyz'):
+		return HttpResponse(mark_safe(tc182.table.xyz(results, '')))
+
+	elif (plot == 'xy'):
+		return HttpResponse(mark_safe(tc182.table.xy(results, '')))
+	
+	elif (plot == 'lms'):
+		return HttpResponse(mark_safe(tc182.table.lms(results, '')))
+	
+	elif (plot == 'lms_base'):
+		return HttpResponse(mark_safe(tc182.table.lms_base(results, '')))
+	
+	elif (plot == 'bm'):
+		return HttpResponse(mark_safe(tc182.table.bm(results, '')))
+	
+	elif (plot == 'lm'):
+		return HttpResponse(mark_safe(tc182.table.lm(results, '')))
+	
+	elif (plot == 'xyz31'):
+		return HttpResponse(mark_safe(tc182.table.xyz31(results, '')))
+	
+	elif (plot == 'xyz64'):
+		return HttpResponse(mark_safe(tc182.table.xyz64(results, '')))
+		
+	elif (plot == 'xy31'):
+		return HttpResponse(mark_safe(tc182.table.xy31(results, '')))
+
+	elif (plot == 'xy64'):
+		return HttpResponse(mark_safe(tc182.table.xy64(results, '')))
+		
+	else:
+		return HttpResponse('No description for plot %s' % plot)
+	
+
+	return HttpResponse('Table %s' % plot)
+
+def get_description(request, plot):
+	results = request.session['results']
+
+	if (plot == 'xyz'):
+		return HttpResponse(mark_safe(tc182.description.xyz(results, '')))
+
+	elif (plot == 'xy'):
+		return HttpResponse(mark_safe(tc182.description.xy(results, '')))
+	
+	elif (plot == 'lms'):
+		return HttpResponse(mark_safe(tc182.description.lms(results, '')))
+	
+	elif (plot == 'lms_base'):
+		return HttpResponse(mark_safe(tc182.description.lms_base(results, '')))
+	
+	elif (plot == 'bm'):
+		return HttpResponse(mark_safe(tc182.description.bm(results, '')))
+	
+	elif (plot == 'lm'):
+		return HttpResponse(mark_safe(tc182.description.lm(results, '')))
+	
+	elif (plot == 'xyz31'):
+		return HttpResponse(mark_safe(tc182.description.xyz31(results, '')))
+	
+	elif (plot == 'xyz64'):
+		return HttpResponse(mark_safe(tc182.description.xyz64(results, '')))
+		
+	elif (plot == 'xy31'):
+		return HttpResponse(mark_safe(tc182.description.xy31(results, '')))
+
+	elif (plot == 'xy64'):
+		return HttpResponse(mark_safe(tc182.description.xy64(results, '')))
+		
+	else:
+		return HttpResponse('No description for plot %s' % plot)
+
 def get_csv(request, plot):
 
-	
 	format = { 'xyz' 		:  '%.1f, %.6e, %.6e, %.6e',
 			   'lms' 		: '%.1f, %.5e, %.5e, %.5e',
 			   'lms_base'	: '%.1f, %.8e, %.8e, %.8e',
@@ -89,48 +163,15 @@ def get_csv(request, plot):
 	response = HttpResponse(output.getvalue(), mimetype='text/csv')
 	response['Content-Disposition'] = 'attachment; filename = "%s.csv"' % plot
 	return response
-
-def home(request):
-
-	try:
-		field_size = float(request.POST["field_size"])
-		
-	except:
-		field_size = 2.0
-		
-	try:
-		age = int(request.POST["age"])
-		
-	except:
-		age = 32
-		
 	
-	try:
-		lambda_min = float(request.POST["lambda_min"])
-		
-	except:
-		lambda_min = 390.0
-		
-	
-	try:
-		lambda_max = float(request.POST["lambda_max"])
-		
-	except:
-		lambda_max = 830.0
-		
-	
-	try:
-		lambda_step = float(request.POST["lambda_step"])
-		
-	except:
-		lambda_step = 1.0
-		
-		
-	log.debug("Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
-				% ( age, field_size, lambda_min, lambda_max, lambda_step))
-				
-	html_list = [] #List containing all the theDescriptions
-	tab_list = []  #List containing all the tabulated data
+def calculate(request, field_size, age, lambda_min, lambda_max, lambda_step):
+# The values here are sanitized on the client side, so we can trust them.
+	print "Updating results ..."
+	field_size 	= 	float(field_size)
+	age			= 	float(age)
+	lambda_min	=	float(lambda_min)
+	lambda_max	=	float(lambda_max)
+	lambda_step	=	float(lambda_step)
 	
 	try:
 		serialized_test_results = Result.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
@@ -174,75 +215,49 @@ def home(request):
 		except Exception as e:
 			print "Can't serialize plots: %s" % e
 			print e
+	print "results updated ... going back to the server"
+	return HttpResponse('Calculate fields updated')
+
+def home(request):
+
+	try:
+		field_size = float(request.POST["field_size"])
 		
-    #0 #xyz 
+	except:
+		field_size = 2.0
+		
+	try:
+		age = int(request.POST["age"])
+		
+	except:
+		age = 32
+		
 	
-	theDescription = mark_safe(tc182.description.xyz(results, ''))
-	html_list.append(theDescription)
+	try:
+		lambda_min = float(request.POST["lambda_min"])
+		
+	except:
+		lambda_min = 390.0
+		
 	
-	theTable = mark_safe(tc182.table.xyz(results));
-	tab_list.append(theTable)
+	try:
+		lambda_max = float(request.POST["lambda_max"])
+		
+	except:
+		lambda_max = 830.0
+		
 	
-    #1 #xy
-	
-	theDescription = mark_safe(tc182.description.xy(results, ''))
-	html_list.append(theDescription)
-	
-	theTable = mark_safe(tc182.table.xy(results));
-	tab_list.append(theTable)
+	try:
+		lambda_step = float(request.POST["lambda_step"])
+		
+	except:
+		lambda_step = 1.0
+		
+		
+	log.debug("Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
+				% ( age, field_size, lambda_min, lambda_max, lambda_step))
 
-	
-	#2 #lms
-	
-	theDescription = mark_safe(tc182.description.lms(results, ''))
-	html_list.append(theDescription)
-	
-	theTable = mark_safe(tc182.table.lms(results));
-	tab_list.append(theTable)
-
-	
-	#3 #lms_base
-    
-	theDescription = mark_safe(tc182.description.lms_base(results, ''))
-	html_list.append(theDescription)
-	
-	theTable = mark_safe(tc182.table.lms_base(results));
-	tab_list.append(theTable)
-
-	#4 #bm
-	
-	theDescription = mark_safe(tc182.description.bm(results, ''))
-	html_list.append(theDescription)
-	
-	theTable = mark_safe(tc182.table.bm(results));
-	tab_list.append(theTable)
-
-	#5 #lm
-	
-	theDescription = mark_safe(tc182.description.lm(results, ''))
-	html_list.append(theDescription)
-	
-	theTable = mark_safe(tc182.table.lm(results));
-	tab_list.append(theTable)
-	
-	#6 xyz31 (CHECK THIS ONE!!!)
-	
-	theDescription = mark_safe(tc182.description.xyz31(results, ''))
-	html_list.append(theDescription)
-	
-	theTable = mark_safe(tc182.table.xyz31(results));
-	tab_list.append(theTable)
-	
-	#xy31 (AND THIS ONE!!)
-	
-	theDescription = mark_safe(tc182.description.xy31(results, ''))
-	html_list.append(theDescription)
-	
-	theTable = mark_safe(tc182.table.xy31(results));
-	tab_list.append(theTable)
-
-	context = { 'tab_list' : tab_list,
-				'html_list' : html_list,
+	context = { 
 				'field_size' : field_size,
 				'age'	: age,
 				'lambda_min' : lambda_min,

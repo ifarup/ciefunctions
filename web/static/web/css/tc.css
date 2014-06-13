@@ -5,19 +5,28 @@
 			}
 
 /* App */
+
+div.velo {  position: fixed;
+			top: 0; left:0;
+			z-index: 50;
+			width: 100%;
+			height: 100%;
+			background-color: white;
+			opacity: 0.5;
+		}
+
+div.velo img { 	width: 50px;
+				margin-left: 45%; 
+				margin-top: 25%;
+				
+				}
+
 a.tab-text { font-size: 0.8em; }
 
 div#header img {	height: 55px;
 					margin: 0px 0px 10px 10px;
  }
 
-img#plot_loader, img#table_loader { 	width: 50px;
-										top: 210;
-										left: 300;
-										opacity: 0.5;
-										position: absolute;
-										z-index: 50;
-			}
 
 select#plot-select { width: 650px; }
 
