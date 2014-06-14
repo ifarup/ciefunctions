@@ -27,8 +27,14 @@ from django.utils import simplejson as json
 import logging
 log = logging.getLogger(__name__)
 
+from time import gmtime, strftime
+
+
+def time_now():
+	return strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
 def get_plot(request, plot, grid, cie31, cie64, labels):
-	log.debug("Requesting %s/%s/%s/%s/%s" % (plot, grid, cie31, cie64, labels))
+	log.debug("[%s] Requesting %s/%s/%s/%s/%s" % (time_now(), plot, grid, cie31, cie64, labels))
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
@@ -162,12 +168,13 @@ def get_csv(request, plot):
 			   'cc'			: '%.1f, %.5f, %.5f, %.5f'
 	}
 
+	filename= "%s.csv" % plot
 	plot = str(plot)
 	output = StringIO.StringIO()
 	thePlot = request.session['results']
 	np.savetxt(output, thePlot[plot], format[plot])
 	response = HttpResponse(output.getvalue(), mimetype='text/csv')
-	response['Content-Disposition'] = 'attachment; filename = "%s.csv"' % plot
+	response['Content-Disposition'] = 'attachment; filename = "%s"' % filename
 	return response
 	
 def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
@@ -193,6 +200,8 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 	except Exception as e:
 		print "1st try %s" % e
 		print "Computing ..."
+		log.debug("[%s] Computing -> Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
+				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step))
 		results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 		request.session['results'] = results
 		request.session['plots'] = plots
@@ -225,6 +234,10 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 	return HttpResponse('Calculate fields updated')
 
 def home(request):
+
+	log.info("[%s] New request:" % time_now())
+	log.info("[%s] User Agent: %s" % (time_now(), request.META['HTTP_USER_AGENT']))
+	log.info("[%s] Remote Host (ip): %s (%s)" % (time_now(), request.META['REMOTE_HOST'], request.META['REMOTE_ADDR']))
 
 	try:
 		field_size = float(request.POST["field_size"])
@@ -260,10 +273,11 @@ def home(request):
 		lambda_step = 1.0
 		
 	
-	log.debug("Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
-				% ( age, field_size, lambda_min, lambda_max, lambda_step))
+	log.debug("[%s] Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
+				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step))
 
 	#Call an initial compute
+	
 	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 
 	context = { 
