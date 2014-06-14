@@ -32,6 +32,20 @@ from time import gmtime, strftime
 
 def time_now():
 	return strftime("%Y-%m-%d %H:%M:%S", gmtime())
+	
+def get_filename_params(request):
+	
+	results	 		= request.session['results']
+	
+	age 			= str(results['age'])
+	field_size 		= str(results['field_size'].replace(".", "_"))
+	lambda_min 		= str(results['lambda_min'].replace(".", "_"))
+	lambda_max 		= str(results['lambda_max'].replace(".", "_"))
+	lambda_step 	= str(results['lambda_step'].replace(".","_"))
+	
+	filename_params = 	"___fs" +  field_size + "___age" + age + "___range" + lambda_min + "__" + lambda_max + "___step" + lambda_step
+
+	return filename_params
 
 def get_plot(request, plot, grid, cie31, cie64, labels):
 	log.debug("[%s] Requesting %s/%s/%s/%s/%s" % (time_now(), plot, grid, cie31, cie64, labels))
@@ -168,8 +182,8 @@ def get_csv(request, plot):
 			   'cc'			: '%.1f, %.5f, %.5f, %.5f'
 	}
 
-	filename= "%s.csv" % plot
-	plot = str(plot)
+	filename = str(plot) + get_filename_params(request) + ".csv"
+
 	output = StringIO.StringIO()
 	thePlot = request.session['results']
 	np.savetxt(output, thePlot[plot], format[plot])
@@ -277,7 +291,6 @@ def home(request):
 				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step))
 
 	#Call an initial compute
-	
 	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 
 	context = { 
