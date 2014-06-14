@@ -62,9 +62,15 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 	
 	elif (plot == 'xyz31'):
 		tc182.plot.xyz31(ax, plots, options)
+
+	elif (plot == 'xyz64'):
+		tc182.plot.xyz64(ax, plots, options)
 	
 	elif (plot == 'xy31'):
 		tc182.plot.xy31(ax, plots, options)
+	
+	elif (plot == 'xy64'):
+		tc182.plot.xy64(ax, plots, options)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	resulting_plot = theFig;
@@ -253,9 +259,12 @@ def home(request):
 	except:
 		lambda_step = 1.0
 		
-		
+	
 	log.debug("Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
 				% ( age, field_size, lambda_min, lambda_max, lambda_step))
+
+	#Call an initial compute
+	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 
 	context = { 
 				'field_size' : field_size,
