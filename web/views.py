@@ -174,12 +174,17 @@ def get_description(request, plot):
 
 def get_csv(request, plot):
 
-	format = { 'xyz' 		:  '%.1f, %.6e, %.6e, %.6e',
-			   'lms' 		: '%.1f, %.5e, %.5e, %.5e',
-			   'lms_base'	: '%.1f, %.8e, %.8e, %.8e',
-			   'bm'			: '%.1f, %.6f, %.6f, %.6f',
-			   'lm'			: '%.1f, %.6f, %.6f, %.6f',
-			   'cc'			: '%.1f, %.5f, %.5f, %.5f'
+	format = { 	'xyz' 			:  '%.1f, %.6e, %.6e, %.6e',
+				'xyz31' 		:  '%.1f, %.6e, %.6e, %.6e',
+				'xyz64' 		:  '%.1f, %.6e, %.6e, %.6e',
+				'xy'			: '%.1f, %.5f, %.5f, %.5f',
+				'xy31'			: '%.1f, %.5f, %.5f, %.5f',
+				'xy64'			: '%.1f, %.5f, %.5f, %.5f',
+			   	'lms' 			: '%.1f, %.5e, %.5e, %.5e',
+			   	'lms_base'		: '%.1f, %.8e, %.8e, %.8e',
+			   	'bm'			: '%.1f, %.6f, %.6f, %.6f',
+			   	'lm'			: '%.1f, %.6f, %.6f, %.6f',
+			   	'cc'			: '%.1f, %.5f, %.5f, %.5f'
 	}
 
 	filename = str(plot) + get_filename_params(request) + ".csv"
