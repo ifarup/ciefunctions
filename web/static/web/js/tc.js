@@ -158,6 +158,9 @@ $( "button#btnCompute" ).on('click', function(){
 				.done(function( data ) {
 					dontCache = true;
 					refreshAllObjects();
+					updateLabels();
+					$( "div.x_label" ).html(axis_labels[currentPlot].x);
+					$( "div.y_label" ).html(axis_labels[currentPlot].y);
 
   				}).fail(function() {
     				console.log( "error when calling compute." );
@@ -205,6 +208,7 @@ var lambda_step = parseInt($( "input#lambda_step" ).val());
 						'xy64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 
 	});
+
 }
 
 //Object for plotting options
@@ -278,8 +282,6 @@ function refreshPlot(plot){
 		$( "div#" + plot + "_plot" ).append(data);
 		$( "div.velo" ).hide();
 	}
-	updateLabels();
-	
 }
 
 //This function sends table data to the user
@@ -385,7 +387,6 @@ function showStandard( standard_plot ){
 		$( "div#" + standard_plot + "_plot" ).append(data);
 		$( "div.velo" ).hide();
 	}
-	updateLabels();
 }	
 	
 //Changing standard plots:
