@@ -199,14 +199,12 @@ var lambda_step = parseInt($( "input#lambda_step" ).val());
 						'lm'		: new axis_label("<span class='math'>l</span><sub>" + field_size + ", " + age + "</sub>",
 													  "<span class='math'>m</span><sub>" + field_size + ", " + age + "</sub>"),
 						
-						'xyz31'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
-						
 						'xy31'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
-						
-						'xyz64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
-						
 						'xy64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
-
+						
+						'xyz31'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
+						'xyz64'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
+						
 	});
 
 }
@@ -423,7 +421,7 @@ function showStandard( standard_plot ){
 	});
 	
 	//Enable or disable checkboxes
-	function updateCheckboxes(plot){	
+	function updateCheckboxes(plot){
 		switch(plot){
 			
 			case "xyz":
@@ -527,6 +525,10 @@ function showStandard( standard_plot ){
 	}
 	
 	// Checkbox events (Bit ugly, but OK)
+				$( "input[type=checkbox]" ).on('click', function(){
+					$( "div.velo" ).show();
+					console.log($(this));
+				});
 	
 				$( "#showGrid" ).on("click", function(){
 					if (plot_options.grid==1) {
