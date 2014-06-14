@@ -501,6 +501,7 @@ function showStandard( standard_plot ){
 				$( "div#std-params" ).show();
 				$( "div#input-params").hide();
 				$( "div.htmlWrapper").css("height", "600px");
+				$( "select#field_size option[year=31]" ).attr("selected", "true");
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
@@ -513,6 +514,7 @@ function showStandard( standard_plot ){
 				$( "div#std-params" ).show();
 				$( "div#input-params").hide();
 				$( "div.htmlWrapper").css("height", "600px");
+				$( "select#field_size option[year=31]" ).attr("selected", "true");
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
