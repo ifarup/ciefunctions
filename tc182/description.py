@@ -186,7 +186,7 @@ def _normalisation_xyz(data):
     <p>
     <b class="description-subtitle">Normalisation</b><br />
     &ndash; Equal tristimulus values for Illuminant E<br />
-    &ndash; Values of <font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub> peaking at unity at 0.1 nm resolution
+    &ndash; Values of&nbsp;&nbsp;<font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub>&nbsp;&nbsp;peaking at unity at 0.1 nm resolution
     </p>
     """ % (data['field_size'], data['age'])
     
@@ -195,7 +195,7 @@ def _normalisation_31():
     <p>
     <b class="description-subtitle">Normalisation</b><br />
     &ndash; Equal tristimulus values for Illuminant E<br />
-    &ndash; Values of <font style="text-decoration: overline;"><em>y</em></font> peaking at unity at 1 nm resolution
+    &ndash; Values of&nbsp;&nbsp;<font style="text-decoration: overline;"><em>y</em></font>&nbsp;&nbsp;peaking at unity at 1 nm resolution
     </p>
     """
     
@@ -204,7 +204,7 @@ def _normalisation_64():
     <p>
     <b class="description-subtitle">Normalisation</b><br />
     &ndash; Equal tristimulus values for Illuminant E<br />
-    &ndash; Values of <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub> peaking at unity at 1 nm resolution
+    &ndash; Values of&nbsp;&nbsp;<font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>&nbsp;&nbsp;peaking at unity at 1 nm resolution
     </p>
     """
     
@@ -322,10 +322,11 @@ def _lms_to_xyz(data):
            data['field_size'], data['age'])
     html_string += """
     <p>
-    with the cone fundamentals 
-    <font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;),
-    <font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;) and
-    <font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;) given to the precision of 9 significant figures
+    with the cone fundamentals&nbsp;&nbsp;<font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;),
+    &nbsp;<font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
+    &nbsp;and&nbsp;
+    <font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
+    &nbsp;given to the precision of 9 significant figures
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -550,8 +551,8 @@ def _illuminant_E_cc_31():
     return """
     <p>
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>x</em><sub>E</sub>, 
-    <em>y</em><sub>E</sub>)
+    (<em>x</em><sub>&nbsp;E</sub>, 
+    <em>y</em><sub>&nbsp;E</sub>)
     =
     (0.33333, 0.33333)
     </p>
@@ -561,7 +562,7 @@ def _illuminant_E_cc_64():
     return """
     <p>
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>x</em><sub>10;&nbsp;E</sub>, 
+    (<xem>x</em><sub>10;&nbsp;E</sub>, 
     <em>y</em><sub>10;&nbsp;E</sub>)
     =
     (0.33333, 0.33333)
@@ -572,7 +573,7 @@ def _illuminant_E_lm(data):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
     (<em>l</em><sub>&nbsp;%s,&nbsp;%d;&nbsp;E</sub>, 
-    <em>m</em><sub>,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
+    <em>m</em><sub>&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
     =
     (%.6f, %.6f) <br /><br />
     """ % (data['field_size'], data['age'],
@@ -864,9 +865,9 @@ def lm(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _coordinates('<em>l</em><sub>%s, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>m</em><sub>%s, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>s</em><sub>%s, %d</sub>' % (data['field_size'], data['age'])) +
+                    _coordinates('<em>l</em><sub> %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<em>m</em><sub> %s, %d</sub>' % (data['field_size'], data['age']),
+                               '<em>s</em><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _lms_to_lm(data) +
                     _precision_lm() +
@@ -991,7 +992,7 @@ def xy64(data, heading, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters_64() +
-                    _coordinates('<em>x</em>', '<em>y</em>', '<em>z</em>') +
+                    _coordinates('<em>x</em><sub>10</sub>', '<em>y</em><sub>10</sub>', '<em>z</em><sub>10</sub>') +
                     _wavelenghts_std() +
                     _xyz_to_xy_64() + 
                     _precision_xy() +
