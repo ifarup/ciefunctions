@@ -35,7 +35,7 @@ $( "input#lambda_step" ).spinner({
 });
 
 //Show the global loader when ajax.
-$( document ).ajaxComplete(function() {
+$( document ).ajaxStop(function() {
 	$("div.velo").hide();
 });
 
