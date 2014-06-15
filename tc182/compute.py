@@ -823,6 +823,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
                                         lms_standard_spec)).T
     xyz_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), xyz_spec)).T
     cc_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), cc_spec)).T
+    cc_spec[cc_spec <= 0] = 0
     Vl = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))),
                               v_spec.reshape((1,len(v_spec))))).T
 
@@ -869,6 +870,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     lm_spec[:,2] = lms_N[:,2] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
     lm_spec[:,3] = lms_N[:,3] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
     lm_spec[:,1:] = my_round(lm_spec[:,1:], lm_dp)
+    lm_spec[lm_spec <= 0] = 0
     lm_white = np.sum(lms_N[:,1:], 0)
     lm_white = lm_white / np.sum(lm_white)
     lm_white = my_round(lm_white, lm_dp)
@@ -973,7 +975,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['cc_white'] = cc_white
     plots['bm_white'] = bm_white
     plots['lm_white'] = lm_white
-
+    
     results = dict()
     results['xyz'] = xyz_spec
     results['xy'] = cc_spec
