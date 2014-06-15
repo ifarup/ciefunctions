@@ -51,8 +51,14 @@
 							<div id="xyz31_plot" class="plot">
 								<!-- ajax plot xyz31 -->
 							</div>
+							<div id="xyz64_plot" class="plot">
+								<!-- ajax plot xyz64 -->
+							</div>
 							<div id="xy31_plot" class="plot">
-								<!-- ajax plot standard -->
+								<!-- ajax plot xy31 -->
+							</div>
+							<div id="xy64_plot" class="plot">
+								<!-- ajax plot xy64 -->
 							</div>
 							<div class="label x_label"></div>
 							<div class="label y_label"></div>
@@ -60,11 +66,11 @@
 						<div id="figOptions">
 							<!-- Start with default enabled ticks, might need to go to an init function -->
 							<div>
-								<label for="#compare1931-2">Compare with CIE 1931 2 &deg;</label>
+								<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
 								<input type="checkbox" id="compare1931-2" disabled/>
 							</div>
 							<div>
-								<label for="#compare1964-10">Compare with CIE 1964 10 &deg;</label>
+								<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
 								<input type="checkbox" id="compare1964-10" disabled/>
 							</div>
 							<div>
@@ -72,7 +78,7 @@
 								<input id ="showGrid" type="checkbox"/>
 							</div>
 							<div>
-								<label for="#showLabels">Labels</label>
+								<label for="#showLabels" class="disabled">Labels</label>
 								<input id ="showLabels" type="checkbox" disabled/>
 							</div>
 						</div>
@@ -102,9 +108,16 @@
 							<div id="xyz31_table" class="table">
 								<!-- ajax table xyz31 -->
 							</div>
+							<div id="xyz64_table" class="table">
+								<!-- ajax table xyz64 -->
+							</div>
 							<div id="xy31_table" class="table">
 								<!-- ajax table xy31 -->
 							</div>
+							<div id="xy64_table" class="table">
+								<!-- ajax table xy64 -->
+							</div>
+							
 						</div>	<!-- end .tableWrapper -->
 						<div id="getCsv-container">
 							<button id="getCsv">Save Table</button>
@@ -112,11 +125,11 @@
 					</div><!-- end #tabs-2 -->
 				</div><!-- end #tc-Tabs -->	
 				<div id="plot-select-div">
-					<select id="plot-select">
+					<select id="plot-select" class="ui-widget ui-widget-content">
 						<option plot="lms">CIE LMS cone fundamentals</option>
-						<option plot="lms_base">CIE LMS cone fundamentals (9 sign.figs.)</option>
-						<option plot="lm">Equi-power normalised lm diagram</option>
-						<option plot="bm">CIE MacLeod-Boynton ls diagram</option>
+						<option plot="lms_base">CIE LMS cone fundamentals (9 sign. figs.)</option>
+						<option plot="bm">MacLeod-Boynton ls chomaticity diagram</option>
+						<option plot="lm">Maxwellian lm chromaticity diagram</option>
 						<option plot="xyz">CIE XYZ fundamental CMFs</option>
 						<option plot="xy">CIE xy fundamental chromaticity diagram</option>
 						<option plot="xyz31">CIE XYZ standard CMFs</option>
@@ -150,12 +163,24 @@
 					<div id="xyz31_description" class="html_text">
 						<!-- ajax description xyz31 --->
 					</div>
+					<div id="xyz64_description" class="html_text">
+						<!-- ajax description xyz64 --->
+					</div>
 					<div id="xy31_description" class="html_text">
 						<!-- ajax description xy31 --->
+					</div>
+					<div id="xy64_description" class="html_text">
+						<!-- ajax description xy64 --->
 					</div>
 				</div>
 				<div class="float-bottom"></div>
 				<div id="bottomSpalte">
+				<div id="std-params">
+					<select id="field_size" class="ui-widget ui-widget-content">
+						<option year="31">2&deg; (1931)</option>
+						<option year="64">10&deg; (1964)</option>
+					</select>
+				</div>
 				<div id="input-params">
 					<form id="paramForm" method="POST" action="http://disney.com">
 						{% csrf_token %}
@@ -206,7 +231,7 @@
 			
 			<br style="clear:both"/>
 		</div><!-- end #appWrapper -->
-	<div class="velo"><img src="{% static 'web/img/spinner-blue.gif' %}"/></div>
+	<div class="velo"></div>
 	<script src="{% static 'web/js/tc.js' %}"></script>
 	<script src="{% static 'web/js/googleAnalytics.js' %}"></script>
 	</body>

@@ -35,9 +35,17 @@ $( "input#lambda_step" ).spinner({
 });
 
 //Show the global loader when ajax.
-$( document ).ajaxComplete(function() {
+$( document ).ajaxStop(function() {
 	$("div.velo").hide();
 });
+
+//Shows how many ajax calls are left to come back from the server
+
+var AJAX_left = 0;
+
+function updateAjaxLeft(){
+	$( "div.velo" ).html(AJAX_left);
+}
 
 $( "button#btnCompute" ).on('click', function(){
 
@@ -153,14 +161,22 @@ $( "button#btnCompute" ).on('click', function(){
 				lambda_step		+ "/";
 
 	$( "div.velo" ).show(); //We disable the page and show a loader.
+	AJAX_left++;
+	updateAjaxLeft();
 	flushCache();
 	$.get( ajaxUrl )
 				.done(function( data ) {
 					dontCache = true;
 					refreshAllObjects();
-
+					updateLabels();
+					$( "div.x_label" ).html(axis_labels[currentPlot].x);
+					$( "div.y_label" ).html(axis_labels[currentPlot].y);
+					AJAX_left--;
+					updateAjaxLeft();
   				}).fail(function() {
     				console.log( "error when calling compute." );
+    				AJAX_left--;
+					updateAjaxLeft();
 	});
 
 	return false;
@@ -196,13 +212,14 @@ var lambda_step = parseInt($( "input#lambda_step" ).val());
 						'lm'		: new axis_label("<span class='math'>l</span><sub>" + field_size + ", " + age + "</sub>",
 													  "<span class='math'>m</span><sub>" + field_size + ", " + age + "</sub>"),
 						
-						'xyz31'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
-						
 						'xy31'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
+						'xy64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 						
-						'xyz64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
-
+						'xyz31'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
+						'xyz64'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
+						
 	});
+
 }
 
 //Object for plotting options
@@ -219,6 +236,7 @@ $( "#descriptionTitle" ).html($( "option[plot=" + currentPlot + "]").html());
 updateLabels();
 $( "div.x_label" ).html(axis_labels[currentPlot].x);
 $( "div.y_label" ).html(axis_labels[currentPlot].y);
+$( "div#std-params" ).hide();
 
 
 function getOptionsString(){
@@ -230,13 +248,18 @@ function refreshObject(object, name){
 /* object is a String: can be 'table' or 'description'*/
 	$( "div.velo" ).show();
 	ajaxUrl = '/get_'+ object + '/' + name + '/';
-
+	AJAX_left++;
+	updateAjaxLeft();
 	$.get( ajaxUrl )
 				.done(function( data ) {
 					$( "div#" + name + "_" + object ).empty();
 					$( "div#" + name + "_" + object ).append(data);
+					AJAX_left--;
+					updateAjaxLeft();
   				}).fail(function() {
     				console.log( "error when getting " + name + " " + object + " from server" );
+    				AJAX_left--;
+					updateAjaxLeft();
 	});
 }
 
@@ -254,6 +277,8 @@ function refreshAllObjects(){
 function refreshPlot(plot){
  	var data = all_plots[plot].getPlot(getOptionsString());
 	$( "div.velo" ).show();
+	AJAX_left++;
+	updateAjaxLeft();
 	if ((data == null)) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
 						plot + '/' + 
@@ -266,17 +291,21 @@ function refreshPlot(plot){
 								$( "div#" + plot + "_plot" ).empty();
 								$( "div#" + plot + "_plot" ).append(data);
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
+								AJAX_left--;
+								updateAjaxLeft();
   							})
   							.fail(function() {
     							console.log( "error when getting " + plot + " plot from server" );
+    							AJAX_left--;
+								updateAjaxLeft();
 				});
 	} else { //Present cached data.
 		$( "div#" + plot + "_plot" ).empty();
 		$( "div#" + plot + "_plot" ).append(data);
+		AJAX_left--;
+		updateAjaxLeft();
 		$( "div.velo" ).hide();
 	}
-	updateLabels();
-	
 }
 
 //This function sends table data to the user
@@ -342,11 +371,94 @@ function refreshAllOthers(plot){
 		refreshAllObjects();
 	});
 	
+	
+//Showing standard plots
+
+function showStandard( standard_plot ){
+	var data = all_plots[standard_plot].getPlot(getOptionsString());
+	console.log("loading " + standard_plot);
+	currentPlot = standard_plot;
+	
+	$( "div.plot" ).hide(); 				//Hide all plots
+	$( "div.html_text" ).hide();			//Hide all HTML
+	$( "div.table" ).hide();				//Hide all tables
+	$( "div#" + standard_plot + "_plot" ).show();	//Show selected plot
+	$( "div#" + standard_plot + "_description" ).show();	//Show selected HTML
+	$( "div#" + standard_plot + "_table" ).show();	//Show selected table
+	$( "#descriptionTitle" ).html($( "option[plot=" + standard_plot + "]").html());
+	$( "div.x_label" ).html(axis_labels[standard_plot].x);
+	$( "div.y_label" ).html(axis_labels[standard_plot].y);
+	AJAX_left++;
+	updateAjaxLeft();
+	$( "div.velo" ).show();
+	if ((data == null)) { //If data is not cached, get it from the server.
+					$.get( '/get_plot/' + 
+						standard_plot + '/' + 
+						plot_options.grid + "/" + 
+						plot_options.cie31 + "/" + 
+						plot_options.cie64 + "/" + 
+						plot_options.labels + "/" )
+							.done(function( data ) {
+								all_plots[standard_plot].setPlot(getOptionsString(), data); //Cache plot
+								$( "div#" + standard_plot + "_plot" ).empty();
+								$( "div#" + standard_plot + "_plot" ).append(data);
+								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
+								AJAX_left--;
+								updateAjaxLeft();
+  							})
+  							.fail(function() {
+    							console.log( "error when getting " + standard_plot + " plot from server" );
+				});
+	} else { //Present cached data.
+		$( "div#" + standard_plot + "_plot" ).empty();
+		$( "div#" + standard_plot + "_plot" ).append(data);
+		AJAX_left--;
+		updateAjaxLeft();
+		$( "div.velo" ).hide();
+	}
+}	
+	
+//Changing standard plots:
+
+	$( "select#field_size" ).on('keydown change', function(){
+
+		var year = $( 'option:selected', this ).attr('year');
+		var plot = $( 'option:selected', ( "select#plot-select" ) ).attr('plot');
+		
+		plot = plot.replace("64", "");
+		plot = plot.replace("31", "");
+		standard_plot = plot + year;
+		
+		switch (year){
+			case "31":
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
+				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
+				//$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				showStandard(standard_plot);
+				
+			break;
+		
+			case "64":
+				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
+				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
+				//$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				showStandard(standard_plot);
+			break;
+		}
+
+		refreshPlot(standard_plot);
+	});
+	
 	//Enable or disable checkboxes
-	function updateCheckboxes(plot){	
+	function updateCheckboxes(plot){
 		switch(plot){
 			
 			case "xyz":
+				$( "div#std-params" ).hide();				
+				$( "div#input-params").show();
+				$( "div.htmlWrapper").css("height", "528px");
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
@@ -356,7 +468,10 @@ function refreshAllOthers(plot){
 			break;
 			
 			case "xy": // CIE xy fundamental chromacity diagram
-				
+				$( "div#std-params" ).hide();
+				$( "div#input-params").show();
+				$( "div.htmlWrapper").css("height", "528px");
+								
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
@@ -365,7 +480,10 @@ function refreshAllOthers(plot){
 			break;
 			
 			case "lms": //CIE LMS cone fundamentals
-				
+				$( "div#std-params" ).hide();
+				$( "div#input-params").show();
+				$( "div.htmlWrapper").css("height", "528px");
+								
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
 				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
@@ -374,6 +492,9 @@ function refreshAllOthers(plot){
 			break;
 			
 			case "lms_base": //CIE LMS cone fundamentals (9 sign.flgs.)
+				$( "div#std-params" ).hide();
+				$( "div#input-params").show();
+				$( "div.htmlWrapper").css("height", "528px");
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
@@ -383,6 +504,10 @@ function refreshAllOthers(plot){
 			break;
 			
 			case "bm": //CIE MacLeod-Boynton ls diagram
+				$( "div#std-params" ).hide();
+				$( "div#input-params").show();
+				$( "div.htmlWrapper").css("height", "528px");
+				
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
@@ -392,6 +517,9 @@ function refreshAllOthers(plot){
 			break;
 			
 			case "lm": //Equi-power normalised lm diagram
+				$( "div#std-params" ).hide();
+				$( "div#input-params").show();
+				$( "div.htmlWrapper").css("height", "528px");
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
@@ -401,6 +529,10 @@ function refreshAllOthers(plot){
 			break;
 			
 			case "xyz31": //Equi-power normalised lm diagram
+				$( "div#std-params" ).show();
+				$( "div#input-params").hide();
+				$( "div.htmlWrapper").css("height", "600px");
+				$( "select#field_size option[year=31]" ).attr("selected", "true");
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
@@ -410,6 +542,10 @@ function refreshAllOthers(plot){
 			break;
 			
 			case "xy31": //CIE xy standard chromaticity diagram
+				$( "div#std-params" ).show();
+				$( "div#input-params").hide();
+				$( "div.htmlWrapper").css("height", "600px");
+				$( "select#field_size option[year=31]" ).attr("selected", "true");
 				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
@@ -422,6 +558,10 @@ function refreshAllOthers(plot){
 	}
 	
 	// Checkbox events (Bit ugly, but OK)
+				$( "input[type=checkbox]" ).on('click', function(){
+					$( "div.velo" ).show();
+					console.log($(this));
+				});
 	
 				$( "#showGrid" ).on("click", function(){
 					if (plot_options.grid==1) {

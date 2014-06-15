@@ -13,7 +13,9 @@ var availablePlots = [ 	'lms',
 						'xy', 
 						'xyz',
 						'xyz31',
-						'xy31' ];
+						'xy31',
+						'xyz64',
+						'xy64' ];
 						
 function Plot ( name ){
 	
@@ -39,7 +41,6 @@ function flushCache(){
 
 for (i=0; i < availablePlots.length; i++){
 	all_plots[availablePlots[i]] = new Plot(availablePlots[i]);
-
 }
 
 

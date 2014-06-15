@@ -27,8 +27,31 @@ from django.utils import simplejson as json
 import logging
 log = logging.getLogger(__name__)
 
+import time
+from time import gmtime, strftime
+import timeit
+
+
+def time_now():
+	return strftime("%Y-%m-%d %H:%M:%S", gmtime())
+	
+def get_filename_params(request):
+	
+	results	 		= request.session['results']
+	
+	age 			= str(int(results['age']))
+	field_size 		= str(results['field_size'].replace(".", "_"))
+	lambda_min 		= str(results['lambda_min'].replace(".", "_"))
+	lambda_max 		= str(results['lambda_max'].replace(".", "_"))
+	lambda_step 	= str(results['lambda_step'].replace(".","_"))
+	
+	filename_params = 	"___fs" +  field_size + "___age" + age + "___range" + lambda_min + "__" + lambda_max + "___step" + lambda_step
+
+	return filename_params
+
 def get_plot(request, plot, grid, cie31, cie64, labels):
-	log.debug("Requesting %s/%s/%s/%s/%s" % (plot, grid, cie31, cie64, labels))
+	start = time.time()
+	log.debug("[%s] Requesting %s/%s/%s/%s/%s - \t\tsID: %s" % (time_now(), plot, grid, cie31, cie64, labels, request.session.session_key))
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
@@ -62,13 +85,21 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 	
 	elif (plot == 'xyz31'):
 		tc182.plot.xyz31(ax, plots, options)
+
+	elif (plot == 'xyz64'):
+		tc182.plot.xyz64(ax, plots, options)
 	
 	elif (plot == 'xy31'):
 		tc182.plot.xy31(ax, plots, options)
 	
+	elif (plot == 'xy64'):
+		tc182.plot.xy64(ax, plots, options)
+	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	resulting_plot = theFig;
 	plt.close(fig)
+	stop = time.time()
+	log.debug("[%s] Plot %s/%s/%s/%s/%s produced in %s seconds - \t\tsID: %s" % ( time_now(), plot,  grid, cie31, cie64, labels, str(stop - start), request.session.session_key))
 	return HttpResponse(resulting_plot);
 
 def get_table(request, plot):
@@ -148,25 +179,44 @@ def get_description(request, plot):
 
 def get_csv(request, plot):
 
-	format = { 'xyz' 		:  '%.1f, %.6e, %.6e, %.6e',
-			   'lms' 		: '%.1f, %.5e, %.5e, %.5e',
-			   'lms_base'	: '%.1f, %.8e, %.8e, %.8e',
-			   'bm'			: '%.1f, %.6f, %.6f, %.6f',
-			   'lm'			: '%.1f, %.6f, %.6f, %.6f',
-			   'cc'			: '%.1f, %.5f, %.5f, %.5f'
+	format = { 	'xyz' 			:  '%.1f, %.6e, %.6e, %.6e',
+				'xyz31' 		:  '%.1f, %.6e, %.6e, %.6e',
+				'xyz64' 		:  '%.1f, %.6e, %.6e, %.6e',
+				'xy'			: '%.1f, %.5f, %.5f, %.5f',
+				'xy31'			: '%.1f, %.5f, %.5f, %.5f',
+				'xy64'			: '%.1f, %.5f, %.5f, %.5f',
+			   	'lms' 			: '%.1f, %.5e, %.5e, %.5e',
+			   	'lms_base'		: '%.1f, %.8e, %.8e, %.8e',
+			   	'bm'			: '%.1f, %.6f, %.6f, %.6f',
+			   	'lm'			: '%.1f, %.6f, %.6f, %.6f',
+			   	'cc'			: '%.1f, %.5f, %.5f, %.5f'
 	}
 
-	plot = str(plot)
+	plot_name = {	'xyz' 			: 'xyz',
+					'xyz31' 		: 'xyz31',
+					'xyz64' 		: 'xyz64',
+					'xy'			: 'xy',
+					'xy31'			: 'xy31',
+					'xy64'			: 'xy64',
+			   		'lms' 			: 'lms',
+			   		'lms_base'		: 'lms_9figs',
+			   		'bm'			: 'bm',
+			   		'lm'			: 'lm',
+			   		'cc'			: 'cc'
+	}
+
+	filename = plot_name[plot] + get_filename_params(request) + ".csv"
+
 	output = StringIO.StringIO()
 	thePlot = request.session['results']
 	np.savetxt(output, thePlot[plot], format[plot])
 	response = HttpResponse(output.getvalue(), mimetype='text/csv')
-	response['Content-Disposition'] = 'attachment; filename = "%s.csv"' % plot
+	response['Content-Disposition'] = 'attachment; filename = "%s"' % filename
 	return response
 	
 def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 # The values here are sanitized on the client side, so we can trust them.
-	print "Updating results ..."
+	start 		= 	time.time()
 	field_size 	= 	float(field_size)
 	age			= 	float(age)
 	lambda_min	=	float(lambda_min)
@@ -187,6 +237,8 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 	except Exception as e:
 		print "1st try %s" % e
 		print "Computing ..."
+		log.debug("[%s] Computing -> Age: %s, f_size: %s, l_min: %s, l_max: %s, l_step: %s, sID: %s"
+				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
 		results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 		request.session['results'] = results
 		request.session['plots'] = plots
@@ -215,10 +267,17 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 		except Exception as e:
 			#print "Can't serialize plots: %s" % e
 			print e
-	print "results updated ... going back to the server"
+			
+	stop = time.time()
+	log.debug("[%s] Compute performed in %s seconds - sID: %s" % ( time_now(), str(stop - start), request.session.session_key))
+	
 	return HttpResponse('Calculate fields updated')
 
 def home(request):
+
+	log.info("[%s] New request. sessionId: %s" % (time_now(), request.session.session_key))
+	log.info("[%s] User Agent: %s" % (time_now(), request.META['HTTP_USER_AGENT']))
+	log.info("[%s] Remote Host (ip): %s (%s)" % (time_now(), request.META['REMOTE_HOST'], request.META['REMOTE_ADDR']))
 
 	try:
 		field_size = float(request.POST["field_size"])
@@ -253,10 +312,16 @@ def home(request):
 	except:
 		lambda_step = 1.0
 		
-		
-	log.debug("Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
-				% ( age, field_size, lambda_min, lambda_max, lambda_step))
+	
+	log.debug("[%s] Age: %s, f_size: %s, l_min: %s, l_max: %s, l_step: %s - sID: %s"
+				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
 
+	#Call an initial compute
+	start = time.time()
+	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
+	stop = time.time()
+	log.debug("[%s] Initial compute performed in %s seconds - \tsID: %s" % ( time_now(), str(stop - start), request.session.session_key))
+	
 	context = { 
 				'field_size' : field_size,
 				'age'	: age,
