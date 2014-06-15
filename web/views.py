@@ -50,7 +50,7 @@ def get_filename_params(request):
 	return filename_params
 
 def get_plot(request, plot, grid, cie31, cie64, labels):
-	log.debug("[%s] Requesting %s/%s/%s/%s/%s" % (time_now(), plot, grid, cie31, cie64, labels))
+	log.debug("[%s] Requesting %s/%s/%s/%s/%s - \t\tsessionId: %s" % (time_now(), plot, grid, cie31, cie64, labels, request.session.session_key))
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
@@ -234,8 +234,8 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 	except Exception as e:
 		print "1st try %s" % e
 		print "Computing ..."
-		log.debug("[%s] Computing -> Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
-				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step))
+		log.debug("[%s] Computing -> Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s, sessionId: %s"
+				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
 		results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 		request.session['results'] = results
 		request.session['plots'] = plots
@@ -264,15 +264,15 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 		except Exception as e:
 			#print "Can't serialize plots: %s" % e
 			print e
-	print "results updated ... going back to the server"
+			
 	stop = time.time()
-	log.debug("[%s] Compute performed in %s seconds" % ( time_now(), str(stop - start)))
+	log.debug("[%s] Compute performed in %s seconds - sessionId: %s" % ( time_now(), str(stop - start)), request.session.session_key)
 	
 	return HttpResponse('Calculate fields updated')
 
 def home(request):
 
-	log.info("[%s] New request:" % time_now())
+	log.info("[%s] New request. sessionId: %s" % (time_now(), request.session.session_key))
 	log.info("[%s] User Agent: %s" % (time_now(), request.META['HTTP_USER_AGENT']))
 	log.info("[%s] Remote Host (ip): %s (%s)" % (time_now(), request.META['REMOTE_HOST'], request.META['REMOTE_ADDR']))
 
@@ -310,14 +310,14 @@ def home(request):
 		lambda_step = 1.0
 		
 	
-	log.debug("[%s] Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s"
-				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step))
+	log.debug("[%s] Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s - sessionId: %s"
+				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
 
 	#Call an initial compute
 	start = time.time()
 	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 	stop = time.time()
-	log.debug("[%s] Initial compute performed in %s seconds" % ( time_now(), str(stop - start)))
+	log.debug("[%s] Initial compute performed in %s seconds - \tsessionId: %s" % ( time_now(), str(stop - start), request.session.session_key))
 	
 	
 	context = { 
