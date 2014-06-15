@@ -189,7 +189,20 @@ def get_csv(request, plot):
 			   	'cc'			: '%.1f, %.5f, %.5f, %.5f'
 	}
 
-	filename = str(plot) + get_filename_params(request) + ".csv"
+	plot_name = {	'xyz' 			: 'xyz',
+					'xyz31' 		: 'xyz31',
+					'xyz64' 		: 'xyz64',
+					'xy'			: 'xy',
+					'xy31'			: 'xy31',
+					'xy64'			: 'xy64',
+			   		'lms' 			: 'lms',
+			   		'lms_base'		: 'lms_9figs',
+			   		'bm'			: 'bm',
+			   		'lm'			: 'lm',
+			   		'cc'			: 'cc'
+	}
+
+	filename = plot_name[plot] + get_filename_params(request) + ".csv"
 
 	output = StringIO.StringIO()
 	thePlot = request.session['results']
