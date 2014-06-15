@@ -50,6 +50,7 @@ def get_filename_params(request):
 	return filename_params
 
 def get_plot(request, plot, grid, cie31, cie64, labels):
+	start = time.time()
 	log.debug("[%s] Requesting %s/%s/%s/%s/%s - \t\tsessionId: %s" % (time_now(), plot, grid, cie31, cie64, labels, request.session.session_key))
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
@@ -97,6 +98,8 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	resulting_plot = theFig;
 	plt.close(fig)
+	stop = time.time()
+	log.debug("[%s] Plot  %s/%s/%s/%s/%s produced in %s seconds - \t\tsessionId: %s" % ( time_now(), plot,  grid, cie31, cie64, labels, str(stop - start), request.session.session_key))
 	return HttpResponse(resulting_plot);
 
 def get_table(request, plot):
