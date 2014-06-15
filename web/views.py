@@ -266,7 +266,7 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 			print e
 			
 	stop = time.time()
-	log.debug("[%s] Compute performed in %s seconds - sessionId: %s" % ( time_now(), str(stop - start)), request.session.session_key)
+	log.debug("[%s] Compute performed in %s seconds - sessionId: %s" % ( time_now(), str(stop - start), request.session.session_key)
 	
 	return HttpResponse('Calculate fields updated')
 
