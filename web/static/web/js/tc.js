@@ -403,7 +403,7 @@ function showStandard( standard_plot ){
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
 				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				//$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
 				showStandard(standard_plot);
 				
 			break;
@@ -412,7 +412,7 @@ function showStandard( standard_plot ){
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				//$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
 				showStandard(standard_plot);
 			break;
 		}
