@@ -51,7 +51,7 @@ def get_filename_params(request):
 
 def get_plot(request, plot, grid, cie31, cie64, labels):
 	start = time.time()
-	log.debug("[%s] Requesting %s/%s/%s/%s/%s - \t\tsessionId: %s" % (time_now(), plot, grid, cie31, cie64, labels, request.session.session_key))
+	log.debug("[%s] Requesting %s/%s/%s/%s/%s - \t\tsID: %s" % (time_now(), plot, grid, cie31, cie64, labels, request.session.session_key))
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
@@ -99,7 +99,7 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 	resulting_plot = theFig;
 	plt.close(fig)
 	stop = time.time()
-	log.debug("[%s] Plot  %s/%s/%s/%s/%s produced in %s seconds - \t\tsessionId: %s" % ( time_now(), plot,  grid, cie31, cie64, labels, str(stop - start), request.session.session_key))
+	log.debug("[%s] Plot %s/%s/%s/%s/%s produced in %s seconds - \t\tsID: %s" % ( time_now(), plot,  grid, cie31, cie64, labels, str(stop - start), request.session.session_key))
 	return HttpResponse(resulting_plot);
 
 def get_table(request, plot):
@@ -237,7 +237,7 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 	except Exception as e:
 		print "1st try %s" % e
 		print "Computing ..."
-		log.debug("[%s] Computing -> Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s, sessionId: %s"
+		log.debug("[%s] Computing -> Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s, sID: %s"
 				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
 		results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 		request.session['results'] = results
@@ -269,7 +269,7 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 			print e
 			
 	stop = time.time()
-	log.debug("[%s] Compute performed in %s seconds - sessionId: %s" % ( time_now(), str(stop - start), request.session.session_key))
+	log.debug("[%s] Compute performed in %s seconds - sID: %s" % ( time_now(), str(stop - start), request.session.session_key))
 	
 	return HttpResponse('Calculate fields updated')
 
@@ -313,14 +313,14 @@ def home(request):
 		lambda_step = 1.0
 		
 	
-	log.debug("[%s] Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s - sessionId: %s"
+	log.debug("[%s] Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s - sID: %s"
 				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
 
 	#Call an initial compute
 	start = time.time()
 	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 	stop = time.time()
-	log.debug("[%s] Initial compute performed in %s seconds - \tsessionId: %s" % ( time_now(), str(stop - start), request.session.session_key))
+	log.debug("[%s] Initial compute performed in %s seconds - \tsID: %s" % ( time_now(), str(stop - start), request.session.session_key))
 	
 	
 	context = { 
