@@ -27,7 +27,9 @@ from django.utils import simplejson as json
 import logging
 log = logging.getLogger(__name__)
 
+import time
 from time import gmtime, strftime
+import timeit
 
 
 def time_now():
@@ -198,7 +200,7 @@ def get_csv(request, plot):
 	
 def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 # The values here are sanitized on the client side, so we can trust them.
-	print "Updating results ..."
+	start 		= 	time.time()
 	field_size 	= 	float(field_size)
 	age			= 	float(age)
 	lambda_min	=	float(lambda_min)
@@ -250,6 +252,9 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 			#print "Can't serialize plots: %s" % e
 			print e
 	print "results updated ... going back to the server"
+	stop = time.time()
+	log.debug("[%s] Compute performed in %s seconds" % ( time_now(), str(stop - start)))
+	
 	return HttpResponse('Calculate fields updated')
 
 def home(request):
@@ -296,8 +301,12 @@ def home(request):
 				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step))
 
 	#Call an initial compute
+	start = time.time()
 	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
-
+	stop = time.time()
+	log.debug("[%s] Initial compute performed in %s seconds" % ( time_now(), str(stop - start)))
+	
+	
 	context = { 
 				'field_size' : field_size,
 				'age'	: age,
