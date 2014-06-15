@@ -39,7 +39,7 @@ def get_filename_params(request):
 	
 	results	 		= request.session['results']
 	
-	age 			= str(results['age'])
+	age 			= str(int(results['age']))
 	field_size 		= str(results['field_size'].replace(".", "_"))
 	lambda_min 		= str(results['lambda_min'].replace(".", "_"))
 	lambda_max 		= str(results['lambda_max'].replace(".", "_"))
