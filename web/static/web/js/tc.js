@@ -39,6 +39,14 @@ $( document ).ajaxStop(function() {
 	$("div.velo").hide();
 });
 
+//Shows how many ajax calls are left to come back from the server
+
+var AJAX_left = 0;
+
+function updateAjaxLeft(){
+	$( "div.velo" ).html(AJAX_left);
+}
+
 $( "button#btnCompute" ).on('click', function(){
 
 	function flash(component){
@@ -153,6 +161,8 @@ $( "button#btnCompute" ).on('click', function(){
 				lambda_step		+ "/";
 
 	$( "div.velo" ).show(); //We disable the page and show a loader.
+	AJAX_left++;
+	updateAjaxLeft();
 	flushCache();
 	$.get( ajaxUrl )
 				.done(function( data ) {
@@ -161,9 +171,12 @@ $( "button#btnCompute" ).on('click', function(){
 					updateLabels();
 					$( "div.x_label" ).html(axis_labels[currentPlot].x);
 					$( "div.y_label" ).html(axis_labels[currentPlot].y);
-
+					AJAX_left--;
+					updateAjaxLeft();
   				}).fail(function() {
     				console.log( "error when calling compute." );
+    				AJAX_left--;
+					updateAjaxLeft();
 	});
 
 	return false;
@@ -235,13 +248,18 @@ function refreshObject(object, name){
 /* object is a String: can be 'table' or 'description'*/
 	$( "div.velo" ).show();
 	ajaxUrl = '/get_'+ object + '/' + name + '/';
-
+	AJAX_left++;
+	updateAjaxLeft();
 	$.get( ajaxUrl )
 				.done(function( data ) {
 					$( "div#" + name + "_" + object ).empty();
 					$( "div#" + name + "_" + object ).append(data);
+					AJAX_left--;
+					updateAjaxLeft();
   				}).fail(function() {
     				console.log( "error when getting " + name + " " + object + " from server" );
+    				AJAX_left--;
+					updateAjaxLeft();
 	});
 }
 
@@ -259,6 +277,8 @@ function refreshAllObjects(){
 function refreshPlot(plot){
  	var data = all_plots[plot].getPlot(getOptionsString());
 	$( "div.velo" ).show();
+	AJAX_left++;
+	updateAjaxLeft();
 	if ((data == null)) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
 						plot + '/' + 
@@ -271,13 +291,19 @@ function refreshPlot(plot){
 								$( "div#" + plot + "_plot" ).empty();
 								$( "div#" + plot + "_plot" ).append(data);
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
+								AJAX_left--;
+								updateAjaxLeft();
   							})
   							.fail(function() {
     							console.log( "error when getting " + plot + " plot from server" );
+    							AJAX_left--;
+								updateAjaxLeft();
 				});
 	} else { //Present cached data.
 		$( "div#" + plot + "_plot" ).empty();
 		$( "div#" + plot + "_plot" ).append(data);
+		AJAX_left--;
+		updateAjaxLeft();
 		$( "div.velo" ).hide();
 	}
 }
@@ -362,7 +388,8 @@ function showStandard( standard_plot ){
 	$( "#descriptionTitle" ).html($( "option[plot=" + standard_plot + "]").html());
 	$( "div.x_label" ).html(axis_labels[standard_plot].x);
 	$( "div.y_label" ).html(axis_labels[standard_plot].y);
-	
+	AJAX_left++;
+	updateAjaxLeft();
 	$( "div.velo" ).show();
 	if ((data == null)) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
@@ -376,6 +403,8 @@ function showStandard( standard_plot ){
 								$( "div#" + standard_plot + "_plot" ).empty();
 								$( "div#" + standard_plot + "_plot" ).append(data);
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
+								AJAX_left--;
+								updateAjaxLeft();
   							})
   							.fail(function() {
     							console.log( "error when getting " + standard_plot + " plot from server" );
@@ -383,6 +412,8 @@ function showStandard( standard_plot ){
 	} else { //Present cached data.
 		$( "div#" + standard_plot + "_plot" ).empty();
 		$( "div#" + standard_plot + "_plot" ).append(data);
+		AJAX_left--;
+		updateAjaxLeft();
 		$( "div.velo" ).hide();
 	}
 }	
