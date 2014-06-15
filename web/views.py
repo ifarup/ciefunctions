@@ -237,7 +237,7 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 	except Exception as e:
 		print "1st try %s" % e
 		print "Computing ..."
-		log.debug("[%s] Computing -> Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s, sID: %s"
+		log.debug("[%s] Computing -> Age: %s, f_size: %s, l_min: %s, l_max: %s, l_step: %s, sID: %s"
 				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
 		results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 		request.session['results'] = results
@@ -313,7 +313,7 @@ def home(request):
 		lambda_step = 1.0
 		
 	
-	log.debug("[%s] Age: %s, field_size: %s, lambda_min: %s, lambda_max: %s, lambda_step: %s - sID: %s"
+	log.debug("[%s] Age: %s, f_size: %s, l_min: %s, l_max: %s, l_step: %s - sID: %s"
 				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
 
 	#Call an initial compute
@@ -321,7 +321,6 @@ def home(request):
 	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 	stop = time.time()
 	log.debug("[%s] Initial compute performed in %s seconds - \tsID: %s" % ( time_now(), str(stop - start), request.session.session_key))
-	
 	
 	context = { 
 				'field_size' : field_size,
