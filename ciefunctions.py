@@ -57,7 +57,7 @@ class AppForm(qt.QMainWindow):
             suggest += 'xy_'
         elif self.plot_combo.currentIndex() == self.COMBO_BM:
             suggest += 'bm_'
-        elif self.plot_combo.currentIndex() == self.COBMO_LM:
+        elif self.plot_combo.currentIndex() == self.COMBO_LM:
             suggest += 'lm_'
         suggest += 'fs_' + str(self.field_spin.value()) + '_age_' + \
             str(self.age_spin.value()) + '_res_' + \
