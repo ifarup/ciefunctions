@@ -938,30 +938,30 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     # Add CIE standards to plot data structure
     plots['xyz31'] = VisualData.xyz31.copy()
     plots['xyz64'] = VisualData.xyz64.copy()
-    plots['cc31'] = my_round(VisualData.cc31, 5)
-    plots['cc64'] = my_round(VisualData.cc64, 5)
+    plots['xy31'] = my_round(VisualData.cc31, 5)
+    plots['xy64'] = my_round(VisualData.cc64, 5)
     
     # Compute purple line for CIE standard cc
-    delaunay = Delaunay(plots['cc31'][:,1:3])
+    delaunay = Delaunay(plots['xy31'][:,1:3])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
     purple_line_cc31 = np.zeros((2,3))
-    purple_line_cc31[0,0] = plots['cc31'][delaunay.convex_hull[ind,0], 0]
-    purple_line_cc31[0,1] = plots['cc31'][delaunay.convex_hull[ind,0], 1]
-    purple_line_cc31[0,2] = plots['cc31'][delaunay.convex_hull[ind,0], 2]
-    purple_line_cc31[1,0] = plots['cc31'][delaunay.convex_hull[ind,1], 0]
-    purple_line_cc31[1,1] = plots['cc31'][delaunay.convex_hull[ind,1], 1]
-    purple_line_cc31[1,2] = plots['cc31'][delaunay.convex_hull[ind,1], 2]
+    purple_line_cc31[0,0] = plots['xy31'][delaunay.convex_hull[ind,0], 0]
+    purple_line_cc31[0,1] = plots['xy31'][delaunay.convex_hull[ind,0], 1]
+    purple_line_cc31[0,2] = plots['xy31'][delaunay.convex_hull[ind,0], 2]
+    purple_line_cc31[1,0] = plots['xy31'][delaunay.convex_hull[ind,1], 0]
+    purple_line_cc31[1,1] = plots['xy31'][delaunay.convex_hull[ind,1], 1]
+    purple_line_cc31[1,2] = plots['xy31'][delaunay.convex_hull[ind,1], 2]
     plots['purple_line_cc31'] = purple_line_cc31.copy()
 
-    delaunay = Delaunay(plots['cc64'][:,1:3])
+    delaunay = Delaunay(plots['xy64'][:,1:3])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
     purple_line_cc64 = np.zeros((2,3))
-    purple_line_cc64[0,0] = plots['cc64'][delaunay.convex_hull[ind,0], 0]
-    purple_line_cc64[0,1] = plots['cc64'][delaunay.convex_hull[ind,0], 1]
-    purple_line_cc64[0,2] = plots['cc64'][delaunay.convex_hull[ind,0], 2]
-    purple_line_cc64[1,0] = plots['cc64'][delaunay.convex_hull[ind,1], 0]
-    purple_line_cc64[1,1] = plots['cc64'][delaunay.convex_hull[ind,1], 1]
-    purple_line_cc64[1,2] = plots['cc64'][delaunay.convex_hull[ind,1], 2]
+    purple_line_cc64[0,0] = plots['xy64'][delaunay.convex_hull[ind,0], 0]
+    purple_line_cc64[0,1] = plots['xy64'][delaunay.convex_hull[ind,0], 1]
+    purple_line_cc64[0,2] = plots['xy64'][delaunay.convex_hull[ind,0], 2]
+    purple_line_cc64[1,0] = plots['xy64'][delaunay.convex_hull[ind,1], 0]
+    purple_line_cc64[1,1] = plots['xy64'][delaunay.convex_hull[ind,1], 1]
+    purple_line_cc64[1,2] = plots['xy64'][delaunay.convex_hull[ind,1], 2]
     plots['purple_line_cc64'] = purple_line_cc64.copy()
     
     if field_size == np.round(field_size):
@@ -972,14 +972,14 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['lambda_min'] = lambda_min
     plots['lambda_max'] = lambda_max
     plots['lambda_step'] = lambda_step 
-    plots['cc_white'] = cc_white
+    plots['xy_white'] = cc_white
     plots['bm_white'] = bm_white
     plots['lm_white'] = lm_white
     
     results = dict()
     results['xyz'] = xyz_spec
     results['xy'] = cc_spec
-    results['cc_white'] = cc_white
+    results['xy_white'] = cc_white
     results['trans_mat'] = trans_mat
     results['lms'] = lms_standard_spec
     results['lms_base'] = lms_spec
@@ -996,8 +996,8 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['age'] = age
     results['xyz31'] = VisualData.xyz31.copy()
     results['xyz64'] = VisualData.xyz64.copy()
-    results['cc31'] = my_round(VisualData.cc31, 5)
-    results['cc64'] = my_round(VisualData.cc64, 5)
+    results['xy31'] = my_round(VisualData.cc31, 5)
+    results['xy64'] = my_round(VisualData.cc64, 5)
     if np.round(field_size, 5) == np.round(field_size):
         results['field_size'] = "%.0f" % field_size
     else:

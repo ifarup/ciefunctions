@@ -515,7 +515,7 @@ def xy31(results, include_head=False):
         <th><em>z</em></th>
       <tr>
     """
-    for i in range(np.shape(results['cc31'])[0]):
+    for i in range(np.shape(results['xy31'])[0]):
         html_table += """
         <tr>
            <td>%.0f</td>
@@ -523,10 +523,10 @@ def xy31(results, include_head=False):
            <td>%.5f</td>
            <td>%.5f</td>
         </tr>
-        """ % (results['cc31'][i, 0],
-               results['cc31'][i, 1],
-               results['cc31'][i, 2],
-               results['cc31'][i, 3])
+        """ % (results['xy31'][i, 0],
+               results['xy31'][i, 1],
+               results['xy31'][i, 2],
+               results['xy31'][i, 3])
     html_table += """
     </table>
     """
@@ -558,7 +558,7 @@ def xy64(results, include_head=False):
         <th><em>z</em><sub>10</sub></th>
       <tr>
     """
-    for i in range(np.shape(results['cc64'])[0]):
+    for i in range(np.shape(results['xy64'])[0]):
         html_table += """
         <tr>
            <td>%.0f</td>
@@ -566,10 +566,10 @@ def xy64(results, include_head=False):
            <td>%.5f</td>
            <td>%.5f</td>
         </tr>
-        """ % (results['cc64'][i, 0],
-               results['cc64'][i, 1],
-               results['cc64'][i, 2],
-               results['cc64'][i, 3])
+        """ % (results['xy64'][i, 0],
+               results['xy64'][i, 1],
+               results['xy64'][i, 2],
+               results['xy64'][i, 3])
     html_table += """
     </table>
     """

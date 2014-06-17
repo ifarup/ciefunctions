@@ -545,7 +545,7 @@ def _illuminant_E_cc(data):
     (%.5f, %.5f) <br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
-           data['cc_white'][0], data['cc_white'][1])
+           data['xy_white'][0], data['xy_white'][1])
 
 def _illuminant_E_cc_31():
     return """
