@@ -207,11 +207,6 @@ def get_csv(request, plot):
 
 	filename = plot_name[plot] + get_filename_params(request) + ".csv"
 	
-	#Emergency patch issue #99
-	if plot == 'xy31':
-		plot = 'xy'
-	
-	
 	output = StringIO.StringIO()
 	thePlot = request.session['results']
 	np.savetxt(output, thePlot[plot], format[plot])
