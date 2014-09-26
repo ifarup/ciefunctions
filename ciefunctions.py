@@ -486,7 +486,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_max_spin.setSingleStep(0.1)
 
         self.plot_combo = qt.QComboBox()
-        self.plot_combo.addItem('CIE LMS cone fundamentals')
+        self.plot_combo.addItem('CIE LMS cone fundamentals (blabla)')
         self.COMBO_LMS = 0
         self.plot_combo.addItem('CIE LMS cone fundamentals (9 sign. figs.)')
         self.COMBO_LMSBASE = 1
