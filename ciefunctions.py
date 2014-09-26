@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Tullekommentar
-
 ciefunctions: GUI application for the calculation of CIE functions.
 
 Copyright (C) 2012-2014 Ivar Farup and Jan Henrik Wold
