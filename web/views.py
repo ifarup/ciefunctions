@@ -277,7 +277,7 @@ def home(request):
 
 	log.info("[%s] New request. sessionId: %s" % (time_now(), request.session.session_key))
 	log.info("[%s] User Agent: %s" % (time_now(), request.META['HTTP_USER_AGENT']))
-	log.info("[%s] Remote Host (ip): %s (%s)" % (time_now(), request.META['REMOTE_HOST'], request.META['REMOTE_ADDR']))
+	#log.info("[%s] Remote Host (ip): %s (%s)" % (time_now(), request.META['REMOTE_HOST'], request.META['REMOTE_ADDR']))
 
 	try:
 		field_size = float(request.POST["field_size"])
