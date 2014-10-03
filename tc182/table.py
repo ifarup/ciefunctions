@@ -58,6 +58,7 @@ def xyz(results, include_head=False):
     html_table : string
         HTML representation of the XYZ table
     """
+    results['xyz'][results['xyz'][:,0] > 615, 3] = 0
     html_table = ""
     if include_head:
         html_table += _head()
