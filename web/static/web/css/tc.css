@@ -9,7 +9,7 @@
 div#std-params { 	margin-left: 10px;
 }
 
-div.velo {  position: fixed;
+div.velo {  position: absolute;
 			top: 0; left:0;
 			z-index: 50;
 			width: 100%;
@@ -18,21 +18,14 @@ div.velo {  position: fixed;
 			opacity: 0.8;
 			background-image: url('../img/spinner-blue.gif');
 			background-repeat:no-repeat;
-			background-attachment:fixed;
-			background-position:center;
-			background-size: 100px;
+			background-position:center center;
+			background-size: 50px;
 			text-align: center;
 			vertical-align: middle;
-			line-height: 100vh;
+			line-height: 100%;
 			color: #1451a4;
 			font-size: 2em; 
-		}
-
-div.velo img { 	width: 50px;
-				margin-left: 45%; 
-				margin-top: 25%;
-				
-				}
+}
 
 a.tab-text { font-size: 0.8em; }
 
@@ -42,8 +35,6 @@ div#header img {	height: 55px;
 
 
 select#plot-select, select#modus-select { width: 100%; }
-
-.plot {			display: none; }
 
 .math { font-family: math; 
 		font-size: 1.2em;
@@ -83,7 +74,8 @@ button#getCsv { margin: 5px auto auto auto; }
 }
 
 
-div.htmlWrapper {	padding-left: 10;
+div.htmlWrapper {	position: relative;
+					padding-left: 10;
 					height: 528px;
 					max-height: 565px;
 					width: auto;
@@ -149,11 +141,26 @@ table#inputTable td { 	width: auto;
 .disabled { color: #aaa; }
 				
 
-div#theFig{ position: relative;
+div#theFig{ 
+			position: relative;
 			text-align: center;
-			border: 1px solid #dc670b;
+			border: 1px solid #d5d5d5;
 			min-height: 510px;
 			height: 519px;
+			border-top: none;
+}
+
+.plot {			
+		position: relative;
+		display: none; 
+		background-color: aliceBlue;
+}
+
+svg {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
 }
 
 div.label { 
@@ -164,7 +171,7 @@ div.label {
 div.label sub { font-size: 0.8em;
 		}
 	
-div.x_label { 	position: relative;
+div.x_label { 	position: absolute;
 				bottom: 10;
 				z-index: 1;
 				text-align: center;
@@ -214,6 +221,7 @@ div.table th:first-of-type { 	width: 100px;
 				height: 519px; /* Size of figure is fixed, so I adjust this to the figure */
 				overflow-y: scroll;
 				border: 1px solid #d5d5d5;
+				border-top: none;
 }
 /* HTML Text */
 

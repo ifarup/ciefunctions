@@ -58,6 +58,7 @@
 									<div id="theFig">
 										<div id="xyz_plot" class="plot">
 											<!-- ajax plot xyz -->
+											<br style="clear:both" />
 										</div>
 										<div id="xy_plot" class="plot">
 											<!-- ajax plot xy -->
@@ -152,7 +153,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-8 col-md-8">
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 						<div id="plot-select-div">
 							<select id="plot-select" class="ui-widget ui-widget-content">
 								<option plot="lms">CIE LMS cone fundamentals</option>
@@ -166,7 +167,7 @@
 							</select>
 						</div><!-- end #plot-select -->
 					</div>
-					<div class="col-lg-4 col-md-4">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 						<div id="modus-select-div">
 							<select id="modus-select" class="ui-widget ui-widget-content">
 								<option modus="1">Modus 1</option>
@@ -213,13 +214,14 @@
 							</div>
 							<div id="xy64_description" class="html_text">
 								<!-- ajax description xy64 --->
+								<div class="velo"></div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-12">
 						<div id="std-params">
 							<div class="col-lg-6">
-								<select id="field_size" class="ui-widget ui-widget-content">
+								<select id="field_size" class="ui-widget ui-widget-content ui-spinner">
 									<option year="31">2&deg; (1931)</option>
 									<option year="64">10&deg; (1964)</option>
 								</select>
@@ -275,8 +277,6 @@
 			</div>
 		</div>
 	</div><!-- container -->
-	<div class="velo-disabled"></div>
 	<script src="{% static 'web/js/tc.js' %}"></script>
-	<script src="{% static 'web/js/googleAnalytics.js' %}"></script> <!-- remove maybe -->
 	</body>
 </html>

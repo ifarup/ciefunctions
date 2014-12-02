@@ -44,7 +44,7 @@ $( document ).ajaxStop(function() {
 var AJAX_left = 0;
 
 function updateAjaxLeft(){
-	$( "div.velo" ).html(AJAX_left);
+	//$( "div.velo" ).html(AJAX_left);
 }
 
 $( "button#btnCompute" ).on('click', function(){
@@ -253,7 +253,7 @@ function refreshObject(object, name){
 	$.get( ajaxUrl )
 				.done(function( data ) {
 					$( "div#" + name + "_" + object ).empty();
-					$( "div#" + name + "_" + object ).append(data);
+					$( "div#" + name + "_" + object ).append(data + '<div class="velo"></div>');
 					AJAX_left--;
 					updateAjaxLeft();
   				}).fail(function() {
@@ -289,7 +289,7 @@ function refreshPlot(plot){
 							.done(function( data ) {
 								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
-								$( "div#" + plot + "_plot" ).append(data);
+								$( "div#" + plot + "_plot" ).append(data + '<div class="velo"></div>');
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
 								AJAX_left--;
 								updateAjaxLeft();
