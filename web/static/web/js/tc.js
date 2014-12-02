@@ -48,7 +48,8 @@ function updateAjaxLeft(){
 }
 
 $( "button#btnCompute" ).on('click', function(){
-
+	
+	$( ".velo" ).show(); //All velo's up!
 	function flash(component){
 		component
 		.animate({backgroundColor: "rgb(255,0,0)"}, 500 )
