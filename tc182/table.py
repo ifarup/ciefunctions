@@ -39,6 +39,13 @@ def _head():
     td {
         padding: 0px 10px 0px 10px;
         text-align: center;
+    }    
+    table tr:hover { 
+                        background-color: #555;
+                        color: white;
+    }
+    table.tblHeader {
+                        position: fixed;
     }
     </style>
     </head>
@@ -465,13 +472,17 @@ def xyz64(results, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
+    <table class='tblHeader'>
       <tr>
         <th>&lambda;</th>
         <th><font style="text-decoration: overline;"><em>x</em></font><sub>10</sub></th>
         <th><font style="text-decoration: overline;"><em>y</em></font><sub>10</sub></th>
         <th><font style="text-decoration: overline;"><em>z</em></font><sub>10</sub></th>
       <tr>
+    </table>
+    <br style='clear: both;'/>
+    <table>
+      
     """
     for i in range(np.shape(results['xyz64'])[0]):
         html_table += """
