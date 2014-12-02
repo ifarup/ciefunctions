@@ -34,7 +34,7 @@ $( "input#lambda_step" ).spinner({
 									numberFormat: 'd'
 });
 
-//Show the global loader when ajax.
+//Hide the global loader when ajax.
 $( document ).ajaxStop(function() {
 	$("div.velo").hide();
 });
@@ -44,11 +44,12 @@ $( document ).ajaxStop(function() {
 var AJAX_left = 0;
 
 function updateAjaxLeft(){
-	$( "div.velo" ).html(AJAX_left);
+	//$( "div.velo" ).html(AJAX_left);
 }
 
 $( "button#btnCompute" ).on('click', function(){
-
+	
+	$( ".velo" ).show(); //All velo's up!
 	function flash(component){
 		component
 		.animate({backgroundColor: "rgb(255,0,0)"}, 500 )
@@ -160,7 +161,7 @@ $( "button#btnCompute" ).on('click', function(){
 				lambda_max		+ "/" +
 				lambda_step		+ "/";
 
-	$( "div.velo" ).show(); //We disable the page and show a loader.
+	//$( "div.velo" ).show(); //We disable the page and show a loader.
 	AJAX_left++;
 	updateAjaxLeft();
 	flushCache();
@@ -246,7 +247,7 @@ function getOptionsString(){
 //This function retrieves an object (table or description, file an issue for plot)
 function refreshObject(object, name){
 /* object is a String: can be 'table' or 'description'*/
-	$( "div.velo" ).show();
+	$( "div#" + name + "_" + object ).siblings(".velo").show();
 	ajaxUrl = '/get_'+ object + '/' + name + '/';
 	AJAX_left++;
 	updateAjaxLeft();
@@ -254,12 +255,14 @@ function refreshObject(object, name){
 				.done(function( data ) {
 					$( "div#" + name + "_" + object ).empty();
 					$( "div#" + name + "_" + object ).append(data);
+					$( "div#" + name + "_" + object ).siblings(".velo").hide();
 					AJAX_left--;
 					updateAjaxLeft();
   				}).fail(function() {
     				console.log( "error when getting " + name + " " + object + " from server" );
     				AJAX_left--;
 					updateAjaxLeft();
+					$( "div#" + name + "_" + object ).siblings(".velo").hide();
 	});
 }
 
@@ -276,7 +279,7 @@ function refreshAllObjects(){
 
 function refreshPlot(plot){
  	var data = all_plots[plot].getPlot(getOptionsString());
-	$( "div.velo" ).show();
+	$( "#theFig .velo" ).show();
 	AJAX_left++;
 	updateAjaxLeft();
 	if ((data == null)) { //If data is not cached, get it from the server.
@@ -289,8 +292,9 @@ function refreshPlot(plot){
 							.done(function( data ) {
 								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
-								$( "div#" + plot + "_plot" ).append(data);
+								$( "div#" + plot + "_plot" ).append(data + '<div class="velo"></div>');
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
+								$( "div#" + plot + "_plot" ).siblings(".velo").hide();
 								AJAX_left--;
 								updateAjaxLeft();
   							})
@@ -304,7 +308,7 @@ function refreshPlot(plot){
 		$( "div#" + plot + "_plot" ).append(data);
 		AJAX_left--;
 		updateAjaxLeft();
-		$( "div.velo" ).hide();
+		$( "#theFig .velo" ).hide();
 	}
 }
 
@@ -390,7 +394,7 @@ function showStandard( standard_plot ){
 	$( "div.y_label" ).html(axis_labels[standard_plot].y);
 	AJAX_left++;
 	updateAjaxLeft();
-	$( "div.velo" ).show();
+	$( "#theFig .velo" ).show();
 	if ((data == null)) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
 						standard_plot + '/' + 
@@ -414,7 +418,7 @@ function showStandard( standard_plot ){
 		$( "div#" + standard_plot + "_plot" ).append(data);
 		AJAX_left--;
 		updateAjaxLeft();
-		$( "div.velo" ).hide();
+		$( "#theFig .velo" ).hide();
 	}
 }	
 	
@@ -559,7 +563,7 @@ function showStandard( standard_plot ){
 	
 	// Checkbox events (Bit ugly, but OK)
 				$( "input[type=checkbox]" ).on('click', function(){
-					$( "div.velo" ).show();
+					$( "#theFig .velo" ).show();
 					console.log($(this));
 				});
 	

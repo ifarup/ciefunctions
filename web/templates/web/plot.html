@@ -4,9 +4,13 @@
 		<title>Ciefunctions</title>
 		<link rel="stylesheet" href="{% static 'web/css/redmond/jquery-ui-1.10.4.custom.min.css' %}"></link>
 		<link rel="stylesheet" href="{% static 'web/css/tc.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/bootstrap.min.css' %}"><!-- Bootstrap 3.3.1 -->
+		<link rel="stylesheet" href="{% static 'web/css/bootstrap-theme.css' %}"><!-- Bootstrap 3.3.1 -->
 		<script src="{% static 'web/js/jquery-1.10.2.js' %}"></script>
 		<script src="{% static 'web/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+		<script src="{% static 'web/js/bootstrap.min.js' %}"></script><!-- Bootstrap 3.3.1 -->
 		<script src="{% static 'web/js/plotLoader.js' %}"></script>
+		
 		<script>
 			//Namespace for current form_values
 			currentForm = (	{	age: '{{ age }}',
@@ -15,224 +19,265 @@
 								lambda_max: '{{ lambda_max }}',
 								lambda_step: '{{ lambda_step }}'
 							});
+			//Enable the tab system
+			$( '#tabSys a' ).click(function(e) {
+				e.preventDefault();
+				$( this ).tab('show');
+			});
+		
 		</script>
 	</head>
 	<body>
-		<div id="appWrapper">
-			<div id="header">
-				<img src="{% static 'web/img/logo_final.jpg' %}"/>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div id="header">
+					<img src="{% static 'web/img/logo_final.jpg' %}"/>
+				</div>
 			</div>
-			<div id="leftSpalte">
-				<div id="tc-Tabs">
-					<ul>
-						<li><a class="tab-text" href="#tabs-1">Plot</a></li>
-						<li><a class="tab-text" href="#tabs-2">Table</a></li>		
-					</ul>
-					<div id="tabs-1">
-						<div id="theFig">
-							<div id="xyz_plot" class="plot">
-								<!-- ajax plot xyz -->
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-6">
+				<div class="row">
+					<div class="col-lg-12">
+						<!-- plot part -->
+						<!-- tabpanel -->
+						<div role="tabpanel">
+							<!-- Tabs -->
+							<ul id="tabSys" class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active">
+									<a href="#plotPanel" aria-controls="plot" role="tab" data-toggle="tab">Plot</a>
+								</li>
+								<li role="presentation">
+									<a href="#tablePanel" aria-controls="table" role="tab" data-toggle="tab">Table</a>
+								</li>
+							</ul>
+							<!-- Tab panes -->
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="plotPanel">
+									<div id="theFig">
+										<div id="xyz_plot" class="plot">
+											<!-- ajax plot xyz -->
+											<br style="clear:both" />
+										</div>
+										<div id="xy_plot" class="plot">
+											<!-- ajax plot xy -->
+										</div>
+										<div id="lms_plot" class="plot">
+											<!-- ajax plot lms -->
+										</div>
+										<div id="lms_base_plot" class="plot">
+											<!-- ajax plot lms_base -->
+										</div>
+										<div id="bm_plot" class="plot">
+											<!-- ajax plot bm -->
+										</div>
+										<div id="lm_plot" class="plot">
+											<!-- ajax plot lm -->
+										</div>
+										<div id="xyz31_plot" class="plot">
+											<!-- ajax plot xyz31 -->
+										</div>
+										<div id="xyz64_plot" class="plot">
+											<!-- ajax plot xyz64 -->
+										</div>
+										<div id="xy31_plot" class="plot">
+											<!-- ajax plot xy31 -->
+										</div>
+										<div id="xy64_plot" class="plot">
+											<!-- ajax plot xy64 -->
+										</div>
+										<div class="x_label"></div>
+										<div class="y_label"></div>
+										<div class="velo"></div>
+									</div>
+									<div id="figOptions">
+										<!-- Start with default enabled ticks, might need to go to an init function -->
+										<div>
+											<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
+											<input type="checkbox" id="compare1931-2" disabled/>
+										</div>
+										<div>
+											<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
+											<input type="checkbox" id="compare1964-10" disabled/>
+										</div>
+										<div>
+											<label for="#showGrid">Grid</label>
+											<input id ="showGrid" type="checkbox"/>
+										</div>
+										<div>
+											<label for="#showLabels" class="disabled">Labels</label>
+											<input id ="showLabels" type="checkbox" disabled/>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="tablePanel">
+									<div class="tableWrapper">
+										<div id="xyz_table" class="table">
+											<!-- ajax table xyz -->
+										</div>
+										<div id="xy_table" class="table">
+											<!-- ajax table xy -->
+										</div>
+										<div id="lms_table" class="table">
+											<!-- ajax table lms -->
+										</div>
+										<div id="lms_base_table" class="table">
+											<!-- ajax table lms_base -->
+										</div>
+										<div id="bm_table" class="table">
+											<!-- ajax table bm -->
+										</div>
+										<div id="lm_table" class="table">
+											<!-- ajax table lm -->
+										</div>
+										<div id="xyz31_table" class="table">
+											<!-- ajax table xyz31 -->
+										</div>
+										<div id="xyz64_table" class="table">
+											<!-- ajax table xyz64 -->
+										</div>
+										<div id="xy31_table" class="table">
+											<!-- ajax table xy31 -->
+										</div>
+										<div id="xy64_table" class="table">
+											<!-- ajax table xy64 -->
+										</div>
+										<div class="velo"></div>
+									</div>	<!-- end .tableWrapper -->
+									<div id="getCsv-container">
+										<button id="getCsv">Save Table</button>
+									</div>
+								</div>
 							</div>
-							<div id="xy_plot" class="plot">
-								<!-- ajax plot xy -->
-							</div>
-							<div id="lms_plot" class="plot">
-								<!-- ajax plot lms -->
-							</div>
-							<div id="lms_base_plot" class="plot">
-								<!-- ajax plot lms_base -->
-							</div>
-							<div id="bm_plot" class="plot">
-								<!-- ajax plot bm -->
-							</div>
-							<div id="lm_plot" class="plot">
-								<!-- ajax plot lm -->
-							</div>
-							<div id="xyz31_plot" class="plot">
-								<!-- ajax plot xyz31 -->
-							</div>
-							<div id="xyz64_plot" class="plot">
-								<!-- ajax plot xyz64 -->
-							</div>
-							<div id="xy31_plot" class="plot">
-								<!-- ajax plot xy31 -->
-							</div>
-							<div id="xy64_plot" class="plot">
-								<!-- ajax plot xy64 -->
-							</div>
-							<div class="label x_label"></div>
-							<div class="label y_label"></div>
 						</div>
-						<div id="figOptions">
-							<!-- Start with default enabled ticks, might need to go to an init function -->
-							<div>
-								<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
-								<input type="checkbox" id="compare1931-2" disabled/>
-							</div>
-							<div>
-								<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
-								<input type="checkbox" id="compare1964-10" disabled/>
-							</div>
-							<div>
-								<label for="#showGrid">Grid</label>
-								<input id ="showGrid" type="checkbox"/>
-							</div>
-							<div>
-								<label for="#showLabels" class="disabled">Labels</label>
-								<input id ="showLabels" type="checkbox" disabled/>
-							</div>
-						</div>
-						<span class="stretch"></span>
-						<br style="clear:both"/>
-					</div><!-- end #tabs-1 -->
-					<div id="tabs-2">
-						<div class="tableWrapper">
-							<div id="xyz_table" class="table">
-								<!-- ajax table xyz -->
-							</div>
-							<div id="xy_table" class="table">
-								<!-- ajax table xy -->
-							</div>
-							<div id="lms_table" class="table">
-								<!-- ajax table lms -->
-							</div>
-							<div id="lms_base_table" class="table">
-								<!-- ajax table lms_base -->
-							</div>
-							<div id="bm_table" class="table">
-								<!-- ajax table bm -->
-							</div>
-							<div id="lm_table" class="table">
-								<!-- ajax table lm -->
-							</div>
-							<div id="xyz31_table" class="table">
-								<!-- ajax table xyz31 -->
-							</div>
-							<div id="xyz64_table" class="table">
-								<!-- ajax table xyz64 -->
-							</div>
-							<div id="xy31_table" class="table">
-								<!-- ajax table xy31 -->
-							</div>
-							<div id="xy64_table" class="table">
-								<!-- ajax table xy64 -->
-							</div>
-							
-						</div>	<!-- end .tableWrapper -->
-						<div id="getCsv-container">
-							<button id="getCsv">Save Table</button>
-						</div>
-					</div><!-- end #tabs-2 -->
-				</div><!-- end #tc-Tabs -->	
-				<div id="plot-select-div">
-					<select id="plot-select" class="ui-widget ui-widget-content">
-						<option plot="lms">CIE LMS cone fundamentals</option>
-						<option plot="lms_base">CIE LMS cone fundamentals (9 sign. figs.)</option>
-						<option plot="bm">MacLeod-Boynton ls chomaticity diagram</option>
-						<option plot="lm">Maxwellian lm chromaticity diagram</option>
-						<option plot="xyz">CIE XYZ fundamental CMFs</option>
-						<option plot="xy">CIE xy fundamental chromaticity diagram</option>
-						<option plot="xyz31">CIE XYZ standard CMFs</option>
-						<option plot="xy31">CIE xy standard chromaticity diagram</option>
-					</select>
-					<br style="clear:both"/>
-				</div><!-- end #plot-select -->
-				<br style="clear:both"/>
-			</div><!-- end #leftSpalte -->
-			<div id="rightSpalte">
-				<div class="htmlWrapper">
-					<h2 id="descriptionTitle" class="description-heading-2">Title</h2>
-					<div id="xyz_description" class="html_text">
-						<!-- ajax description xyz --->
-					</div>
-					<div id="xy_description" class="html_text">
-						<!-- ajax description xy --->
-					</div>
-					<div id="lms_description" class="html_text">
-						<!-- ajax description lms --->
-					</div>
-					<div id="lms_base_description" class="html_text">
-						<!-- ajax description lms --->
-					</div>
-					<div id="bm_description" class="html_text">
-						<!-- ajax description bm --->
-					</div>
-					<div id="lm_description" class="html_text">
-						<!-- ajax description lm --->
-					</div>
-					<div id="xyz31_description" class="html_text">
-						<!-- ajax description xyz31 --->
-					</div>
-					<div id="xyz64_description" class="html_text">
-						<!-- ajax description xyz64 --->
-					</div>
-					<div id="xy31_description" class="html_text">
-						<!-- ajax description xy31 --->
-					</div>
-					<div id="xy64_description" class="html_text">
-						<!-- ajax description xy64 --->
 					</div>
 				</div>
-				<div class="float-bottom"></div>
-				<div id="bottomSpalte">
-				<div id="std-params">
-					<select id="field_size" class="ui-widget ui-widget-content">
-						<option year="31">2&deg; (1931)</option>
-						<option year="64">10&deg; (1964)</option>
-					</select>
+				<div class="row">
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+						<div id="plot-select-div">
+							<select id="plot-select" class="ui-widget ui-widget-content">
+								<option plot="lms">CIE LMS cone fundamentals</option>
+								<option plot="lms_base">CIE LMS cone fundamentals (9 sign. figs.)</option>
+								<option plot="bm">MacLeod-Boynton ls chomaticity diagram</option>
+								<option plot="lm">Maxwellian lm chromaticity diagram</option>
+								<option plot="xyz">CIE XYZ fundamental CMFs</option>
+								<option plot="xy">CIE xy fundamental chromaticity diagram</option>
+								<option plot="xyz31">CIE XYZ standard CMFs</option>
+								<option plot="xy31">CIE xy standard chromaticity diagram</option>
+							</select>
+						</div><!-- end #plot-select -->
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div id="modus-select-div">
+							<select id="modus-select" class="ui-widget ui-widget-content">
+								<option modus="1">Modus 1</option>
+								<option modus="2">Modus 2</option>
+								<option modus="3">Modus 3</option>
+								<option modus="4">Modus 4</option>
+							</select>
+						</div><!-- end #plot-select -->
+					</div>
 				</div>
-				<div id="input-params">
-					<form id="paramForm" method="POST" action="http://disney.com">
-						{% csrf_token %}
-						<table id="inputTable">
-							<tr>
-								<td class="lblTd">
-									<label for="field_size">Field size (&deg;)</label>
-								</td>
-								<td>
-									<input id="field_size" name="field_size" value="{{ field_size }}"/>
-								</td>
-								<td  class="lblTd">
-									<label for="lambda_min">Domain (nm)</label>
-								</td>
-								<td>
-									<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
-								</td>
-								<td class="minus-sign">&mdash;</td>
-								<td>
-									<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
-								</td>
-							</tr>
-							<tr>
-								<td class="lblTd">
-									<label for="age">Age (yr)</label>
-								</td>
-								<td>
-									<input id="age" name="age" value="{{ age }}"/>
-								</td>
-								<td class="lblTd">
-									<label for="lambda_step">Step (nm)</label>
-								</td>
-								<td>
-									<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
-								</td>
-								<td>
-									&nbsp;
-								</td>
-								<td class="btnCell">
-									<button id="btnCompute">Compute</button>
-								</td>
-							</tr>
-						</table>
-					</form>		
-				</div><!-- end #input-params -->
-			</div><!--end #bottomSpalte -->
-			</div><!-- end #rightSpalte -->
-			
-			<br style="clear:both"/>
-		</div><!-- end #appWrapper -->
-	<div class="velo"></div>
+			</div>
+			<div class="col-lg-6 col-md-6">
+			<!-- html and params part -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="htmlWrapper">
+							<h2 id="descriptionTitle" class="description-heading-2">Title</h2>
+							<div id="xyz_description" class="html_text">
+								<!-- ajax description xyz --->
+							</div>
+							<div id="xy_description" class="html_text">
+								<!-- ajax description xy --->
+							</div>
+							<div id="lms_description" class="html_text">
+								<!-- ajax description lms --->
+							</div>
+							<div id="lms_base_description" class="html_text">
+								<!-- ajax description lms --->
+							</div>
+							<div id="bm_description" class="html_text">
+								<!-- ajax description bm --->
+							</div>
+							<div id="lm_description" class="html_text">
+								<!-- ajax description lm --->
+							</div>
+							<div id="xyz31_description" class="html_text">
+								<!-- ajax description xyz31 --->
+							</div>
+							<div id="xyz64_description" class="html_text">
+								<!-- ajax description xyz64 --->
+							</div>
+							<div id="xy31_description" class="html_text">
+								<!-- ajax description xy31 --->
+							</div>
+							<div id="xy64_description" class="html_text">
+								<!-- ajax description xy64 --->
+							</div>
+							<div class="velo"></div>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div id="std-params">
+							<div class="col-lg-6">
+								<select id="field_size" class="ui-widget ui-widget-content ui-spinner">
+									<option year="31">2&deg; (1931)</option>
+									<option year="64">10&deg; (1964)</option>
+								</select>
+							</div>
+						</div>
+						<div id="input-params">
+							<form id="paramForm" method="POST" action="http://disney.com">
+							{% csrf_token %}
+							<table id="inputTable">
+								<tr>
+									<td class="lblTd">
+										<label for="field_size">Field size (&deg;)</label>
+									</td>
+									<td>
+										<input id="field_size" name="field_size" value="{{ field_size }}"/>
+									</td>
+									<td  class="lblTd">
+										<label for="lambda_min">Domain (nm)</label>
+									</td>
+									<td>
+										<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
+									</td>
+									<td class="minus-sign">&mdash;</td>
+									<td>
+										<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
+									</td>
+								</tr>
+								<tr>
+									<td class="lblTd">
+										<label for="age">Age (yr)</label>
+									</td>
+									<td>
+										<input id="age" name="age" value="{{ age }}"/>
+									</td>
+									<td class="lblTd">
+										<label for="lambda_step">Step (nm)</label>
+									</td>
+									<td>
+										<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
+									</td>
+									<td>
+										&nbsp;
+									</td>
+									<td class="btnCell">
+										<button id="btnCompute">Compute</button>
+									</td>
+								</tr>
+							</table>
+						</form>		
+						</div><!-- end #input-params -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!-- container -->
 	<script src="{% static 'web/js/tc.js' %}"></script>
-	<script src="{% static 'web/js/googleAnalytics.js' %}"></script>
 	</body>
 </html>

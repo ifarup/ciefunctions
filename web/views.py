@@ -200,7 +200,7 @@ def get_csv(request, plot):
 					'xy64'			: 'xy64',
 			   		'lms' 			: 'lms',
 			   		'lms_base'		: 'lms_9figs',
-			   		'bm'			: 'bm',
+			   		'bm'			: 'ls_mb',
 			   		'lm'			: 'lm',
 			   		'cc'			: 'cc'
 	}
