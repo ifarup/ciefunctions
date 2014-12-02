@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="{% static 'web/css/redmond/jquery-ui-1.10.4.custom.min.css' %}"></link>
 		<link rel="stylesheet" href="{% static 'web/css/tc.css' %}"></link>
 		<link rel="stylesheet" href="{% static 'web/css/bootstrap.min.css' %}"><!-- Bootstrap 3.3.1 -->
-		<link rel="stylesheet" href="{% static 'web/css/bootstrap.theme.css' %}"><!-- Bootstrap 3.3.1 -->
+		<link rel="stylesheet" href="{% static 'web/css/bootstrap-theme.css' %}"><!-- Bootstrap 3.3.1 -->
 		<script src="{% static 'web/js/jquery-1.10.2.js' %}"></script>
 		<script src="{% static 'web/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
 		<script src="{% static 'web/js/bootstrap.min.js' %}"></script><!-- Bootstrap 3.3.1 -->
@@ -19,23 +19,156 @@
 								lambda_max: '{{ lambda_max }}',
 								lambda_step: '{{ lambda_step }}'
 							});
+			//Enable the tab system
+			$( '#tabSys a' ).click(function(e) {
+				e.preventDefault();
+				$( this ).tab('show');
+			});
+		
 		</script>
 	</head>
 	<body>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-12 col-md-12">
 				<div id="header">
 					<img src="{% static 'web/img/logo_final.jpg' %}"/>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-6">
-			<!-- plot part -->
-			
+			<div class="col-lg-6 col-md-6">
+				<div class="row">
+					<div class="col-lg-12">
+						<!-- plot part -->
+						<!-- tabpanel -->
+						<div role="tabpanel">
+							<!-- Tabs -->
+							<ul id="tabSys" class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active">
+									<a href="#plotPanel" aria-controls="plot" role="tab" data-toggle="tab">Plot</a>
+								</li>
+								<li role="presentation">
+									<a href="#tablePanel" aria-controls="table" role="tab" data-toggle="tab">Table</a>
+								</li>
+							</ul>
+							<!-- Tab panes -->
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="plotPanel">
+									<div id="theFig">
+										<div id="xyz_plot" class="plot">
+											<!-- ajax plot xyz -->
+										</div>
+										<div id="xy_plot" class="plot">
+											<!-- ajax plot xy -->
+										</div>
+										<div id="lms_plot" class="plot">
+											<!-- ajax plot lms -->
+										</div>
+										<div id="lms_base_plot" class="plot">
+											<!-- ajax plot lms_base -->
+										</div>
+										<div id="bm_plot" class="plot">
+											<!-- ajax plot bm -->
+										</div>
+										<div id="lm_plot" class="plot">
+											<!-- ajax plot lm -->
+										</div>
+										<div id="xyz31_plot" class="plot">
+											<!-- ajax plot xyz31 -->
+										</div>
+										<div id="xyz64_plot" class="plot">
+											<!-- ajax plot xyz64 -->
+										</div>
+										<div id="xy31_plot" class="plot">
+											<!-- ajax plot xy31 -->
+										</div>
+										<div id="xy64_plot" class="plot">
+											<!-- ajax plot xy64 -->
+										</div>
+										<div class="x_label"></div>
+										<div class="y_label"></div>
+									</div>
+									<div id="figOptions">
+										<!-- Start with default enabled ticks, might need to go to an init function -->
+										<div>
+											<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
+											<input type="checkbox" id="compare1931-2" disabled/>
+										</div>
+										<div>
+											<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
+											<input type="checkbox" id="compare1964-10" disabled/>
+										</div>
+										<div>
+											<label for="#showGrid">Grid</label>
+											<input id ="showGrid" type="checkbox"/>
+										</div>
+										<div>
+											<label for="#showLabels" class="disabled">Labels</label>
+											<input id ="showLabels" type="checkbox" disabled/>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="tablePanel">
+									<div class="tableWrapper">
+										<div id="xyz_table" class="table">
+											<!-- ajax table xyz -->
+										</div>
+										<div id="xy_table" class="table">
+											<!-- ajax table xy -->
+										</div>
+										<div id="lms_table" class="table">
+											<!-- ajax table lms -->
+										</div>
+										<div id="lms_base_table" class="table">
+											<!-- ajax table lms_base -->
+										</div>
+										<div id="bm_table" class="table">
+											<!-- ajax table bm -->
+										</div>
+										<div id="lm_table" class="table">
+											<!-- ajax table lm -->
+										</div>
+										<div id="xyz31_table" class="table">
+											<!-- ajax table xyz31 -->
+										</div>
+										<div id="xyz64_table" class="table">
+											<!-- ajax table xyz64 -->
+										</div>
+										<div id="xy31_table" class="table">
+											<!-- ajax table xy31 -->
+										</div>
+										<div id="xy64_table" class="table">
+											<!-- ajax table xy64 -->
+										</div>
+							
+									</div>	<!-- end .tableWrapper -->
+									<div id="getCsv-container">
+										<button id="getCsv">Save Table</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div id="plot-select-div">
+							<select id="plot-select" class="ui-widget ui-widget-content">
+								<option plot="lms">CIE LMS cone fundamentals</option>
+								<option plot="lms_base">CIE LMS cone fundamentals (9 sign. figs.)</option>
+								<option plot="bm">MacLeod-Boynton ls chomaticity diagram</option>
+								<option plot="lm">Maxwellian lm chromaticity diagram</option>
+								<option plot="xyz">CIE XYZ fundamental CMFs</option>
+								<option plot="xy">CIE xy fundamental chromaticity diagram</option>
+								<option plot="xyz31">CIE XYZ standard CMFs</option>
+								<option plot="xy31">CIE xy standard chromaticity diagram</option>
+							</select>
+						</div><!-- end #plot-select -->
+					</div>
+				</div>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-lg-6 col-md-6">
 			<!-- html and params part -->
 				<div class="row">
 					<div class="col-lg-12">
@@ -74,6 +207,14 @@
 						</div>
 					</div>
 					<div class="col-lg-12">
+						<div id="std-params">
+							<div class="col-lg-6">
+								<select id="field_size" class="ui-widget ui-widget-content">
+									<option year="31">2&deg; (1931)</option>
+									<option year="64">10&deg; (1964)</option>
+								</select>
+							</div>
+						</div>
 						<div id="input-params">
 							<form id="paramForm" method="POST" action="http://disney.com">
 							{% csrf_token %}
@@ -124,5 +265,8 @@
 			</div>
 		</div>
 	</div><!-- container -->
+	<div class="velo-disabled"></div>
+	<script src="{% static 'web/js/tc.js' %}"></script>
+	<script src="{% static 'web/js/googleAnalytics.js' %}"></script> <!-- remove maybe -->
 	</body>
 </html>

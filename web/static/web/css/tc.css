@@ -41,7 +41,7 @@ div#header img {	height: 55px;
  }
 
 
-select#plot-select { width: 650px; }
+select#plot-select { width: 100%; }
 
 .plot {			display: none; }
 
@@ -113,7 +113,7 @@ table#inputTable input { 	width: 40px;
 							font-size: 0.8em;
  }
 
-table#inputTable .minus-sign { text-align: center; 
+table#inputTable .minus-sign {  text-align: center; 
 								width: 30px;
 								font-size: 1.5em;
 }
@@ -153,6 +153,7 @@ div#theFig{ position: relative;
 			text-align: center;
 			border: 1px solid #dc670b;
 			min-height: 510px;
+			height: 519px;
 }
 
 div.label { 
@@ -186,7 +187,14 @@ div.table table {
 							margin-right: auto;
 							width: 100%;
 }
-			
+
+div.table table th {
+						text-align: center;
+						padding: 5px;
+						background-color: steelBlue;
+						color: white;
+}
+
 div.table table tr:nth-child(even){ background-color: lightSteelBlue; } 	
 		
 div.table table td { 		padding: 0px 10px 0px 10px;
@@ -296,3 +304,8 @@ body{
 	.fakewindowcontain .ui-widget-overlay {
 		position: absolute;
 	}
+/* Tab panel */
+
+#tabSys a {
+		outline: none;
+}
