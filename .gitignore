@@ -7,3 +7,4 @@ generateplots.py
 *.bbprojectd
 Icon
 TC
+.settings
