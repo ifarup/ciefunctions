@@ -41,7 +41,7 @@ div#header img {	height: 55px;
  }
 
 
-select#plot-select { width: 100%; }
+select#plot-select, select#modus-select { width: 100%; }
 
 .plot {			display: none; }
 
@@ -182,16 +182,14 @@ div.y_label {	position:absolute;
     			-o-transform: rotate(-90deg);
 }
 			
-div.table table { 	
-							margin-left: auto;
-							margin-right: auto;
+div.table table { 			
 							width: 100%;
 }
 
 div.table table th {
 						text-align: center;
 						padding: 5px;
-						background-color: steelBlue;
+						background-color: #388fc2;
 						color: white;
 }
 
@@ -212,9 +210,10 @@ div.table th:first-of-type { 	width: 100px;
 
 
 
-.tableWrapper { height: 519px; /* Size of figure is fixed, so I adjust this to the figure */
+.tableWrapper { box-sizing: border-box;
+				height: 519px; /* Size of figure is fixed, so I adjust this to the figure */
 				overflow-y: scroll;
-				border: 1px solid steelBlue;
+				border: 1px solid #d5d5d5;
 }
 /* HTML Text */
 
