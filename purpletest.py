@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 purpletest: CIE TC1-82 Computations
@@ -40,8 +40,8 @@ Y_r = plots['xyz'][ind_r,2]
 Z_b = plots['xyz'][ind_b,3]
 Z_r = plots['xyz'][ind_r,3]
 
-print lambda_b, X_b, Y_b, Z_b
-print lambda_r, X_r, Y_r, Z_r
+print(lambda_b, X_b, Y_b, Z_b)
+print(lambda_r, X_r, Y_r, Z_r)
 
 lambdas = []
 alphas = []
