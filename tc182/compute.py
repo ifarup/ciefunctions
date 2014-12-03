@@ -499,6 +499,31 @@ def lms_energy(field_size, age, signfig=6):
             lms, lms_max = VisualData.lms10_lin_energ_n_signfig.copy(), 0 # dummy max value
     return significant_figures(lms, signfig), lms_max
 
+def v_lambda_l_cone_weight(field_size, age):
+    """
+    Compute weighting factor of l_bar(lambda) in V(lambda) synthesis on quantal scale. 
+
+    Parameters
+    ----------
+    field_size : float
+        Field size in degrees.
+    age : float
+        Age in years.
+        
+    Returns
+    -------
+    weight : float 
+        The computed weighting factor. 
+    """
+    field_size = 2. # For strategy 2 in github issue 121. Comment line for strategy 3
+    abt_fs = absorpt(field_size)
+    abt_2 = absorpt(2.)
+    lmsq_fs_age = lms_quantal(field_size, age)
+    lmsq_2_32 = lms_quantal(2, 32)
+    const_fs_age = abt_fs[0,1] * lmsq_fs_age[0,2] / (abt_fs[0,2] * lmsq_fs_age[0,1])
+    const_2_32 = abt_2[0,1] * lmsq_2_32[0,2] / (abt_2[0,2] * lmsq_2_32[0,1])
+    return 1.89 * const_fs_age / const_2_32
+
 def v_lambda_quantal(field_size, age):
     """
     Compute the V(lambda) function as a function of field size and age.
@@ -518,7 +543,7 @@ def v_lambda_quantal(field_size, age):
     lms = lms_quantal(field_size, age)
     v_lambda = np.zeros((np.shape(lms)[0], 2))
     v_lambda[:,0] = lms[:,0]
-    v_lambda[:,1] = 1.89*lms[:,1] + lms[:,2]
+    v_lambda[:,1] = v_lambda_l_cone_weight(field_size, age) * lms[:,1] + lms[:,2]
     v_lambda[:,1] = v_lambda[:,1]/v_lambda[:,1].max()
     return v_lambda
 
@@ -585,9 +610,10 @@ def v_lambda_energy_from_lms(field_size, age, v_lambda_signfig=7, mat_dp=8):
     lms, lms_max = lms_energy_base(field_size, age)
     v_lambda = np.zeros((np.shape(lms)[0], 2))
     v_lambda[:,0] = lms[:,0]
-    v_lambda[:,1] = 1.89*lms_max[0]*lms[:,1] + lms_max[1]*lms[:,2]
+    l_weight = v_lambda_l_cone_weight(field_size, age)
+    v_lambda[:,1] = l_weight * lms_max[0]*lms[:,1] + lms_max[1]*lms[:,2]
     m = v_lambda[:,1].max()
-    a21 = my_round(1.89*lms_max[0]/m, mat_dp)
+    a21 = my_round(l_weight * lms_max[0] / m, mat_dp)
     a22 = my_round(lms_max[1]/m, mat_dp)
     v_lambda[:,1] = significant_figures(a21*lms[:,1] + a22*lms[:,2], v_lambda_signfig)
     return v_lambda, np.array([a21, a22])
@@ -1026,10 +1052,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
-    plt.plot(VisualData.docul2[:,0], VisualData.docul2[:,1], 'o')
-    plt.plot(VisualData.docul2_fine[:,0], VisualData.docul2_fine[:,1])
-#     plt.clf()
-#     plt.loglog(VisualData.docul2[:,0], VisualData.docul2[:,1])
-#     plt.loglog(extrapoints[:,0], extrapoints[:,1])
-    plt.show()
+    print(" 2, 32: " + str(v_lambda_l_cone_weight(2, 32)))
+    print("10, 32: " + str(v_lambda_l_cone_weight(10, 32)))
+    print(" 2, 60: " + str(v_lambda_l_cone_weight(2, 60)))
+    print("10, 60: " + str(v_lambda_l_cone_weight(10, 60)))
