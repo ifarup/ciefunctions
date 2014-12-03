@@ -79,7 +79,7 @@ class AppForm(qt.QMainWindow):
             elif self.plot_combo.currentIndex() == self.COMBO_LM:
                 np.savetxt(path, self.results['lm'], '%.1f, %.6f, %.6f, %.6f')
     
-    def plot_options(self):
+    def options(self):
         """
         Return a dict() with the current plot options for use as argument to the plot module.
         """
@@ -89,7 +89,8 @@ class AppForm(qt.QMainWindow):
                  'labels' : self.wavelength_check.isChecked(),
                  'label_fontsize' : 7,
                  'full_title' : True,
-                 'axis_labels' : True }
+                 'axis_labels' : True,
+                 'norm' : False }
     
     def on_about(self):
         msg = """
@@ -158,13 +159,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(True)
 
             # Create plot
-            tc182.plot.xyz(self.axes, self.plots, self.plot_options())
+            tc182.plot.xyz(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.xyz(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.xyz(self.results, self.plot_combo.currentText(), self.options(), True)
 
             # Create html table
-            html_table = tc182.table.xyz(self.results, True)
+            html_table = tc182.table.xyz(self.results, self.options(), True)
 
         #
         # chromaticity diagram
@@ -179,13 +180,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(True)
             
             # Create plot
-            tc182.plot.xy(self.axes, self.plots, self.plot_options())
+            tc182.plot.xy(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc182.table.xy(self.results, True)
+            html_table = tc182.table.xy(self.results, self.options(), True)
 
             # Greate html description
-            html_string = tc182.description.xy(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.xy(self.results, self.plot_combo.currentText(), self.options(), True)
 
         #
         # LMS standard
@@ -201,13 +202,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.lms(self.axes, self.plots, self.plot_options())
+            tc182.plot.lms(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), self.options(), True)
 
             # Create html table
-            html_table = tc182.table.lms(self.results, True)
+            html_table = tc182.table.lms(self.results, self.options(), True)
 
         #
         # LMS base
@@ -223,13 +224,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             
             # Create plot
-            tc182.plot.lms_base(self.axes, self.plots, self.plot_options())
+            tc182.plot.lms_base(self.axes, self.plots, self.options())
             
             # Create html description
-            html_string = tc182.description.lms_base(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lms_base(self.results, self.plot_combo.currentText(), self.options(), True)
             
             # Create html table
-            html_table = tc182.table.lms_base(self.results, True)
+            html_table = tc182.table.lms_base(self.results, self.options(), True)
 
         #
         # MacLeod-Boynton
@@ -245,13 +246,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.bm(self.axes, self.plots, self.plot_options())
+            tc182.plot.bm(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.bm(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.bm(self.results, self.plot_combo.currentText(), self.options(), True)
 
             # Create html table
-            html_table = tc182.table.bm(self.results, True)
+            html_table = tc182.table.bm(self.results, self.options(), True)
 
         #
         # Normalised lm-diagram
@@ -267,13 +268,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             
             # Create html description
-            html_string = tc182.description.lm(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lm(self.results, self.plot_combo.currentText(), self.options(), True)
 
             # Create plot
-            tc182.plot.lm(self.axes, self.plots, self.plot_options())
+            tc182.plot.lm(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc182.table.lm(self.results, True)
+            html_table = tc182.table.lm(self.results, self.options(), True)
 
         #
         # CIE standard XYZ
@@ -293,13 +294,13 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
                 
                 # Create html descrption
-                html_string = tc182.description.xyz31(self.results, self.plot_combo.currentText(), True)
+                html_string = tc182.description.xyz31(self.results, self.plot_combo.currentText(), self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xyz31(self.results, True)
+                html_table = tc182.table.xyz31(self.results, self.options(), True)
 
                 # Create plot                
-                tc182.plot.xyz31(self.axes, self.plots, self.plot_options())
+                tc182.plot.xyz31(self.axes, self.plots, self.options())
                 
             else: # 10 deg
                 
@@ -310,13 +311,13 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
 
                 # Create html descption
-                html_string = tc182.description.xyz64(self.results, self.plot_combo.currentText(), True)
+                html_string = tc182.description.xyz64(self.results, self.plot_combo.currentText(), self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xyz64(self.results, True)
+                html_table = tc182.table.xyz64(self.results, self.options(), True)
     
                 # Create plot
-                tc182.plot.xyz64(self.axes, self.plots, self.plot_options())
+                tc182.plot.xyz64(self.axes, self.plots, self.options())
                 
         #
         # CIE standard chromaticity diagram
@@ -336,13 +337,13 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
 
                 # Create html description
-                html_string = tc182.description.xy31(self.results, self.plot_combo.currentText(), True)
+                html_string = tc182.description.xy31(self.results, self.plot_combo.currentText(), self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xy31(self.results, True)
+                html_table = tc182.table.xy31(self.results, self.options(), True)
     
                 # Create plot
-                tc182.plot.xy31(self.axes, self.plots, self.plot_options())
+                tc182.plot.xy31(self.axes, self.plots, self.options())
 
             else: # 10 deg
 
@@ -353,13 +354,13 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
                 
                 # Create html description
-                html_string = tc182.description.xy64(self.results, self.plot_combo.currentText(), True)
+                html_string = tc182.description.xy64(self.results, self.plot_combo.currentText(), self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xy64(self.results, True)
+                html_table = tc182.table.xy64(self.results, self.options(), True)
     
                 # Create plot
-                tc182.plot.xy64(self.axes, self.plots, self.plot_options())
+                tc182.plot.xy64(self.axes, self.plots, self.options())
 
         # Refresh GUI        
         self.transformation.setHtml(html_string)

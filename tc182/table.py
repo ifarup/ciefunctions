@@ -51,7 +51,7 @@ def _head():
     </head>
     """
 
-def xyz(results, include_head=False):
+def xyz(results, options, include_head=False):
     """
     Generate html table of XYZ values for inclusion in GUI app and web app.
     
@@ -65,6 +65,10 @@ def xyz(results, include_head=False):
     html_table : string
         HTML representation of the XYZ table
     """
+    if options['norm']:
+        xyz = results['xyz_N']
+    else:
+        xyz = results['xyz']
     html_table = ""
     if include_head:
         html_table += _head()
@@ -79,7 +83,7 @@ def xyz(results, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(results['xyz'])[0]):
+    for i in range(np.shape(xyz)[0]):
         if (float(results['lambda_step']) == np.round(float(results['lambda_step'])) and
             float(results['lambda_min']) == np.round(float(results['lambda_min']))):
             html_table += """
@@ -89,10 +93,10 @@ def xyz(results, include_head=False):
                <td>%.6e</td>
                <td>%.6e</td>
             </tr>
-            """ % (results['xyz'][i, 0],
-                   results['xyz'][i, 1],
-                   results['xyz'][i, 2],
-                   results['xyz'][i, 3])
+            """ % (xyz[i, 0],
+                   xyz[i, 1],
+                   xyz[i, 2],
+                   xyz[i, 3])
         else:
             html_table += """
             <tr>
@@ -101,16 +105,16 @@ def xyz(results, include_head=False):
                <td>%.6e</td>
                <td>%.6e</td>
             </tr>
-            """ % (results['xyz'][i, 0],
-                   results['xyz'][i, 1],
-                   results['xyz'][i, 2],
-                   results['xyz'][i, 3])
+            """ % (xyz[i, 0],
+                   xyz[i, 1],
+                   xyz[i, 2],
+                   xyz[i, 3])
     html_table += """
     </table>
     """
     return html_table
 
-def xy(results, include_head=False):
+def xy(results, options, include_head=False):
     """
     Generate html table of chromaticity values for inclusion in GUI app and web app.
     
@@ -124,6 +128,10 @@ def xy(results, include_head=False):
     html_table : string
         HTML representation of the chromatictiy table
     """
+    if options['norm']:
+        xy = results['xy_N']
+    else:
+        xy = results['xy']
     html_table = ""
     if include_head:
         html_table += _head()
@@ -138,7 +146,7 @@ def xy(results, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(results['xy'])[0]):
+    for i in range(np.shape(xy)[0]):
         if (float(results['lambda_step']) == np.round(float(results['lambda_step'])) and
             float(results['lambda_min']) == np.round(float(results['lambda_min']))):
             html_table += """
@@ -148,10 +156,10 @@ def xy(results, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (results['xy'][i, 0],
-                   results['xy'][i, 1],
-                   results['xy'][i, 2],
-                   results['xy'][i, 3])
+            """ % (xy[i, 0],
+                   xy[i, 1],
+                   xy[i, 2],
+                   xy[i, 3])
         else:
             html_table += """
             <tr>
@@ -160,16 +168,16 @@ def xy(results, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (results['xy'][i, 0],
-                   results['xy'][i, 1],
-                   results['xy'][i, 2],
-                   results['xy'][i, 3])
+            """ % (xy[i, 0],
+                   xy[i, 1],
+                   xy[i, 2],
+                   xy[i, 3])
     html_table += """
     </table>
     """
     return html_table
 
-def lms(results, include_head=False):
+def lms(results, options, include_head=False):
     """
     Generate html table of LMS functions for inclusion in GUI app and web app.
     
@@ -228,7 +236,7 @@ def lms(results, include_head=False):
     """
     return html_table
 
-def lms_base(results, include_head=False):
+def lms_base(results, options, include_head=False):
     """
     Generate html table of LMS base functions for inclusion in GUI app and web app.
     
@@ -287,7 +295,7 @@ def lms_base(results, include_head=False):
     """
     return html_table
 
-def bm(results, include_head=False):
+def bm(results, options, include_head=False):
     """
     Generate html table of MacLeod-Boynton diagram for inclusion in GUI app and web app.
     
@@ -348,7 +356,7 @@ def bm(results, include_head=False):
     """
     return html_table
 
-def lm(results, include_head=False):
+def lm(results, options, include_head=False):
     """
     Generate html table of normalised lm diagram for inclusion in GUI app and web app.
     
@@ -408,7 +416,7 @@ def lm(results, include_head=False):
     """
     return html_table
 
-def xyz31(results, include_head=False):
+def xyz31(results, options, include_head=False):
     """
     Generate html table of CIE 1931 XYZ values for inclusion in GUI app and web app.
     
@@ -451,7 +459,7 @@ def xyz31(results, include_head=False):
     """
     return html_table
 
-def xyz64(results, include_head=False):
+def xyz64(results, options, include_head=False):
     """
     Generate html table of CIE 1964 XYZ values for inclusion in GUI app and web app.
     
@@ -498,7 +506,7 @@ def xyz64(results, include_head=False):
     """
     return html_table
 
-def xy31(results, include_head=False):
+def xy31(results, options, include_head=False):
     """
     Generate html table of CIE 1931 chromaticity values for inclusion in GUI app and web app.
     
@@ -541,7 +549,7 @@ def xy31(results, include_head=False):
     """
     return html_table
 
-def xy64(results, include_head=False):
+def xy64(results, options, include_head=False):
     """
     Generate html table of CIE 1964 chromaticity values for inclusion in GUI app and web app.
     
