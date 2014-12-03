@@ -25,6 +25,7 @@ import numpy as np
 import scipy.optimize
 import scipy.interpolate
 from scipy.spatial import Delaunay
+from scipy.io.matlab.miobase import arr_dtype_number
 
 #==============================================================================
 # Tabulated and derived visual data
@@ -73,6 +74,31 @@ def significant_figures(x,n=0):
     b[x == 0] = 0
     b[x != 0] = np.ceil(np.log10(abs(x[x != 0])))
     return 10**b*my_round(x/10**b, n)
+
+def chop(arr, epsilon=1e-14):
+    """
+    Chop values smaller than epsilon in absolute value to zero.
+    
+    Parameters
+    ----------
+    arr : float or ndarray
+        Array or number to be chopped.
+    epsilon : float
+        Minimum number.
+    
+    Returns
+    -------
+    chopped : float or ndarray
+        Chopped numbers.
+    """
+    if (type(arr) == type(float())) or (type(arr) == type(int())):
+        chopped = arr
+        if np.abs(chopped) < epsilon:
+            chopped = 0
+        return chopped
+    chopped = arr.copy() # allocate
+    chopped[np.abs(chopped) < epsilon] = 0
+    return chopped
 
 # def resource_path(relative):
 #     """
@@ -499,6 +525,31 @@ def lms_energy(field_size, age, signfig=6):
             lms, lms_max = VisualData.lms10_lin_energ_n_signfig.copy(), 0 # dummy max value
     return significant_figures(lms, signfig), lms_max
 
+def v_lambda_l_cone_weight(field_size, age):
+    """
+    Compute weighting factor of l_bar(lambda) in V(lambda) synthesis on quantal scale. 
+
+    Parameters
+    ----------
+    field_size : float
+        Field size in degrees.
+    age : float
+        Age in years.
+        
+    Returns
+    -------
+    weight : float 
+        The computed weighting factor. 
+    """
+    field_size = 2. # For strategy 2 in github issue 121. Comment line for strategy 3
+    abt_fs = absorpt(field_size)
+    abt_2 = absorpt(2.)
+    lmsq_fs_age = lms_quantal(field_size, age)
+    lmsq_2_32 = lms_quantal(2, 32)
+    const_fs_age = abt_fs[0,1] * lmsq_fs_age[0,2] / (abt_fs[0,2] * lmsq_fs_age[0,1])
+    const_2_32 = abt_2[0,1] * lmsq_2_32[0,2] / (abt_2[0,2] * lmsq_2_32[0,1])
+    return 1.89 * const_fs_age / const_2_32
+
 def v_lambda_quantal(field_size, age):
     """
     Compute the V(lambda) function as a function of field size and age.
@@ -518,7 +569,7 @@ def v_lambda_quantal(field_size, age):
     lms = lms_quantal(field_size, age)
     v_lambda = np.zeros((np.shape(lms)[0], 2))
     v_lambda[:,0] = lms[:,0]
-    v_lambda[:,1] = 1.89*lms[:,1] + lms[:,2]
+    v_lambda[:,1] = v_lambda_l_cone_weight(field_size, age) * lms[:,1] + lms[:,2]
     v_lambda[:,1] = v_lambda[:,1]/v_lambda[:,1].max()
     return v_lambda
 
@@ -585,9 +636,10 @@ def v_lambda_energy_from_lms(field_size, age, v_lambda_signfig=7, mat_dp=8):
     lms, lms_max = lms_energy_base(field_size, age)
     v_lambda = np.zeros((np.shape(lms)[0], 2))
     v_lambda[:,0] = lms[:,0]
-    v_lambda[:,1] = 1.89*lms_max[0]*lms[:,1] + lms_max[1]*lms[:,2]
+    l_weight = v_lambda_l_cone_weight(field_size, age)
+    v_lambda[:,1] = l_weight * lms_max[0]*lms[:,1] + lms_max[1]*lms[:,2]
     m = v_lambda[:,1].max()
-    a21 = my_round(1.89*lms_max[0]/m, mat_dp)
+    a21 = my_round(l_weight * lms_max[0] / m, mat_dp)
     a22 = my_round(lms_max[1]/m, mat_dp)
     v_lambda[:,1] = significant_figures(a21*lms[:,1] + a22*lms[:,2], v_lambda_signfig)
     return v_lambda, np.array([a21, a22])
@@ -977,27 +1029,27 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['lm_white'] = lm_white
     
     results = dict()
-    results['xyz'] = xyz_spec
-    results['xy'] = cc_spec
-    results['xy_white'] = cc_white
-    results['trans_mat'] = trans_mat
-    results['lms'] = lms_standard_spec
-    results['lms_base'] = lms_spec
-    results['bm'] = bm_spec
-    results['bm_white'] = bm_white
-    results['lm'] = lm_spec
-    results['lm_white'] = lm_white
+    results['xyz'] = chop(xyz_spec)
+    results['xy'] = chop(cc_spec)
+    results['xy_white'] = chop(cc_white)
+    results['trans_mat'] = chop(trans_mat)
+    results['lms'] = chop(lms_standard_spec)
+    results['lms_base'] = chop(lms_spec)
+    results['bm'] = chop(bm_spec)
+    results['bm_white'] = chop(bm_white)
+    results['lm'] = chop(lm_spec)
+    results['lm_white'] = chop(lm_white)
     results['lambda_ref_min'] = lambda_x_min_ref
-    results['purple_line_cc'] = purple_line_cc
-    results['purple_line_cc31'] = plots['purple_line_cc31']
-    results['purple_line_cc64'] = plots['purple_line_cc64']
-    results['purple_line_lm'] = purple_line_lm
-    results['purple_line_bm'] = purple_line_bm
-    results['age'] = age
-    results['xyz31'] = VisualData.xyz31.copy()
-    results['xyz64'] = VisualData.xyz64.copy()
-    results['xy31'] = my_round(VisualData.cc31, 5)
-    results['xy64'] = my_round(VisualData.cc64, 5)
+    results['purple_line_cc'] = chop(purple_line_cc)
+    results['purple_line_cc31'] = chop(plots['purple_line_cc31'])
+    results['purple_line_cc64'] = chop(plots['purple_line_cc64'])
+    results['purple_line_lm'] = chop(purple_line_lm)
+    results['purple_line_bm'] = chop(purple_line_bm)
+    results['age'] = chop(age)
+    results['xyz31'] = chop(VisualData.xyz31.copy())
+    results['xyz64'] = chop(VisualData.xyz64.copy())
+    results['xy31'] = chop(my_round(VisualData.cc31, 5))
+    results['xy64'] = chop(my_round(VisualData.cc64, 5))
     if np.round(field_size, 5) == np.round(field_size):
         results['field_size'] = "%.0f" % field_size
     else:
@@ -1026,10 +1078,5 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
-    plt.plot(VisualData.docul2[:,0], VisualData.docul2[:,1], 'o')
-    plt.plot(VisualData.docul2_fine[:,0], VisualData.docul2_fine[:,1])
-#     plt.clf()
-#     plt.loglog(VisualData.docul2[:,0], VisualData.docul2[:,1])
-#     plt.loglog(extrapoints[:,0], extrapoints[:,1])
-    plt.show()
+    print(chop(5))
+    print(chop(5.))
