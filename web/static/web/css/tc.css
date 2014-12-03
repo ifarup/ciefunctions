@@ -74,7 +74,7 @@ button#getCsv { margin: 5px auto auto auto; }
 }
 
 
-div.htmlWrapper {	/*position: relative;*/
+div.htmlWrapper {	/*position: relative; */
 					padding-left: 10;
 					height: 540px;
 					max-height: 565px;
