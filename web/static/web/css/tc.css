@@ -74,9 +74,9 @@ button#getCsv { margin: 5px auto auto auto; }
 }
 
 
-div.htmlWrapper {	position: relative;
+div.htmlWrapper {	/*position: relative; */
 					padding-left: 10;
-					height: 528px;
+					height: 540px;
 					max-height: 565px;
 					width: auto;
 					overflow-y: auto;
@@ -153,14 +153,17 @@ div#theFig{
 .plot {			
 		position: relative;
 		display: none; 
-		background-color: aliceBlue;
+		/* background-color: aliceBlue; Testing only */
+}
+
+.plot>div>div  {
+			position: static;
 }
 
 svg {
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			width: 100%;
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
 }
 
 div.label { 
