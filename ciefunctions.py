@@ -90,7 +90,7 @@ class AppForm(qt.QMainWindow):
                  'label_fontsize' : 7,
                  'full_title' : True,
                  'axis_labels' : True,
-                 'norm' : False }
+                 'norm' : self.norm_check.isChecked() }
     
     def on_about(self):
         msg = """
@@ -144,6 +144,17 @@ You should have received a copy of the GNU General Public License along with thi
             self.lambda_min_max_dash.hide()
             self.lambda_min_spin.hide()
             self.lambda_max_spin.hide()
+        
+        if self.plot_combo.currentIndex() in [self.COMBO_XY, self.COMBO_XYZ]:
+#            self.norm_label.setText('Renormalised values')
+#            self.norm_check.setVisible(True)
+            self.norm_label.setEnabled(True)            
+            self.norm_check.setEnabled(True)            
+        else:
+#            self.norm_label.setText('                                        ')
+#            self.norm_check.setVisible(False)
+            self.norm_label.setEnabled(False)            
+            self.norm_check.setEnabled(False)            
 
         #
         # XYZ plot and table
@@ -445,7 +456,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.age_spin = qt.QSpinBox()
         self.age_spin.setMinimum(20)
         self.age_spin.setMaximum(70)
-        self.age_spin.setValue(32)     
+        self.age_spin.setValue(32)
 
         self.field_spin = qt.QDoubleSpinBox()
         self.field_spin.textFromValue = lambda x : "%.1f" % x
@@ -522,6 +533,10 @@ You should have received a copy of the GNU General Public License along with thi
         self.connect(self.cie64_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
         
+        self.norm_check = qt.QCheckBox()
+        self.connect(self.norm_check,
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+        
         self.save_table_button = qt.QPushButton('&Save table')
         self.connect(self.save_table_button, qtcore.SIGNAL('clicked(bool)'), self.save_table)
 
@@ -536,6 +551,7 @@ You should have received a copy of the GNU General Public License along with thi
         # 
         self.compare_label_31 = qt.QLabel(u'Compare with CIE 1931 2\N{DEGREE SIGN}') 
         self.compare_label_64 = qt.QLabel(u'Compare with CIE 1964 10\N{DEGREE SIGN}')
+        self.norm_label = qt.QLabel('Renormalised values')
         self.wavelength_label = qt.QLabel('Labels')
         self.age_label = qt.QLabel('Age (yr)')
         self.resolution_label = qt.QLabel('Step (nm)')
@@ -588,22 +604,24 @@ You should have received a copy of the GNU General Public License along with thi
         spectral_tabs.addTab(inner_widget, 'Plot')
         spectral_tabs.addTab(table_widget, 'Table')
 
-        spectral_vbox = qt.QVBoxLayout()
-        spectral_vbox.addWidget(spectral_tabs)
-        spectral_vbox.addWidget(self.plot_combo)
-
-        spectral_hbox = qt.QHBoxLayout()
+        combo_widget = qt.QWidget()
+        combo_grid = qt.QGridLayout(combo_widget)
+        combo_grid.addWidget(self.plot_combo, 0, 0)
+        combo_grid.addWidget(qt.QLabel('   '), 0, 1, qtcore.Qt.AlignRight)
+        combo_grid.addWidget(self.norm_label, 0, 2, qtcore.Qt.AlignRight)
+        combo_grid.addWidget(self.norm_check, 0, 3, qtcore.Qt.AlignLeft)
+        combo_grid.setColumnStretch(0, 1)
+        
         spectral_innerwidget = qt.QWidget()
-        spectral_innerwidget.setLayout(spectral_vbox)
+        spectral_vbox = qt.QVBoxLayout(spectral_innerwidget)
+        spectral_vbox.addWidget(spectral_tabs)
+        spectral_vbox.addWidget(combo_widget)
+
         spectral_splitter = qt.QSplitter()
         spectral_splitter.addWidget(spectral_innerwidget)
         spectral_splitter.addWidget(self.transformation)
-#         main_tabs = qt.QTabWidget()
-#         main_tabs.addTab(spectral_splitter, 'Spectral')
-#         main_tabs.addTab(qt.QTabWidget(), 'Purples')
 
         vbox = qt.QVBoxLayout()
-#         vbox.addWidget(main_tabs)
         vbox.addWidget(spectral_splitter)
         vbox.addLayout(grid)
         self.main_frame.setLayout(vbox)
