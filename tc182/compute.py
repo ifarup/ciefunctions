@@ -25,6 +25,7 @@ import numpy as np
 import scipy.optimize
 import scipy.interpolate
 from scipy.spatial import Delaunay
+from scipy.io.matlab.miobase import arr_dtype_number
 
 #==============================================================================
 # Tabulated and derived visual data
@@ -73,6 +74,31 @@ def significant_figures(x,n=0):
     b[x == 0] = 0
     b[x != 0] = np.ceil(np.log10(abs(x[x != 0])))
     return 10**b*my_round(x/10**b, n)
+
+def chop(arr, epsilon=1e-14):
+    """
+    Chop values smaller than epsilon in absolute value to zero.
+    
+    Parameters
+    ----------
+    arr : float or ndarray
+        Array or number to be chopped.
+    epsilon : float
+        Minimum number.
+    
+    Returns
+    -------
+    chopped : float or ndarray
+        Chopped numbers.
+    """
+    if (type(arr) == type(float())) or (type(arr) == type(int())):
+        chopped = arr
+        if np.abs(chopped) < epsilon:
+            chopped = 0
+        return chopped
+    chopped = arr.copy() # allocate
+    chopped[np.abs(chopped) < epsilon] = 0
+    return chopped
 
 # def resource_path(relative):
 #     """
@@ -1003,27 +1029,27 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['lm_white'] = lm_white
     
     results = dict()
-    results['xyz'] = xyz_spec
-    results['xy'] = cc_spec
-    results['xy_white'] = cc_white
-    results['trans_mat'] = trans_mat
-    results['lms'] = lms_standard_spec
-    results['lms_base'] = lms_spec
-    results['bm'] = bm_spec
-    results['bm_white'] = bm_white
-    results['lm'] = lm_spec
-    results['lm_white'] = lm_white
+    results['xyz'] = chop(xyz_spec)
+    results['xy'] = chop(cc_spec)
+    results['xy_white'] = chop(cc_white)
+    results['trans_mat'] = chop(trans_mat)
+    results['lms'] = chop(lms_standard_spec)
+    results['lms_base'] = chop(lms_spec)
+    results['bm'] = chop(bm_spec)
+    results['bm_white'] = chop(bm_white)
+    results['lm'] = chop(lm_spec)
+    results['lm_white'] = chop(lm_white)
     results['lambda_ref_min'] = lambda_x_min_ref
-    results['purple_line_cc'] = purple_line_cc
-    results['purple_line_cc31'] = plots['purple_line_cc31']
-    results['purple_line_cc64'] = plots['purple_line_cc64']
-    results['purple_line_lm'] = purple_line_lm
-    results['purple_line_bm'] = purple_line_bm
-    results['age'] = age
-    results['xyz31'] = VisualData.xyz31.copy()
-    results['xyz64'] = VisualData.xyz64.copy()
-    results['xy31'] = my_round(VisualData.cc31, 5)
-    results['xy64'] = my_round(VisualData.cc64, 5)
+    results['purple_line_cc'] = chop(purple_line_cc)
+    results['purple_line_cc31'] = chop(plots['purple_line_cc31'])
+    results['purple_line_cc64'] = chop(plots['purple_line_cc64'])
+    results['purple_line_lm'] = chop(purple_line_lm)
+    results['purple_line_bm'] = chop(purple_line_bm)
+    results['age'] = chop(age)
+    results['xyz31'] = chop(VisualData.xyz31.copy())
+    results['xyz64'] = chop(VisualData.xyz64.copy())
+    results['xy31'] = chop(my_round(VisualData.cc31, 5))
+    results['xy64'] = chop(my_round(VisualData.cc64, 5))
     if np.round(field_size, 5) == np.round(field_size):
         results['field_size'] = "%.0f" % field_size
     else:
@@ -1052,7 +1078,5 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    print(" 2, 32: " + str(v_lambda_l_cone_weight(2, 32)))
-    print("10, 32: " + str(v_lambda_l_cone_weight(10, 32)))
-    print(" 2, 60: " + str(v_lambda_l_cone_weight(2, 60)))
-    print("10, 60: " + str(v_lambda_l_cone_weight(10, 60)))
+    print(chop(5))
+    print(chop(5.))

@@ -65,7 +65,6 @@ def xyz(results, include_head=False):
     html_table : string
         HTML representation of the XYZ table
     """
-    results['xyz'][results['xyz'][:,0] > 615, 3] = 0
     html_table = ""
     if include_head:
         html_table += _head()
@@ -184,7 +183,6 @@ def lms(results, include_head=False):
     html_table : string
         HTML representation of the LMS table
     """
-    results['lms'][results['lms'][:,0] > 615, 3] = 0
     html_table = ""
     if include_head:
         html_table += _head()
@@ -244,7 +242,6 @@ def lms_base(results, include_head=False):
     html_table : string
         HTML representation of the LMS base table
     """
-    results['lms_base'][results['lms_base'][:,0] > 615, 3] = 0
     html_table = ""
     if include_head:
         html_table += _head()
