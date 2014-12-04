@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 def _head():
     return """
     <head>
-    <link type="text/css" rel="stylesheet" href="web/static/web/css/description.css" />
+    <link type="text/css" rel="stylesheet" href="description.css" />
     <script type="text/javascript" src="web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
