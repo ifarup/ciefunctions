@@ -251,9 +251,9 @@ def _lms_to_xyz(data, options):
         <b class="description-subtitle">Transformation equation</b><br />
         $$
         \\begin{pmatrix}
-        \\bar x_{F, %s, %d} \\\\
-        \\bar y_{F, %s, %d} \\\\
-        \\bar z_{F, %s, %d}
+        \\bar x_{\mathrm{F}, %s, %d}(\\lambda) \\\\
+        \\bar y_{\mathrm{F}, %s, %d}(\\lambda) \\\\
+        \\bar z_{\mathrm{F}, %s, %d}(\\lambda)
         \\end{pmatrix}
         = \\begin{pmatrix}
     """ % (data['field_size'], data['age'],
@@ -272,9 +272,9 @@ def _lms_to_xyz(data, options):
     html_string += """
         \\end{pmatrix}
         \\begin{pmatrix}
-        \\bar l_{%s, %d} \\\\
-        \\bar m_{%s, %d} \\\\
-        \\bar s_{%s, %d}
+        \\bar l_{%s, %d}(\\lambda) \\\\
+        \\bar m_{%s, %d}(\\lambda) \\\\
+        \\bar s_{%s, %d}(\\lambda)
         \\end{pmatrix}
         $$
     """% (data['field_size'], data['age'],
@@ -293,75 +293,74 @@ def _lms_to_xyz(data, options):
            data['field_size'], data['age'])
     return html_string
 
-def _lms_to_bm(data):
+def _lms_to_bm(data, options):
+    if options['norm']:
+        trans_mat = data['trans_mat_N']
+    else:
+        trans_mat = data['trans_mat']
     return """
     <p>
     <b class="description-subtitle">Transformation equations</b><br />
-    TODO
+    $$
+    \\begin{aligned}
+    l_{\mathrm{MB},%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar l_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda)} \\\\
+    m_{\mathrm{MB},%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar m_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda)} \\\\
+    s_{\mathrm{MB},%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar s_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda)} \\\\
+    \\end{aligned}
+    $$
     </p>
-    """
+    """ % (data['field_size'], data['age'],
+           trans_mat[1,0], data['field_size'], data['age'],
+           trans_mat[1,0], data['field_size'], data['age'],
+           trans_mat[1,1], data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           trans_mat[1,1], data['field_size'], data['age'],
+           trans_mat[1,0], data['field_size'], data['age'],
+           trans_mat[1,1], data['field_size'], data['age'],
+           data['field_size'], data['age'], 
+           1./data['bm_s_max'], data['field_size'], data['age'],
+           trans_mat[1,0], data['field_size'], data['age'],
+           trans_mat[1,1], data['field_size'], data['age'])
 
 def _lms_to_lm(data):
     return """
     <p>
     <b class="description-subtitle">Transformation equations</b><br />
-    TODO
+    $$
+    \\begin{aligned}
+    l_{%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar l_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda) + %.8f\\, \\bar s_{%s,%d}(\\lambda)} \\\\
+    m_{%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar m_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda) + %.8f\\, \\bar s_{%s,%d}(\\lambda)} \\\\
+    s_{%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar s_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda) + %.8f\\, \\bar s_{%s,%d}(\\lambda)} \\\\
+    \\end{aligned}
+    $$
     </p>
-    """
+    """ % (data['field_size'], data['age'],
+           data['lms_N_inv'][0], data['field_size'], data['age'],
+           data['lms_N_inv'][0], data['field_size'], data['age'],
+           data['lms_N_inv'][1], data['field_size'], data['age'],
+           data['lms_N_inv'][2], data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['lms_N_inv'][1], data['field_size'], data['age'],
+           data['lms_N_inv'][0], data['field_size'], data['age'],
+           data['lms_N_inv'][1], data['field_size'], data['age'],
+           data['lms_N_inv'][2], data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['lms_N_inv'][2], data['field_size'], data['age'],
+           data['lms_N_inv'][0], data['field_size'], data['age'],
+           data['lms_N_inv'][1], data['field_size'], data['age'],
+           data['lms_N_inv'][2], data['field_size'], data['age'])
 
 def _xyz_to_xy(data):
     return """
     <b class="description-subtitle">Transformation equations</b><br />
-    <table>
-        <tr>
-            <td>
-                <em>x</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <em>y</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <em>z</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-    </table>
+    $$
+    \\begin{aligned}
+    x_{\mathrm{F},%s,%d}(\\lambda)\\; &= \\frac{\\bar x_{\mathrm{F},%s,%d}(\\lambda)}{\\bar x_{\mathrm{F},%s,%d}(\\lambda) + \\bar y_{\mathrm{F},%s,%d}(\\lambda) + \\bar z_{\mathrm{F},%s,%d}(\\lambda)} \\\\
+    y_{\mathrm{F},%s,%d}(\\lambda)\\; &= \\frac{\\bar y_{\mathrm{F},%s,%d}(\\lambda)}{\\bar x_{\mathrm{F},%s,%d}(\\lambda) + \\bar y_{\mathrm{F},%s,%d}(\\lambda) + \\bar z_{\mathrm{F},%s,%d}(\\lambda)} \\\\
+    z_{\mathrm{F},%s,%d}(\\lambda)\\; &= \\frac{\\bar z_{\mathrm{F},%s,%d}(\\lambda)}{\\bar x_{\mathrm{F},%s,%d}(\\lambda) + \\bar y_{\mathrm{F},%s,%d}(\\lambda) + \\bar z_{\mathrm{F},%s,%d}(\\lambda)} \\\\
+    \\end{aligned}
+    $$
+    </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -381,111 +380,27 @@ def _xyz_to_xy(data):
 def _xyz_to_xy_31():
     return """
     <b class="description-subtitle">Transformation equations</b><br />
-    <table>
-        <tr>
-            <td>
-                <em>x</em>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>x</em></font>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <em>y</em>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>y</em></font>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <em>z</em>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>z</em></font>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-    </table>
+    $$
+    \\begin{aligned}
+    x(\\lambda)\\; &= \\frac{\\bar x(\\lambda)}{\\bar x(\\lambda) + \\bar y(\\lambda) + \\bar z(\\lambda)} \\\\
+    y(\\lambda)\\; &= \\frac{\\bar y(\\lambda)}{\\bar x(\\lambda) + \\bar y(\\lambda) + \\bar z(\\lambda)} \\\\
+    z(\\lambda)\\; &= \\frac{\\bar z(\\lambda)}{\\bar x(\\lambda) + \\bar y(\\lambda) + \\bar z(\\lambda)} \\\\
+    \\end{aligned}
+    $$
+    </p>
     """
 
 def _xyz_to_xy_64():
     return """
     <b class="description-subtitle">Transformation equations</b><br />
-    <table>
-        <tr>
-            <td>
-                <em>x</em><sub>10</sub>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <em>y</em><sub>10</sub>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <em>z</em><sub>10</sub>(&lambda;)
-            </td>
-            <td>
-                =
-            </td>
-            <td>
-            <font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>(&lambda;)
-            / (&nbsp;<font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>(&lambda;)
-            +
-            <font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>(&lambda;)&nbsp;)
-            </td>
-        </tr>
-    </table>
+    $$
+    \\begin{aligned}
+    x_{10}(\\lambda)\\; &= \\frac{\\bar x_{10}(\\lambda)}{\\bar x_{10}(\\lambda) + \\bar y_{10}(\\lambda) + \\bar z_{10}(\\lambda)} \\\\
+    y_{10}(\\lambda)\\; &= \\frac{\\bar y_{10}(\\lambda)}{\\bar x_{10}(\\lambda) + \\bar y_{10}(\\lambda) + \\bar z_{10}(\\lambda)} \\\\
+    z_{10}(\\lambda)\\; &= \\frac{\\bar z_{10}(\\lambda)}{\\bar x_{10}(\\lambda) + \\bar y_{10}(\\lambda) + \\bar z_{10}(\\lambda)} \\\\
+    \\end{aligned}
+    $$
+    </p>
     """
 
 def _illuminant_E_cc(data, options):
@@ -795,7 +710,7 @@ def bm(data, heading, options, include_head=False):
                                '<em>m</em><sub> MB, %s, %d</sub>' % (data['field_size'], data['age']),
                                '<em>s</em><sub> MB, %s, %d</sub>' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
-                    _lms_to_bm(data) +
+                    _lms_to_bm(data, options) +
                     _precision_bm() +
                     _illuminant_E_bm(data) +
                     _purple_bm(data))
