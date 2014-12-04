@@ -1,0 +1,52 @@
+div#theFig{ 
+			position: relative;
+			text-align: center;
+			border: 1px solid #d5d5d5;
+			min-height: 510px;
+			height: 519px;
+			border-top: none;
+}
+
+.plot {			
+		position: relative;
+		display: none; 
+		/* background-color: aliceBlue; Testing only */
+}
+
+.plot>div>div  {
+			position: static;
+}
+
+svg {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+}
+
+div.label { 
+			font-size: 0.9em;
+			height: 30px;
+		}
+
+div.label sub { font-size: 0.8em;
+		}
+	
+div.x_label { 	/*position: absolute;*/
+				/*bottom: 10;
+				z-index: 1;*/
+				text-align: center;
+				background-color: coral;
+				/*left: 80px;
+				width: 500px;*/
+}
+
+div.y_label {	position:absolute;
+				top:220; left: -180;
+				width: 400px;
+				margin: 0;
+				background-color: coral;
+				writing-mode:tb-rl;
+    			-webkit-transform:rotate(-90deg);
+    			-moz-transform:rotate(-90deg);
+    			-o-transform: rotate(-90deg);
+}

@@ -1,0 +1,151 @@
+/* Tab panel */
+
+#tabSys a {
+		outline: none;
+}
+
+/* font */
+
+@font-face { 	font-family: math;
+				src: url("../fonts/cmunci.ttf");
+			}
+
+/* App */
+
+div#std-params { 	margin-left: 10px;
+}
+
+div.velo {  position: absolute;
+			top: 0; left:0;
+			z-index: 50;
+			width: 100%;
+			height: 100%;
+			background-color: white;
+			opacity: 0.8;
+			background-image: url('../img/spinner-blue.gif');
+			background-repeat:no-repeat;
+			background-position:center center;
+			background-size: 50px;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 100%;
+			color: #1451a4;
+			font-size: 2em; 
+}
+
+a.tab-text { font-size: 0.8em; }
+
+div#header img {	height: 55px;
+					margin: 0px 0px 10px 10px;
+ }
+
+
+select#plot-select, select#modus-select { width: 100%; }
+
+div.htmlWrapper {	/*position: relative; */
+					padding-left: 10;
+					height: 540px;
+					max-height: 565px;
+					width: auto;
+					overflow-y: auto;
+				}
+
+div#input-params, div#figOptions {  font-size: 0.9em;
+    								margin: 5px auto 0px auto;
+    								margin-left: auto; 
+    								margin-right: auto;
+
+     								text-align: center;
+    								-ms-text-justify: distribute-all-lines;
+    								text-justify: distribute-all-lines;
+}
+div.input-field, div#figOptions div { 	vertical-align: top;
+    									display: inline-block;
+    									*display: inline;
+    									zoom: 1;
+    									margin-right: 10px;
+    									margin-left: 10px;
+}
+
+
+
+/* Review this */
+
+#tc-Tabs a { outline: none; }
+
+.disabled { color: #aaa; }
+				
+.float-bottom { height: 0px;
+				clear:both;
+				}
+
+#appWrapper {	width: 98%;
+				margin: auto;
+				padding-left: 15px;
+ }
+ 
+#leftSpalte	{ 	width: 650px;
+				height: auto;
+				float: left;
+ }
+#rightSpalte { 
+				width: auto;
+				max-width: 650px;
+				overflow-y: auto;
+				float: left;
+}
+
+#bottomSpalte { width: 600px;
+				clear:both;
+				padding-top: 10px;
+}
+
+.stretch {
+    				width: 100%;
+    				display: inline-block;
+    				font-size: 0;
+    				line-height: 0
+}
+
+/* From jquery-ui theme */
+
+body{
+		font: 80% "Trebuchet MS", sans-serif;
+		margin: 0px;
+	}
+	.demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	.fakewindowcontain .ui-widget-overlay {
+		position: absolute;
+	}
+
+

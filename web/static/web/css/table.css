@@ -1,0 +1,39 @@
+.table { display: none; }
+
+div#getCsv-container { text-align: right; }
+button#getCsv { margin: 5px auto auto auto; }
+
+div.table table { 			
+							width: 100%;
+}
+
+div.table table th {
+						text-align: center;
+						padding: 5px;
+						background-color: #388fc2;
+						color: white;
+}
+
+div.table table tr:nth-child(even){ background-color: lightSteelBlue; } 	
+		
+div.table table td { 		padding: 0px 10px 0px 10px;
+							text-align: center;
+							font-family: "Lucida Console", Monaco, monospace;
+							font-size: 0.9em;
+}
+
+div.table table tr:hover{ 	text-shadow: 1px 1px 1px #aaa;
+							background-color: coral;
+							cursor: pointer;
+ 						}
+div.table th:first-of-type { 	width: 100px;
+}
+
+
+
+.tableWrapper { box-sizing: border-box;
+				height: 519px; /* Size of figure is fixed, so I adjust this to the figure */
+				overflow-y: scroll;
+				border: 1px solid #d5d5d5;
+				border-top: none;
+}
