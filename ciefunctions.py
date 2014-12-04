@@ -146,15 +146,11 @@ You should have received a copy of the GNU General Public License along with thi
             self.lambda_max_spin.hide()
         
         if self.plot_combo.currentIndex() in [self.COMBO_XY, self.COMBO_XYZ]:
-#            self.norm_label.setText('Renormalised values')
-#            self.norm_check.setVisible(True)
-            self.norm_label.setEnabled(True)            
-            self.norm_check.setEnabled(True)            
+            self.norm_label.setVisible(True)            
+            self.norm_check.setVisible(True)            
         else:
-#            self.norm_label.setText('                                        ')
-#            self.norm_check.setVisible(False)
-            self.norm_label.setEnabled(False)            
-            self.norm_check.setEnabled(False)            
+            self.norm_label.setVisible(False)            
+            self.norm_check.setVisible(False)            
 
         #
         # XYZ plot and table
@@ -551,7 +547,7 @@ You should have received a copy of the GNU General Public License along with thi
         # 
         self.compare_label_31 = qt.QLabel(u'Compare with CIE 1931 2\N{DEGREE SIGN}') 
         self.compare_label_64 = qt.QLabel(u'Compare with CIE 1964 10\N{DEGREE SIGN}')
-        self.norm_label = qt.QLabel('Renormalised values')
+        self.norm_label = qt.QLabel('Renormalised values ')
         self.wavelength_label = qt.QLabel('Labels')
         self.age_label = qt.QLabel('Age (yr)')
         self.resolution_label = qt.QLabel('Step (nm)')
@@ -607,10 +603,13 @@ You should have received a copy of the GNU General Public License along with thi
         combo_widget = qt.QWidget()
         combo_grid = qt.QGridLayout(combo_widget)
         combo_grid.addWidget(self.plot_combo, 0, 0)
-        combo_grid.addWidget(qt.QLabel('   '), 0, 1, qtcore.Qt.AlignRight)
+        combo_grid.addWidget(qt.QLabel('   '), 0, 1)
         combo_grid.addWidget(self.norm_label, 0, 2, qtcore.Qt.AlignRight)
-        combo_grid.addWidget(self.norm_check, 0, 3, qtcore.Qt.AlignLeft)
+        combo_grid.addWidget(self.norm_check, 0, 3)
+        combo_grid.setColumnMinimumWidth(2, 150)
+        combo_grid.setColumnMinimumWidth(3, 20)
         combo_grid.setColumnStretch(0, 1)
+        combo_grid.setSpacing(0)
         
         spectral_innerwidget = qt.QWidget()
         spectral_vbox = qt.QVBoxLayout(spectral_innerwidget)
