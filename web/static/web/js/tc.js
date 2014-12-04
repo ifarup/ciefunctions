@@ -228,7 +228,8 @@ var plot_options = {
 					 'grid' 		: 0,
 					 'cie31'		: 0,
 					 'cie64'		: 0,
-					 'labels'		: 0
+					 'labels'		: 0,
+					 'norm'			: 0,
 		}
 
 //Init
@@ -288,7 +289,8 @@ function refreshPlot(plot){
 						plot_options.grid + "/" + 
 						plot_options.cie31 + "/" + 
 						plot_options.cie64 + "/" + 
-						plot_options.labels + "/" )
+						plot_options.labels + "/" +
+						plot_options.norm + "/")
 							.done(function( data ) {
 								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
@@ -401,7 +403,8 @@ function showStandard( standard_plot ){
 						plot_options.grid + "/" + 
 						plot_options.cie31 + "/" + 
 						plot_options.cie64 + "/" + 
-						plot_options.labels + "/" )
+						plot_options.labels + "/" +
+						plot_options.norm + "/")
 							.done(function( data ) {
 								all_plots[standard_plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + standard_plot + "_plot" ).empty();
@@ -608,6 +611,7 @@ function showStandard( standard_plot ){
 					refreshAllOthers(currentPlot);
 					
 				});
+				// @TODO: Need an option for norm here
 		refreshAllObjects();
 	});
 		

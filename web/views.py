@@ -186,34 +186,34 @@ def get_description(request, plot):
 	print options
 
 	if (plot == 'xyz'):
-		return HttpResponse(mark_safe(tc182.description.xyz(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.xyz(results, '', options, '')))
 
 	elif (plot == 'xy'):
-		return HttpResponse(mark_safe(tc182.description.xy(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.xy(results, '', options, '')))
 	
 	elif (plot == 'lms'):
-		return HttpResponse(mark_safe(tc182.description.lms(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.lms(results, '', options, '')))
 	
 	elif (plot == 'lms_base'):
-		return HttpResponse(mark_safe(tc182.description.lms_base(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.lms_base(results, '', options, '')))
 	
 	elif (plot == 'bm'):
-		return HttpResponse(mark_safe(tc182.description.bm(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.bm(results, '', options, '')))
 	
 	elif (plot == 'lm'):
-		return HttpResponse(mark_safe(tc182.description.lm(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.lm(results, '', options, '')))
 	
 	elif (plot == 'xyz31'):
-		return HttpResponse(mark_safe(tc182.description.xyz31(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.xyz31(results, '', options, '')))
 	
 	elif (plot == 'xyz64'):
-		return HttpResponse(mark_safe(tc182.description.xyz64(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.xyz64(results, '', options, '')))
 		
 	elif (plot == 'xy31'):
-		return HttpResponse(mark_safe(tc182.description.xy31(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.xy31(results, '', options, '')))
 
 	elif (plot == 'xy64'):
-		return HttpResponse(mark_safe(tc182.description.xy64(results, options, '')))
+		return HttpResponse(mark_safe(tc182.description.xy64(results, '', options, '')))
 		
 	else:
 		return HttpResponse('No description for plot %s' % plot)
