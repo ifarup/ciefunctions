@@ -24,7 +24,7 @@ import numpy as np
 def _head():
     return """
     <head>
-    <link type="text/css" rel="stylesheet" href="table.css" />
+    <link type="text/css" rel="stylesheet" href="web/static/web/css/table.css" />
     </head>
     """
 

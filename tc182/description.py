@@ -22,8 +22,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 def _head():
     return """
     <head>
-    <link type="text/css" rel="stylesheet" href="description.css" />
-    <script type="text/javascript" src="MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <link type="text/css" rel="stylesheet" href="web/static/web/css/description.css" />
+    <script type="text/javascript" src="web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            displayAlign: "left",
+            showProcessingMessages: false,
+            messageStyle: "none"
+        });
+    </script>
     </head>
     """
 
@@ -241,76 +248,46 @@ def _lms_to_xyz(data, options):
     else:
         trans_mat = data['trans_mat']
     html_string = """
-    <b class="description-subtitle">Transformation equation</b><br />
-    <table>
-    <tr>
-    <td>
-    <table class="matrix">
-        <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>x</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
-        </tr>
-        <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>y</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
-        </tr>
-        <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>z</em></font><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
-        </tr>
-    </table>
-    </td>
-    <td>
-    &nbsp;&nbsp;=&nbsp;&nbsp;
-    </td>
-    <td>
-    <table class="matrix">
+        <b class="description-subtitle">Transformation equation</b><br />
+        $$
+        \\begin{pmatrix}
+        \\bar x_{F, %s, %d} \\\\
+        \\bar y_{F, %s, %d} \\\\
+        \\bar z_{F, %s, %d}
+        \\end{pmatrix}
+        = \\begin{pmatrix}
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['field_size'], data['age'])
     for i in range(3):
-        html_string = html_string + '<tr>\n'
         for j in range(3):
             if trans_mat[i][j] == 0:
                 html_string = html_string + """
-                <td align="center">
                 0
-                </td>
                 """
             else:
-                html_string = html_string + '<td align="right">\n'
                 html_string = html_string + '%0.8f\n' % trans_mat[i][j]
-                html_string = html_string + '</td>\n'
-        html_string = html_string + '</tr>\n'
-    html_string = html_string + """
-    </table>
-    </td>
-    <td>
-    &nbsp;&nbsp;&nbsp;
-    </td>
-    <td>
-    <table class="matrix">
-        <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
-        </tr>
-        <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
-        </tr>
-        <tr>
-            <td align="center"><font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)</td>
-        </tr>
-    </table>
-    </td>
-    </tr>
-    </table>
-    """ % (data['field_size'], data['age'],
-           data['field_size'], data['age'],
-           data['field_size'], data['age'])
+            html_string += '&'
+        html_string = html_string + '\\\\'
     html_string += """
-    <p>
-    with the cone fundamentals&nbsp;&nbsp;<font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;),
-    &nbsp;<font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-    &nbsp;and&nbsp;
-    <font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-    &nbsp;given to the precision of 9 significant figures
-    </p>
+        \\end{pmatrix}
+        \\begin{pmatrix}
+        \\bar l_{%s, %d} \\\\
+        \\bar m_{%s, %d} \\\\
+        \\bar s_{%s, %d}
+        \\end{pmatrix}
+        $$
+    """% (data['field_size'], data['age'],
+          data['field_size'], data['age'],
+          data['field_size'], data['age'])
+    html_string += """
+        <p>
+        with the cone fundamentals&nbsp;&nbsp;<font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;),
+        &nbsp;<font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
+        &nbsp;and&nbsp;
+        <font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
+        &nbsp;given to the precision of 9 significant figures
+        </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['field_size'], data['age'])
@@ -664,13 +641,6 @@ def _purple_bm(data):
            data['field_size'], data['age'], data['purple_line_bm'][1,0],
            data['purple_line_bm'][1,1], data['purple_line_bm'][1,2])
 
-def _mathjax_test():
-    return """
-    $$
-    f(x) = \\int_1^x \\frac{1}{\\tau}\\,d\\tau
-    $$
-    """
-
 def xyz(data, heading, options, include_head=False):
     """
     Generate html page with information about the XYZ system.
@@ -764,8 +734,7 @@ def lms(data, heading, options, include_head=False):
                                '<font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _normalisation_lms() +
-                    _precision_lms() +
-                    _mathjax_test())
+                    _precision_lms())
     return html_string
 
 def lms_base(data, heading, options, include_head=False):
