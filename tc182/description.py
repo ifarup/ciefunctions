@@ -28,7 +28,9 @@ def _head():
         MathJax.Hub.Config({
             displayAlign: "left",
             showProcessingMessages: false,
-            messageStyle: "none"
+            messageStyle: "none",
+            inlineMath:[["\\(","\\)"]],
+            displayMath:[["$$","$$"]]
         });
     </script>
     </head>
@@ -91,7 +93,7 @@ def _functions(par1, par2, par3):
     return """
     <p>
     <b class="description-subtitle">Function symbols</b><br />
-    %s &nbsp;&nbsp; %s &nbsp;&nbsp; %s
+    %s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s
     </p>
     """ % (par1, par2, par3)
 
@@ -171,7 +173,7 @@ def _normalisation_xyz(data, options):
     else:
         html_string += '1'
     html_string += """ nm<br />
-    &ndash; Values of&nbsp;&nbsp;<font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub>&nbsp;&nbsp;peaking at unity at 0.1 nm resolution
+    &ndash; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\) &nbsp;peaking at unity at 0.1 nm resolution
     </p>
     """ % (data['field_size'], data['age'])
     return html_string
@@ -181,7 +183,7 @@ def _normalisation_31():
     <p>
     <b class="description-subtitle">Normalisation</b><br />
     &ndash; Equal tristimulus values for Illuminant E<br />
-    &ndash; Values of&nbsp;&nbsp;<font style="text-decoration: overline;"><em>y</em></font>&nbsp;&nbsp;peaking at unity at 1 nm resolution
+    &ndash; Values of &nbsp;\\(\\bar y\\)&nbsp;peaking at unity at 1 nm resolution
     </p>
     """
     
@@ -190,7 +192,7 @@ def _normalisation_64():
     <p>
     <b class="description-subtitle">Normalisation</b><br />
     &ndash; Equal tristimulus values for Illuminant E<br />
-    &ndash; Values of&nbsp;&nbsp;<font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>&nbsp;&nbsp;peaking at unity at 1 nm resolution
+    &ndash; Values of &nbsp;\\(\\bar y_{10}\\)&nbsp;peaking at unity at 1 nm resolution
     </p>
     """
     
@@ -251,9 +253,9 @@ def _lms_to_xyz(data, options):
         <b class="description-subtitle">Transformation equation</b><br />
         $$
         \\begin{pmatrix}
-        \\bar x_{\mathrm{F}, %s, %d}(\\lambda) \\\\
-        \\bar y_{\mathrm{F}, %s, %d}(\\lambda) \\\\
-        \\bar z_{\mathrm{F}, %s, %d}(\\lambda)
+        \\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda) \\\\
+        \\bar y_{\,\mathrm{F},\,%s,\,%d}(\\lambda) \\\\
+        \\bar z_{\,\mathrm{F},\,%s,\,%d}(\\lambda)
         \\end{pmatrix}
         = \\begin{pmatrix}
     """ % (data['field_size'], data['age'],
@@ -272,9 +274,9 @@ def _lms_to_xyz(data, options):
     html_string += """
         \\end{pmatrix}
         \\begin{pmatrix}
-        \\bar l_{%s, %d}(\\lambda) \\\\
-        \\bar m_{%s, %d}(\\lambda) \\\\
-        \\bar s_{%s, %d}(\\lambda)
+        \\bar l_{%s,\,%d}(\\lambda) \\\\
+        \\bar m_{\,%s,\,%d}(\\lambda) \\\\
+        \\bar s_{%s,\,%d}(\\lambda)
         \\end{pmatrix}
         $$
     """% (data['field_size'], data['age'],
@@ -282,10 +284,7 @@ def _lms_to_xyz(data, options):
           data['field_size'], data['age'])
     html_string += """
         <p>
-        with the cone fundamentals&nbsp;&nbsp;<font style="text-decoration: overline;"><em>l</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;),
-        &nbsp;<font style="text-decoration: overline;"><em>m</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
-        &nbsp;and&nbsp;
-        <font style="text-decoration: overline;"><em>s</em></font><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(&lambda;)
+        with the cone fundamentals \\( \,\\bar l_{%s,\,%d}(\\lambda),\; \\bar m_{\,%s,\,%d}(\\lambda),\; \\bar s_{%s,\,%d}(\\lambda)\\)
         &nbsp;given to the precision of 9 significant figures
         </p>
     """ % (data['field_size'], data['age'],
@@ -303,9 +302,9 @@ def _lms_to_bm(data, options):
     <b class="description-subtitle">Transformation equations</b><br />
     $$
     \\begin{aligned}
-    l_{\mathrm{MB},%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar l_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda)} \\\\
-    m_{\mathrm{MB},%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar m_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda)} \\\\
-    s_{\mathrm{MB},%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar s_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda)} \\\\
+    l_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar l_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
+    m_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
+    s_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar s_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
     \\end{aligned}
     $$
     </p>
@@ -328,9 +327,9 @@ def _lms_to_lm(data):
     <b class="description-subtitle">Transformation equations</b><br />
     $$
     \\begin{aligned}
-    l_{%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar l_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda) + %.8f\\, \\bar s_{%s,%d}(\\lambda)} \\\\
-    m_{%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar m_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda) + %.8f\\, \\bar s_{%s,%d}(\\lambda)} \\\\
-    s_{%s,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar s_{%s,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,%d}(\\lambda) + %.8f\\, \\bar m_{%s,%d}(\\lambda) + %.8f\\, \\bar s_{%s,%d}(\\lambda)} \\\\
+    l_{\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar l_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda) + %.8f\\, \\bar s_{%s,\,%d}(\\lambda)} \\\\
+    m_{\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda) + %.8f\\, \\bar s_{%s,\,%d}(\\lambda)} \\\\
+    s_{\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar s_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda) + %.8f\\, \\bar s_{%s,\,%d}(\\lambda)} \\\\
     \\end{aligned}
     $$
     </p>
@@ -355,9 +354,9 @@ def _xyz_to_xy(data):
     <b class="description-subtitle">Transformation equations</b><br />
     $$
     \\begin{aligned}
-    x_{\mathrm{F},%s,%d}(\\lambda)\\; &= \\frac{\\bar x_{\mathrm{F},%s,%d}(\\lambda)}{\\bar x_{\mathrm{F},%s,%d}(\\lambda) + \\bar y_{\mathrm{F},%s,%d}(\\lambda) + \\bar z_{\mathrm{F},%s,%d}(\\lambda)} \\\\
-    y_{\mathrm{F},%s,%d}(\\lambda)\\; &= \\frac{\\bar y_{\mathrm{F},%s,%d}(\\lambda)}{\\bar x_{\mathrm{F},%s,%d}(\\lambda) + \\bar y_{\mathrm{F},%s,%d}(\\lambda) + \\bar z_{\mathrm{F},%s,%d}(\\lambda)} \\\\
-    z_{\mathrm{F},%s,%d}(\\lambda)\\; &= \\frac{\\bar z_{\mathrm{F},%s,%d}(\\lambda)}{\\bar x_{\mathrm{F},%s,%d}(\\lambda) + \\bar y_{\mathrm{F},%s,%d}(\\lambda) + \\bar z_{\mathrm{F},%s,%d}(\\lambda)} \\\\
+    x_{\,\mathrm{F},\,%s,\,%d}(\\lambda)\\; &= \\frac{\\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda)}{\\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda) + \\bar y_{\,\mathrm{F},\,%s,\,%d}(\\lambda) + \\bar z_{\,\mathrm{F},\,%s,\,%d}(\\lambda)} \\\\
+    y_{\,\mathrm{F},\,%s,\,%d}(\\lambda)\\; &= \\frac{\\bar y_{\,\mathrm{F},\,%s,\,%d}(\\lambda)}{\\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda) + \\bar y_{\,\mathrm{F},\,%s,\,%d}(\\lambda) + \\bar z_{\,\mathrm{F},\,%s,\,%d}(\\lambda)} \\\\
+    z_{\,\mathrm{F},\,%s,\,%d}(\\lambda)\\; &= \\frac{\\bar z_{\,\mathrm{F},\,%s,\,%d}(\\lambda)}{\\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda) + \\bar y_{\,\mathrm{F},\,%s,\,%d}(\\lambda) + \\bar z_{\,\mathrm{F},\,%s,\,%d}(\\lambda)} \\\\
     \\end{aligned}
     $$
     </p>
@@ -396,8 +395,8 @@ def _xyz_to_xy_64():
     $$
     \\begin{aligned}
     x_{10}(\\lambda)\\; &= \\frac{\\bar x_{10}(\\lambda)}{\\bar x_{10}(\\lambda) + \\bar y_{10}(\\lambda) + \\bar z_{10}(\\lambda)} \\\\
-    y_{10}(\\lambda)\\; &= \\frac{\\bar y_{10}(\\lambda)}{\\bar x_{10}(\\lambda) + \\bar y_{10}(\\lambda) + \\bar z_{10}(\\lambda)} \\\\
-    z_{10}(\\lambda)\\; &= \\frac{\\bar z_{10}(\\lambda)}{\\bar x_{10}(\\lambda) + \\bar y_{10}(\\lambda) + \\bar z_{10}(\\lambda)} \\\\
+    y_{\,10}(\\lambda)\\; &= \\frac{\\bar y_{10}(\\lambda)}{\\bar x_{10}(\\lambda) + \\bar y_{10}(\\lambda) + \\bar z_{10}(\\lambda)} \\\\
+    z_{\,10}(\\lambda)\\; &= \\frac{\\bar z_{10}(\\lambda)}{\\bar x_{10}(\\lambda) + \\bar y_{10}(\\lambda) + \\bar z_{10}(\\lambda)} \\\\
     \\end{aligned}
     $$
     </p>
@@ -411,10 +410,7 @@ def _illuminant_E_cc(data, options):
         xy_white = data['xy_white']
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>x</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>, 
-    <em>y</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
-    =
-    (%.5f, %.5f) <br /><br />
+    \\( (x_{\,\mathrm{F},\,%s,\,%d;\,E}, \,y_{\,\mathrm{F},\,%s,\,%d;\,E}) = (%.5f, %.5f) \\)<br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            xy_white[0], xy_white[1])
@@ -423,10 +419,7 @@ def _illuminant_E_cc_31():
     return """
     <p>
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>x</em><sub>&nbsp;E</sub>, 
-    <em>y</em><sub>&nbsp;E</sub>)
-    =
-    (0.33333, 0.33333)
+    \\((x_{\mathrm{E}},\,y_{\,\mathrm{E}}) = (0.33331,0.33329) \\)
     </p>
     """
 
@@ -434,20 +427,15 @@ def _illuminant_E_cc_64():
     return """
     <p>
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<xem>x</em><sub>10;&nbsp;E</sub>, 
-    <em>y</em><sub>10;&nbsp;E</sub>)
-    =
-    (0.33333, 0.33333)
+    \\((x_{10;\,\mathrm{E}},\,y_{\,10;\,\mathrm{E}}) = (0.33330, 0.33333) \\)
     </p>
     """
 
 def _illuminant_E_lm(data):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>l</em><sub>&nbsp;%s,&nbsp;%d;&nbsp;E</sub>, 
-    <em>m</em><sub>&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
-    =
-    (%.6f, %.6f) <br /><br />
+    \\( (l_{\,%s,\,%d;\,\mathrm{E}},\,m_{\,%s,\,%d;\,\mathrm{E}}) = 
+    (%.6f, %.6f)\\) <br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['lm_white'][0], data['lm_white'][1])
@@ -455,10 +443,8 @@ def _illuminant_E_lm(data):
 def _illuminant_E_bm(data):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b><br />
-    (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>, 
-    <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d;&nbsp;E</sub>)
-    =
-    (%.6f, %.6f) <br /><br />
+    \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,\mathrm{E}},\,s_{\,\mathrm{MB},\,%s,\,%d;\,\mathrm{E}}) = 
+    (%.6f, %.6f)\\) <br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['bm_white'][0], data['bm_white'][2])
@@ -470,14 +456,12 @@ def _purple_cc(data, options):
         purple_line_cc = data['purple_line_cc']
     return """
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    (<em>x</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>y</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
-    &nbsp;=&nbsp;
-    (%.5f, %.5f) <br />
-    (<em>x</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>y</em><sub>&nbsp;F,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
-    &nbsp;=&nbsp;
-    (%.5f, %.5f)
+    $$
+    \\begin{align}
+    (x_{\,\mathrm{F},\,%s,\,%d}(%.1f\,\mathrm{nm}),\,y_{\,\mathrm{F},\,%s,\,%d}(%.1f\,\mathrm{nm})) &= (%.5f, %.5f) \\\\  
+    (x_{\,\mathrm{F},\,%s,\,%d}(%.1f\,\mathrm{nm}),\,y_{\,\mathrm{F},\,%s,\,%d}(%.1f\,\mathrm{nm})) &= (%.5f, %.5f) \\\\
+    \\end{align}
+    $$
     """ % (data['field_size'], data['age'], purple_line_cc[0,0],
            data['field_size'], data['age'], purple_line_cc[0,0],
            purple_line_cc[0,1], purple_line_cc[0,2],
@@ -488,14 +472,12 @@ def _purple_cc(data, options):
 def _purple_31(data):
     return """
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    (<em>x</em>(%.0f nm), 
-    <em>y</em>(%.0f nm))
-    &nbsp;=&nbsp;
-    (%.5f, %.5f) <br />
-    (<em>x</em>(%.0f nm), 
-    <em>y</em>(%.0f nm))
-    &nbsp;=&nbsp;
-    (%.5f, %.5f)
+    $$
+    \\begin{align}
+    (x(%.1f\,\mathrm{nm}),\,y(%.1f\,\mathrm{nm})) &= (%.5f, %.5f) \\\\  
+    (x(%.1f\,\mathrm{nm}),\,y(%.1f\,\mathrm{nm})) &= (%.5f, %.5f) \\\\
+    \\end{align}
+    $$
     """ % (data['purple_line_cc31'][0,0],
            data['purple_line_cc31'][0,0],
            data['purple_line_cc31'][0,1], data['purple_line_cc31'][0,2],
@@ -506,14 +488,12 @@ def _purple_31(data):
 def _purple_64(data):
     return """
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    (<em>x</em><sub>10</sub>(%.0f nm), 
-    <em>y</em><sub>10</sub>(%.0f nm))
-    &nbsp;=&nbsp;
-    (%.5f, %.5f) <br />
-    (<em>x</em><sub>10</sub>(%.0f nm), 
-    <em>y</em><sub>10</sub>(%.0f nm))
-    &nbsp;=&nbsp;
-    (%.5f, %.5f)
+    $$
+    \\begin{align}
+    (x_{10}(%.1f\,\mathrm{nm}),\,y_{\,10}(%.1f\,\mathrm{nm})) &= (%.5f, %.5f) \\\\  
+    (x_{10}(%.1f\,\mathrm{nm}),\,y_{\,10}(%.1f\,\mathrm{nm})) &= (%.5f, %.5f) \\\\
+    \\end{align}
+    $$
     """ % (data['purple_line_cc64'][0,0],
            data['purple_line_cc64'][0,0],
            data['purple_line_cc64'][0,1], data['purple_line_cc64'][0,2],
@@ -524,14 +504,12 @@ def _purple_64(data):
 def _purple_lm(data):
     return """
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    (<em>l</em><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>m</em><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
-    &nbsp;=&nbsp;
-    (%.6f, %.6f) <br />
-    (<em>l</em><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>m</em><sub>&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
-    &nbsp;=&nbsp;
-    (%.6f, %.6f)
+    $$
+    \\begin{align}
+    (l_{\,%s,\,%d}(%.1f\,\mathrm{nm}),\,s_{\,%s,\,%d}(%.1f\,\mathrm{nm})) &= (%.6f, %.6f) \\\\  
+    (l_{\,%s,\,%d}(%.1f\,\mathrm{nm}),\,s_{\,%s,\,%d}(%.1f\,\mathrm{nm})) &= (%.6f, %.6f) \\\\
+    \\end{align}
+    $$
     """ % (data['field_size'], data['age'], data['purple_line_lm'][0,0],
            data['field_size'], data['age'], data['purple_line_lm'][0,0],
            data['purple_line_lm'][0,1], data['purple_line_lm'][0,2],
@@ -542,14 +520,12 @@ def _purple_lm(data):
 def _purple_bm(data):
     return """
     <b class="description-subtitle">Tangent points of the purple line</b><br />
-    (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
-    &nbsp;=&nbsp;
-    (%.6f, %.6f) <br />
-    (<em>l</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm), 
-    <em>s</em><sub>&nbsp;MB,&nbsp;%s,&nbsp;%d&nbsp;</sub>(%.1f nm))
-    &nbsp;=&nbsp;
-    (%.6f, %.6f)
+    $$
+    \\begin{align}
+    (l_{\,\mathrm{MB},\,%s,\,%d}(%.1f\,\mathrm{nm}),\,s_{\,\mathrm{MB},\,%s,\,%d}(%.1f\,\mathrm{nm})) &= (%.6f, %.6f) \\\\  
+    (l_{\,\mathrm{MB},\,%s,\,%d}(%.1f\,\mathrm{nm}),\,s_{\,\mathrm{MB},\,%s,\,%d}(%.1f\,\mathrm{nm})) &= (%.6f, %.6f) \\\\
+    \\end{align}
+    $$
     """ % (data['field_size'], data['age'], data['purple_line_bm'][0,0],
            data['field_size'], data['age'], data['purple_line_bm'][0,0],
            data['purple_line_bm'][0,1], data['purple_line_bm'][0,2],
@@ -580,9 +556,9 @@ def xyz(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _functions('<font style="text-decoration: overline;"><em>x</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>z</em></font><sub> F, %s, %d</sub>' % (data['field_size'], data['age'])) +
+                    _functions('\\(\\bar x_{\,\mathrm{F},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                               '\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                               '\\(\\bar z_{\,\mathrm{F},\,%s,\,%d}\\)' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _normalisation_xyz(data, options) +
                     _lms_to_xyz(data, options) +
@@ -612,9 +588,9 @@ def xy(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _coordinates('<em>x</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>y</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>z</em><sub> F, %s, %d</sub>' % (data['field_size'], data['age'])) +
+                    _coordinates('\\(x_{\,\mathrm{F},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                                 '\\(y_{\,\mathrm{F},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                                 '\\(z_{\,\mathrm{F},\,%s,\,%d}\\)' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _xyz_to_xy(data) +
                     _precision_xy() +
@@ -645,9 +621,9 @@ def lms(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
+                    _functions('\\(\\bar l_{%s,\,%d}\\)' % (data['field_size'], data['age']),
+                               '\\(\\bar m_{\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                               '\\(\\bar s_{%s,\,%d}\\)' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _normalisation_lms() +
                     _precision_lms())
@@ -676,9 +652,9 @@ def lms_base(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _functions('<font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
+                    _functions('\\(\\bar l_{%s,\,%d}\\)' % (data['field_size'], data['age']),
+                               '\\(\\bar m_{\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                               '\\(\\bar s_{%s,\,%d}\\)' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _normalisation_lms() +
                     _precision_lms_base())
@@ -707,9 +683,9 @@ def bm(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _coordinates('<em>l</em><sub> MB, %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>m</em><sub> MB, %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>s</em><sub> MB, %s, %d</sub>' % (data['field_size'], data['age'])) +
+                    _coordinates('\\(l_{\,\mathrm{MB},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                                 '\\(m_{\,\mathrm{MB},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                                 '\\(s_{\,\mathrm{MB},\,%s,\,%d}\\)' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _lms_to_bm(data, options) +
                     _precision_bm() +
@@ -741,9 +717,9 @@ def lm(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _coordinates('<em>l</em><sub> %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>m</em><sub> %s, %d</sub>' % (data['field_size'], data['age']),
-                               '<em>s</em><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
+                    _coordinates('\\(l_{\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                                 '\\(m_{\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                                 '\\(s_{\,%s,\,%d}\\)' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _lms_to_lm(data) +
                     _precision_lm() +
@@ -774,9 +750,7 @@ def xyz31(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters_31() +
-                    _functions('<font style="text-decoration: overline;"><em>x</em></font>',
-                               '<font style="text-decoration: overline;"><em>y</em></font>',
-                               '<font style="text-decoration: overline;"><em>z</em></font>') +
+                    _functions('\\(\\bar x\\)', '\\(\\bar y\\)', '\\(\\bar z\\)') +
                     _wavelenghts_std() +
                     _normalisation_31() +
                     _precision_xyz())
@@ -806,9 +780,7 @@ def xyz64(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters_64() +
-                    _functions('<font style="text-decoration: overline;"><em>x</em></font><sub>10</sub>',
-                               '<font style="text-decoration: overline;"><em>y</em></font><sub>10</sub>',
-                               '<font style="text-decoration: overline;"><em>z</em></font><sub>10</sub>') +
+                    _functions('\\(\\bar x_{10}\\)', '\\(\\bar y_{10}\\)', '\\(\\bar z_{10}\\)') +
                     _wavelenghts_std() +
                     _normalisation_64() +
                     _precision_xyz())
@@ -837,7 +809,7 @@ def xy31(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters_31() +
-                    _coordinates('<em>x</em>', '<em>y</em>', '<em>z</em>') +
+                    _coordinates('\\(x\\)', '\\(y\\)', '\\(z\\)') +
                     _wavelenghts_std() +
                     _xyz_to_xy_31() + 
                     _precision_xy() +
@@ -868,7 +840,7 @@ def xy64(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters_64() +
-                    _coordinates('<em>x</em><sub>10</sub>', '<em>y</em><sub>10</sub>', '<em>z</em><sub>10</sub>') +
+                    _coordinates('\\(x_{10}\\)', '\\(y_{\,10}\\)', '\\(z_{\,10}\\)') +
                     _wavelenghts_std() +
                     _xyz_to_xy_64() + 
                     _precision_xy() +

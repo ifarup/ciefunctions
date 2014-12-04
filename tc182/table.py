@@ -25,6 +25,16 @@ def _head():
     return """
     <head>
     <link type="text/css" rel="stylesheet" href="table.css" />
+    <script type="text/javascript" src="web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            displayAlign: "left",
+            showProcessingMessages: false,
+            messageStyle: "none",
+            inlineMath:[["\\(","\\)"]],
+            displayMath:[["$$","$$"]]
+        });
+    </script>
     </head>
     """
 
@@ -52,11 +62,11 @@ def xyz(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>x</em></font><sub> F, %s, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>y</em></font><sub> F, %s, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>z</em></font><sub> F, %s, %d</sub></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(\\bar x_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\bar z_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+      </tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -115,11 +125,11 @@ def xy(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><em>x</em><sub> F, %s, %d</sub></th>
-        <th><em>y</em><sub> F, %s, %d</sub></th>
-        <th><em>z</em><sub> F, %s, %d</sub></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(x_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(y_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(z_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+      </tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -174,11 +184,11 @@ def lms(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
+      </tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -233,11 +243,11 @@ def lms_base(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>l</em></font><sub> %s, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>m</em></font><sub> %s, %d</sub></th>
-        <th><font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
+      </tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -292,11 +302,11 @@ def bm(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><em>l</em><sub> MB, %s, %d</sub></th>
-        <th><em>m</em><sub> MB, %s, %d</sub></th>
-        <th><em>s</em><sub> MB, %s, %d</sub></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(l_{\,\mathrm{MB},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(m_{\,\mathrm{MB},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(s_{\,\mathrm{MB},\,%s,\,%d}(\lambda) \\)</th>
+      </tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -353,11 +363,11 @@ def lm(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><em>l</em><sub> %s, %d</sub></th>
-        <th><em>m</em><sub> %s, %d</sub></th>
-        <th><em>s</em><sub> %s, %d</sub></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(l_{\,\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(m_{\,\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(s_{\,\,%s,\,%d}(\lambda) \\)</th>
+      </tr>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -413,11 +423,11 @@ def xyz31(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>x</em></font></th>
-        <th><font style="text-decoration: overline;"><em>y</em></font></th>
-        <th><font style="text-decoration: overline;"><em>z</em></font></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(\\bar x(\lambda) \\)</th>
+        <th>\\(\\bar y(\lambda) \\)</th>
+        <th>\\(\\bar z(\lambda) \\)</th>
+      </tr>
     """
     for i in range(np.shape(results['xyz31'])[0]):
         html_table += """
@@ -456,11 +466,11 @@ def xyz64(results, options, include_head=False):
     html_table += """
     <table class='tblHeader'>
       <tr>
-        <th>&lambda;</th>
-        <th><font style="text-decoration: overline;"><em>x</em></font><sub>10</sub></th>
-        <th><font style="text-decoration: overline;"><em>y</em></font><sub>10</sub></th>
-        <th><font style="text-decoration: overline;"><em>z</em></font><sub>10</sub></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(\\bar x_{10}(\lambda) \\)</th>
+        <th>\\(\\bar y_{10}(\lambda) \\)</th>
+        <th>\\(\\bar z_{10}(\lambda) \\)</th>
+      </tr>
     </table>
     <br style='clear: both;'/>
     <table>
@@ -503,11 +513,11 @@ def xy31(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><em>x</em></th>
-        <th><em>y</em></th>
-        <th><em>z</em></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(x(\lambda) \\)</th>
+        <th>\\(y(\lambda) \\)</th>
+        <th>\\(z(\lambda) \\)</th>
+      </tr>
     """
     for i in range(np.shape(results['xy31'])[0]):
         html_table += """
@@ -546,11 +556,11 @@ def xy64(results, options, include_head=False):
     html_table += """
     <table>
       <tr>
-        <th>&lambda;</th>
-        <th><em>x</em><sub>10</sub></th>
-        <th><em>y</em><sub>10</sub></th>
-        <th><em>z</em><sub>10</sub></th>
-      <tr>
+        <th>\\(\lambda\\)</th>
+        <th>\\(x_{10}(\lambda) \\)</th>
+        <th>\\(y_{10}(\lambda) \\)</th>
+        <th>\\(z_{10}(\lambda) \\)</th>
+      </tr>
     """
     for i in range(np.shape(results['xy64'])[0]):
         html_table += """
