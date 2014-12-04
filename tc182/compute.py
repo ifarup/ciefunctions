@@ -96,8 +96,8 @@ def chop(arr, epsilon=1e-14):
         if np.abs(chopped) < epsilon:
             chopped = 0
         return chopped
-    chopped = arr.copy() # allocate
-    chopped[np.abs(chopped) < epsilon] = 0
+    chopped = arr.copy() # initialise to arr values
+    chopped[np.abs(chopped) < epsilon] = 0 # set too low values to zero
     return chopped
 
 # def resource_path(relative):
@@ -849,18 +849,10 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
             square_sum(a13, a21, a22, a33, l_spline, m_spline,
                        s_spline, v_spline, lambdas_std,
                        lambda_x_min_ref, cc_ref, True, xyz_signfig, mat_dp)[1:]
-
-    # Renormalise if necessary
-    if lambda_min != 390 or lambda_max != 830 or lambda_step != 1:
-        xyz_spec = np.dot(trans_mat, lms_spec)
-        trans_mat[0,:] = trans_mat[0,:] * xyz_spec[1,:].sum() / xyz_spec[0,:].sum()
-        trans_mat[2,:] = trans_mat[2,:] * xyz_spec[1,:].sum() / xyz_spec[2,:].sum()
-        trans_mat = my_round(trans_mat, mat_dp)
     
-    # Compute xyz
+    # Compute xyz (not normalised)
     xyz_spec = np.dot(trans_mat, lms_spec)
     xyz_spec = significant_figures(xyz_spec, xyz_signfig)
-
     cc_spec = np.array([xyz_spec[0,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:]),
                    xyz_spec[1,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:]),
                    xyz_spec[2,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:])])
@@ -869,13 +861,33 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     cc_white = cc_white / np.sum(cc_white)
     cc_white = my_round(cc_white, cc_dp)
 
+    # Normalised version
+    trans_mat_N = trans_mat.copy() # allocate
+    if lambda_min != 390 or lambda_max != 830 or lambda_step != 1:
+        xyz_spec_N = np.dot(trans_mat, lms_spec)
+        trans_mat_N[0,:] = trans_mat_N[0,:] * xyz_spec_N[1,:].sum() / xyz_spec_N[0,:].sum()
+        trans_mat_N[2,:] = trans_mat_N[2,:] * xyz_spec_N[1,:].sum() / xyz_spec_N[2,:].sum()
+        trans_mat_N = my_round(trans_mat_N, mat_dp)
+    xyz_spec_N = np.dot(trans_mat_N, lms_spec)
+    xyz_spec_N = significant_figures(xyz_spec_N, xyz_signfig)
+    cc_spec_N = np.array([xyz_spec_N[0,:] / (xyz_spec_N[0,:] + xyz_spec_N[1,:] + xyz_spec_N[2,:]),
+                   xyz_spec_N[1,:] / (xyz_spec_N[0,:] + xyz_spec_N[1,:] + xyz_spec_N[2,:]),
+                   xyz_spec_N[2,:] / (xyz_spec_N[0,:] + xyz_spec_N[1,:] + xyz_spec_N[2,:])])
+    cc_spec_N = my_round(cc_spec_N, cc_dp)
+    cc_white_N = np.sum(xyz_spec_N, 1)
+    cc_white_N = cc_white_N / np.sum(cc_white_N)
+    cc_white_N = my_round(cc_white_N, cc_dp)
+    
     # Reshape
     lms_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), lms_spec)).T
     lms_standard_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))),
                                         lms_standard_spec)).T
     xyz_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), xyz_spec)).T
+    xyz_spec_N = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), xyz_spec_N)).T
     cc_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), cc_spec)).T
+    cc_spec_N = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), cc_spec_N)).T
     cc_spec[cc_spec <= 0] = 0
+    cc_spec_N[cc_spec_N <= 0] = 0
     Vl = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))),
                               v_spec.reshape((1,len(v_spec))))).T
 
@@ -887,6 +899,15 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
                    plots['xyz'][2,:] / (plots['xyz'][0,:] + plots['xyz'][1,:] + plots['xyz'][2,:])])
     plots['xyz'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xyz'].T), axis=1)
     plots['xy'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xy'].T), axis=1)
+    
+    # Normalised versions for plotting and purple line
+    plots['xyz_N'] = np.dot(trans_mat_N, plots['lms'][:,1:].T)
+    plots['xyz_N'] = significant_figures(plots['xyz_N'], xyz_signfig)
+    plots['xy_N'] = np.array([plots['xyz_N'][0,:] / (plots['xyz_N'][0,:] + plots['xyz_N'][1,:] + plots['xyz_N'][2,:]),
+                              plots['xyz_N'][1,:] / (plots['xyz_N'][0,:] + plots['xyz_N'][1,:] + plots['xyz_N'][2,:]),
+                              plots['xyz_N'][2,:] / (plots['xyz_N'][0,:] + plots['xyz_N'][1,:] + plots['xyz_N'][2,:])])
+    plots['xyz_N'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xyz_N'].T), axis=1)
+    plots['xy_N'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xy_N'].T), axis=1)
     
     # Boynton-MacLeod
     bm_spec = lms_spec.copy()
@@ -950,6 +971,28 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['purple_line_cc'] = purple_line_cc.copy()
     purple_line_cc[:,1:] = my_round(purple_line_cc[:,1:], cc_dp)
 
+    # Compute purple line for normalised cc
+    delaunay = Delaunay(plots['xy_N'][:,1:3])
+    ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
+    purple_line_cc_N = np.zeros((2,3))
+    purple_line_cc_N[0,0] = plots['xy_N'][delaunay.convex_hull[ind,0], 0]
+    purple_line_cc_N[0,1] = plots['xy_N'][delaunay.convex_hull[ind,0], 1]
+    purple_line_cc_N[0,2] = plots['xy_N'][delaunay.convex_hull[ind,0], 2]
+    purple_line_cc_N[1,0] = plots['xy_N'][delaunay.convex_hull[ind,1], 0]
+    purple_line_cc_N[1,1] = plots['xy_N'][delaunay.convex_hull[ind,1], 1]
+    purple_line_cc_N[1,2] = plots['xy_N'][delaunay.convex_hull[ind,1], 2]
+    plots['purple_line_cc_N'] = purple_line_cc_N.copy()
+    purple_line_cc_N[:,1:] = my_round(purple_line_cc_N[:,1:], cc_dp)
+
+#     # Versions for plotting and purple line
+#     plots['xyz'] = np.dot(trans_mat, plots['lms'][:,1:].T)
+#     plots['xyz'] = significant_figures(plots['xyz'], xyz_signfig)
+#     plots['xy'] = np.array([plots['xyz'][0,:] / (plots['xyz'][0,:] + plots['xyz'][1,:] + plots['xyz'][2,:]),
+#                    plots['xyz'][1,:] / (plots['xyz'][0,:] + plots['xyz'][1,:] + plots['xyz'][2,:]),
+#                    plots['xyz'][2,:] / (plots['xyz'][0,:] + plots['xyz'][1,:] + plots['xyz'][2,:])])
+#     plots['xyz'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xyz'].T), axis=1)
+#     plots['xy'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xy'].T), axis=1)
+    
     # Compute purple line for bm
     delaunay = Delaunay(plots['bm'][:,1:4:2])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
@@ -1025,14 +1068,19 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['lambda_max'] = lambda_max
     plots['lambda_step'] = lambda_step 
     plots['xy_white'] = cc_white
+    plots['xy_white_N'] = cc_white_N
     plots['bm_white'] = bm_white
     plots['lm_white'] = lm_white
     
     results = dict()
     results['xyz'] = chop(xyz_spec)
+    results['xyz_N'] = chop(xyz_spec_N)
     results['xy'] = chop(cc_spec)
+    results['xy_N'] = chop(cc_spec_N)
     results['xy_white'] = chop(cc_white)
+    results['xy_white_N'] = chop(cc_white_N)
     results['trans_mat'] = chop(trans_mat)
+    results['trans_mat_N'] = chop(trans_mat_N)
     results['lms'] = chop(lms_standard_spec)
     results['lms_base'] = chop(lms_spec)
     results['bm'] = chop(bm_spec)
@@ -1041,6 +1089,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['lm_white'] = chop(lm_white)
     results['lambda_ref_min'] = lambda_x_min_ref
     results['purple_line_cc'] = chop(purple_line_cc)
+    results['purple_line_cc_N'] = chop(purple_line_cc_N)
     results['purple_line_cc31'] = chop(plots['purple_line_cc31'])
     results['purple_line_cc64'] = chop(plots['purple_line_cc64'])
     results['purple_line_lm'] = chop(purple_line_lm)

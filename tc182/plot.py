@@ -38,11 +38,15 @@ def xyz(axes, plots, options):
         Plotting options (see code for use).
     """
     lock.acquire()
+    if options['norm']:
+        xyz = plots['xyz_N']
+    else:
+        xyz = plots['xyz']
     axes.clear()
     axes.grid(options['grid'])
-    axes.plot(plots['xyz'][:,0], plots['xyz'][:,1], 'r')
-    axes.plot(plots['xyz'][:,0], plots['xyz'][:,2], 'g')
-    axes.plot(plots['xyz'][:,0], plots['xyz'][:,3], 'b')
+    axes.plot(xyz[:,0], xyz[:,1], 'r')
+    axes.plot(xyz[:,0], xyz[:,2], 'g')
+    axes.plot(xyz[:,0], xyz[:,3], 'b')
     if options['cie31']:
         axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,1], 'r--')
         axes.plot(plots['xyz31'][:,0], plots['xyz31'][:,2], 'g--')
@@ -80,9 +84,17 @@ def xy(axes, plots, options):
         Plotting options (see code for use).
     """
     lock.acquire()
+    if options['norm']:
+        xy = plots['xy_N']
+        xy_white = plots['xy_white_N']
+        purple_line_cc = plots['purple_line_cc_N']
+    else:
+        xy = plots['xy']
+        xy_white = plots['xy_white']
+        purple_line_cc = plots['purple_line_cc']
     axes.clear()
     axes.grid(options['grid'])
-    lambdavalues = np.concatenate(([plots['xy'][0,0]], np.arange(470, 611, 10), [700], [plots['xy'][-1,0]]))
+    lambdavalues = np.concatenate(([xy[0,0]], np.arange(470, 611, 10), [700], [xy[-1,0]]))
     if options['cie31']:
         axes.plot(plots['xy31'][:,1], plots['xy31'][:,2], 'k--')
         axes.plot(plots['purple_line_cc31'][:,1], plots['purple_line_cc31'][:,2], 'k--')
@@ -95,11 +107,11 @@ def xy(axes, plots, options):
         for l in lambdavalues: # add wavelength parameters
             ind = np.nonzero(plots['xy64'][:,0] == l)[0]
             axes.plot(plots['xy64'][ind,1], plots['xy64'][ind,2], 'ks')
-    axes.plot(plots['xy'][:,1], plots['xy'][:,2], 'k')
-    axes.plot(plots['purple_line_cc'][:,1], plots['purple_line_cc'][:,2], 'k')
+    axes.plot(xy[:,1], xy[:,2], 'k')
+    axes.plot(purple_line_cc[:,1], purple_line_cc[:,2], 'k')
     for l in lambdavalues: # add wavelength parameters
-        ind = np.nonzero(plots['xy'][:,0] == l)[0]
-        axes.plot(plots['xy'][ind,1], plots['xy'][ind,2], 'wo')
+        ind = np.nonzero(xy[:,0] == l)[0]
+        axes.plot(xy[ind,1], xy[ind,2], 'wo')
         if l == 700 or l == 390:
             align = 'top'
         elif l == 830:
@@ -108,11 +120,11 @@ def xy(axes, plots, options):
             align = 'center'
         if options['labels']:
             if np.shape(ind)[0] > 0:
-                axes.text(plots['xy'][ind,1], plots['xy'][ind,2], '   ' + "%.0f" % l,
+                axes.text(xy[ind,1], xy[ind,2], '   ' + "%.0f" % l,
                                fontsize=options['label_fontsize'], verticalalignment=align)
-    axes.plot(plots['xy_white'][0], plots['xy_white'][1], 'kx')
+    axes.plot(xy_white[0], xy_white[1], 'kx')
     if options['labels']:
-        axes.text(plots['xy_white'][0], plots['xy_white'][1], '   E',
+        axes.text(xy_white[0], xy_white[1], '   E',
                        fontsize=options['label_fontsize'], verticalalignment=align)
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))

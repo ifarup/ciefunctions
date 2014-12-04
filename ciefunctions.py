@@ -23,7 +23,7 @@ import tc182
 import tc182.description
 import tc182.plot
 import tc182.table
-import sys
+import sys, os
 import numpy as np
 import PyQt4.QtGui as qt
 import PyQt4.QtCore as qtcore
@@ -79,7 +79,7 @@ class AppForm(qt.QMainWindow):
             elif self.plot_combo.currentIndex() == self.COMBO_LM:
                 np.savetxt(path, self.results['lm'], '%.1f, %.6f, %.6f, %.6f')
     
-    def plot_options(self):
+    def options(self):
         """
         Return a dict() with the current plot options for use as argument to the plot module.
         """
@@ -89,7 +89,8 @@ class AppForm(qt.QMainWindow):
                  'labels' : self.wavelength_check.isChecked(),
                  'label_fontsize' : 7,
                  'full_title' : True,
-                 'axis_labels' : True }
+                 'axis_labels' : True,
+                 'norm' : self.norm_check.isChecked() }
     
     def on_about(self):
         msg = """
@@ -143,6 +144,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.lambda_min_max_dash.hide()
             self.lambda_min_spin.hide()
             self.lambda_max_spin.hide()
+        
+        if self.plot_combo.currentIndex() in [self.COMBO_XY, self.COMBO_XYZ]:
+            self.norm_label.setVisible(True)            
+            self.norm_check.setVisible(True)            
+        else:
+            self.norm_label.setVisible(False)            
+            self.norm_check.setVisible(False)            
 
         #
         # XYZ plot and table
@@ -158,13 +166,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(True)
 
             # Create plot
-            tc182.plot.xyz(self.axes, self.plots, self.plot_options())
+            tc182.plot.xyz(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.xyz(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.xyz(self.results, self.plot_combo.currentText(), self.options(), True)
 
             # Create html table
-            html_table = tc182.table.xyz(self.results, True)
+            html_table = tc182.table.xyz(self.results, self.options(), True)
 
         #
         # chromaticity diagram
@@ -179,13 +187,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(True)
             
             # Create plot
-            tc182.plot.xy(self.axes, self.plots, self.plot_options())
+            tc182.plot.xy(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc182.table.xy(self.results, True)
+            html_table = tc182.table.xy(self.results, self.options(), True)
 
             # Greate html description
-            html_string = tc182.description.xy(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.xy(self.results, self.plot_combo.currentText(), self.options(), True)
 
         #
         # LMS standard
@@ -201,13 +209,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.lms(self.axes, self.plots, self.plot_options())
+            tc182.plot.lms(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), self.options(), True)
 
             # Create html table
-            html_table = tc182.table.lms(self.results, True)
+            html_table = tc182.table.lms(self.results, self.options(), True)
 
         #
         # LMS base
@@ -223,13 +231,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             
             # Create plot
-            tc182.plot.lms_base(self.axes, self.plots, self.plot_options())
+            tc182.plot.lms_base(self.axes, self.plots, self.options())
             
             # Create html description
-            html_string = tc182.description.lms_base(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lms_base(self.results, self.plot_combo.currentText(), self.options(), True)
             
             # Create html table
-            html_table = tc182.table.lms_base(self.results, True)
+            html_table = tc182.table.lms_base(self.results, self.options(), True)
 
         #
         # MacLeod-Boynton
@@ -245,13 +253,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.bm(self.axes, self.plots, self.plot_options())
+            tc182.plot.bm(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.bm(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.bm(self.results, self.plot_combo.currentText(), self.options(), True)
 
             # Create html table
-            html_table = tc182.table.bm(self.results, True)
+            html_table = tc182.table.bm(self.results, self.options(), True)
 
         #
         # Normalised lm-diagram
@@ -267,13 +275,13 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             
             # Create html description
-            html_string = tc182.description.lm(self.results, self.plot_combo.currentText(), True)
+            html_string = tc182.description.lm(self.results, self.plot_combo.currentText(), self.options(), True)
 
             # Create plot
-            tc182.plot.lm(self.axes, self.plots, self.plot_options())
+            tc182.plot.lm(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc182.table.lm(self.results, True)
+            html_table = tc182.table.lm(self.results, self.options(), True)
 
         #
         # CIE standard XYZ
@@ -293,13 +301,13 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
                 
                 # Create html descrption
-                html_string = tc182.description.xyz31(self.results, self.plot_combo.currentText(), True)
+                html_string = tc182.description.xyz31(self.results, self.plot_combo.currentText(), self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xyz31(self.results, True)
+                html_table = tc182.table.xyz31(self.results, self.options(), True)
 
                 # Create plot                
-                tc182.plot.xyz31(self.axes, self.plots, self.plot_options())
+                tc182.plot.xyz31(self.axes, self.plots, self.options())
                 
             else: # 10 deg
                 
@@ -310,13 +318,13 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
 
                 # Create html descption
-                html_string = tc182.description.xyz64(self.results, self.plot_combo.currentText(), True)
+                html_string = tc182.description.xyz64(self.results, self.plot_combo.currentText(), self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xyz64(self.results, True)
+                html_table = tc182.table.xyz64(self.results, self.options(), True)
     
                 # Create plot
-                tc182.plot.xyz64(self.axes, self.plots, self.plot_options())
+                tc182.plot.xyz64(self.axes, self.plots, self.options())
                 
         #
         # CIE standard chromaticity diagram
@@ -336,13 +344,13 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
 
                 # Create html description
-                html_string = tc182.description.xy31(self.results, self.plot_combo.currentText(), True)
+                html_string = tc182.description.xy31(self.results, self.plot_combo.currentText(), self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xy31(self.results, True)
+                html_table = tc182.table.xy31(self.results, self.options(), True)
     
                 # Create plot
-                tc182.plot.xy31(self.axes, self.plots, self.plot_options())
+                tc182.plot.xy31(self.axes, self.plots, self.options())
 
             else: # 10 deg
 
@@ -353,17 +361,19 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
                 
                 # Create html description
-                html_string = tc182.description.xy64(self.results, self.plot_combo.currentText(), True)
+                html_string = tc182.description.xy64(self.results, self.plot_combo.currentText(), self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xy64(self.results, True)
+                html_table = tc182.table.xy64(self.results, self.options(), True)
     
                 # Create plot
-                tc182.plot.xy64(self.axes, self.plots, self.plot_options())
+                tc182.plot.xy64(self.axes, self.plots, self.options())
 
-        # Refresh GUI        
-        self.transformation.setHtml(html_string)
-        self.html_table.setHtml(html_table)
+        # Refresh GUI
+        
+        base_url = qtcore.QUrl('file://' +  os.getcwd() + '/')
+        self.transformation.setHtml(html_string, baseUrl=base_url)
+        self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()
 
     def on_compute(self):
@@ -444,7 +454,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.age_spin = qt.QSpinBox()
         self.age_spin.setMinimum(20)
         self.age_spin.setMaximum(70)
-        self.age_spin.setValue(32)     
+        self.age_spin.setValue(32)
 
         self.field_spin = qt.QDoubleSpinBox()
         self.field_spin.textFromValue = lambda x : "%.1f" % x
@@ -521,6 +531,10 @@ You should have received a copy of the GNU General Public License along with thi
         self.connect(self.cie64_check,
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
         
+        self.norm_check = qt.QCheckBox()
+        self.connect(self.norm_check,
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+        
         self.save_table_button = qt.QPushButton('&Save table')
         self.connect(self.save_table_button, qtcore.SIGNAL('clicked(bool)'), self.save_table)
 
@@ -530,11 +544,12 @@ You should have received a copy of the GNU General Public License along with thi
         
         self.transformation = qtweb.QWebView()
         self.html_table = qtweb.QWebView()
-
+        
         # Layout with labels
         # 
         self.compare_label_31 = qt.QLabel(u'Compare with CIE 1931 2\N{DEGREE SIGN}') 
         self.compare_label_64 = qt.QLabel(u'Compare with CIE 1964 10\N{DEGREE SIGN}')
+        self.norm_label = qt.QLabel('Renormalised values ')
         self.wavelength_label = qt.QLabel('Labels')
         self.age_label = qt.QLabel('Age (yr)')
         self.resolution_label = qt.QLabel('Step (nm)')
@@ -587,22 +602,27 @@ You should have received a copy of the GNU General Public License along with thi
         spectral_tabs.addTab(inner_widget, 'Plot')
         spectral_tabs.addTab(table_widget, 'Table')
 
-        spectral_vbox = qt.QVBoxLayout()
-        spectral_vbox.addWidget(spectral_tabs)
-        spectral_vbox.addWidget(self.plot_combo)
-
-        spectral_hbox = qt.QHBoxLayout()
+        combo_widget = qt.QWidget()
+        combo_grid = qt.QGridLayout(combo_widget)
+        combo_grid.addWidget(self.plot_combo, 0, 0)
+        combo_grid.addWidget(qt.QLabel('   '), 0, 1)
+        combo_grid.addWidget(self.norm_label, 0, 2, qtcore.Qt.AlignRight)
+        combo_grid.addWidget(self.norm_check, 0, 3)
+        combo_grid.setColumnMinimumWidth(2, 150)
+        combo_grid.setColumnMinimumWidth(3, 20)
+        combo_grid.setColumnStretch(0, 1)
+        combo_grid.setSpacing(0)
+        
         spectral_innerwidget = qt.QWidget()
-        spectral_innerwidget.setLayout(spectral_vbox)
+        spectral_vbox = qt.QVBoxLayout(spectral_innerwidget)
+        spectral_vbox.addWidget(spectral_tabs)
+        spectral_vbox.addWidget(combo_widget)
+
         spectral_splitter = qt.QSplitter()
         spectral_splitter.addWidget(spectral_innerwidget)
         spectral_splitter.addWidget(self.transformation)
-#         main_tabs = qt.QTabWidget()
-#         main_tabs.addTab(spectral_splitter, 'Spectral')
-#         main_tabs.addTab(qt.QTabWidget(), 'Purples')
 
         vbox = qt.QVBoxLayout()
-#         vbox.addWidget(main_tabs)
         vbox.addWidget(spectral_splitter)
         vbox.addLayout(grid)
         self.main_frame.setLayout(vbox)
