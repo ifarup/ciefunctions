@@ -43,5 +43,11 @@ for (i=0; i < availablePlots.length; i++){
 	all_plots[availablePlots[i]] = new Plot(availablePlots[i]);
 }
 
+/* @TODO: Adjust position of ordinate label.*/
 
+function adjustOrdinateLabelPosition(){
+
+	//Fantastic code goes here.
+
+}
 
