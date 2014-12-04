@@ -683,7 +683,7 @@ def bm(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _coorinates('\\(l_{\,\mathrm{MB},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
+                    _coordinates('\\(l_{\,\mathrm{MB},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
                                  '\\(m_{\,\mathrm{MB},\,%s,\,%d}\\)' % (data['field_size'], data['age']),
                                  '\\(s_{\,\mathrm{MB},\,%s,\,%d}\\)' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
