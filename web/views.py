@@ -63,7 +63,10 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
             	'cie64' 		: int(cie64),
             	'labels' 		: int(labels),
             	'axis_labels'	: False,
-            	'label_fontsize' : 12 }
+            	'label_fontsize' : 12,
+            	#'norm'			: False,
+            	
+            	 }
             	
 	if (plot == 'xyz'):
 		tc182.plot.xyz(ax, plots, options)
@@ -91,7 +94,7 @@ def get_plot(request, plot, grid, cie31, cie64, labels):
 	
 	elif (plot == 'xy31'):
 		tc182.plot.xy31(ax, plots, options)
-	
+
 	elif (plot == 'xy64'):
 		tc182.plot.xy64(ax, plots, options)
 	
