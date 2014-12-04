@@ -31,6 +31,45 @@ import time
 from time import gmtime, strftime
 import timeit
 
+#Global options for plot, table & description. Contains defaults.
+
+options = { 	'grid' 			: 0,
+				'full_title'	: False,
+            	'cie31' 		: 0,
+            	'cie64' 		: 0,
+            	'labels' 		: 0,
+            	'axis_labels'	: False,
+            	'label_fontsize' : 12,
+            	'norm'			: False
+}
+
+def updateOptions(optionSet):
+
+	try: options['grid'] = optionSet['grid']
+	except: pass
+	
+	try: options['full_title'] = optionSet['full_title']
+	except: pass
+	
+	try: options['cie31'] = optionSet['cie31']
+	except: pass
+	
+	try: options['cie64'] = optionSet['cie64']
+	except: pass
+	
+	try: options['labels'] = optionSet['labels']
+	except: pass
+	
+	try: options['axis_labels'] = optionSet['axis_labels']
+	except: pass
+	
+	try: options['label_fontsize'] = optionSet['label_fontsize']
+	except: pass
+	
+	try: options['norm'] = bool(optionSet['norm'])
+	except: pass
+
+	return
 
 def time_now():
 	return strftime("%Y-%m-%d %H:%M:%S", gmtime())
@@ -49,25 +88,23 @@ def get_filename_params(request):
 
 	return filename_params
 
-def get_plot(request, plot, grid, cie31, cie64, labels):
+def get_plot(request, plot, grid, cie31, cie64, labels, norm):
 	start = time.time()
-	log.debug("[%s] Requesting %s/%s/%s/%s/%s - \t\tsID: %s" % (time_now(), plot, grid, cie31, cie64, labels, request.session.session_key))
+	log.debug("[%s] Requesting %s/%s/%s/%s/%s/%s - \t\tsID: %s" % (time_now(), plot, grid, cie31, cie64, labels, norm, request.session.session_key))
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
 	results = request.session['results']
 	
-	options = { 'grid' 			: int(grid),
-				'full_title'	: False,
-            	'cie31' 		: int(cie31),
-            	'cie64' 		: int(cie64),
-            	'labels' 		: int(labels),
-            	'axis_labels'	: False,
-            	'label_fontsize' : 12,
-            	#'norm'			: False,
-            	
-            	 }
-            	
+	optionSet = { 	'grid' 				: int(grid),
+            		'cie31' 			: int(cie31),
+            		'cie64' 			: int(cie64),
+            		'labels' 			: int(labels),
+            		'norm'				: bool(int(norm)),   	
+    }
+    
+	updateOptions(optionSet)
+    
 	if (plot == 'xyz'):
 		tc182.plot.xyz(ax, plots, options)
 		
@@ -109,34 +146,34 @@ def get_table(request, plot):
 	results = request.session['results']
 	
 	if (plot == 'xyz'):
-		return HttpResponse(mark_safe(tc182.table.xyz(results, '')))
+		return HttpResponse(mark_safe(tc182.table.xyz(results, options, '')))
 
 	elif (plot == 'xy'):
-		return HttpResponse(mark_safe(tc182.table.xy(results, '')))
+		return HttpResponse(mark_safe(tc182.table.xy(results, options, '')))
 	
 	elif (plot == 'lms'):
-		return HttpResponse(mark_safe(tc182.table.lms(results, '')))
+		return HttpResponse(mark_safe(tc182.table.lms(results, options, '')))
 	
 	elif (plot == 'lms_base'):
-		return HttpResponse(mark_safe(tc182.table.lms_base(results, '')))
+		return HttpResponse(mark_safe(tc182.table.lms_base(results, options, '')))
 	
 	elif (plot == 'bm'):
-		return HttpResponse(mark_safe(tc182.table.bm(results, '')))
+		return HttpResponse(mark_safe(tc182.table.bm(results, options, '')))
 	
 	elif (plot == 'lm'):
-		return HttpResponse(mark_safe(tc182.table.lm(results, '')))
+		return HttpResponse(mark_safe(tc182.table.lm(results, options, '')))
 	
 	elif (plot == 'xyz31'):
-		return HttpResponse(mark_safe(tc182.table.xyz31(results, '')))
+		return HttpResponse(mark_safe(tc182.table.xyz31(results, options, '')))
 	
 	elif (plot == 'xyz64'):
-		return HttpResponse(mark_safe(tc182.table.xyz64(results, '')))
+		return HttpResponse(mark_safe(tc182.table.xyz64(results, options, '')))
 		
 	elif (plot == 'xy31'):
-		return HttpResponse(mark_safe(tc182.table.xy31(results, '')))
+		return HttpResponse(mark_safe(tc182.table.xy31(results, options, '')))
 
 	elif (plot == 'xy64'):
-		return HttpResponse(mark_safe(tc182.table.xy64(results, '')))
+		return HttpResponse(mark_safe(tc182.table.xy64(results, options, '')))
 		
 	else:
 		return HttpResponse('No description for plot %s' % plot)
@@ -146,36 +183,37 @@ def get_table(request, plot):
 
 def get_description(request, plot):
 	results = request.session['results']
+	print options
 
 	if (plot == 'xyz'):
-		return HttpResponse(mark_safe(tc182.description.xyz(results, '')))
+		return HttpResponse(mark_safe(tc182.description.xyz(results, options, '')))
 
 	elif (plot == 'xy'):
-		return HttpResponse(mark_safe(tc182.description.xy(results, '')))
+		return HttpResponse(mark_safe(tc182.description.xy(results, options, '')))
 	
 	elif (plot == 'lms'):
-		return HttpResponse(mark_safe(tc182.description.lms(results, '')))
+		return HttpResponse(mark_safe(tc182.description.lms(results, options, '')))
 	
 	elif (plot == 'lms_base'):
-		return HttpResponse(mark_safe(tc182.description.lms_base(results, '')))
+		return HttpResponse(mark_safe(tc182.description.lms_base(results, options, '')))
 	
 	elif (plot == 'bm'):
-		return HttpResponse(mark_safe(tc182.description.bm(results, '')))
+		return HttpResponse(mark_safe(tc182.description.bm(results, options, '')))
 	
 	elif (plot == 'lm'):
-		return HttpResponse(mark_safe(tc182.description.lm(results, '')))
+		return HttpResponse(mark_safe(tc182.description.lm(results, options, '')))
 	
 	elif (plot == 'xyz31'):
-		return HttpResponse(mark_safe(tc182.description.xyz31(results, '')))
+		return HttpResponse(mark_safe(tc182.description.xyz31(results, options, '')))
 	
 	elif (plot == 'xyz64'):
-		return HttpResponse(mark_safe(tc182.description.xyz64(results, '')))
+		return HttpResponse(mark_safe(tc182.description.xyz64(results, options, '')))
 		
 	elif (plot == 'xy31'):
-		return HttpResponse(mark_safe(tc182.description.xy31(results, '')))
+		return HttpResponse(mark_safe(tc182.description.xy31(results, options, '')))
 
 	elif (plot == 'xy64'):
-		return HttpResponse(mark_safe(tc182.description.xy64(results, '')))
+		return HttpResponse(mark_safe(tc182.description.xy64(results, options, '')))
 		
 	else:
 		return HttpResponse('No description for plot %s' % plot)

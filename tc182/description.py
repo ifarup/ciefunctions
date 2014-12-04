@@ -403,6 +403,7 @@ def _xyz_to_xy_64():
     """
 
 def _illuminant_E_cc(data, options):
+    print "options: %s" % options
     if options['norm']:
         xy_white = data['xy_white_N']
     else:
