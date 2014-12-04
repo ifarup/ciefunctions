@@ -23,7 +23,7 @@ import tc182
 import tc182.description
 import tc182.plot
 import tc182.table
-import sys
+import sys, os
 import numpy as np
 import PyQt4.QtGui as qt
 import PyQt4.QtCore as qtcore
@@ -369,9 +369,11 @@ You should have received a copy of the GNU General Public License along with thi
                 # Create plot
                 tc182.plot.xy64(self.axes, self.plots, self.options())
 
-        # Refresh GUI        
-        self.transformation.setHtml(html_string)
-        self.html_table.setHtml(html_table)
+        # Refresh GUI
+        
+        base_url = qtcore.QUrl('file://' +  os.getcwd() + '/')
+        self.transformation.setHtml(html_string, baseUrl=base_url)
+        self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()
 
     def on_compute(self):
@@ -542,7 +544,7 @@ You should have received a copy of the GNU General Public License along with thi
         
         self.transformation = qtweb.QWebView()
         self.html_table = qtweb.QWebView()
-
+        
         # Layout with labels
         # 
         self.compare_label_31 = qt.QLabel(u'Compare with CIE 1931 2\N{DEGREE SIGN}') 

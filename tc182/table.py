@@ -24,30 +24,7 @@ import numpy as np
 def _head():
     return """
     <head>
-    <style>
-    body {
-      font-family: Sans-Serif;
-    }
-    table {
-    	margin-left: auto;
-		margin-right: auto;
-		width: 100%;
-    }
-    tr:nth-child(even){
-        background-color: #ddd;
-    }
-    td {
-        padding: 0px 10px 0px 10px;
-        text-align: center;
-    }    
-    table tr:hover { 
-                        background-color: #555;
-                        color: white;
-    }
-    table.tblHeader {
-                        position: fixed;
-    }
-    </style>
+    <link type="text/css" rel="stylesheet" href="table.css" />
     </head>
     """
 

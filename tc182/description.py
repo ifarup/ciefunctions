@@ -22,35 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 def _head():
     return """
     <head>
-    <style>
-    body {
-      font-family: Sans-Serif;
-    }
-    .matrix {
-        position: relative;
-        border-spacing: 10px 0;
-    }
-    .matrix:before {
-        content: "";
-        position: absolute;
-        left: -6px;
-        top: 0;
-        border: 1px solid #000;
-        border-right: 0px;
-        width: 6px;
-        height: 100%;
-    }
-    .matrix:after {
-        content: "";
-        position: absolute;
-        right: -6px;
-        top: 0;
-        border: 1px solid #000;
-        border-left: 0px;
-        width: 6px;
-        height: 100%;
-    }
-    </style>
+    <link type="text/css" rel="stylesheet" href="description.css" />
+    <script type="text/javascript" src="MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML"></script>
     </head>
     """
 
@@ -691,6 +664,13 @@ def _purple_bm(data):
            data['field_size'], data['age'], data['purple_line_bm'][1,0],
            data['purple_line_bm'][1,1], data['purple_line_bm'][1,2])
 
+def _mathjax_test():
+    return """
+    $$
+    f(x) = \\int_1^x \\frac{1}{\\tau}\\,d\\tau
+    $$
+    """
+
 def xyz(data, heading, options, include_head=False):
     """
     Generate html page with information about the XYZ system.
@@ -784,7 +764,8 @@ def lms(data, heading, options, include_head=False):
                                '<font style="text-decoration: overline;"><em>s</em></font><sub> %s, %d</sub>' % (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
                     _normalisation_lms() +
-                    _precision_lms())
+                    _precision_lms() +
+                    _mathjax_test())
     return html_string
 
 def lms_base(data, heading, options, include_head=False):
