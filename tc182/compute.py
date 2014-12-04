@@ -937,7 +937,8 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
         lms_N = lms_spec.copy()
     else:   
         lms_N = lms_standard_spec.copy()
-    lms_N[:,1:] = lms_N[:,1:] / np.sum(lms_N[:,1:], 0)
+    lms_N_inv = 1. / np.sum(lms_N[:,1:], 0)
+    lms_N[:,1:] = lms_N[:,1:] * lms_N_inv 
     lm_spec = lms_N.copy()
     lm_spec[:,1] = lms_N[:,1] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
     lm_spec[:,2] = lms_N[:,2] / (lms_N[:,1] + lms_N[:,2] + lms_N[:,3])
@@ -1099,6 +1100,8 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['xyz64'] = chop(VisualData.xyz64.copy())
     results['xy31'] = chop(my_round(VisualData.cc31, 5))
     results['xy64'] = chop(my_round(VisualData.cc64, 5))
+    results['bm_s_max'] = bm_s_max
+    results['lms_N_inv'] = lms_N_inv
     if np.round(field_size, 5) == np.round(field_size):
         results['field_size'] = "%.0f" % field_size
     else:
