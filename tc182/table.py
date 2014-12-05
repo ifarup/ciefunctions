@@ -20,9 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import numpy as np
+import sys
 
 def _head():
-    return """
+    html_string = """
     <head>
     <link type="text/css" rel="stylesheet" href="table.css" />
     <script type="text/javascript" src="web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML"></script>
@@ -32,11 +33,28 @@ def _head():
             showProcessingMessages: false,
             messageStyle: "none",
             inlineMath:[["\\(","\\)"]],
-            displayMath:[["$$","$$"]]
+            displayMath:[["$$","$$"]],
+            "HTML-CSS": {
+    """
+    if sys.platform.startswith('win'):
+        html_string += """
+                scale: 200
+        """
+    elif sys.platform.startswith('linux'):
+        html_string += """
+                scale: 95
+        """
+    else:
+        html_string += """
+                scale: 100
+        """
+    html_string += """
+            }
         });
     </script>
     </head>
     """
+    return html_string
 
 def xyz(results, options, include_head=False):
     """

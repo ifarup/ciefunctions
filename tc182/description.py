@@ -19,8 +19,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import sys
+
 def _head():
-    return """
+    html_string = """
     <head>
     <link type="text/css" rel="stylesheet" href="description.css" />
     <script type="text/javascript" src="web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML"></script>
@@ -30,11 +32,28 @@ def _head():
             showProcessingMessages: false,
             messageStyle: "none",
             inlineMath:[["\\(","\\)"]],
-            displayMath:[["$$","$$"]]
+            displayMath:[["$$","$$"]],
+            "HTML-CSS": {
+    """
+    if sys.platform.startswith('win'):
+        html_string += """
+                scale: 200
+        """
+    elif sys.platform.startswith('linux'):
+        html_string += """
+                scale: 95
+        """
+    else:
+        html_string += """
+                scale: 100
+        """
+    html_string += """
+            }
         });
     </script>
     </head>
     """
+    return html_string
 
 def _heading(heading):
     return """
@@ -403,7 +422,7 @@ def _xyz_to_xy_64():
     """
 
 def _illuminant_E_cc(data, options):
-    print "options: %s" % options
+    print("options: %s" % options)
     if options['norm']:
         xy_white = data['xy_white_N']
     else:
