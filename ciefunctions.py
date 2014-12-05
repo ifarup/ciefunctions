@@ -371,10 +371,9 @@ You should have received a copy of the GNU General Public License along with thi
 
         # Refresh GUI
 
-        import inspect
-        file_path = 'file://' +  os.path.dirname(os.path.abspath(inspect.getsourcefile(AppForm))) + '/'
+        file_path = os.getcwd() + os.sep
         print(file_path)
-        base_url = qtcore.QUrl(file_path)
+        base_url = qtcore.QUrl.fromLocalFile(file_path)
         print(base_url)
         self.transformation.setHtml(html_string, baseUrl=base_url)
         self.html_table.setHtml(html_table, baseUrl=base_url)
