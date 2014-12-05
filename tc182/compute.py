@@ -144,6 +144,7 @@ def read_csv_file(filename, pad=-np.inf):
     csv_array : ndarray
         The content of the file plus padding.
     """
+    print(resource_path(filename))
     f = open(resource_path(filename))
     data = f.readlines()
     for i in range(len(data)):
