@@ -371,7 +371,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         # Refresh GUI
 
-        file_path = 'file://' +  os.getcwd() + '/'
+        file_path = 'file://' +  os.path.dirname(os.getcwd()) + '/'
         print(file_path)
         base_url = qtcore.QUrl('file://' +  os.getcwd() + '/')
         print(base_url)
