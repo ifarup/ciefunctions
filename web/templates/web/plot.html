@@ -16,6 +16,18 @@
 		<script src="{% static 'web/js/bootstrap.min.js' %}"></script><!-- Bootstrap 3.3.1 -->
 		<script src="{% static 'web/js/plotLoader.js' %}"></script>
 		
+		<!-- MathJax -->
+		<script type="text/javascript" src="{% static 'web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML' %}"></script>
+    	<script type="text/x-mathjax-config">
+        	MathJax.Hub.Config({
+            	displayAlign: "left",
+            	showProcessingMessages: false,
+            	messageStyle: "none",
+            	inlineMath:[["\\(","\\)"]],
+            	displayMath:[["$$","$$"]]
+        	});
+    	</script>
+		
 		<script>
 			//Namespace for current form_values
 			currentForm = (	{	age			: '{{ age }}',
