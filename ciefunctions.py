@@ -370,8 +370,8 @@ You should have received a copy of the GNU General Public License along with thi
                 tc182.plot.xy64(self.axes, self.plots, self.options())
 
         # Refresh GUI
-        
-        base_url = qtcore.QUrl('file://' +  os.getcwd() + '/')
+
+        base_url = qtcore.QUrl.fromLocalFile(os.getcwd() + os.sep)
         self.transformation.setHtml(html_string, baseUrl=base_url)
         self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()

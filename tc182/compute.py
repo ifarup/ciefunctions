@@ -234,7 +234,8 @@ class VisualData:
     All data are read from files in the 'data' folder.
     """
     absorbance = read_csv_file('data/absorbances0_1nm.csv')[:,[0,2,3,4]]
-    macula = read_csv_file('data/absorbances0_1nm.csv')[:,[0,6]]
+    macula_2 = read_csv_file('data/absorbances0_1nm.csv')[:,[0,6]]
+    macula_rel = macula_2 / .35 # since macula at 2 degrees has a maximum of 0.35 at 460 (at 5nm step)
     ocular_sum_32 = read_csv_file('data/absorbances0_1nm.csv')[:,[0,5]]  # 32 years only!!! 
     
     lms10_log_quant = read_csv_file('data/ss10q_fine_8dp.csv')
@@ -266,7 +267,7 @@ def absorptance_from_lms10q():
     absorptance[:,1:] = 10**(absorptance[:,1:])
     for i in range(1,4):
         absorptance[:,i] = absorptance[:,i]/ \
-            10**(-d_mac_max(10)*VisualData.macula[:,1]/.35 -
+            10**(-d_mac_max(10)*VisualData.macula_rel[:,1] -
                  VisualData.ocular_sum_32[:,1])
         absorptance[:,i] = absorptance[:,i]/absorptance[:,i].max()
     return absorptance
@@ -457,7 +458,7 @@ def lms_quantal(field_size, age):
     ocul = ocular(age)
     for i in range(1,4):
         lmsq[:,i] = abt[:,i] * \
-            10**(-d_mac_max(field_size)*VisualData.macula[:,1]/.35 - ocul[:,1])
+            10**(-d_mac_max(field_size)*VisualData.macula_rel[:,1] - ocul[:,1])
         lmsq[:,i] = lmsq[:,i]/(lmsq[:,i].max())
     return lmsq
 
@@ -1130,5 +1131,4 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    print(chop(5))
-    print(chop(5.))
+    print(d_mac_max(2), d_mac_max(10))
