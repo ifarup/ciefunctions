@@ -4,9 +4,10 @@
 		<title>Ciefunctions</title>
 		<link rel="stylesheet" href="{% static 'web/css/redmond/jquery-ui-1.10.4.custom.min.css' %}"></link>
 		
-		<link rel="stylesheet" href="{% static 'web/css/tc.css' %}"></link>
-		<link rel="stylesheet" href="{% static 'web/css/tc.css' %}"></link>
-		<link rel="stylesheet" href="{% static 'web/css/tc.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/main.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/plot.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/table.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/description.css' %}"></link>
 		
 		<link rel="stylesheet" href="{% static 'web/css/bootstrap.min.css' %}"><!-- Bootstrap 3.3.1 -->
 		<link rel="stylesheet" href="{% static 'web/css/bootstrap-theme.css' %}"><!-- Bootstrap 3.3.1 -->
@@ -178,20 +179,19 @@
 								<option plot="bm">MacLeod-Boynton ls chomaticity diagram</option>
 								<option plot="lm">Maxwellian lm chromaticity diagram</option>
 								<option plot="xyz">CIE XYZ fundamental CMFs (Spectrals)</option><!-- renorm -->
-								<option plot="xyzp">CIE XYZ fundamental CMFs (Purples)</option><!-- renorm -->
+								<!--<option plot="xyzp">CIE XYZ fundamental CMFs (Purples)</option><!-- renorm -->-->
 								<option plot="xy">CIE xy fundamental chromaticity diagram</option><!-- renorm -->
 								<option plot="xyz31">CIE XYZ standard CMFs (Spectrals)</option>
-								<option plot="xyz31p">CIE XYZ standard CMFs (Purples)</option>								
+								<!-- <option plot="xyz31p">CIE XYZ standard CMFs (Purples)</option>	-->							
 								<option plot="xy31">CIE xy standard chromaticity diagram</option>
 							</select>
 						</div><!-- end #plot-select -->
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<div id="modus-select-div">
-							<select id="modus-select" class="ui-widget ui-widget-content">
-								<option modus="2">Renormalized Values (Checkbox)</option>
-							</select>
-						</div><!-- end #plot-select -->
+						<div class="norm-div">
+							<label for="#norm">Renormalized Values</label>
+							<input id ="norm" type="checkbox"/>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -294,5 +294,5 @@
 		</div>
 	</div><!-- container -->
 	<script src="{% static 'web/js/tc.js' %}"></script>
-	</body>
+</body>
 </html>

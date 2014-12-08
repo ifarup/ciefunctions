@@ -183,7 +183,6 @@ def get_table(request, plot):
 
 def get_description(request, plot):
 	results = request.session['results']
-	print options
 
 	if (plot == 'xyz'):
 		return HttpResponse(mark_safe(tc182.description.xyz(results, '', options, '')))

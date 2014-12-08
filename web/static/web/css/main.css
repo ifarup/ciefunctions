@@ -67,8 +67,6 @@ div.input-field, div#figOptions div { 	vertical-align: top;
     									margin-left: 10px;
 }
 
-
-
 /* Review this */
 
 #tc-Tabs a { outline: none; }
@@ -148,4 +146,8 @@ body{
 		position: absolute;
 	}
 
+/* Renormalize values */
 
+div.norm-div {
+		display: none;
+}

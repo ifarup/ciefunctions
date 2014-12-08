@@ -242,7 +242,7 @@ $( "div#std-params" ).hide();
 
 
 function getOptionsString(){
-	return "" + plot_options.grid + plot_options.cie31 + plot_options.cie64 + plot_options.labels;
+	return "" + plot_options.grid + plot_options.cie31 + plot_options.cie64 + plot_options.labels + plot_options.norm;
 }
 
 //This function retrieves an object (table or description, file an issue for plot)
@@ -470,7 +470,9 @@ function showStandard( standard_plot ){
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");;
+				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				
+				$( ".norm-div" ).show();
 				
 			break;
 			
@@ -484,6 +486,7 @@ function showStandard( standard_plot ){
 				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
 				
+				$( ".norm-div" ).show();
 			break;
 			
 			case "lms": //CIE LMS cone fundamentals
@@ -496,6 +499,7 @@ function showStandard( standard_plot ){
 				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
 				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
 				
+				$( ".norm-div" ).hide();
 			break;
 			
 			case "lms_base": //CIE LMS cone fundamentals (9 sign.flgs.)
@@ -508,6 +512,7 @@ function showStandard( standard_plot ){
 				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
 				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
 				
+				$( ".norm-div" ).hide();
 			break;
 			
 			case "bm": //CIE MacLeod-Boynton ls diagram
@@ -515,12 +520,12 @@ function showStandard( standard_plot ){
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
 				
-				
 				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
 				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
 				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
 				
+				$( ".norm-div" ).hide();
 			break;
 			
 			case "lm": //Equi-power normalised lm diagram
@@ -533,6 +538,7 @@ function showStandard( standard_plot ){
 				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
 				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
 				
+				$( ".norm-div" ).hide();
 			break;
 			
 			case "xyz31": //Equi-power normalised lm diagram
@@ -546,6 +552,7 @@ function showStandard( standard_plot ){
 				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
 				
+				$( ".norm-div" ).hide();
 			break;
 			
 			case "xy31": //CIE xy standard chromaticity diagram
@@ -559,15 +566,14 @@ function showStandard( standard_plot ){
 				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
 				
+				$( ".norm-div" ).hide();
 			break;
-			
 		}
 	}
 	
 	// Checkbox events (Bit ugly, but OK)
 				$( "input[type=checkbox]" ).on('click', function(){
 					$( "#theFig .velo" ).show();
-					console.log($(this));
 				});
 	
 				$( "#showGrid" ).on("click", function(){
@@ -611,7 +617,17 @@ function showStandard( standard_plot ){
 					refreshAllOthers(currentPlot);
 					
 				});
-				// @TODO: Need an option for norm here
+				
+				$( "#norm" ).on("click", function(){
+					if (plot_options.norm==1) {
+						plot_options.norm = 0;
+					} else {
+						plot_options.norm = 1;
+					}
+					console.log(plot_options.norm);
+					refreshPlot(currentPlot);
+					refreshAllOthers(currentPlot);
+				});
 		refreshAllObjects();
 	});
 		
