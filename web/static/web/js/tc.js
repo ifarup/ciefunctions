@@ -249,7 +249,7 @@ function getOptionsString(){
 function refreshObject(object, name){
 /* object is a String: can be 'table' or 'description'*/
 	$( "div#" + name + "_" + object ).siblings(".velo").show();
-	ajaxUrl = '/get_'+ object + '/' + name + '/';
+	ajaxUrl = '/get_'+ object + '/' + name + '/' + plot_options.norm + "/";
 	AJAX_left++;
 	updateAjaxLeft();
 	$.get( ajaxUrl )
@@ -382,7 +382,6 @@ function refreshAllOthers(plot){
 
 function showStandard( standard_plot ){
 	var data = all_plots[standard_plot].getPlot(getOptionsString());
-	console.log("loading " + standard_plot);
 	currentPlot = standard_plot;
 	
 	$( "div.plot" ).hide(); 				//Hide all plots
@@ -624,9 +623,9 @@ function showStandard( standard_plot ){
 					} else {
 						plot_options.norm = 1;
 					}
-					console.log(plot_options.norm);
+
 					refreshPlot(currentPlot);
-					refreshAllOthers(currentPlot);
+					refreshAllObjects();
 				});
 		refreshAllObjects();
 	});

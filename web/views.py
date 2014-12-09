@@ -142,8 +142,12 @@ def get_plot(request, plot, grid, cie31, cie64, labels, norm):
 	log.debug("[%s] Plot %s/%s/%s/%s/%s produced in %s seconds - \t\tsID: %s" % ( time_now(), plot,  grid, cie31, cie64, labels, str(stop - start), request.session.session_key))
 	return HttpResponse(resulting_plot);
 
-def get_table(request, plot):
+def get_table(request, plot, norm):
 	results = request.session['results']
+
+	optionSet = {		'norm'				: bool(int(norm))}
+    
+	updateOptions(optionSet)
 	
 	if (plot == 'xyz'):
 		return HttpResponse(mark_safe(tc182.table.xyz(results, options, '')))
@@ -177,12 +181,16 @@ def get_table(request, plot):
 		
 	else:
 		return HttpResponse('No description for plot %s' % plot)
-	
 
 	return HttpResponse('Table %s' % plot)
+	
 
-def get_description(request, plot):
+def get_description(request, plot, norm):
 	results = request.session['results']
+	
+	optionSet = {		'norm'				: bool(int(norm))}
+    
+	updateOptions(optionSet)
 
 	if (plot == 'xyz'):
 		return HttpResponse(mark_safe(tc182.description.xyz(results, '', options, '')))

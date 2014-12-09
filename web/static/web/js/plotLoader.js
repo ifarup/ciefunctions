@@ -45,9 +45,18 @@ for (i=0; i < availablePlots.length; i++){
 
 /* @TODO: Adjust position of ordinate label.*/
 
-function adjustOrdinateLabelPosition(){
+$( document ).ready(function(){
 
-	//Fantastic code goes here.
+	var leftPos = -170;
+	$( ".y_label" ).css("left", leftPos); //Place the label at a distance from the middle of the containing div of the plot.
+	$( "#tabSys" ).width(620);
+});
 
-}
+$( window ).resize(function() {
+	//Adjust ordinate label position
+	var instantLeft = $( "#theFig" ).width() /2 - 479;
+	console.log(instantLeft);
+	$( ".y_label" ).css("left", instantLeft); //Place the label at a distance from the middle of the containing div of the plot.
+});
+
 

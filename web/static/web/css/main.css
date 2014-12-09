@@ -50,27 +50,6 @@ div.htmlWrapper {	/*position: relative; */
 					overflow-y: auto;
 				}
 
-div#input-params, div#figOptions {  font-size: 0.9em;
-    								margin: 5px auto 0px auto;
-    								margin-left: auto; 
-    								margin-right: auto;
-
-     								text-align: center;
-    								-ms-text-justify: distribute-all-lines;
-    								text-justify: distribute-all-lines;
-}
-div.input-field, div#figOptions div { 	vertical-align: top;
-    									display: inline-block;
-    									*display: inline;
-    									zoom: 1;
-    									margin-right: 10px;
-    									margin-left: 10px;
-}
-
-/* Review this */
-
-#tc-Tabs a { outline: none; }
-
 .disabled { color: #aaa; }
 				
 .float-bottom { height: 0px;
@@ -105,49 +84,20 @@ div.input-field, div#figOptions div { 	vertical-align: top;
     				line-height: 0
 }
 
-/* From jquery-ui theme */
-
-body{
-		font: 80% "Trebuchet MS", sans-serif;
-		margin: 0px;
-	}
-	.demoHeaders {
-		margin-top: 2em;
-	}
-	#dialog-link {
-		padding: .4em 1em .4em 20px;
-		text-decoration: none;
-		position: relative;
-	}
-	#dialog-link span.ui-icon {
-		margin: 0 5px 0 0;
-		position: absolute;
-		left: .2em;
-		top: 50%;
-		margin-top: -8px;
-	}
-	#icons {
-		margin: 0;
-		padding: 0;
-	}
-	#icons li {
-		margin: 2px;
-		position: relative;
-		padding: 4px 0;
-		cursor: pointer;
-		float: left;
-		list-style: none;
-	}
-	#icons span.ui-icon {
-		float: left;
-		margin: 0 4px;
-	}
-	.fakewindowcontain .ui-widget-overlay {
-		position: absolute;
-	}
 
 /* Renormalize values */
 
 div.norm-div {
 		display: none;
+}
+
+
+#input-params input {
+
+	width: 30px;
+	
+}
+
+.minus-sign {
+	padding-left: 10px;
 }

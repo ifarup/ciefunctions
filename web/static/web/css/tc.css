@@ -316,8 +316,4 @@ body{
 	.fakewindowcontain .ui-widget-overlay {
 		position: absolute;
 	}
-/* Tab panel */
 
-#tabSys a {
-		outline: none;
-}
