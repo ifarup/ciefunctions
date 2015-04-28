@@ -120,7 +120,7 @@ def xy(axes, plots, options):
             align = 'center'
         if options['labels']:
             if np.shape(ind)[0] > 0:
-                axes.text(xy[ind,1], xy[ind,2], '   ' + "%.0f" % l,
+                axes.text(xy[ind,1], xy[ind,2], '   ' + '%.0f' % l,
                                fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(xy_white[0], xy_white[1], 'kx')
     if options['labels']:
@@ -262,7 +262,7 @@ def bm(axes, plots, options):
         else:
             align = 'center'
         if options['labels'] and np.shape(ind)[0] > 0:
-            axes.text(plots['bm'][ind,1], plots['bm'][ind,3], '   ' + "%.0f" % l,
+            axes.text(plots['bm'][ind,1], plots['bm'][ind,3], '   ' + '%.0f' % l,
                            fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(plots['bm_white'][0], plots['bm_white'][2], 'kx')
     if options['labels']:
@@ -333,7 +333,7 @@ def lm(axes, plots, options):
         else:
             align = 'center'
         if options['labels'] and np.shape(ind)[0] > 0:
-            axes.text(plots['lm'][ind,1], plots['lm'][ind,2], '   ' + "%.0f" % l,
+            axes.text(plots['lm'][ind,1], plots['lm'][ind,2], '   ' + '%.0f' % l,
                            fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(plots['lm_white'][0], plots['lm_white'][1], 'kx')
     if options['labels']:
@@ -474,7 +474,7 @@ def xy31(axes, plots, options):
         else:
             align = 'center'
         if options['labels']:
-            axes.text(plots['xy31'][ind,1], plots['xy31'][ind,2], '   ' + "%.0f" % l,
+            axes.text(plots['xy31'][ind,1], plots['xy31'][ind,2], '   ' + '%.0f' % l,
                            fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(1./3, 1./3, 'kx')
     if options['labels']:
@@ -524,7 +524,7 @@ def xy64(axes, plots, options):
         else:
             align = 'center'
         if options['labels']:
-            axes.text(plots['xy64'][ind,1], plots['xy64'][ind,2], '   ' + "%.0f" % l,
+            axes.text(plots['xy64'][ind,1], plots['xy64'][ind,2], '   ' + '%.0f' % l,
                            fontsize=options['label_fontsize'], verticalalignment=align)
     axes.plot(1./3, 1./3, 'kx')
     if options['labels']:

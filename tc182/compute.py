@@ -133,8 +133,8 @@ def chop(arr, epsilon=1e-14):
 #     """
 #     return os.path.join(
 #         os.environ.get(
-#             "_MEIPASS2",
-#             os.path.abspath(".")
+#             '_MEIPASS2',
+#             os.path.abspath('.')
 #         ),
 #         relative
 #     )
@@ -873,7 +873,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     ok = False
     while not ok:
         with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
+            warnings.simplefilter('ignore')
             a13 = scipy.optimize.fmin(square_sum, 0.39,
                                       (a21, a22, a33, l_spline, m_spline, s_spline,
                                        v_spline, lambdas_std, lambda_x_min_ref, cc_ref,
@@ -1049,7 +1049,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     # fs: 10 degrees, age: 60 years, step = 1nv
 
 #     if ( purple_line_cc[1,0] != purple_line_bm[1,0] ):
-#         print "Wavelengths differ!"
+#         print('Wavelengths differ!')
 #         purple_line_cc[1,0] = purple_line_bm[1,0]
     
     # Compute purple line for lm
@@ -1095,9 +1095,9 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['purple_line_cc64'] = purple_line_cc64.copy()
     
     if field_size == np.round(field_size):
-        plots['field_size'] = "%.0f" % field_size
+        plots['field_size'] = '%.0f' % field_size
     else:
-        plots['field_size'] = "%.1f" % field_size
+        plots['field_size'] = '%.1f' % field_size
     plots['age'] = age
     plots['lambda_min'] = lambda_min
     plots['lambda_max'] = lambda_max
@@ -1137,9 +1137,9 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     results['bm_s_max'] = bm_s_max
     results['lms_N_inv'] = lms_N_inv
     if np.round(field_size, 5) == np.round(field_size):
-        results['field_size'] = "%.0f" % field_size
+        results['field_size'] = '%.0f' % field_size
     else:
-        results['field_size'] = "%.1f" % field_size
+        results['field_size'] = '%.1f' % field_size
     if (np.round(lambda_step, 5) == np.round(lambda_step) and
         np.round(lambda_min, 5) == np.round(lambda_min) and
         np.round(lambda_max, 5) == np.round(lambda_max)):
