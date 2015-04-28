@@ -372,7 +372,6 @@ You should have received a copy of the GNU General Public License along with thi
         # Refresh GUI
 
         base_url = qtcore.QUrl.fromLocalFile(os.getcwd() + os.sep)
-        print(html_string)
         self.transformation.setHtml(html_string, baseUrl=base_url)
         self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()
