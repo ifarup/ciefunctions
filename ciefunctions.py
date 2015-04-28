@@ -372,6 +372,7 @@ You should have received a copy of the GNU General Public License along with thi
         # Refresh GUI
 
         base_url = qtcore.QUrl.fromLocalFile(os.getcwd() + os.sep)
+        print(html_string)
         self.transformation.setHtml(html_string, baseUrl=base_url)
         self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()
@@ -379,12 +380,15 @@ You should have received a copy of the GNU General Public License along with thi
     def on_compute(self):
         self.last_age = self.age_spin.value()
         self.last_field = self.field_spin.value()
-        self.last_resolution = self.resolution_spin.value()
-        self.last_lambda_min = self.lambda_min_spin.value()
-        self.last_lambda_max = self.lambda_max_spin.value()
+        self.last_resolution = tc182.my_round(self.resolution_spin.value(), 1)
+        self.last_lambda_min = tc182.my_round(self.lambda_min_spin.value(), 1)
+        self.last_lambda_max = tc182.my_round(self.lambda_max_spin.value(), 1)
         self.results, self.plots = tc182.compute_tabulated(self.last_field, self.last_age,
                                                            self.last_lambda_min, self.last_lambda_max,
                                                            self.last_resolution)
+        if self.results['xyz'][-1,0] != self.last_lambda_max:
+            self.last_lambda_max = self.results['xyz'][-1,0]
+            self.lambda_max_spin.setValue(self.last_lambda_max)
         self.on_draw()
 
     def add_actions(self, target, actions):
