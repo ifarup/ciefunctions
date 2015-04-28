@@ -119,6 +119,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_min_spin.setValue(self.last_lambda_min)
         self.lambda_max_spin.setValue(self.last_lambda_max)
         self.resolution_spin.setValue(self.last_resolution)
+        self.mpl_toolbar.update() # reset the views history (fixes #124)
 
         if self.plot_combo.currentIndex() not in [self.COMBO_XYSTD, self.COMBO_XYZSTD]:
             self.field_spin.show()
@@ -440,18 +441,18 @@ You should have received a copy of the GNU General Public License along with thi
         self.fig = Figure((10.0, 8.0), dpi=self.dpi)
         self.canvas = FigureCanvas(self.fig)
         self.canvas.setParent(self.main_frame)
-        
+
         # Since we have only one plot, we can use add_axes 
         # instead of add_subplot, but then the subplot
         # configuration tool in the navigation toolbar wouldn't
         # work.
         #
         self.axes = self.fig.add_subplot(111)
-        
+
         # Create the navigation toolbar, tied to the canvas
         #
         self.mpl_toolbar = NavigationToolbar(self.canvas, self.main_frame)
-        
+
         # Other GUI controls
         # 
         self.age_spin = qt.QSpinBox()
