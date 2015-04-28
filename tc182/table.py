@@ -201,12 +201,15 @@ def lms(results, options, include_head=False):
         html_table += _head()
     html_table += """
     <table>
+      <thead>
       <tr>
         <th>\\(\lambda\\)</th>
         <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
         <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
         <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
       </tr>
+      </thead>
+      <tbody>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -237,6 +240,7 @@ def lms(results, options, include_head=False):
                    results['lms'][i, 2],
                    results['lms'][i, 3])
     html_table += """
+      </tbody>
     </table>
     """
     return html_table
