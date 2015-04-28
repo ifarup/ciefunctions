@@ -1,3 +1,7 @@
+.container-fluid .row {
+			/*background-color: #ddd;*/
+}
+
 /* Tab panel */
 
 #tabSys a {
@@ -93,11 +97,27 @@ div.norm-div {
 
 
 #input-params input {
-
 	width: 30px;
-	
+}
+/* figOptions */
+
+#figOptions {
+	box-sizing: border-box;
+	background-color: #eee;
+}
+
+/* Params */
+
+.paramTable {
+			box-sizing: border-box;
+			width: 100%;
+			max-width: 650px;
+}
+
+.paramTable td {
+			border: 1px solid black;
 }
 
 .minus-sign {
-	padding-left: 10px;
+	/*padding-left: 10px;*/
 }
