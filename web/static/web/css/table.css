@@ -37,3 +37,28 @@ div.table th:first-of-type { 	width: 100px;
 				border: 1px solid #d5d5d5;
 				border-top: none;
 }
+
+/* Table with fixed header */
+
+.table-fixed thead {
+  width: 100%;
+}
+.table-fixed tbody {
+  height: 519px; /* Same as table wrapper */
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td {
+  float: left;
+  border-bottom-width: 0;
+}
+
+.table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+  height: 33;
+  width: 28.2%;
+}
