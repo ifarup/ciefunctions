@@ -24,6 +24,7 @@ import inspect
 import numpy as np
 import scipy.optimize
 import scipy.interpolate
+import warnings
 from scipy.spatial import Delaunay
 from scipy.io.matlab.miobase import arr_dtype_number
 
@@ -871,11 +872,13 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     lambda_x_min_ref = 502
     ok = False
     while not ok:
-        a13 = scipy.optimize.fmin(square_sum, 0.39,
-                                  (a21, a22, a33, l_spline, m_spline, s_spline,
-                                   v_spline, lambdas_std, lambda_x_min_ref, cc_ref,
-                                   False, xyz_signfig, mat_dp),
-                                   xtol=10**(-(mat_dp + 2)), disp=False)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            a13 = scipy.optimize.fmin(square_sum, 0.39,
+                                      (a21, a22, a33, l_spline, m_spline, s_spline,
+                                       v_spline, lambdas_std, lambda_x_min_ref, cc_ref,
+                                       False, xyz_signfig, mat_dp),
+                                      xtol=10**(-(mat_dp + 2)), disp=False)
         trans_mat, lambda_x_min_ref, ok = \
             square_sum(a13, a21, a22, a33, l_spline, m_spline,
                        s_spline, v_spline, lambdas_std,
@@ -1161,4 +1164,4 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    print(d_mac_max(2), d_mac_max(10))
+    compute_tabulated(5, 33)
