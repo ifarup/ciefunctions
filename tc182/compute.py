@@ -24,8 +24,24 @@ import inspect
 import numpy as np
 import scipy.optimize
 import scipy.interpolate
+import warnings
 from scipy.spatial import Delaunay
 from scipy.io.matlab.miobase import arr_dtype_number
+
+# The following coding conventions have been applied:
+#
+# * All functions have a docstring of minimum one line describing the
+#   overall purpose of the function as well as the names and types
+#   of the parameters and return values.
+#
+# * In some places, variables have been reused, typically in order to build up
+#   arrays sequentially. The typical example is found in, e.g.,
+#   absorptance_from_lms10q, where the absorptance array is first initialized
+#   as the absorbance, then edited in place. This is in order to achieve
+#   a shorter and also more efficient code with less memory allocation, and to
+#   avoid namespace pollution in the case of comput_tabulated. Unfortunately,
+#   it reduces the readability of the code somewhat. Therefore, all such
+#   occurences are marked with comments in the code. 
 
 #==============================================================================
 # Tabulated and derived visual data
@@ -35,6 +51,10 @@ def my_round(x,n=0):
     """
     Round array x to n decimal points using round half away from zero.
     
+    This function is needed because the rounding specified in the CIE
+    recommendation is different from the standard rounding scheme
+    in python (which is following the IEEE recommendation).
+
     Parameters
     ----------
     x : ndarray
@@ -54,6 +74,11 @@ def significant_figures(x,n=0):
     """
     Round x to n significant figures (not decimal points).
     
+    This function is needed because the rounding specified in the CIE
+    recommendation is different from the standard rounding scheme
+    in python (which is following the IEEE recommendation). Uses
+    my_round (above).
+
     Parameters
     ----------
     x : int, float or ndarray
@@ -68,17 +93,19 @@ def significant_figures(x,n=0):
         if x == 0.:
             return 0
         else:
-            b = np.ceil(np.log10(x))
-            return 10**b*my_round(x/10**b, n)
-    b = x.copy()
-    b[x == 0] = 0
-    b[x != 0] = np.ceil(np.log10(abs(x[x != 0])))
-    return 10**b*my_round(x/10**b, n)
+            exponent = np.ceil(np.log10(x))
+            return 10**exponent * my_round(x / 10**exponent, n)
+    exponent = x.copy()
+    exponent[x == 0] = 0
+    exponent[x != 0] = np.ceil(np.log10(abs(x[x != 0])))
+    return 10**exponent * my_round(x / 10**exponent, n)
 
 def chop(arr, epsilon=1e-14):
     """
     Chop values smaller than epsilon in absolute value to zero.
-    
+
+    Similar to Matmematica function.
+
     Parameters
     ----------
     arr : float or ndarray
@@ -111,7 +138,7 @@ def chop(arr, epsilon=1e-14):
 #         ),
 #         relative
 #     )
-#     
+
 def resource_path(relative):
     """
     Extend relative path to full path (mainly for PyInstaller integration).
@@ -215,9 +242,9 @@ def docul_fine(ocular_sum_32, docul2):
     docul2_fine : ndarray
         Tabulated docul2 with high resolution
     """
-    docul2_pad = np.zeros((75,2))
-    docul2_pad[:,0] = np.arange(460, 835, 5)
-    docul2_pad[:,1] = 0
+    docul2_pad = np.zeros((75,2))               # initialize
+    docul2_pad[:,0] = np.arange(460, 835, 5)    # fill
+    docul2_pad[:,1] = 0                         # fill
     docul2 = np.concatenate((docul2, docul2_pad))
     spl = scipy.interpolate.InterpolatedUnivariateSpline(docul2[:,0],
                                                          docul2[:,1])
@@ -263,9 +290,9 @@ def absorptance_from_lms10q():
     """
     Compute the absorptance from quantal lms 10 for reference.
     """
-    absorptance = VisualData.lms10_log_quant.copy()
-    absorptance[:,1:] = 10**(absorptance[:,1:])
-    for i in range(1,4):
+    absorptance = VisualData.lms10_log_quant.copy() # initialize
+    absorptance[:,1:] = 10**(absorptance[:,1:])     # convert in-place
+    for i in range(1,4):                            # ditto
         absorptance[:,i] = absorptance[:,i]/ \
             10**(-d_mac_max(10)*VisualData.macula_rel[:,1] -
                  VisualData.ocular_sum_32[:,1])
@@ -276,7 +303,7 @@ def absorbance_from_lms10q():
     """
     Compute the absorbance from quantal lms 10 for reference.
     """
-    absorbance = absorptance_from_lms10q(VisualData.lms10_log_quant)
+    absorbance = absorptance_from_lms10q(VisualData.lms10_log_quant) # for in-place editing
     absorbance[:,1] = np.log10(1 - absorbance[:,1] * \
                                    (1 - 10**-d_LM_max(10))) / \
                                    -d_LM_max(10)
@@ -360,7 +387,7 @@ def ocular(age):
     ocular : ndarray
         The optical density of the ocular media with wavelength in first column.
     """
-    ocul = VisualData.docul2_fine.copy()
+    ocul = VisualData.docul2_fine.copy() # initialise for in-place editing
     if age < 60:
         ocul[:,1] = (1 + 0.02*(age - 32)) * VisualData.docul1_fine[:,1] + \
             VisualData.docul2_fine[:,1]
@@ -431,7 +458,7 @@ def absorpt(field_size):
     absorpt : ndarray
         The computed lms functions, with wavelengths in first column.
     """
-    abt = VisualData.absorbance.copy()
+    abt = VisualData.absorbance.copy() # initialize for in-place editing
     abt[:,1] = 1 - 10**(-d_LM_max(field_size)*10**(VisualData.absorbance[:,1])) # L
     abt[:,2] = 1 - 10**(-d_LM_max(field_size)*10**(VisualData.absorbance[:,2])) # M
     abt[:,3] = 1 - 10**(-d_S_max(field_size)*10**(VisualData.absorbance[:,3]))  # S
@@ -454,7 +481,7 @@ def lms_quantal(field_size, age):
         The computed lms functions, with wavelengths in first column.
     """
     abt = absorpt(field_size)
-    lmsq = abt.copy()
+    lmsq = abt.copy() # initialise for in-place editing
     ocul = ocular(age)
     for i in range(1,4):
         lmsq[:,i] = abt[:,i] * \
@@ -485,7 +512,7 @@ def lms_energy_base(field_size, age):
             return VisualData.lms2_lin_energ.copy(), 0  # dummy max value
         elif field_size == 10:
             return VisualData.lms10_lin_energ.copy(), 0 # dummy max value
-    lms = lms_quantal(field_size, age)
+    lms = lms_quantal(field_size, age) # initialize for in-place editing
     lms_max = []
     for i in range(1,4):
         lms[:,i] = lms[:,i]*lms[:,0]
@@ -519,7 +546,7 @@ def lms_energy(field_size, age, signfig=6):
         elif field_size == 10:
             return VisualData.lms10_lin_energ_n_signfig.copy(), 0 # dummy max value
     lms, lms_max = lms_energy_base(field_size, age)
-    if signfig < 6 and age == 32:
+    if signfig < 6 and age == 32: # conditionally use preloaded versions
         if field_size == 2:
             lms, lms_max = VisualData.lms2_lin_energ_n_signfig.copy(), 0  # dummy max value
         elif field_size == 10:
@@ -568,7 +595,7 @@ def v_lambda_quantal(field_size, age):
         The computed v_lambda function, with wavelengths in first column.
     """
     lms = lms_quantal(field_size, age)
-    v_lambda = np.zeros((np.shape(lms)[0], 2))
+    v_lambda = np.zeros((np.shape(lms)[0], 2)) # initialize for in-place editing
     v_lambda[:,0] = lms[:,0]
     v_lambda[:,1] = v_lambda_l_cone_weight(field_size, age) * lms[:,1] + lms[:,2]
     v_lambda[:,1] = v_lambda[:,1]/v_lambda[:,1].max()
@@ -597,7 +624,7 @@ def v_lambda_energy_from_quantal(field_size, age):
             return VisualData.vlambdaLM_2_log_quant.copy()
         elif field_size == 10:
             return VisualData.vlambdaLM_10_log_quant.copy()
-    v_lambda = v_lambda_quantal(field_size, age)
+    v_lambda = v_lambda_quantal(field_size, age) # initialise for in-place editing
     v_lambda[:,1] = v_lambda[:,1]*v_lambda[:,0]
     v_lambda[:,1] = v_lambda[:,1]/v_lambda[:,1].max()
     return v_lambda
@@ -635,7 +662,7 @@ def v_lambda_energy_from_lms(field_size, age, v_lambda_signfig=7, mat_dp=8):
             return VisualData.vlambdaLM_10_lin_energ.copy(), \
             np.array([0.69283932, 0.34967567])            
     lms, lms_max = lms_energy_base(field_size, age)
-    v_lambda = np.zeros((np.shape(lms)[0], 2))
+    v_lambda = np.zeros((np.shape(lms)[0], 2)) # initialize for in-place editing
     v_lambda[:,0] = lms[:,0]
     l_weight = v_lambda_l_cone_weight(field_size, age)
     v_lambda[:,1] = l_weight * lms_max[0]*lms[:,1] + lms_max[1]*lms[:,2]
@@ -659,7 +686,7 @@ def projective_lms_to_cc_matrix(trans_mat):
     mat : ndarray
         Transformation matrix directly from lms to cc.
     """
-    mat = trans_mat.copy()
+    mat = trans_mat.copy() # initialise for in-place editing
     mat[2,0] = trans_mat[0,0] + trans_mat[1,0] + trans_mat[2,0]
     mat[2,1] = trans_mat[0,1] + trans_mat[1,1] + trans_mat[2,1]
     mat[2,2] = trans_mat[0,2] + trans_mat[1,2] + trans_mat[2,2]
@@ -733,8 +760,8 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
     lms = np.array([l_spline(np.arange(390, 831)),
                     m_spline(np.arange(390, 831)),
                     s_spline(np.arange(390, 831))])
-    xyz = np.dot(trans_mat, lms)
-    xyz = significant_figures(xyz, xyz_signfig)
+    xyz_exact = np.dot(trans_mat, lms)
+    xyz = significant_figures(xyz_exact, xyz_signfig)
     cc = np.array([xyz[0,:]/(xyz[0,:] + xyz[1,:] + xyz[2,:]),
                    xyz[1,:]/(xyz[0,:] + xyz[1,:] + xyz[2,:]),
                    xyz[2,:]/(xyz[0,:] + xyz[1,:] + xyz[2,:])])
@@ -845,45 +872,47 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     lambda_x_min_ref = 502
     ok = False
     while not ok:
-        a13 = scipy.optimize.fmin(square_sum, 0.39,
-                                  (a21, a22, a33, l_spline, m_spline, s_spline,
-                                   v_spline, lambdas_std, lambda_x_min_ref, cc_ref,
-                                   False, xyz_signfig, mat_dp),
-                                   xtol=10**(-(mat_dp + 2)), disp=False)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            a13 = scipy.optimize.fmin(square_sum, 0.39,
+                                      (a21, a22, a33, l_spline, m_spline, s_spline,
+                                       v_spline, lambdas_std, lambda_x_min_ref, cc_ref,
+                                       False, xyz_signfig, mat_dp),
+                                      xtol=10**(-(mat_dp + 2)), disp=False)
         trans_mat, lambda_x_min_ref, ok = \
             square_sum(a13, a21, a22, a33, l_spline, m_spline,
                        s_spline, v_spline, lambdas_std,
                        lambda_x_min_ref, cc_ref, True, xyz_signfig, mat_dp)[1:]
     
     # Compute xyz (not normalised)
-    xyz_spec = np.dot(trans_mat, lms_spec)
+    xyz_spec = np.dot(trans_mat, lms_spec) # initialise for in-place editing
     xyz_spec = significant_figures(xyz_spec, xyz_signfig)
     cc_spec = np.array([xyz_spec[0,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:]),
                    xyz_spec[1,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:]),
-                   xyz_spec[2,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:])])
+                   xyz_spec[2,:] / (xyz_spec[0,:] + xyz_spec[1,:] + xyz_spec[2,:])]) # ditto
     cc_spec = my_round(cc_spec, cc_dp)
-    cc_white = np.sum(xyz_spec, 1)
+    cc_white = np.sum(xyz_spec, 1) # ditto
     cc_white = cc_white / np.sum(cc_white)
     cc_white = my_round(cc_white, cc_dp)
 
     # Normalised version
-    trans_mat_N = trans_mat.copy() # allocate
+    trans_mat_N = trans_mat.copy() # initialise for in-place editing
     if lambda_min != 390 or lambda_max != 830 or lambda_step != 1:
         xyz_spec_N = np.dot(trans_mat, lms_spec)
         trans_mat_N[0,:] = trans_mat_N[0,:] * xyz_spec_N[1,:].sum() / xyz_spec_N[0,:].sum()
         trans_mat_N[2,:] = trans_mat_N[2,:] * xyz_spec_N[1,:].sum() / xyz_spec_N[2,:].sum()
         trans_mat_N = my_round(trans_mat_N, mat_dp)
-    xyz_spec_N = np.dot(trans_mat_N, lms_spec)
+    xyz_spec_N = np.dot(trans_mat_N, lms_spec) # ditto
     xyz_spec_N = significant_figures(xyz_spec_N, xyz_signfig)
     cc_spec_N = np.array([xyz_spec_N[0,:] / (xyz_spec_N[0,:] + xyz_spec_N[1,:] + xyz_spec_N[2,:]),
                    xyz_spec_N[1,:] / (xyz_spec_N[0,:] + xyz_spec_N[1,:] + xyz_spec_N[2,:]),
-                   xyz_spec_N[2,:] / (xyz_spec_N[0,:] + xyz_spec_N[1,:] + xyz_spec_N[2,:])])
+                   xyz_spec_N[2,:] / (xyz_spec_N[0,:] + xyz_spec_N[1,:] + xyz_spec_N[2,:])]) # ditto
     cc_spec_N = my_round(cc_spec_N, cc_dp)
-    cc_white_N = np.sum(xyz_spec_N, 1)
+    cc_white_N = np.sum(xyz_spec_N, 1) # ditto
     cc_white_N = cc_white_N / np.sum(cc_white_N)
     cc_white_N = my_round(cc_white_N, cc_dp)
     
-    # Reshape
+    # Reshape -- heavy reuse of variables, see comment on code conventions on the top
     lms_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))), lms_spec)).T
     lms_standard_spec = np.concatenate((lambdas_spec.reshape((1,len(lambdas_spec))),
                                         lms_standard_spec)).T
@@ -914,7 +943,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     plots['xyz_N'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xyz_N'].T), axis=1)
     plots['xy_N'] = np.concatenate((np.array([plots['lms'][:,0]]).T, plots['xy_N'].T), axis=1)
     
-    # Boynton-MacLeod
+    # Boynton-MacLeod -- heavy reuse of variables, see comment on code conventions on the top
     bm_spec = lms_spec.copy()
     bm_spec[:,1] = trans_mat[1,0] * lms_spec[:,1] / Vl[:,1]
     bm_spec[:,2] = trans_mat[1,1] * lms_spec[:,2] / Vl[:,1]
@@ -967,7 +996,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     # Compute purple line for cc
     delaunay = Delaunay(plots['xy'][:,1:3])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
-    purple_line_cc = np.zeros((2,3))
+    purple_line_cc = np.zeros((2,3)) # initialise for in-place editing
     purple_line_cc[0,0] = plots['xy'][delaunay.convex_hull[ind,0], 0]
     purple_line_cc[0,1] = plots['xy'][delaunay.convex_hull[ind,0], 1]
     purple_line_cc[0,2] = plots['xy'][delaunay.convex_hull[ind,0], 2]
@@ -980,7 +1009,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     # Compute purple line for normalised cc
     delaunay = Delaunay(plots['xy_N'][:,1:3])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
-    purple_line_cc_N = np.zeros((2,3))
+    purple_line_cc_N = np.zeros((2,3)) # initialise for in-place editing
     purple_line_cc_N[0,0] = plots['xy_N'][delaunay.convex_hull[ind,0], 0]
     purple_line_cc_N[0,1] = plots['xy_N'][delaunay.convex_hull[ind,0], 1]
     purple_line_cc_N[0,2] = plots['xy_N'][delaunay.convex_hull[ind,0], 2]
@@ -1002,7 +1031,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     # Compute purple line for bm
     delaunay = Delaunay(plots['bm'][:,1:4:2])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
-    purple_line_bm = np.zeros((2,3))
+    purple_line_bm = np.zeros((2,3)) # initialise for in-place editing
     purple_line_bm[0,0] = plots['bm'][delaunay.convex_hull[ind,0], 0]
     purple_line_bm[0,1] = plots['bm'][delaunay.convex_hull[ind,0], 1]
     purple_line_bm[0,2] = plots['bm'][delaunay.convex_hull[ind,0], 3]
@@ -1045,7 +1074,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     # Compute purple line for CIE standard cc
     delaunay = Delaunay(plots['xy31'][:,1:3])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
-    purple_line_cc31 = np.zeros((2,3))
+    purple_line_cc31 = np.zeros((2,3)) # initialise for in-place editing
     purple_line_cc31[0,0] = plots['xy31'][delaunay.convex_hull[ind,0], 0]
     purple_line_cc31[0,1] = plots['xy31'][delaunay.convex_hull[ind,0], 1]
     purple_line_cc31[0,2] = plots['xy31'][delaunay.convex_hull[ind,0], 2]
@@ -1056,7 +1085,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 
     delaunay = Delaunay(plots['xy64'][:,1:3])
     ind = np.argmax(np.abs(delaunay.convex_hull[:,0] - delaunay.convex_hull[:,1]))
-    purple_line_cc64 = np.zeros((2,3))
+    purple_line_cc64 = np.zeros((2,3)) # initialise for in-place editing
     purple_line_cc64[0,0] = plots['xy64'][delaunay.convex_hull[ind,0], 0]
     purple_line_cc64[0,1] = plots['xy64'][delaunay.convex_hull[ind,0], 1]
     purple_line_cc64[0,2] = plots['xy64'][delaunay.convex_hull[ind,0], 2]
@@ -1135,4 +1164,4 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
 #==============================================================================
 
 if __name__ == '__main__':
-    print(d_mac_max(2), d_mac_max(10))
+    compute_tabulated(5, 33)
