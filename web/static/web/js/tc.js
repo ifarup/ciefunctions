@@ -38,6 +38,7 @@ $( "input#lambda_step" ).spinner({
 $( document ).ajaxStop(function() {
 	$("div.velo").hide();
 	MathJax.Hub.Typeset();
+
 });
 
 //Shows how many ajax calls are left to come back from the server
