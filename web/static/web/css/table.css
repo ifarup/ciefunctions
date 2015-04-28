@@ -54,6 +54,7 @@ div.table th:first-of-type { 	width: 100px;
 .table-fixed tbody td {
   float: left;
   border-bottom-width: 0;
+  width: 22%
 }
 
 .table-fixed thead > tr> th {
