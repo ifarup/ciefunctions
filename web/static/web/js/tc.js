@@ -37,6 +37,7 @@ $( "input#lambda_step" ).spinner({
 //Hide the global loader when ajax.
 $( document ).ajaxStop(function() {
 	$("div.velo").hide();
+	MathJax.Hub.Typeset();
 });
 
 //Shows how many ajax calls are left to come back from the server
@@ -44,7 +45,7 @@ $( document ).ajaxStop(function() {
 var AJAX_left = 0;
 
 function updateAjaxLeft(){
-	//$( "div.velo" ).html(AJAX_left);
+	//console.log(AJAX_left);
 }
 
 $( "button#btnCompute" ).on('click', function(){
@@ -163,7 +164,7 @@ $( "button#btnCompute" ).on('click', function(){
 
 	//$( "div.velo" ).show(); //We disable the page and show a loader.
 	AJAX_left++;
-	updateAjaxLeft();
+	//updateAjaxLeft();
 	flushCache();
 	$.get( ajaxUrl )
 				.done(function( data ) {
@@ -273,6 +274,7 @@ function refreshAllObjects(){
 		refreshObject('table', availablePlots[i]);
 		refreshObject('description', availablePlots[i]);
 		refreshPlot(availablePlots[i]);
+		MathJax.Hub.Typeset()
 	}
 }
 

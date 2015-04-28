@@ -1,6 +1,8 @@
+{% load mathjax %}
 {% load staticfiles %}
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title>Ciefunctions</title>
 		<link rel="stylesheet" href="{% static 'web/css/redmond/jquery-ui-1.10.4.custom.min.css' %}"></link>
 		
@@ -19,17 +21,8 @@
 		<script src="{% static 'web/js/plotLoader.js' %}"></script>
 		
 		<!-- MathJax -->
-		<script type="text/javascript" src="{% static 'web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML' %}"></script>
-    	<script type="text/x-mathjax-config">
-        	MathJax.Hub.Config({
-            	displayAlign: "left",
-            	showProcessingMessages: false,
-            	messageStyle: "none",
-            	inlineMath:[["\\(","\\)"]],
-            	displayMath:[["$$","$$"]]
-        	});
-    	</script>
-		
+    	{% mathjax_scripts %}
+    	
 		<script>
 			//Namespace for current form_values
 			currentForm = (	{	age			: '{{ age }}',

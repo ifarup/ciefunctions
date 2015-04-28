@@ -1,12 +1,26 @@
 {% load staticfiles %}
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title>Ciefunctions</title>
 		<link rel="stylesheet" href="{% static 'web/css/redmond/jquery-ui-1.10.4.custom.min.css' %}"></link>
 		<link rel="stylesheet" href="{% static 'web/css/tc.css' %}"></link>
 		<script src="{% static 'web/js/jquery-1.10.2.js' %}"></script>
 		<script src="{% static 'web/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
 		<script src="{% static 'web/js/plotLoader.js' %}"></script>
+		
+		<!-- MathJax -->
+		<script type="text/javascript" src="{% static 'web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML' %}"></script>
+    	<script type="text/x-mathjax-config">
+        	MathJax.Hub.Config({
+            	displayAlign: "left",
+            	showProcessingMessages: false,
+            	messageStyle: "none",
+            	inlineMath:[["\\(","\\)"]],
+            	displayMath:[["$$","$$"]]
+        	});
+    	</script>
+    	
 		<script>
 			//Namespace for current form_values
 			currentForm = (	{	age: '{{ age }}',
@@ -26,7 +40,7 @@
 				<div id="tc-Tabs">
 					<ul>
 						<li><a class="tab-text" href="#tabs-1">Plot</a></li>
-						<li><a class="tab-text" href="#tabs-2">Table</a></li>		
+						<li><a class="tab-text" href="#tabs-2">Table</a></li>
 					</ul>
 					<div id="tabs-1">
 						<div id="theFig">
@@ -117,7 +131,6 @@
 							<div id="xy64_table" class="table">
 								<!-- ajax table xy64 -->
 							</div>
-							
 						</div>	<!-- end .tableWrapper -->
 						<div id="getCsv-container">
 							<button id="getCsv">Save Table</button>
@@ -228,7 +241,6 @@
 				</div><!-- end #input-params -->
 			</div><!--end #bottomSpalte -->
 			</div><!-- end #rightSpalte -->
-			
 			<br style="clear:both"/>
 		</div><!-- end #appWrapper -->
 	<div class="velo"></div>
