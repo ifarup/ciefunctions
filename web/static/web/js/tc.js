@@ -197,7 +197,7 @@ var axis_labels;
 function updateLabels(){
 
 var age = parseInt($( "input#age" ).val());
-var field_size = parseFloat($( "input#field_size" ).val());
+var field_size = parseInt($( "input#field_size" ).val());
 var lambda_min = parseInt($( "input#lambda_min" ).val());
 var lambda_max= parseInt($( "input#lambda_max" ).val());
 var lambda_step = parseInt($( "input#lambda_step" ).val());
@@ -275,8 +275,7 @@ function refreshAllObjects(){
 		refreshObject('table', availablePlots[i]);
 		refreshObject('description', availablePlots[i]);
 		refreshPlot(availablePlots[i]);
-		updateLabels();
-		MathJax.Hub.Typeset();
+		MathJax.Hub.Typeset()
 	}
 }
 

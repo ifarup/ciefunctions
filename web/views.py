@@ -39,7 +39,7 @@ options = { 	'grid' 			: 0,
             	'cie64' 		: 0,
             	'labels' 		: 0,
             	'axis_labels'	: False,
-            	'label_fontsize' : 10,
+            	'label_fontsize' : 12,
             	'norm'			: False
 }
 
