@@ -170,7 +170,9 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.xyz(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.xyz(self.results, self.plot_combo.currentText(), self.options(), True)
+            html_string = tc182.description.xyz(self.results,
+                                                self.plot_combo.currentText(),
+                                                self.options(), True)
 
             # Create html table
             html_table = tc182.table.xyz(self.results, self.options(), True)
@@ -194,7 +196,9 @@ You should have received a copy of the GNU General Public License along with thi
             html_table = tc182.table.xy(self.results, self.options(), True)
 
             # Greate html description
-            html_string = tc182.description.xy(self.results, self.plot_combo.currentText(), self.options(), True)
+            html_string = tc182.description.xy(self.results,
+                                               self.plot_combo.currentText(),
+                                               self.options(), True)
 
         #
         # LMS standard
@@ -213,7 +217,9 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.lms(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.lms(self.results, self.plot_combo.currentText(), self.options(), True)
+            html_string = tc182.description.lms(self.results,
+                                                self.plot_combo.currentText(),
+                                                self.options(), True)
 
             # Create html table
             html_table = tc182.table.lms(self.results, self.options(), True)
@@ -235,7 +241,9 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.lms_base(self.axes, self.plots, self.options())
             
             # Create html description
-            html_string = tc182.description.lms_base(self.results, self.plot_combo.currentText(), self.options(), True)
+            html_string = tc182.description.lms_base(self.results,
+                                                     self.plot_combo.currentText(),
+                                                     self.options(), True)
             
             # Create html table
             html_table = tc182.table.lms_base(self.results, self.options(), True)
@@ -257,7 +265,9 @@ You should have received a copy of the GNU General Public License along with thi
             tc182.plot.bm(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.bm(self.results, self.plot_combo.currentText(), self.options(), True)
+            html_string = tc182.description.bm(self.results,
+                                               self.plot_combo.currentText(),
+                                               self.options(), True)
 
             # Create html table
             html_table = tc182.table.bm(self.results, self.options(), True)
@@ -276,7 +286,9 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
             
             # Create html description
-            html_string = tc182.description.lm(self.results, self.plot_combo.currentText(), self.options(), True)
+            html_string = tc182.description.lm(self.results,
+                                               self.plot_combo.currentText(),
+                                               self.options(), True)
 
             # Create plot
             tc182.plot.lm(self.axes, self.plots, self.options())
@@ -302,7 +314,9 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
                 
                 # Create html descrption
-                html_string = tc182.description.xyz31(self.results, self.plot_combo.currentText(), self.options(), True)
+                html_string = tc182.description.xyz31(self.results,
+                                                      self.plot_combo.currentText(),
+                                                      self.options(), True)
 
                 # Create html table
                 html_table = tc182.table.xyz31(self.results, self.options(), True)
@@ -319,7 +333,9 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
 
                 # Create html descption
-                html_string = tc182.description.xyz64(self.results, self.plot_combo.currentText(), self.options(), True)
+                html_string = tc182.description.xyz64(self.results,
+                                                      self.plot_combo.currentText(),
+                                                      self.options(), True)
 
                 # Create html table
                 html_table = tc182.table.xyz64(self.results, self.options(), True)
@@ -345,7 +361,9 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
 
                 # Create html description
-                html_string = tc182.description.xy31(self.results, self.plot_combo.currentText(), self.options(), True)
+                html_string = tc182.description.xy31(self.results,
+                                                     self.plot_combo.currentText(),
+                                                     self.options(), True)
 
                 # Create html table
                 html_table = tc182.table.xy31(self.results, self.options(), True)
@@ -362,7 +380,9 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
                 
                 # Create html description
-                html_string = tc182.description.xy64(self.results, self.plot_combo.currentText(), self.options(), True)
+                html_string = tc182.description.xy64(self.results,
+                                                     self.plot_combo.currentText(),
+                                                     self.options(), True)
 
                 # Create html table
                 html_table = tc182.table.xy64(self.results, self.options(), True)
@@ -383,8 +403,10 @@ You should have received a copy of the GNU General Public License along with thi
         self.last_resolution = tc182.my_round(self.resolution_spin.value(), 1)
         self.last_lambda_min = tc182.my_round(self.lambda_min_spin.value(), 1)
         self.last_lambda_max = tc182.my_round(self.lambda_max_spin.value(), 1)
-        self.results, self.plots = tc182.compute_tabulated(self.last_field, self.last_age,
-                                                           self.last_lambda_min, self.last_lambda_max,
+        self.results, self.plots = tc182.compute_tabulated(self.last_field,
+                                                           self.last_age,
+                                                           self.last_lambda_min,
+                                                           self.last_lambda_max,
                                                            self.last_resolution)
         if self.results['xyz'][-1,0] != self.last_lambda_max:
             self.last_lambda_max = self.results['xyz'][-1,0]
@@ -540,7 +562,9 @@ You should have received a copy of the GNU General Public License along with thi
                      qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
         
         self.save_table_button = qt.QPushButton('&Save table')
-        self.connect(self.save_table_button, qtcore.SIGNAL('clicked(bool)'), self.save_table)
+        self.connect(self.save_table_button,
+                     qtcore.SIGNAL('clicked(bool)'),
+                     self.save_table)
 
         self.compute_button = qt.QPushButton('       &Compute       ')
         self.connect(self.compute_button,
@@ -560,7 +584,8 @@ You should have received a copy of the GNU General Public License along with thi
         self.lambda_min_max_label = qt.QLabel('Domain (nm)') 
         self.lambda_min_max_dash = qt.QLabel(u'\u2013')
         grid = qt.QGridLayout()
-        grid.addWidget(qt.QLabel(u'Field size (\N{DEGREE SIGN})'), 0, 0, qtcore.Qt.AlignRight)
+        grid.addWidget(qt.QLabel(u'Field size (\N{DEGREE SIGN})'), 0,
+                       0, qtcore.Qt.AlignRight)
         grid.addWidget(self.age_label, 0, 2, qtcore.Qt.AlignRight)
         grid.addWidget(self.lambda_min_max_label, 0, 4, qtcore.Qt.AlignRight)
         grid.addWidget(self.lambda_min_max_dash, 0, 6)
