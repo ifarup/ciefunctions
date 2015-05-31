@@ -148,10 +148,10 @@ You should have received a copy of the GNU General Public License along with thi
         
         if self.plot_combo.currentIndex() in [self.COMBO_XY, self.COMBO_XYZ]:
             self.norm_label.setVisible(True)            
-            self.norm_check.setVisible(True)            
+            self.norm_check.setVisible(True)
         else:
-            self.norm_label.setVisible(False)            
-            self.norm_check.setVisible(False)            
+            self.norm_label.setVisible(False)
+            self.norm_check.setVisible(False)
 
         #
         # XYZ plot and table
