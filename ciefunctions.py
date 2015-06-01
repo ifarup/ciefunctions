@@ -23,16 +23,19 @@ import tc182
 import tc182.description
 import tc182.plot
 import tc182.table
-import sys, os
+import sys
+import os
 import numpy as np
 import PyQt4.QtGui as qt
 import PyQt4.QtCore as qtcore
 import PyQt4.QtWebKit as qtweb
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt4agg \
+    import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg \
     import NavigationToolbar2QTAgg \
     as NavigationToolbar
 from matplotlib.figure import Figure
+
 
 class AppForm(qt.QMainWindow):
     """
@@ -86,19 +89,19 @@ class AppForm(qt.QMainWindow):
         """
         Return a dict() with the current plot options for the plot module.
         """
-        return {'grid' : self.grid_check.isChecked(),
-                'cie31' : self.cie31_check.isChecked(),
-                'cie64' : self.cie64_check.isChecked(),
-                'labels' : self.wavelength_check.isChecked(),
-                'label_fontsize' : 7,
-                'full_title' : True,
-                'axis_labels' : True,
-                'norm' : self.norm_check.isChecked()}
+        return {'grid': self.grid_check.isChecked(),
+                'cie31': self.cie31_check.isChecked(),
+                'cie64': self.cie64_check.isChecked(),
+                'labels': self.wavelength_check.isChecked(),
+                'label_fontsize': 7,
+                'full_title': True,
+                'axis_labels': True,
+                'norm': self.norm_check.isChecked()}
 
     def on_about(self):
         msg = """
 CIE Functions: Calculate the CIE functions according to CIE TC1-82.
-        
+
 Copyright (C) 2012-2013 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
@@ -128,7 +131,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.lambda_min_spin.setValue(self.last_lambda_min)
         self.lambda_max_spin.setValue(self.last_lambda_max)
         self.resolution_spin.setValue(self.last_resolution)
-        self.mpl_toolbar.update() # reset the views history (fixes #124)
+        self.mpl_toolbar.update()  # reset the views history (fixes #124)
 
         if self.plot_combo.currentIndex() not in \
            [self.COMBO_XYSTD, self.COMBO_XYZSTD]:
@@ -317,7 +320,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
 
-            if self.field_combo.currentIndex() == 0: # 2 deg
+            if self.field_combo.currentIndex() == 0:  # 2 deg
 
                 # Setup GUI
                 self.compare_label_31.setDisabled(True)
@@ -338,7 +341,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 # Create plot
                 tc182.plot.xyz31(self.axes, self.plots, self.options())
 
-            else: # 10 deg
+            else:               # 10 deg
 
                 # Setup GUI
                 self.compare_label_31.setEnabled(True)
@@ -367,7 +370,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
 
-            if self.field_combo.currentIndex() == 0: # 2 deg
+            if self.field_combo.currentIndex() == 0:  # 2 deg
 
                 # Setup GUI
                 self.compare_label_31.setDisabled(True)
@@ -387,7 +390,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 # Create plot
                 tc182.plot.xy31(self.axes, self.plots, self.options())
 
-            else: # 10 deg
+            else:               # 10 deg
 
                 # Setup GUI
                 self.compare_label_31.setEnabled(True)
@@ -420,11 +423,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.last_resolution = tc182.my_round(self.resolution_spin.value(), 1)
         self.last_lambda_min = tc182.my_round(self.lambda_min_spin.value(), 1)
         self.last_lambda_max = tc182.my_round(self.lambda_max_spin.value(), 1)
-        self.results, self.plots = tc182.compute_tabulated(self.last_field,
-                                                           self.last_age,
-                                                           self.last_lambda_min,
-                                                           self.last_lambda_max,
-                                                           self.last_resolution)
+        self.results, self.plots = tc182.compute_tabulated(
+            self.last_field,
+            self.last_age,
+            self.last_lambda_min,
+            self.last_lambda_max,
+            self.last_resolution)
         if self.results['xyz'][-1, 0] != self.last_lambda_max:
             self.last_lambda_max = self.results['xyz'][-1, 0]
             self.lambda_max_spin.setValue(self.last_lambda_max)
@@ -458,15 +462,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.file_menu = self.menuBar().addMenu("&File")
 
         quit_action = self.create_action("&Quit", slot=self.close,
-            shortcut="Ctrl+Q", tip="Close the application")
+                                         shortcut="Ctrl+Q",
+                                         tip="Close the application")
 
-        self.add_actions(self.file_menu,
-            (quit_action,))
+        self.add_actions(self.file_menu, (quit_action,))
 
         self.help_menu = self.menuBar().addMenu("&Help")
         about_action = self.create_action("&About",
-            shortcut='F1', slot=self.on_about,
-            tip='About CIE Functions')
+                                          shortcut='F1', slot=self.on_about,
+                                          tip='About CIE Functions')
 
         self.add_actions(self.help_menu, (about_action,))
 
@@ -543,7 +547,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.COMBO_LMS = 0
         self.plot_combo.addItem('CIE LMS cone fundamentals (9 sign. figs.)')
         self.COMBO_LMSBASE = 1
-        self.plot_combo.addItem(u'MacLeod\u2013Boynton ls chromaticity diagram')
+        self.plot_combo.addItem(
+            u'MacLeod\u2013Boynton ls chromaticity diagram')
         self.COMBO_BM = 2
         self.plot_combo.addItem('Maxwellian lm chromaticity diagram')
         self.COMBO_LM = 3
@@ -675,6 +680,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         vbox.addLayout(grid)
         self.main_frame.setLayout(vbox)
         self.setCentralWidget(self.main_frame)
+
 
 def main():
     """
