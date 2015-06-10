@@ -104,7 +104,7 @@ def chop(arr, epsilon=1e-14):
     """
     Chop values smaller than epsilon in absolute value to zero.
 
-    Similar to Matmematica function.
+    Similar to Mathematica function.
 
     Parameters
     ----------
@@ -674,7 +674,7 @@ def v_lambda_energy_from_lms(field_size, age, v_lambda_signfig=7, mat_dp=8):
 
 def projective_lms_to_cc_matrix(trans_mat):
     """
-    Compute the matrtix for the projective transformation from lms to cc.
+    Compute the matrix for the coefficients of the projective transformation from lms to cc.
     
     Parameters
     ----------
@@ -684,7 +684,7 @@ def projective_lms_to_cc_matrix(trans_mat):
     Returns
     -------
     mat : ndarray
-        Transformation matrix directly from lms to cc.
+        Coefficient matrix for the transformation directly from lms to cc.
     """
     mat = trans_mat.copy() # initialise for in-place editing
     mat[2,0] = trans_mat[0,0] + trans_mat[1,0] + trans_mat[2,0]
@@ -709,7 +709,8 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
     lambdas : ndarray
         Tabulated lambda values according to chosen resolution.
     lambda_ref_min : float
-        Lambda value for x(lambda_ref_min) = x_ref_min.
+        Lambda value that gives a minimum for the x-coordinate in the 
+        corresponding reference diagram, i.e. x(lambda_ref_min) = x_ref_min.
     cc_ref : ndarray
         Tabulated reference chromaticity coordinates at 1 nm steps.
     full_results : bool
@@ -733,7 +734,7 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
     # Stripping reference values according to Stockman-Sharpe
     cc_ref_trunk = cc_ref[30:,1:].T.copy()
     x_ref_min = cc_ref_trunk[0,:].min()
-    # Computed by Mathematica, don't ask...:
+    # Computed by Mathematica:
     a11 = (-m_spline(lambda_ref_min)*v_spline(lambdas).sum() +
           a13*(s_spline(lambda_ref_min)*m_spline(lambdas).sum() -
           m_spline(lambda_ref_min)*s_spline(lambdas).sum())*(-1 +
@@ -791,6 +792,10 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
         Field size in degrees.
     age : float
         Age in years.
+    lambda_min : float
+        Lower limit of wavelength domain
+    lambda_min : float
+        Upper limit of wavelength domain
     lambda_step : float
         Resolution of tabulated results in nm.
     xyz_signfig : int
@@ -966,7 +971,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     bm_white = np.array([L_E / (L_E + M_E), M_E / (L_E + M_E), S_E / (L_E + M_E)])
     bm_white = my_round(bm_white, bm_dp)
     
-    # lm diagram
+    # Maxwellian lm diagram
     if lm_dp > 5:
         lms_N = lms_spec.copy()
     else:   
@@ -1046,7 +1051,7 @@ def compute_tabulated(field_size, age, lambda_min=390, lambda_max=830, lambda_st
     # Could (should?) be removed at a later stage
     
     # Edit: they don't always give the same value proved by example:
-    # fs: 10 degrees, age: 60 years, step = 1nv
+    # fs: 10 degrees, age: 60 years, step = 1nm
 
 #     if ( purple_line_cc[1,0] != purple_line_bm[1,0] ):
 #         print('Wavelengths differ!')

@@ -57,7 +57,7 @@ def _head():
 
 def _heading(heading):
     return """
-    <h2 class="description-heading-2">%s</h2>
+    <font size="3" Color="#000099"><h2 class="description-heading-2">%s</h2></font>
     """ % heading
 
 def _sub_heading(sub_heading):
@@ -186,12 +186,12 @@ def _normalisation_xyz(data, options):
     html_string = """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    &ndash; Equal tristimulus values for Illuminant E at """
+    &ndash; Equal cone-fundamental-based tristimulus values for Illuminant E when calculated using """
     if options['norm']:
         html_string += data['lambda_step']
     else:
         html_string += '1'
-    html_string += """ nm<br />
+    html_string += """ nm steps<br />
     &ndash; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\) &nbsp;peaking at unity at 0.1 nm resolution
     </p>
     """ % (data['field_size'], data['age'])
@@ -316,17 +316,17 @@ def _lms_to_bm(data, options):
         trans_mat = data['trans_mat_N']
     else:
         trans_mat = data['trans_mat']
-    return """
-    <p>
-    <b class="description-subtitle">Transformation equations</b><br />
-    $$
-    \\begin{aligned}
-    l_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar l_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
-    m_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
-    s_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar s_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
-    \\end{aligned}
-    $$
-    </p>
+    html_string = """
+        <p>
+        <b class="description-subtitle">Transformation equations</b><br />
+        $$
+        \\begin{aligned}
+        l_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar l_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
+        m_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
+        s_{\,\mathrm{MB},\,%s,\,%d}(\\lambda)\\; &= \\frac{%.8f\\, \\bar s_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)} \\\\
+        \\end{aligned}
+        $$
+        </p>   
     """ % (data['field_size'], data['age'],
            trans_mat[1,0], data['field_size'], data['age'],
            trans_mat[1,0], data['field_size'], data['age'],
@@ -339,9 +339,18 @@ def _lms_to_bm(data, options):
            1./data['bm_s_max'], data['field_size'], data['age'],
            trans_mat[1,0], data['field_size'], data['age'],
            trans_mat[1,1], data['field_size'], data['age'])
+    html_string += """
+        <p>
+        with the cone fundamentals \\( \,\\bar l_{%s,\,%d}(\\lambda),\; \\bar m_{\,%s,\,%d}(\\lambda),\; \\bar s_{%s,\,%d}(\\lambda)\\)
+        &nbsp;given to the precision of 9 significant figures
+        </p>
+    """ % (data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'])
+    return html_string          
 
 def _lms_to_lm(data):
-    return """
+    html_string = """
     <p>
     <b class="description-subtitle">Transformation equations</b><br />
     $$
@@ -367,9 +376,18 @@ def _lms_to_lm(data):
            data['lms_N_inv'][0], data['field_size'], data['age'],
            data['lms_N_inv'][1], data['field_size'], data['age'],
            data['lms_N_inv'][2], data['field_size'], data['age'])
+    html_string += """
+        <p>
+        with the cone fundamentals \\( \,\\bar l_{%s,\,%d}(\\lambda),\; \\bar m_{\,%s,\,%d}(\\lambda),\; \\bar s_{%s,\,%d}(\\lambda)\\)
+        &nbsp;given to the precision of 9 significant figures
+        </p>
+    """ % (data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'])
+    return html_string  
 
 def _xyz_to_xy(data):
-    return """
+    html_string = """
     <b class="description-subtitle">Transformation equations</b><br />
     $$
     \\begin{aligned}
@@ -394,6 +412,15 @@ def _xyz_to_xy(data):
            data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['field_size'], data['age'])
+    html_string += """
+        <p>
+        with the cone-fundamental-based spectral tristimulus values \\( \,\\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda)\\), \\( \,\\bar y_{\,\mathrm{F},\,%s,\,%d}(\\lambda)\\), \\( \,\\bar z_{\,\mathrm{F},\,%s,\,%d}(\\lambda)\\)
+        &nbsp;given to the precision of 7 significant figures
+        </p>
+    """ % (data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'])
+    return html_string 
 
 def _xyz_to_xy_31():
     return """

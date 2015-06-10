@@ -530,11 +530,11 @@ You should have received a copy of the GNU General Public License along with thi
         self.COMBO_BM = 2
         self.plot_combo.addItem('Maxwellian lm chromaticity diagram')
         self.COMBO_LM = 3
-        self.plot_combo.addItem('CIE XYZ fundamental CMFs')
+        self.plot_combo.addItem('CIE XYZ cone-fundamental-based spectral tristimulus values')
         self.COMBO_XYZ = 4
-        self.plot_combo.addItem('CIE xy fundamental chromaticity diagram')
+        self.plot_combo.addItem('CIE xy cone-fundamental-based chromaticity diagram')
         self.COMBO_XY = 5
-        self.plot_combo.addItem('CIE XYZ standard CMFs')
+        self.plot_combo.addItem('CIE XYZ standard colour-matching functions')
         self.COMBO_XYZSTD = 6
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
         self.COMBO_XYSTD = 7
