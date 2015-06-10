@@ -727,8 +727,11 @@ def v_lambda_energy_from_lms(field_size, age, v_lambda_signfig=7, mat_dp=8):
 
 def projective_lms_to_cc_matrix(trans_mat):
     """
-    Compute the matrix for the coefficients of the projective transformation from lms to cc.
-    
+    Compute the coefficients of the projective transformation from lms to cc.
+
+    Compute the matrix for the coefficients of the projective
+    transformation from lms to cc.
+
     Parameters
     ----------
     trans_mat : ndarray
@@ -763,7 +766,7 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
     lambdas : ndarray
         Tabulated lambda values according to chosen resolution.
     lambda_ref_min : float
-        Lambda value that gives a minimum for the x-coordinate in the 
+        Lambda value that gives a minimum for the x-coordinate in the
         corresponding reference diagram, i.e. x(lambda_ref_min) = x_ref_min.
     cc_ref : ndarray
         Tabulated reference chromaticity coordinates at 1 nm steps.
@@ -786,26 +789,31 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
         Hit the correct minimum wavelength.
     """
     # Stripping reference values according to Stockman-Sharpe
-    cc_ref_trunk = cc_ref[30:,1:].T.copy()
-    x_ref_min = cc_ref_trunk[0,:].min()
+    cc_ref_trunk = cc_ref[30:, 1:].T.copy()
+    x_ref_min = cc_ref_trunk[0, :].min()
     # Computed by Mathematica:
-    a11 = (-m_spline(lambda_ref_min)*v_spline(lambdas).sum() +
-          a13*(s_spline(lambda_ref_min)*m_spline(lambdas).sum() -
-          m_spline(lambda_ref_min)*s_spline(lambdas).sum())*(-1 +
-          x_ref_min) + (a21*l_spline(lambda_ref_min) +
-          a33*s_spline(lambda_ref_min))*m_spline(lambdas).sum()*x_ref_min +
-          m_spline(lambda_ref_min)*(a22*m_spline(lambdas).sum() +
-          v_spline(lambdas).sum())*x_ref_min) / ((m_spline(lambda_ref_min)*
-          l_spline(lambdas).sum() - l_spline(lambda_ref_min) *
-          m_spline(lambdas).sum()) * (-1 + x_ref_min))
-    a12 = (l_spline(lambda_ref_min)*v_spline(lambdas).sum() -
-          a13*(s_spline(lambda_ref_min)*l_spline(lambdas).sum() -
-          l_spline(lambda_ref_min)*s_spline(lambdas).sum())*(-1 +
-          x_ref_min) - ((a21*l_spline(lambda_ref_min) +
-          a22*m_spline(lambda_ref_min) + a33*s_spline(lambda_ref_min)) *
-          l_spline(lambdas).sum() +
-          l_spline(lambda_ref_min)*v_spline(lambdas).sum())*x_ref_min) / \
-          ((m_spline(lambda_ref_min)*
+    a11 = (-m_spline(lambda_ref_min) * v_spline(lambdas).sum() + a13 *
+           (s_spline(lambda_ref_min)*m_spline(lambdas).sum() -
+            m_spline(lambda_ref_min)*s_spline(lambdas).sum()) *
+           (-1 + x_ref_min) + (a21*l_spline(lambda_ref_min) +
+                               a33*s_spline(lambda_ref_min)) *
+           m_spline(lambdas).sum() * x_ref_min +
+           m_spline(lambda_ref_min) * (
+               a22*m_spline(lambdas).sum() +
+               v_spline(lambdas).sum()) *
+           x_ref_min) / ((m_spline(lambda_ref_min) *
+                          l_spline(lambdas).sum() - l_spline(lambda_ref_min) *
+                          m_spline(lambdas).sum()) * (-1 + x_ref_min))
+    a12 = (l_spline(lambda_ref_min) * v_spline(lambdas).sum() -
+           a13 * (s_spline(lambda_ref_min)*l_spline(lambdas).sum() -
+                  l_spline(lambda_ref_min)*s_spline(lambdas).sum()) *
+           (-1 + x_ref_min) - ((a21 * l_spline(lambda_ref_min) +
+                                a22 * m_spline(lambda_ref_min) +
+                                a33 * s_spline(lambda_ref_min)) *
+                               l_spline(lambdas).sum() +
+                               l_spline(lambda_ref_min) *
+                               v_spline(lambdas).sum()) * x_ref_min) / \
+        ((m_spline(lambda_ref_min) *
           l_spline(lambdas).sum() - l_spline(lambda_ref_min) *
           m_spline(lambdas).sum()) * (-1 + x_ref_min))
     a11 = my_round(a11[0], mat_dp)
@@ -1080,7 +1088,7 @@ def compute_tabulated(field_size, age,
                          M_E / (L_E + M_E),
                          S_E / (L_E + M_E)])
     bm_white = my_round(bm_white, bm_dp)
-    
+
     # Maxwellian lm diagram
     if lm_dp > 5:
         lms_N = lms_spec.copy()

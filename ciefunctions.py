@@ -552,9 +552,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.COMBO_BM = 2
         self.plot_combo.addItem('Maxwellian lm chromaticity diagram')
         self.COMBO_LM = 3
-        self.plot_combo.addItem('CIE XYZ cone-fundamental-based spectral tristimulus values')
+        self.plot_combo.addItem(
+            'CIE XYZ cone-fundamental-based spectral tristimulus values')
         self.COMBO_XYZ = 4
-        self.plot_combo.addItem('CIE xy cone-fundamental-based chromaticity diagram')
+        self.plot_combo.addItem(
+            'CIE xy cone-fundamental-based chromaticity diagram')
         self.COMBO_XY = 5
         self.plot_combo.addItem('CIE XYZ standard colour-matching functions')
         self.COMBO_XYZSTD = 6
