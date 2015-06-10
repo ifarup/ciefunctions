@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-tc182: Python package for the calculation of CIE functions provided by CIE TC1-82.
+tc182: Python package for the calculation of the CIE provided by CIE TC1-82.
 
 Copyright (C) 2014 Ivar Farup and Jan Henrik Wold
 

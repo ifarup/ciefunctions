@@ -22,11 +22,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import numpy as np
 import sys
 
+
 def _head():
     html_string = """
     <head>
     <link type="text/css" rel="stylesheet" href="table.css" />
-    <script type="text/javascript" src="web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script type="text/javascript"
+    src="web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
             displayAlign: "left",
@@ -56,15 +59,16 @@ def _head():
     """
     return html_string
 
+
 def xyz(results, options, include_head=False):
     """
     Generate html table of XYZ values for inclusion in GUI app and web app.
-    
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -92,8 +96,10 @@ def xyz(results, options, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(xyz)[0]):
-        if (float(results['lambda_step']) == np.round(float(results['lambda_step'])) and
-            float(results['lambda_min']) == np.round(float(results['lambda_min']))):
+        if (float(results['lambda_step']) ==
+                np.round(float(results['lambda_step'])) and
+                float(results['lambda_min']) ==
+                np.round(float(results['lambda_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -123,15 +129,16 @@ def xyz(results, options, include_head=False):
     """
     return html_table
 
+
 def xy(results, options, include_head=False):
     """
-    Generate html table of chromaticity values for inclusion in GUI app and web app.
-    
+    Generate html table of chromaticity values for GUI and web apps.
+o
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -159,8 +166,10 @@ def xy(results, options, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(xy)[0]):
-        if (float(results['lambda_step']) == np.round(float(results['lambda_step'])) and
-            float(results['lambda_min']) == np.round(float(results['lambda_min']))):
+        if (float(results['lambda_step']) ==
+                np.round(float(results['lambda_step'])) and
+                float(results['lambda_min']) ==
+                np.round(float(results['lambda_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -190,15 +199,16 @@ def xy(results, options, include_head=False):
     """
     return html_table
 
+
 def lms(results, options, include_head=False):
     """
     Generate html table of LMS functions for inclusion in GUI app and web app.
-    
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -222,8 +232,10 @@ def lms(results, options, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lms'])[0]):
-        if (float(results['lambda_step']) == np.round(float(results['lambda_step'])) and
-            float(results['lambda_min']) == np.round(float(results['lambda_min']))):
+        if (float(results['lambda_step']) ==
+                np.round(float(results['lambda_step'])) and
+                float(results['lambda_min']) ==
+                np.round(float(results['lambda_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -253,15 +265,16 @@ def lms(results, options, include_head=False):
     """
     return html_table
 
+
 def lms_base(results, options, include_head=False):
     """
-    Generate html table of LMS base functions for inclusion in GUI app and web app.
-    
+    Generate html table of LMS base functions for GUI and web apps.
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -285,8 +298,10 @@ def lms_base(results, options, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lms_base'])[0]):
-        if (float(results['lambda_step']) == np.round(float(results['lambda_step'])) and
-            float(results['lambda_min']) == np.round(float(results['lambda_min']))):
+        if (float(results['lambda_step']) ==
+                np.round(float(results['lambda_step'])) and
+                float(results['lambda_min']) ==
+                np.round(float(results['lambda_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -316,15 +331,16 @@ def lms_base(results, options, include_head=False):
     """
     return html_table
 
+
 def bm(results, options, include_head=False):
     """
-    Generate html table of MacLeod-Boynton diagram for inclusion in GUI app and web app.
-    
+    Generate html table of MacLeod-Boynton diagram for GUI and web apps.
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -349,8 +365,10 @@ def bm(results, options, include_head=False):
            results['field_size'], results['age'])
     results['bm'][results['bm'] <= 0] = 0
     for i in range(np.shape(results['bm'])[0]):
-        if (float(results['lambda_step']) == np.round(float(results['lambda_step'])) and
-            float(results['lambda_min']) == np.round(float(results['lambda_min']))):
+        if (float(results['lambda_step']) ==
+                np.round(float(results['lambda_step'])) and
+                float(results['lambda_min']) ==
+                np.round(float(results['lambda_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -374,22 +392,23 @@ def bm(results, options, include_head=False):
                    results['bm'][i, 1],
                    results['bm'][i, 2],
                    results['bm'][i, 3])
-    
+
     html_table += """
       </tbody>
     </table>
     """
     return html_table
 
+
 def lm(results, options, include_head=False):
     """
-    Generate html table of normalised lm diagram for inclusion in GUI app and web app.
-    
+    Generate html table of normalised lm diagram for GUI and web apps.
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -413,8 +432,10 @@ def lm(results, options, include_head=False):
            results['field_size'], results['age'],
            results['field_size'], results['age'])
     for i in range(np.shape(results['lm'])[0]):
-        if (float(results['lambda_step']) == np.round(float(results['lambda_step'])) and
-            float(results['lambda_min']) == np.round(float(results['lambda_min']))):
+        if (float(results['lambda_step']) ==
+                np.round(float(results['lambda_step'])) and
+                float(results['lambda_min']) ==
+                np.round(float(results['lambda_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -445,15 +466,16 @@ def lm(results, options, include_head=False):
     """
     return html_table
 
+
 def xyz31(results, options, include_head=False):
     """
-    Generate html table of CIE 1931 XYZ values for inclusion in GUI app and web app.
-    
+    Generate html table of CIE 1931 XYZ values for GUI app and web app.
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -492,15 +514,16 @@ def xyz31(results, options, include_head=False):
     """
     return html_table
 
+
 def xyz64(results, options, include_head=False):
     """
-    Generate html table of CIE 1964 XYZ values for inclusion in GUI app and web app.
-    
+    Generate html table of CIE 1964 XYZ values for GUI and web apps.
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -539,15 +562,16 @@ def xyz64(results, options, include_head=False):
     """
     return html_table
 
+
 def xy31(results, options, include_head=False):
     """
-    Generate html table of CIE 1931 chromaticity values for inclusion in GUI app and web app.
-    
+    Generate html table of CIE 1931 chromaticity values for GUI and web apps.
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string
@@ -586,15 +610,16 @@ def xy31(results, options, include_head=False):
     """
     return html_table
 
+
 def xy64(results, options, include_head=False):
     """
-    Generate html table of CIE 1964 chromaticity values for inclusion in GUI app and web app.
-    
+    Generate html table of CIE 1964 chromaticity values for GUI and web apps.
+
     Parameters
     ----------
     results : dict
         as returned by tc182.compute.compute_tabulated()
-        
+
     Returns
     -------
     html_table : string

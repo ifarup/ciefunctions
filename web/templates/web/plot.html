@@ -46,9 +46,10 @@
 			MathJax.Hub.Config({
   				SVG: {
     				scale: 110
-	  			}
+	  			},
+	  			jax: ["input/TeX","output/HTML-CSS"],
+			    displayAlign: "left"
 			});
-			
 			
 			
 			MathJax.Hub.Register.StartupHook("MathMenu Ready",
@@ -128,22 +129,24 @@
 									</div>
 									<div id="figOptions">
 										<div class="row">
-											<!-- Start with default enabled ticks, might need to go to an init function -->
-											<div class="col-lg-4 col-md-3 col-sm-3">
-												<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
-												<input type="checkbox" id="compare1931-2" disabled/>
-											</div>
-											<div class="col-lg-4 col-md-3 col-md-3">
-												<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
-												<input type="checkbox" id="compare1964-10" disabled/>
-											</div>
-											<div class="col-lg-2 col-md-2 col-sm-2">
-												<label for="#showGrid">Grid</label>
-												<input id ="showGrid" type="checkbox"/>
-											</div>
-											<div class="col-lg-2 col-md-2 col-sm-2">
-												<label for="#showLabels" class="disabled">Labels</label>
-												<input id ="showLabels" type="checkbox" disabled/>
+											<div class="col-md-12">
+												<!-- Start with default enabled ticks, might need to go to an init function -->
+												<div class="col-lg-4 col-md-4 col-sm-3 figOptionCheckbox">
+													<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
+													<input type="checkbox" id="compare1931-2" disabled/>
+												</div>
+												<div class="col-lg-4 col-md-4 col-md-3 figOptionCheckbox">
+													<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
+													<input type="checkbox" id="compare1964-10" disabled/>
+												</div>
+												<div class="col-lg-2 col-md-2 col-sm-2 figOptionCheckbox">
+													<label for="#showGrid">Grid</label>
+													<input id ="showGrid" type="checkbox"/>
+												</div>
+												<div class="col-lg-2 col-md-2 col-sm-2 figOptionCheckbox">
+													<label for="#showLabels" class="disabled">Labels</label>
+													<input id ="showLabels" type="checkbox" disabled/>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -196,9 +199,9 @@
 							<select id="plot-select" class="ui-widget ui-widget-content">
 								<option plot="lms">CIE LMS cone fundamentals</option>
 								<option plot="lms_base">CIE LMS cone fundamentals (9 sign. figs.)</option>
-								<option plot="bm">MacLeod-Boynton ls chomaticity diagram</option>
+								<option plot="bm">MacLeod&ndash;Boynton ls chomaticity diagram</option>
 								<option plot="lm">Maxwellian lm chromaticity diagram</option>
-								<option plot="xyz">CIE XYZ fundamental CMFs (Spectrals)</option><!-- renorm -->
+								<option plot="xyz">CIE XYZ cone-fundamental-based spectral tristimulus values</option><!-- renorm -->
 								<!--<option plot="xyzp">CIE XYZ fundamental CMFs (Purples)</option><!-- renorm -->-->
 								<option plot="xy">CIE xy fundamental chromaticity diagram</option><!-- renorm -->
 								<option plot="xyz31">CIE XYZ standard CMFs (Spectrals)</option>
@@ -209,7 +212,7 @@
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 						<div class="norm-div">
-							<label for="#norm">Renormalized Values</label>
+							<label for="#norm" class="ui-widget">Renormalized values</label>
 							<input id ="norm" type="checkbox"/>
 						</div>
 					</div>
@@ -313,33 +316,50 @@
 								{% csrf_token %}
 									<table class="paramTable">
 										<tr>
-											<td class="text-center">Field size (&deg;)</td>
-											<td class="text-center">
+											<td class="text-right">Field size (&deg;)</td>
+											<td class="text-right">
 												<input id="field_size" name="field_size" value="{{ field_size }}"/>
 											</td>
-											<td class="text-right">Domain (nm)</td>
 											<td class="text-center">
+												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+											</td>
+											<td class="text-right">Domain (nm)</td>
+											<td class="text-right">
 												<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
 											</td>
 											<td class="text-center">
 												<span class="minus-sign">&mdash;</span>
 											</td>
-											<td>
+											<td class="text-left">
 												<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
+											</td>
+											<td class="text-center">
+												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
 											</td>
 										</tr>
 										<tr>
-											<td class="text-center">Age (yr)</td>
-											<td class="text-center">
+											<td class="text-right">Age (yr)</td>
+											<td class="text-right">
 												<input id="age" name="age" value="{{ age }}"/>
 											</td>
-											<td class="text-right">Step (nm)</td>
 											<td class="text-center">
+												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+											</td>
+											<td class="text-right">Step (nm)</td>
+											<td class="text-right">
 												<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
 											</td>
-											<td colspan="2">
-												<button id="btnCompute">Compute</button>
+											<td class="text-center">
+												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
 											</td>
+											<td class="text-left">
+												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+											</td>
+											<td class="text-center">
+												<button id="btnCompute">Compute</button>
+												
+											</td>
+
 										<tr>
 									</table>
 								</form>		
@@ -351,5 +371,6 @@
 		</div>
 	</div><!-- container -->
 	<script src="{% static 'web/js/tc.js' %}"></script>
+	<script src="{% static 'web/js/corrections.js' %}"></script>
 </body>
 </html>
