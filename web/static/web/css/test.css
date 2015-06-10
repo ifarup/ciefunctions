@@ -5,7 +5,47 @@
 }*/
 
 
-.container-fluid .row {
-			/*background-color: #ddd;*/
+.figOptionCheckbox {
+						padding-right: 0px !important;
+						padding-left: 0px !important;
+						font-size: 0.8em;
 }
 
+label {
+						font-weight: normal !important;
+}
+
+.paramTable {
+						background-color: aliceBlue;
+}
+
+.paramTable td {
+						padding-top: 4px;
+						padding-bottom: 6px;
+						border-radius: 3px;
+						font-size: 0.95em;
+						/*border: 1px solid #555;*/
+
+}
+
+.paramTable button {
+						margin-right: 5px;
+}
+
+.ui-widget {
+						font-size: 0.95em;
+}
+
+.paramTable button {
+						color: white;
+						background-color: #6093d6;
+						border: none;
+						padding: 4px;
+						border-radius: 4px;
+						box-shadow: 2px 2px 1px #c5d6d7;
+					
+}
+
+/*.paramTable button:hover {
+						background-color: #3a95ac;
+}*/

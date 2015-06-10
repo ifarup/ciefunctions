@@ -99,7 +99,7 @@ div.norm-div {
 
 #figOptions {
 	box-sizing: border-box;
-	background-color: #eee;
+	/*background-color: #eee;*/
 }
 
 /* Params */
@@ -107,11 +107,11 @@ div.norm-div {
 .paramTable {
 			box-sizing: border-box;
 			width: 100%;
-			max-width: 650px;
+			/*max-width: 650px;*/
 }
 
 .paramTable td {
-			border: 1px solid black;
+			/*border: 1px solid black;*/
 }
 
 .minus-sign {
