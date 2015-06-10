@@ -46,9 +46,10 @@
 			MathJax.Hub.Config({
   				SVG: {
     				scale: 110
-	  			}
+	  			},
+	  			jax: ["input/TeX","output/HTML-CSS"],
+			    displayAlign: "left"
 			});
-			
 			
 			
 			MathJax.Hub.Register.StartupHook("MathMenu Ready",
@@ -351,5 +352,6 @@
 		</div>
 	</div><!-- container -->
 	<script src="{% static 'web/js/tc.js' %}"></script>
+	<script src="{% static 'web/js/corrections.js' %}"></script>
 </body>
 </html>
