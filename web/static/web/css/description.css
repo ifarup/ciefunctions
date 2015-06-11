@@ -53,4 +53,6 @@ div.html_text .matrix:after {
         height: 100%;
 }
 
+ .MathJax, .MathJax_Display { vertical-align: baseline }
+ .MathJax *, .MathJax_Display * { vertical-align: baseline }
 
