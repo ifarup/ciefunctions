@@ -96,7 +96,7 @@ def get_plot(request, plot, grid, cie31, cie64, labels, norm):
 	fig = plt.figure()
 
 	#Figure size, in inches, 100 dots-per-inch
-	dpi = 100
+	dpi = 80
 	fig.set_size_inches(8.0, 4.8)
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
