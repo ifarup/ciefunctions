@@ -1,5 +1,10 @@
 /* Tab panel */
 
+#tabSys {
+		min-width: 640px;
+		max-width: 640px;
+}
+
 #tabSys a {
 		outline: none;
 }
