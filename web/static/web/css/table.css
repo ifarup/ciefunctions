@@ -19,7 +19,7 @@ div.table table tr:nth-child(even){ background-color: lightSteelBlue; }
 div.table table td { 		padding: 0px 10px 0px 10px;
 							text-align: center;
 							font-family: "Lucida Console", Monaco, monospace;
-							font-size: 0.9em;
+							font-size: 0.85em;
 }
 
 div.table table tr:hover{ 	text-shadow: 1px 1px 1px #aaa;

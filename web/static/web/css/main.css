@@ -114,11 +114,10 @@ div.norm-div {
 			box-sizing: border-box;
 			width: 100%;
 			/*max-width: 650px;*/
+/*			border: 1px solid lightGray;*/
+			white-space: no-wrap;
 }
 
-.paramTable td {
-			/*border: 1px solid black;*/
-}
 
 .minus-sign {
 	/*padding-left: 10px;*/

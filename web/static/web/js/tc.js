@@ -34,6 +34,10 @@ $( "input#lambda_step" ).spinner({
 									numberFormat: 'd'
 });
 
+$( ".ui-spinner" ).width("70px");
+$( ".ui-spinner-input" ).width("40px");
+
+
 //Hide the global loader when ajax.
 $( document ).ajaxStop(function() {
 	$("div.velo").hide();
@@ -52,6 +56,7 @@ function updateAjaxLeft(){
 $( "button#btnCompute" ).on('click', function(){
 	
 	$( ".velo" ).show(); //All velo's up!
+	
 	function flash(component){
 		component
 		.animate({backgroundColor: "rgb(255,0,0)"}, 500 )
@@ -261,6 +266,20 @@ function refreshObject(object, name){
 					$( "div#" + name + "_" + object ).siblings(".velo").hide();
 					AJAX_left--;
 					updateAjaxLeft();
+					
+					if ( $( 'table tr:last-of-type>td:first' ).text() != $( "input#lambda_max" ).val() ){
+
+					//	if ($.isNumeric($( "input#lambda_max" ).val())){ 					
+							$( "input#lambda_max" )
+								.val( $( 'table tr:last-of-type>td:first' ).text() )
+								.animate({backgroundColor: "rgba(225,127,80,.5)"}, 500 )
+								.animate({backgroundColor: "rgba(255,255,255,.5)"}, 500 );	
+					//	}
+
+					}
+					
+					
+					
   				}).fail(function() {
     				console.log( "error when getting " + name + " " + object + " from server" );
     				AJAX_left--;

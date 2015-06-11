@@ -59,6 +59,10 @@ label {
 						font-size: 0.95em;
 }
 
+.ui-widget[class=ui-spinner] {
+						width: 70px;
+}
+
 .paramTable button {
 						color: white;
 						background-color: #6093d6;

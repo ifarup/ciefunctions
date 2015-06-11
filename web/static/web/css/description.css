@@ -5,16 +5,18 @@
 		letter-spacing: 5px;
 }
 
-.html_text { 	display: none; }
-
-div.html_text { padding-left: 5px; 
-				
+.html_text { 	display: none; 
+				/*font-family: "Lucida Console", Monaco, monospace;*/
 }
+
+div.html_text { padding-left: 2px; }
 
 div.html_text sub { font-size: 1em;}
 
+div.html_text td { font-size: 0.9em;}
+
 .description-heading-2 { color: #155caa;
-						font-size: 2em;
+						font-size: 1.65em;
 						margin-top: 5px;
 					}
 				
@@ -23,7 +25,8 @@ div.html_text sub { font-size: 1em;}
 					}
 					
 .description-subtitle { color:#333; 
-						font-size: 1.5em;
+						font-size: 1.2em;
+						font-weight: 600 !important;
 					}
 				
 div.html_text .matrix {
@@ -55,4 +58,5 @@ div.html_text .matrix:after {
 
  .MathJax, .MathJax_Display { vertical-align: baseline }
  .MathJax *, .MathJax_Display * { vertical-align: baseline }
+ 
 
