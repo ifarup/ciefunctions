@@ -8,7 +8,20 @@
 .figOptionCheckbox {
 						padding-right: 0px !important;
 						padding-left: 0px !important;
+						text-align: center;
 						font-size: 0.8em;
+						width: 35%;
+						float: left;
+}
+
+.figOptionCheckbox:nth-child(3), .figOptionCheckbox:nth-child(4)  {
+						width: 15%;
+}						
+
+
+.figOptionCheckboxContainer {
+
+						width: 640px;
 }
 
 label {
@@ -22,6 +35,7 @@ label {
 .paramRow select {
 						margin-top: 30px;
 						min-width: 420px;
+						max-width: 420px;
 }
 
 .paramTable td {
@@ -35,6 +49,10 @@ label {
 
 .paramTable button {
 						margin-right: 5px;
+}
+
+.paramTable .upperRow td {
+						padding-top: 10px;
 }
 
 .ui-widget {

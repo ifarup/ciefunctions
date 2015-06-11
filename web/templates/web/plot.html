@@ -130,22 +130,25 @@
 									<div id="figOptions">
 										<div class="row">
 											<div class="col-md-12">
-												<!-- Start with default enabled ticks, might need to go to an init function -->
-												<div class="col-lg-4 col-md-4 col-sm-3 figOptionCheckbox">
-													<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
-													<input type="checkbox" id="compare1931-2" disabled/>
-												</div>
-												<div class="col-lg-4 col-md-4 col-md-3 figOptionCheckbox">
-													<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
-													<input type="checkbox" id="compare1964-10" disabled/>
-												</div>
-												<div class="col-lg-2 col-md-2 col-sm-2 figOptionCheckbox">
-													<label for="#showGrid">Grid</label>
-													<input id ="showGrid" type="checkbox"/>
-												</div>
-												<div class="col-lg-2 col-md-2 col-sm-2 figOptionCheckbox">
-													<label for="#showLabels" class="disabled">Labels</label>
-													<input id ="showLabels" type="checkbox" disabled/>
+												<div class="figOptionCheckboxContainer">
+													<!-- Start with default enabled ticks, might need to go to an init function -->
+													<div class="figOptionCheckbox">
+														<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
+														<input type="checkbox" id="compare1931-2" disabled/>
+													</div>
+													<div class="figOptionCheckbox">
+														<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
+														<input type="checkbox" id="compare1964-10" disabled/>
+													</div>
+													<div class="figOptionCheckbox">
+														<label for="#showGrid">Grid</label>
+														<input id ="showGrid" type="checkbox"/>
+													</div>
+													<div class="figOptionCheckbox">
+														<label for="#showLabels" class="disabled">Labels</label>
+														<input id ="showLabels" type="checkbox" disabled/>
+													</div>
+													<br style="float:none"/>
 												</div>
 											</div>
 										</div>
@@ -253,7 +256,7 @@
 		</div>
 		<div class="row paramRow">
 			<div class="col-lg-6">
-				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+				<div class="figOptionCheckboxContainer">
 					<div id="plot-select-div">
 						<select id="plot-select" class="ui-widget ui-widget-content">
 							<option plot="lms">CIE LMS cone fundamentals</option>
@@ -268,8 +271,6 @@
 							<option plot="xy31">CIE xy standard chromaticity diagram</option>
 						</select>
 					</div><!-- end #plot-select -->
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="norm-div">
 						<label for="#norm" class="ui-widget">Renormalized values</label>
 						<input id ="norm" type="checkbox"/>
@@ -282,7 +283,7 @@
 						<form id="paramForm" method="POST" action="http://disney.com">
 						{% csrf_token %}
 							<table class="paramTable">
-								<tr>
+								<tr class="upperRow">
 									<td class="text-right">Field size (&deg;)</td>
 									<td class="text-right">
 										<input id="field_size" name="field_size" value="{{ field_size }}"/>

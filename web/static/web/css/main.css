@@ -42,8 +42,12 @@ div#header img {	height: 55px;
 
 select#plot-select, select#modus-select { width: 100%; }
 
-div.htmlWrapper {	/*position: relative; */
-					padding-left: 10;
+div#plot-select-div {
+					display: inline-block;
+}
+
+div.htmlWrapper {	position: relative;
+					/*padding-left: 10;*/
 					height: 540px;
 					max-height: 565px;
 					width: auto;
@@ -90,6 +94,7 @@ div.htmlWrapper {	/*position: relative; */
 div.norm-div {
 		display: none;
 		margin-top: 30px;
+		float: right;
 }
 
 

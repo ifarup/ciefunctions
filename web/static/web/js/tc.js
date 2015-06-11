@@ -475,7 +475,8 @@ function showStandard( standard_plot ){
 				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
 				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
 				
-				$( ".norm-div" ).show();
+				$( ".norm-div" ).show().css( "display", "inline-block" );
+				
 				
 			break;
 			
