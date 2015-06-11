@@ -91,7 +91,13 @@ def get_filename_params(request):
 def get_plot(request, plot, grid, cie31, cie64, labels, norm):
 	start = time.time()
 	log.debug("[%s] Requesting %s/%s/%s/%s/%s/%s - \t\tsID: %s" % (time_now(), plot, grid, cie31, cie64, labels, norm, request.session.session_key))
+
+	#Figure
 	fig = plt.figure()
+
+	#Figure size, in inches, 100 dots-per-inch
+	dpi = 100
+	fig.set_size_inches(8.0, 4.8)
 	ax = fig.add_subplot(111)
 	plots = request.session['plots']
 	results = request.session['results']

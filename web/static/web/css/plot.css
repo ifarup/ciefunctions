@@ -8,9 +8,9 @@ div#theFig{
 			position: relative;
 			text-align: center;
 			border: 1px solid #d5d5d5;
-			min-height: 510px;
-			height: 519px;
-			max-width: 620px;
+			min-height: 430px;
+			height: 430px;
+			max-width: 640px;
 			border-top: none;
 }
 
