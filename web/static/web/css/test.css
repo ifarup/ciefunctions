@@ -15,8 +15,13 @@ label {
 						font-weight: normal !important;
 }
 
-.paramTable {
+.paramRow {
 						background-color: aliceBlue;
+}
+
+.paramRow select {
+						margin-top: 30px;
+						min-width: 420px;
 }
 
 .paramTable td {

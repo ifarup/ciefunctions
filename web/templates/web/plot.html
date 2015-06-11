@@ -194,28 +194,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-						<div id="plot-select-div">
-							<select id="plot-select" class="ui-widget ui-widget-content">
-								<option plot="lms">CIE LMS cone fundamentals</option>
-								<option plot="lms_base">CIE LMS cone fundamentals (9 sign. figs.)</option>
-								<option plot="bm">MacLeod&ndash;Boynton ls chomaticity diagram</option>
-								<option plot="lm">Maxwellian lm chromaticity diagram</option>
-								<option plot="xyz">CIE XYZ cone-fundamental-based spectral tristimulus values</option><!-- renorm -->
-								<!--<option plot="xyzp">CIE XYZ fundamental CMFs (Purples)</option><!-- renorm -->-->
-								<option plot="xy">CIE xy fundamental chromaticity diagram</option><!-- renorm -->
-								<option plot="xyz31">CIE XYZ standard CMFs (Spectrals)</option>
-								<!-- <option plot="xyz31p">CIE XYZ standard CMFs (Purples)</option>	-->							
-								<option plot="xy31">CIE xy standard chromaticity diagram</option>
-							</select>
-						</div><!-- end #plot-select -->
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<div class="norm-div">
-							<label for="#norm" class="ui-widget">Renormalized values</label>
-							<input id ="norm" type="checkbox"/>
-						</div>
-					</div>
+		
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12">
@@ -269,104 +248,90 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
-						<div id="input-params">
-							<div class="col-lg-12">
-								<!--<form id="paramForm" method="POST" action="http://disney.com">
-								{% csrf_token %}
-								<div class="row">
-									<div class="col-lg-2 text-right">
-										<label for="field_size">Field size (&deg;)</label>
-									</div>
-									<div class="col-lg-1 text-center">
-										<input id="field_size" name="field_size" value="{{ field_size }}"/>
-									</div>
-									<div class="col-lg-3 text-right">
-										<label for="lambda_min">Domain (nm)</label>
-									</div>
-									<div class="col-lg-1 text-center">
-										<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
-									</div>
-									<div class="col-lg-1 text-center">
-										<span class="minus-sign">&mdash;</span>
-									</div>
-									<div class="col-lg-1">
-										<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-lg-2  text-right">
-										<label for="age">Age (yr)</label>
-									</div>
-									<div class="col-lg-1">
-										<input id="age" name="age" value="{{ age }}"/>
-									</div>
-									<div class="col-lg-3 text-right">
-										<label for="lambda_step">Step (nm)</label>
-									</div>
-									<div class="col-lg-1">
-										<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
-									</div>
-									<div class="col-lg-4 text-center">
-										<button id="btnCompute">Compute</button>
-									</div>
-								</div>-->
-								<!-- the table way -->
-								<form id="paramForm" method="POST" action="http://disney.com">
-								{% csrf_token %}
-									<table class="paramTable">
-										<tr>
-											<td class="text-right">Field size (&deg;)</td>
-											<td class="text-right">
-												<input id="field_size" name="field_size" value="{{ field_size }}"/>
-											</td>
-											<td class="text-center">
-												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
-											</td>
-											<td class="text-right">Domain (nm)</td>
-											<td class="text-right">
-												<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
-											</td>
-											<td class="text-center">
-												<span class="minus-sign">&mdash;</span>
-											</td>
-											<td class="text-left">
-												<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
-											</td>
-											<td class="text-center">
-												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
-											</td>
-										</tr>
-										<tr>
-											<td class="text-right">Age (yr)</td>
-											<td class="text-right">
-												<input id="age" name="age" value="{{ age }}"/>
-											</td>
-											<td class="text-center">
-												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
-											</td>
-											<td class="text-right">Step (nm)</td>
-											<td class="text-right">
-												<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
-											</td>
-											<td class="text-center">
-												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
-											</td>
-											<td class="text-left">
-												<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
-											</td>
-											<td class="text-center">
-												<button id="btnCompute">Compute</button>
-												
-											</td>
-
-										<tr>
-									</table>
-								</form>		
-							</div>
-						</div><!-- end #input-params -->
+				</div>
+			</div>
+		</div>
+		<div class="row paramRow">
+			<div class="col-lg-6">
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+					<div id="plot-select-div">
+						<select id="plot-select" class="ui-widget ui-widget-content">
+							<option plot="lms">CIE LMS cone fundamentals</option>
+							<option plot="lms_base">CIE LMS cone fundamentals (9 sign. figs.)</option>
+							<option plot="bm">MacLeod&ndash;Boynton ls chomaticity diagram</option>
+							<option plot="lm">Maxwellian lm chromaticity diagram</option>
+							<option plot="xyz">CIE XYZ cone-fundamental-based spectral tristimulus values</option><!-- renorm -->
+							<!--<option plot="xyzp">CIE XYZ fundamental CMFs (Purples)</option><!-- renorm -->-->
+							<option plot="xy">CIE xy fundamental chromaticity diagram</option><!-- renorm -->
+							<option plot="xyz31">CIE XYZ standard CMFs (Spectrals)</option>
+							<!-- <option plot="xyz31p">CIE XYZ standard CMFs (Purples)</option>	-->							
+							<option plot="xy31">CIE xy standard chromaticity diagram</option>
+						</select>
+					</div><!-- end #plot-select -->
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="norm-div">
+						<label for="#norm" class="ui-widget">Renormalized values</label>
+						<input id ="norm" type="checkbox"/>
 					</div>
 				</div>
+			</div>
+			<div class="col-lg-6">
+				<div id="input-params"> <!-- Input Parameters -->
+					<div class="col-lg-12">
+						<form id="paramForm" method="POST" action="http://disney.com">
+						{% csrf_token %}
+							<table class="paramTable">
+								<tr>
+									<td class="text-right">Field size (&deg;)</td>
+									<td class="text-right">
+										<input id="field_size" name="field_size" value="{{ field_size }}"/>
+									</td>
+									<td class="text-center">
+										<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+									</td>
+									<td class="text-right">Domain (nm)</td>
+									<td class="text-right">
+										<input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
+									</td>
+									<td class="text-center">
+										<span class="minus-sign">&mdash;</span>
+									</td>
+									<td class="text-left">
+										<input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
+									</td>
+									<td class="text-center">
+										<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">Age (yr)</td>
+									<td class="text-right">
+										<input id="age" name="age" value="{{ age }}"/>
+									</td>
+									<td class="text-center">
+										<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+									</td>
+									<td class="text-right">Step (nm)</td>
+									<td class="text-right">
+										<input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
+									</td>
+									<td class="text-center">
+										<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+									</td>
+									<td class="text-left">
+										<span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+									</td>
+									<td class="text-center">
+										<button id="btnCompute">Compute</button>
+										
+									</td>
+
+								<tr>
+							</table>
+						</form>		
+					</div>
+				</div><!-- end #input-params -->
 			</div>
 		</div>
 	</div><!-- container -->
