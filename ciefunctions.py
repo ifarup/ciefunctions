@@ -94,6 +94,7 @@ class AppForm(qt.QMainWindow):
                 'cie64': self.cie64_check.isChecked(),
                 'labels': self.wavelength_check.isChecked(),
                 'label_fontsize': 7,
+                'title_fontsize': 11,
                 'full_title': True,
                 'axis_labels': True,
                 'norm': self.norm_check.isChecked()}

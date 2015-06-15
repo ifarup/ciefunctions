@@ -69,7 +69,8 @@ def xyz(axes, plots, options):
              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
              u' yr,  Domain: %s\u2013%s nm' %
              (plots['lambda_min'], plots['lambda_max']) +
-             ',  Step: %s nm' % plots['lambda_step']), fontsize=11)
+             ',  Step: %s nm' % plots['lambda_step']),
+            fontsize=options['title_fontsize'])
         # Hack in order to write parameter-info as a subtitle with a
         # smaller font size: does not function (owing to some bugs)?
         # axes.set_title('''CIE XYZ cone-fundamental-based spectral
@@ -82,7 +83,8 @@ def xyz(axes, plots, options):
         # ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
     else:
         axes.set_title('CIE XYZ cone-fundamental-based spectral ' +
-                       'tristimulus values', fontsize=11)
+                       'tristimulus values',
+                       fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -178,13 +180,14 @@ def xy(axes, plots, options):
                                                   plots['lambda_step']),
                             fontsize=14)
     if options['full_title']:
-        axes.set_title((
-            'CIE xy cone-fundamental-based chromaticity diagram\n' +
-            'Field size: %s' % plots['field_size'] +
-            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-            u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-                                              plots['lambda_max']) +
-            ',  Step: %s nm' % plots['lambda_step']), fontsize=11)
+        axes.set_title(
+            ('CIE xy cone-fundamental-based chromaticity diagram\n' +
+             'Field size: %s' % plots['field_size'] +
+             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+             u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
+                                               plots['lambda_max']) +
+             ',  Step: %s nm' % plots['lambda_step']),
+            fontsize=options['title_fontsize'])
 #       # Hack in order to write parameter-info as a subtitle with a
 #       # smaller font size: does not function (owing to some bugs)?
 #       axes.set_title(
@@ -198,7 +201,7 @@ def xy(axes, plots, options):
 #            ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
     else:
         axes.set_title('CIE xy cone-fundamental-based chromaticity diagram',
-                       fontsize=11)
+                       fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -228,13 +231,14 @@ def lms(axes, plots, options):
         axes.set_xlabel('Wavelength [nm]', fontsize=10)
         axes.set_ylabel('Relative energy sensitivities', fontsize=10)
     if options['full_title']:
-        axes.set_title((
-            'CIE 2006 LMS cone fundamentals\nField size: %s' %
-            plots['field_size'] +
-            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-            u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-                                              plots['lambda_max']) +
-            ',  Step: %s nm' % plots['lambda_step']), fontsize=11)
+        axes.set_title(
+            ('CIE 2006 LMS cone fundamentals\nField size: %s' %
+             plots['field_size'] +
+             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+             u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
+                                               plots['lambda_max']) +
+             ',  Step: %s nm' % plots['lambda_step']),
+            fontsize=options['title_fontsize'])
 #       # Hack in order to write parameter-info as a subtitle with a
 #       # smaller font size: does not function (owing to some bugs)?
 #       axes.set_title('CIE 2006 LMS cone fundamentals\n', fontsize=11)
@@ -245,7 +249,8 @@ def lms(axes, plots, options):
 #                                              plots['lambda_max']) +
 #           ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
     else:
-        axes.set_title('CIE 2006 LMS cone fundamentals', fontsize=11)
+        axes.set_title('CIE 2006 LMS cone fundamentals',
+                       fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -282,7 +287,8 @@ def lms_base(axes, plots, options):
                         u' yr,  Domain: %s\u2013%s nm' % (
                             plots['lambda_min'],
                             plots['lambda_max']) +
-                        ',  Step: %s nm' % plots['lambda_step']), fontsize=11)
+                        ',  Step: %s nm' % plots['lambda_step']),
+                       fontsize=options['title_fontsize'])
 #       # Hack in order to write parameter-info as a subtitle with a
 #       # smaller font size: does not function (owing to some bugs)?
 #       axes.set_title('''CIE 2006 LMS cone fundamentals
@@ -295,7 +301,7 @@ def lms_base(axes, plots, options):
 #             ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
     else:
         axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)',
-                       fontsize=11)
+                       fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -377,7 +383,8 @@ def bm(axes, plots, options):
                         u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
                         u' yr,  Domain: %s\u2013%s nm' %
                         (plots['lambda_min'], plots['lambda_max']) +
-                        ',  Step: %s nm' % plots['lambda_step']), fontsize=11)
+                        ',  Step: %s nm' % plots['lambda_step']),
+                       fontsize=options['title_fontsize'])
 #      # Hack in order to write parameter-info as a subtitle with a
 #      # smaller font size: does not function (owing to some bugs)?
 #      axes.set_title('Maxwellian lm chromaticity diagram\n', fontsize=11)
@@ -389,7 +396,7 @@ def bm(axes, plots, options):
 #           ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
     else:
         axes.set_title(u'MacLeod\u2013Boynton ls chromaticity diagram',
-                       fontsize=11)
+                       fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -470,7 +477,8 @@ def lm(axes, plots, options):
              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
              u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
                                                plots['lambda_max']) +
-             ',  Step: %s nm' % plots['lambda_step']), fontsize=11)
+             ',  Step: %s nm' % plots['lambda_step']),
+            fontsize=options['title_fontsize'])
 #      # Hack in order to write parameter-info as a subtitle with a
 #      # smaller font size: does not function (owing to some bugs)?
 #      axes.set_title('Maxwellian lm chromaticity diagram\n',
@@ -482,7 +490,8 @@ def lm(axes, plots, options):
 #                                                plots['lambda_max']) +
 #             ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
     else:
-        axes.set_title('Maxwellian lm chromaticity diagram', fontsize=10)
+        axes.set_title('Maxwellian lm chromaticity diagram',
+                       fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -517,7 +526,7 @@ def xyz31(axes, plots, options):
         axes.set_ylabel('Tristimulus values', fontsize=10)
     axes.set_title(
         u'CIE 1931 XYZ standard 2\N{DEGREE SIGN} colour-matching functions',
-        fontsize=11)
+        fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -552,7 +561,7 @@ def xyz64(axes, plots, options):
         axes.set_ylabel('Tristimulus values', fontsize=10)
     axes.set_title(
         u'CIE 1964 XYZ standard 10\N{DEGREE SIGN} colour-matching functions',
-        fontsize=11)
+        fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -610,7 +619,7 @@ def xy31(axes, plots, options):
         axes.set_ylabel('$y$', fontsize=16)
     axes.set_title(
         u'CIE 1931 xy standard 2\N{DEGREE SIGN} chromaticity diagram',
-        fontsize=11)
+        fontsize=options['title_fontsize'])
     lock.release()
 
 
@@ -668,5 +677,5 @@ def xy64(axes, plots, options):
         axes.set_ylabel('$y_{10}$', fontsize=16)
     axes.set_title(
         u'CIE 1964 xy standard 10\N{DEGREE SIGN} chromaticity diagram',
-        fontsize=11)
+        fontsize=options['title_fontsize'])
     lock.release()
