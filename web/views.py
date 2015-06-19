@@ -40,7 +40,8 @@ options = { 	'grid' 			: 0,
             	'labels' 		: 0,
             	'axis_labels'	: False,
             	'label_fontsize' : 12,
-            	'norm'			: False
+            	'norm'			: False,
+            	'title_fontsize' : 13
 }
 
 def updateOptions(optionSet):
