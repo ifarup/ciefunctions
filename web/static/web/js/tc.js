@@ -207,7 +207,7 @@ var lambda_min = parseInt($( "input#lambda_min" ).val());
 var lambda_max= parseInt($( "input#lambda_max" ).val());
 var lambda_step = parseInt($( "input#lambda_step" ).val());
 
-	axis_labels = ({ 	'xyz' 		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
+	axis_labels = ({ 	'xyz' 		: new axis_label("Wavelength [nm]", "Cone-fundamental-based tristimulus values"),
 						'xy'		: new axis_label("<span class='math'>x</span><sub>F, " + field_size + ", " + age + "</sub>", 
 													  "y<sub>F, " + field_size + ", " + age + "</sub>"),
 													  
@@ -223,8 +223,8 @@ var lambda_step = parseInt($( "input#lambda_step" ).val());
 						'xy31'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 						'xy64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 						
-						'xyz31'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
-						'xyz64'		: new axis_label("Wavelength [nm]", "Fundamental tristimulus values"),
+						'xyz31'		: new axis_label("Wavelength [nm]", "Tristimulus values"),
+						'xyz64'		: new axis_label("Wavelength [nm]", "Tristimulus values"),
 						
 	});
 
