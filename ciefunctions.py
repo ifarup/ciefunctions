@@ -419,6 +419,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.canvas.draw()
 
     def on_compute(self):
+        if self.lambda_max_spin.value() < 700:
+            self.lambda_max_spin.setValue(700)
+        self.lambda_max_spin.setMinimum(700)
         self.last_age = self.age_spin.value()
         self.last_field = self.field_spin.value()
         self.last_resolution = tc182.my_round(self.resolution_spin.value(), 1)
@@ -430,6 +433,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.last_lambda_min,
             self.last_lambda_max,
             self.last_resolution)
+        if self.results['xyz'][-1, 0] < 700:
+            self.lambda_max_spin.setMinimum(self.results['xyz'][-1, 0])
         if self.results['xyz'][-1, 0] != self.last_lambda_max:
             self.last_lambda_max = self.results['xyz'][-1, 0]
             self.lambda_max_spin.setValue(self.last_lambda_max)

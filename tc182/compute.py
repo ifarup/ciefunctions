@@ -912,11 +912,8 @@ def compute_tabulated(field_size, age,
         v_lambda_base[:, 0], v_lambda_base[:, 1])
 
     # Lambda values
-    lambdas_spec = np.arange(lambda_min, lambda_max + lambda_step, lambda_step)
+    lambdas_spec = np.arange(lambda_min, lambda_max + .01, lambda_step)
     lambda_max = lambdas_spec[-1]
-    if my_round(lambda_max, 1) >= 830.1:
-        lambdas_spec = lambdas_spec[:-1]
-        lambda_max = lambdas_spec[-1]
     lambdas_std = np.arange(390, 830 + 1, 1)
     lambdas_plot = my_round(np.arange(lambda_min, lambda_max + .1, .1), 1)
 
