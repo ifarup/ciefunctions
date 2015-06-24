@@ -581,15 +581,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         self.wavelength_check = qt.QCheckBox()
         self.connect(self.wavelength_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw_plot_only)
+                     qtcore.SIGNAL('stateChanged(int)'),
+                     self.on_draw_plot_only)
 
         self.cie31_check = qt.QCheckBox()
         self.connect(self.cie31_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw_plot_only)
+                     qtcore.SIGNAL('stateChanged(int)'),
+                     self.on_draw_plot_only)
 
         self.cie64_check = qt.QCheckBox()
         self.connect(self.cie64_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw_plot_only)
+                     qtcore.SIGNAL('stateChanged(int)'),
+                     self.on_draw_plot_only)
 
         self.norm_check = qt.QCheckBox()
         self.connect(self.norm_check,

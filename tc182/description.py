@@ -203,7 +203,8 @@ def _normalisation_lm(data):
     return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    The chromaticity point of illuminant E,  \\((l_{%s,\\,%d\\mathrm{;\\,E}},\\,
+    The chromaticity point of illuminant E,
+    \\((l_{%s,\\,%d\\mathrm{;\\,E}},\\,
     m_{%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3, 1/3).
     </p>
     """ % (data['field_size'], data['age'],
