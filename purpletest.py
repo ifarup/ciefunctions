@@ -48,8 +48,8 @@ alphas = []
 for i in range(len(plots['xyz'][:, 0])):
     l = plots['xyz'][i, 0]
     if l > lambda_b and l < lambda_r:
-        x_l = plots['cc'][i, 1]
-        y_l = plots['cc'][i, 2]
+        x_l = plots['xy'][i, 1]
+        y_l = plots['xy'][i, 2]
         alpha = (((y_r - 1./3) * (x_l - y_l) - (x_r - y_r) * (y_l - 1./3)) /
                  ((x_b - y_b - x_r + y_r) * (y_l - 1./3) -
                   (y_b - y_r) * (x_l - y_l)))
