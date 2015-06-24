@@ -124,7 +124,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.axes.grid(self.grid_check.isChecked())
         self.canvas.draw()
 
-    def on_draw(self):
+    def on_draw(self, redraw_description=True):
 
         # Reset GUI values that have not been computed
         self.field_spin.setValue(self.last_field)
@@ -414,9 +414,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         # Refresh GUI
 
         base_url = qtcore.QUrl.fromLocalFile(os.getcwd() + os.sep)
-        self.transformation.setHtml(html_string, baseUrl=base_url)
-        self.html_table.setHtml(html_table, baseUrl=base_url)
+        if redraw_description:
+            self.transformation.setHtml(html_string, baseUrl=base_url)
+            self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()
+
+    def on_draw_plot_only(self):
+        self.on_draw(False)
 
     def on_compute(self):
         if self.lambda_max_spin.value() < 700:
@@ -577,15 +581,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         self.wavelength_check = qt.QCheckBox()
         self.connect(self.wavelength_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw_plot_only)
 
         self.cie31_check = qt.QCheckBox()
         self.connect(self.cie31_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw_plot_only)
 
         self.cie64_check = qt.QCheckBox()
         self.connect(self.cie64_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw_plot_only)
 
         self.norm_check = qt.QCheckBox()
         self.connect(self.norm_check,
