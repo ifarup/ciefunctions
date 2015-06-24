@@ -203,7 +203,7 @@ def _normalisation_lm(data):
     return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    The chromaticity point of illuminant E,  \\((l_{%s,\\,%d\\mathrm{;\\,E}},
+    The chromaticity point of illuminant E,  \\((l_{%s,\\,%d\\mathrm{;\\,E}},\\,
     m_{%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3, 1/3).
     </p>
     """ % (data['field_size'], data['age'],
@@ -253,7 +253,7 @@ def _normalisation_xy(data, options):
         <p>
         <b class="description-subtitle">Normalisation</b><br />
         The chromaticity point of illuminant E,
-        \\((x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},
+        \\((x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
         y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3, 1/3)
         when calculated using a step size of %s&nbsp;nm and wavelength
         domain %s&ndash;%s&nbsp;nm.
@@ -267,7 +267,7 @@ def _normalisation_xy(data, options):
         <p>
         <b class="description-subtitle">Normalisation</b><br />
         The chromaticity point of illuminant E,
-        \\((x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},
+        \\((x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
         y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3, 1/3)
         when calculated using a step size of 1&nbsp;nm and wavelenght
         domain 390&ndash;830&nbsp;nm.
@@ -625,7 +625,8 @@ def _illuminant_E_cc(data, options):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b>
     <br />
-    \\( (x_{\,\mathrm{F},\,%s,\,%d;\,E}, \,y_{\,\mathrm{F},\,%s,\,%d;\,E}) =
+    \\( (x_{\,\mathrm{F},\,%s,\,%d;\,\\mathrm{E}},\\,
+    \\,y_{\,\mathrm{F},\,%s,\,%d;\,\\mathrm{E}}) =
     (%.5f, %.5f) \\)<br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
