@@ -155,17 +155,17 @@ def purple(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda_{\\,\\matrm{C}\\)</th>
-        <th>\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda) \\)</th>
-        <th>\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda) \\)</th>
-        <th>\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\lambda_{\\,\\mathrm{c}}\\)</th>
+        <th>\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}}) \\)</th>
+        <th>\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}}) \\)</th>
+        <th>\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}}) \\)</th>
       </tr>
       </thead>
       <tbody>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(xyz)[0]):
+    for i in range(np.shape(purple)[0]):
         if (float(results['lambda_step']) ==
                 np.round(float(results['lambda_step'])) and
                 float(results['lambda_min']) ==
