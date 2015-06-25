@@ -131,7 +131,73 @@ def xyz(results, options, include_head=False):
 
 
 def purple(results, options, include_head=False):
-    return ""
+    """
+    Generate html table of XYZ purple values for inclusion apps.
+
+    Parameters
+    ----------
+    results : dict
+        as returned by tc182.compute.compute_tabulated()
+
+    Returns
+    -------
+    html_table : string
+        HTML representation of the purple XYZ table
+    """
+    if options['norm']:
+        purple = results['purple_xyz_N']
+    else:
+        purple = results['purple_xyz']
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
+    <table>
+      <thead>
+      <tr>
+        <th>\\(\lambda_{\\,\\matrm{C}\\)</th>
+        <th>\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda) \\)</th>
+        <th>\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\lambda) \\)</th>
+      </tr>
+      </thead>
+      <tbody>
+    """ % (results['field_size'], results['age'],
+           results['field_size'], results['age'],
+           results['field_size'], results['age'])
+    for i in range(np.shape(xyz)[0]):
+        if (float(results['lambda_step']) ==
+                np.round(float(results['lambda_step'])) and
+                float(results['lambda_min']) ==
+                np.round(float(results['lambda_min']))):
+            html_table += """
+            <tr>
+               <td>%.0f</td>
+               <td>%.6e</td>
+               <td>%.6e</td>
+               <td>%.6e</td>
+            </tr>
+            """ % (purple[i, 0],
+                   purple[i, 1],
+                   purple[i, 2],
+                   purple[i, 3])
+        else:
+            html_table += """
+            <tr>
+               <td>%.1f</td>
+               <td>%.6e</td>
+               <td>%.6e</td>
+               <td>%.6e</td>
+            </tr>
+            """ % (purple[i, 0],
+                   purple[i, 1],
+                   purple[i, 2],
+                   purple[i, 3])
+    html_table += """
+      </tbody>
+    </table>
+    """
+    return html_table
 
 
 def xy(results, options, include_head=False):
