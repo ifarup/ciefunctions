@@ -773,8 +773,9 @@ def compute_purple_xyz(xy, purple_line, white):
 
     purple_xyz = []
     for i in range(len(xy[:, 0])):
-        lbd = xy[i, 0]
-        if lbd > purple_line[0, 0] and lbd < purple_line[1, 0]:
+        lbd = my_round(xy[i, 0], 1)
+        if (lbd > my_round(purple_line[0, 0], 1) and
+                lbd < my_round(purple_line[1, 0], 1)):
             cx = xy[i, 1]
             cy = xy[i, 2]
 
@@ -1192,6 +1193,7 @@ def compute_tabulated(field_size, age,
     plots['purple_line_xyz'] = purple_line_xyz.copy()
     purple_line_xyz[:, 1:] = significant_figures(purple_line_xyz[:, 1:],
                                                  xyz_signfig)
+    purple_line_xyz[:, 0] = my_round(purple_line_xyz[:, 0], 1)
 
     # Compute purple line for normalised cc
     delaunay = Delaunay(plots['xy_N'][:, 1:3])
@@ -1218,6 +1220,7 @@ def compute_tabulated(field_size, age,
     plots['purple_line_xyz_N'] = purple_line_xyz_N.copy()
     purple_line_xyz_N[:, 1:] = significant_figures(purple_line_xyz_N[:, 1:],
                                                    xyz_signfig)
+    purple_line_xyz_N[:, 0] = my_round(purple_line_xyz_N[:, 0], 1)
 
     # Compute purple line for bm
     delaunay = Delaunay(plots['bm'][:, 1:4:2])
