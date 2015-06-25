@@ -48,7 +48,6 @@ from scipy.io.matlab.miobase import arr_dtype_number
 # Tabulated and derived visual data
 #==============================================================================
 
-
 def my_round(x, n=0):
     """
     Round array x to n decimal points using round half away from zero.
@@ -749,6 +748,58 @@ def projective_lms_to_cc_matrix(trans_mat):
     return mat
 
 
+def compute_purple_xyz(xy, purple_line, white):
+    """
+    Compute tristimulus values for maximum saturated purples.
+
+    Compute the cone-fundamental-based tristimulus values for maximum
+    saturated purples.
+
+    Parameters
+    ----------
+    xy : ndarray
+        The chromaticity coordinates.
+    purple_line : ndarray
+        Wavelenghts and tristimulus values of the termini of the
+        purple line.
+    white : ndarray
+        The white point.
+    """
+    wx = white[0]
+    wy = white[1]
+    XB = purple_line[0, 1]
+    YB = purple_line[0, 2]
+    ZB = purple_line[0, 3]
+    XR = purple_line[1, 1]
+    YR = purple_line[1, 2]
+    ZR = purple_line[1, 3]
+
+    purple_xyz = []
+    for i in range(len(xy[:, 0])):
+        lbd = xy[i, 0]
+        if lbd > purple_line[0, 0] and lbd < purple_line[1, 0]:
+            cx = xy[i, 1]
+            cy = xy[i, 2]
+
+            # Equations for parameter for convex linear combination of
+            # tristimulus values of purple line termini found by
+            # Mathematica:
+            a = (
+                (-cx + wx) * YR + wy * ((-1 + cx) * XR + cx * (YR + ZR)) -
+                cy * ((-1 + wx) * XR + wx * (YR + ZR))
+            ) / (
+                (cx - wx) * (YB - YR) + wy * (XB - cx * XB - XR +
+                                              cx * (XR - YB + YR - ZB + ZR)) +
+                cy * ((-1 + wx) * XB + XR - wx * (XR - YB + YR - ZB + ZR))
+            )
+            if a >= 0 and a <= 1:
+                X = a * XB + (1 - a) * XR
+                Y = a * YB + (1 - a) * YR
+                Z = a * ZB + (1 - a) * ZR
+                purple_xyz.append([lbd, X, Y, Z])
+    return np.array(purple_xyz)
+
+
 def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
                lambdas, lambda_ref_min, cc_ref, full_results=False,
                xyz_signfig=7, mat_dp=8):
@@ -1133,6 +1184,18 @@ def compute_tabulated(field_size, age,
     plots['purple_line_cc'] = purple_line_cc.copy()
     purple_line_cc[:, 1:] = my_round(purple_line_cc[:, 1:], cc_dp)
 
+    purple_line_xyz = np.zeros((2, 4))  # initialise for in-place editing
+    purple_line_xyz[0, 0] = plots['xyz'][delaunay.convex_hull[ind, 0], 0]
+    purple_line_xyz[0, 1] = plots['xyz'][delaunay.convex_hull[ind, 0], 1]
+    purple_line_xyz[0, 2] = plots['xyz'][delaunay.convex_hull[ind, 0], 2]
+    purple_line_xyz[0, 3] = plots['xyz'][delaunay.convex_hull[ind, 0], 3]
+    purple_line_xyz[1, 0] = plots['xyz'][delaunay.convex_hull[ind, 1], 0]
+    purple_line_xyz[1, 1] = plots['xyz'][delaunay.convex_hull[ind, 1], 1]
+    purple_line_xyz[1, 2] = plots['xyz'][delaunay.convex_hull[ind, 1], 2]
+    plots['purple_line_xyz'] = purple_line_xyz.copy()
+    purple_line_xyz[:, 1:] = significant_figures(purple_line_xyz[:, 1:],
+                                                 xyz_signfig)
+
     # Compute purple line for normalised cc
     delaunay = Delaunay(plots['xy_N'][:, 1:3])
     ind = np.argmax(np.abs(
@@ -1147,25 +1210,17 @@ def compute_tabulated(field_size, age,
     plots['purple_line_cc_N'] = purple_line_cc_N.copy()
     purple_line_cc_N[:, 1:] = my_round(purple_line_cc_N[:, 1:], cc_dp)
 
-    # # Versions for plotting and purple line
-    # plots['xyz'] = np.dot(trans_mat, plots['lms'][:, 1:].T)
-    # plots['xyz'] = significant_figures(plots['xyz'], xyz_signfig)
-    # plots['xy'] = np.array([plots['xyz'][0, :] /
-    #                         (plots['xyz'][0, :] +
-    #                          plots['xyz'][1, :] +
-    #                          plots['xyz'][2, :]),
-    #                         plots['xyz'][1, :] /
-    #                         (plots['xyz'][0, :] +
-    #                          plots['xyz'][1, :] +
-    #                          plots['xyz'][2, :]),
-    #                         plots['xyz'][2, :] /
-    #                         (plots['xyz'][0, :] +
-    #                          plots['xyz'][1, :] +
-    #                          plots['xyz'][2, :])])
-    # plots['xyz'] = np.concatenate(
-    #     (np.array([plots['lms'][:, 0]]).T, plots['xyz'].T), axis=1)
-    # plots['xy'] = np.concatenate(
-    #     (np.array([plots['lms'][:, 0]]).T, plots['xy'].T), axis=1)
+    purple_line_xyz_N = np.zeros((2, 4))  # initialise for in-place editing
+    purple_line_xyz_N[0, 0] = plots['xyz_N'][delaunay.convex_hull[ind, 0], 0]
+    purple_line_xyz_N[0, 1] = plots['xyz_N'][delaunay.convex_hull[ind, 0], 1]
+    purple_line_xyz_N[0, 2] = plots['xyz_N'][delaunay.convex_hull[ind, 0], 2]
+    purple_line_xyz_N[0, 3] = plots['xyz_N'][delaunay.convex_hull[ind, 0], 3]
+    purple_line_xyz_N[1, 0] = plots['xyz_N'][delaunay.convex_hull[ind, 1], 0]
+    purple_line_xyz_N[1, 1] = plots['xyz_N'][delaunay.convex_hull[ind, 1], 1]
+    purple_line_xyz_N[1, 2] = plots['xyz_N'][delaunay.convex_hull[ind, 1], 2]
+    plots['purple_line_xyz_N'] = purple_line_xyz_N.copy()
+    purple_line_xyz_N[:, 1:] = significant_figures(purple_line_xyz_N[:, 1:],
+                                                   xyz_signfig)
 
     # Compute purple line for bm
     delaunay = Delaunay(plots['bm'][:, 1:4:2])
@@ -1250,6 +1305,7 @@ def compute_tabulated(field_size, age,
     plots['bm_white'] = bm_white
     plots['lm_white'] = lm_white
 
+    # Stack all the results in a dict() for return
     results = dict()
     results['xyz'] = chop(xyz_spec)
     results['xyz_N'] = chop(xyz_spec_N)
@@ -1268,6 +1324,8 @@ def compute_tabulated(field_size, age,
     results['lambda_ref_min'] = lambda_x_min_ref
     results['purple_line_cc'] = chop(purple_line_cc)
     results['purple_line_cc_N'] = chop(purple_line_cc_N)
+    results['purple_line_xyz'] = chop(purple_line_xyz)
+    results['purple_line_xyz_N'] = chop(purple_line_xyz_N)
     results['purple_line_cc31'] = chop(plots['purple_line_cc31'])
     results['purple_line_cc64'] = chop(plots['purple_line_cc64'])
     results['purple_line_lm'] = chop(purple_line_lm)
@@ -1300,13 +1358,25 @@ def compute_tabulated(field_size, age,
         plots['lambda_max'] = '%.1f' % lambda_max
         plots['lambda_step'] = '%.1f' % lambda_step
 
+    # Add tristimulus values for maximum saturated purples
+    results['purple_xyz'] = compute_purple_xyz(results['xy'],
+                                               results['purple_line_xyz'],
+                                               results['xy_white'])
+    results['purple_xyz_N'] = compute_purple_xyz(results['xy_N'],
+                                                 results['purple_line_xyz_N'],
+                                                 results['xy_white_N'])
+    plots['purple_xyz'] = compute_purple_xyz(plots['xy'],
+                                             plots['purple_line_xyz'],
+                                             plots['xy_white'])
+    plots['purple_xyz_N'] = compute_purple_xyz(plots['xy_N'],
+                                               plots['purple_line_xyz_N'],
+                                               plots['xy_white'])
     return results, plots
 
 
 #==============================================================================
 # For testing purposes only
 #==============================================================================
-
 
 if __name__ == '__main__':
     compute_tabulated(5, 33)
