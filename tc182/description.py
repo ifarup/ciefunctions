@@ -155,6 +155,36 @@ def _wavelenghts(data):
     """ % (data['lambda_min'], data['lambda_max'], data['lambda_step'])
 
 
+def _wavelenghts_complementary(data, options):
+    if options['norm']:
+        lambda_purple_min = data['lambda_purple_min_N']
+        lambda_purple_max = data['lambda_purple_max_N']
+    else:
+        lambda_purple_min = data['lambda_purple_min']
+        lambda_purple_max = data['lambda_purple_max']
+    return u"""
+    <p>
+    <b class="description-subtitle">Wavelenghts</b>
+    <table>
+    <tr>
+        <td>Wavelength domain of spectral stimuli</td>
+        <td>: &nbsp;&nbsp; %s&ndash;%s nm</td>
+    </tr>
+    <tr>
+        <td>Complementary-wavelength domain of purple-line stimuli</td>
+        <td>: &nbsp;&nbsp; %s&ndash;%s nm</td>
+    </tr>
+    <tr>
+        <td>Step</td>
+        <td>: &nbsp;&nbsp; %s nm</td>
+    </tr>
+    </table>
+    </p>
+    """ % (data['lambda_min'], data['lambda_max'],
+           lambda_purple_min, lambda_purple_max,
+           data['lambda_step'])
+
+
 def _wavelenghts_std():
     return u"""
     <p>
@@ -380,13 +410,21 @@ def _precision_xy():
     """
 
 
-def _lms_to_xyz(data, options):
+def _lms_to_xyz(data, options, purple=False):
     if options['norm']:
         trans_mat = data['trans_mat_N']
     else:
         trans_mat = data['trans_mat']
     html_string = """
         <b class="description-subtitle">Transformation equation</b><br />
+    """
+    if purple:
+        html_string += """
+        The corresponding transformation from CIE LMS cone
+        fundamentals to CIE XYZ cone-fundamental-based spectral
+        tristimulus values is:<br />
+        """
+    html_string += """
         $$
         \\begin{pmatrix}
         \\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda) \\\\
@@ -428,6 +466,10 @@ def _lms_to_xyz(data, options):
            data['field_size'], data['age'],
            data['field_size'], data['age'])
     return html_string
+
+
+def _lms_to_xyz_purple(data, options):
+    return _lms_to_xyz(data, options, True)
 
 
 def _lms_to_bm(data, options):
@@ -811,7 +853,39 @@ def xyz(data, heading, options, include_head=False):
 
 
 def purple(data, heading, options, include_head=False):
-    return ""
+    """
+    Generate html page with information about the purple XYZ.
+
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
+    html_string = ""
+    if include_head:
+        html_string += _head()
+    html_string += (_heading(heading) +
+                    _parameters(data) +
+                    _functions('\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                               (data['field_size'], data['age']),
+                               '\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                               (data['field_size'], data['age']),
+                               '\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                               (data['field_size'], data['age'])) +
+                    _wavelenghts_complementary(data, options) +
+                    _normalisation_xyz(data, options) +
+                    _lms_to_xyz_purple(data, options) +
+                    _precision_xyz())
+    return html_string
 
 
 def xy(data, heading, options, include_head=False):

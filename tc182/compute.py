@@ -772,6 +772,7 @@ def compute_purple_xyz(xy, purple_line, white):
     ZR = purple_line[1, 3]
 
     purple_xyz = []
+    inside = False
     for i in range(len(xy[:, 0])):
         lbd = my_round(xy[i, 0], 1)
         if (lbd > my_round(purple_line[0, 0], 1) and
@@ -791,10 +792,12 @@ def compute_purple_xyz(xy, purple_line, white):
                 cy * ((-1 + wx) * XB + XR - wx * (XR - YB + YR - ZB + ZR))
             )
             if a >= 0 and a <= 1:
+                inside = True
                 X = a * XB + (1 - a) * XR
                 Y = a * YB + (1 - a) * YR
                 Z = a * ZB + (1 - a) * ZR
                 purple_xyz.append([lbd, X, Y, Z])
+            elif inside == True: break
     return np.array(purple_xyz)
 
 
@@ -1337,26 +1340,6 @@ def compute_tabulated(field_size, age,
     results['xy64'] = chop(my_round(VisualData.cc64, 5))
     results['bm_s_max'] = bm_s_max
     results['lms_N_inv'] = lms_N_inv
-    if np.round(field_size, 5) == np.round(field_size):
-        results['field_size'] = '%.0f' % field_size
-    else:
-        results['field_size'] = '%.1f' % field_size
-    if (np.round(lambda_step, 5) == np.round(lambda_step) and
-            np.round(lambda_min, 5) == np.round(lambda_min) and
-            np.round(lambda_max, 5) == np.round(lambda_max)):
-        results['lambda_min'] = '%.0f' % lambda_min
-        results['lambda_max'] = '%.0f' % lambda_max
-        results['lambda_step'] = '%.0f' % lambda_step
-        plots['lambda_min'] = '%.0f' % lambda_min
-        plots['lambda_max'] = '%.0f' % lambda_max
-        plots['lambda_step'] = '%.0f' % lambda_step
-    else:
-        results['lambda_min'] = '%.1f' % lambda_min
-        results['lambda_max'] = '%.1f' % lambda_max
-        results['lambda_step'] = '%.1f' % lambda_step
-        plots['lambda_min'] = '%.1f' % lambda_min
-        plots['lambda_max'] = '%.1f' % lambda_max
-        plots['lambda_step'] = '%.1f' % lambda_step
 
     # Add tristimulus values for maximum saturated purples
     results['purple_xyz'] = compute_purple_xyz(results['xy'],
@@ -1370,7 +1353,46 @@ def compute_tabulated(field_size, age,
                                              plots['xy_white'])
     plots['purple_xyz_N'] = compute_purple_xyz(plots['xy_N'],
                                                plots['purple_line_xyz_N'],
-                                               plots['xy_white'])
+                                               plots['xy_white_N'])
+
+    # Format string representations
+    if np.round(field_size, 5) == np.round(field_size):
+        results['field_size'] = '%.0f' % field_size
+    else:
+        results['field_size'] = '%.1f' % field_size
+    if (np.round(lambda_step, 5) == np.round(lambda_step) and
+            np.round(lambda_min, 5) == np.round(lambda_min) and
+            np.round(lambda_max, 5) == np.round(lambda_max)):
+        results['lambda_min'] = '%.0f' % lambda_min
+        results['lambda_max'] = '%.0f' % lambda_max
+        results['lambda_purple_min'] = '%.0f' % results['purple_xyz'][0, 0]
+        results['lambda_purple_max'] = '%.0f' % results['purple_xyz'][-1, 0]
+        results['lambda_step'] = '%.0f' % lambda_step
+        results['lambda_purple_min_N'] = '%.0f' % results['purple_xyz_N'][0, 0]
+        results['lambda_purple_max_N'] = '%.0f' % results['purple_xyz_N'][-1, 0]
+        plots['lambda_min'] = '%.0f' % lambda_min
+        plots['lambda_max'] = '%.0f' % lambda_max
+        plots['lambda_purple_min'] = '%.0f' % plots['purple_xyz'][0, 0]
+        plots['lambda_purple_max'] = '%.0f' % plots['purple_xyz'][-1, 0]
+        plots['lambda_purple_min_N'] = '%.0f' % plots['purple_xyz_N'][0, 0]
+        plots['lambda_purple_max_N'] = '%.0f' % plots['purple_xyz_N'][-1, 0]
+        plots['lambda_step'] = '%.0f' % lambda_step
+    else:
+        results['lambda_min'] = '%.1f' % lambda_min
+        results['lambda_max'] = '%.1f' % lambda_max
+        results['lambda_step'] = '%.1f' % lambda_step
+        results['lambda_purple_min'] = '%.1f' % results['purple_xyz'][0, 0]
+        results['lambda_purple_max'] = '%.1f' % results['purple_xyz'][-1, 0]
+        results['lambda_purple_min_N'] = '%.1f' % results['purple_xyz_N'][0, 0]
+        results['lambda_purple_max_N'] = '%.1f' % results['purple_xyz_N'][-1, 0]
+        plots['lambda_min'] = '%.1f' % lambda_min
+        plots['lambda_max'] = '%.1f' % lambda_max
+        plots['lambda_purple_min'] = '%.1f' % plots['purple_xyz'][0, 0]
+        plots['lambda_purple_max'] = '%.1f' % plots['purple_xyz'][-1, 0]
+        plots['lambda_purple_min_N'] = '%.1f' % plots['purple_xyz_N'][0, 0]
+        plots['lambda_purple_max_N'] = '%.1f' % plots['purple_xyz_N'][-1, 0]
+        plots['lambda_step'] = '%.1f' % lambda_step
+
     return results, plots
 
 
@@ -1379,4 +1401,5 @@ def compute_tabulated(field_size, age,
 #==============================================================================
 
 if __name__ == '__main__':
-    compute_tabulated(5, 33)
+    res, plots = compute_tabulated(2, 32, 390, 830, .1)
+    print(res['purple_xyz_N'])
