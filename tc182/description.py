@@ -810,6 +810,10 @@ def xyz(data, heading, options, include_head=False):
     return html_string
 
 
+def purple(data, heading, options, include_head=False):
+    return ""
+
+
 def xy(data, heading, options, include_head=False):
     """
     Generate html page with information about the xy system.

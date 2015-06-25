@@ -56,6 +56,8 @@ class AppForm(qt.QMainWindow):
             suggest += 'xyz_'
         elif self.plot_combo.currentIndex() == self.COMBO_LMS:
             suggest += 'lms_'
+        elif self.plot_combo.currentIndex() == self.COMBO_PURPLE:
+            suggest += 'purple_'
         elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
             suggest += 'lms_9_'
         elif self.plot_combo.currentIndex() == self.COMBO_XY:
@@ -73,6 +75,8 @@ class AppForm(qt.QMainWindow):
         if path:
             if self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
+            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE:
+                np.savetxt(path, self.results['purple_xyz'], '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMS:
                 np.savetxt(path, self.results['lms'], '%.1f, %.5e, %.5e, %.5e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
@@ -160,7 +164,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.lambda_min_spin.hide()
             self.lambda_max_spin.hide()
 
-        if self.plot_combo.currentIndex() in [self.COMBO_XY, self.COMBO_XYZ]:
+        if self.plot_combo.currentIndex() in [self.COMBO_XY,
+                                              self.COMBO_XYZ,
+                                              self.COMBO_PURPLE]:
             self.norm_label.setVisible(True)
             self.norm_check.setVisible(True)
         else:
@@ -213,6 +219,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             html_string = tc182.description.xy(self.results,
                                                self.plot_combo.currentText(),
                                                self.options(), True)
+
+        #
+        # Purple plot and table
+        #
+        if self.plot_combo.currentIndex() == self.COMBO_PURPLE:
+
+            # Setup GUI
+            self.compare_label_31.setEnabled(False)
+            self.compare_label_64.setEnabled(False)
+            self.wavelength_check.setDisabled(False)
+            self.wavelength_label.setDisabled(False)
+            self.cie31_check.setEnabled(False)
+            self.cie64_check.setEnabled(False)
+
+            # Create plot
+            tc182.plot.purple(self.axes, self.plots, self.options())
+
+            # Create html description
+            html_string = tc182.description.purple(self.results,
+                                                   self.plot_combo.currentText(),
+                                                   self.options(), True)
+
+            # Create html table
+            html_table = tc182.table.purple(self.results, self.options(), True)
 
         #
         # LMS standard
@@ -566,12 +596,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             'CIE XYZ cone-fundamental-based spectral tristimulus values')
         self.COMBO_XYZ = 4
         self.plot_combo.addItem(
+            'XYZ cone-fundamental-based tristimulus values for purple-line stimuli')
+        self.COMBO_PURPLE = 5
+        self.plot_combo.addItem(
             'CIE xy cone-fundamental-based chromaticity diagram')
-        self.COMBO_XY = 5
+        self.COMBO_XY = 6
         self.plot_combo.addItem('CIE XYZ standard colour-matching functions')
-        self.COMBO_XYZSTD = 6
+        self.COMBO_XYZSTD = 7
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
-        self.COMBO_XYSTD = 7
+        self.COMBO_XYSTD = 8
         self.connect(self.plot_combo,
                      qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
 

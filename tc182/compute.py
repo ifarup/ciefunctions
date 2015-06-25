@@ -750,10 +750,7 @@ def projective_lms_to_cc_matrix(trans_mat):
 
 def compute_purple_xyz(xy, purple_line, white):
     """
-    Compute tristimulus values for maximum saturated purples.
-
-    Compute the cone-fundamental-based tristimulus values for maximum
-    saturated purples.
+    XYZ cone-fundamental-based tristimulus values for purple-line stimuli.
 
     Parameters
     ----------

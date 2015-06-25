@@ -88,6 +88,9 @@ def xyz(axes, plots, options):
     lock.release()
 
 
+def purple(axes, plots, options):
+    axes.clear()
+
 def xy(axes, plots, options):
     """
     Plot the chromaticity diagram onto the given axes.

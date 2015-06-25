@@ -130,6 +130,10 @@ def xyz(results, options, include_head=False):
     return html_table
 
 
+def purple(results, options, include_head=False):
+    return ""
+
+
 def xy(results, options, include_head=False):
     """
     Generate html table of chromaticity values for GUI and web apps.
