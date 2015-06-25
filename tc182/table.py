@@ -156,9 +156,12 @@ def purple(results, options, include_head=False):
       <thead>
       <tr>
         <th>\\(\\lambda_{\\,\\mathrm{c}}\\)</th>
-        <th>\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}}) \\)</th>
-        <th>\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}}) \\)</th>
-        <th>\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}}) \\)</th>
+        <th>\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
+            \\)</th>
+        <th>\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
+            \\)</th>
+        <th>\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
+            \\)</th>
       </tr>
       </thead>
       <tbody>

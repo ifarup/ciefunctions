@@ -76,7 +76,8 @@ class AppForm(qt.QMainWindow):
             if self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_PURPLE:
-                np.savetxt(path, self.results['purple_xyz'], '%.1f, %.6e, %.6e, %.6e')
+                np.savetxt(path, self.results['purple_xyz'],
+                           '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMS:
                 np.savetxt(path, self.results['lms'], '%.1f, %.5e, %.5e, %.5e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
@@ -237,9 +238,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             tc182.plot.purple(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.purple(self.results,
-                                                   self.plot_combo.currentText(),
-                                                   self.options(), True)
+            html_string = tc182.description.purple(
+                self.results,
+                self.plot_combo.currentText(),
+                self.options(), True)
 
             # Create html table
             html_table = tc182.table.purple(self.results, self.options(), True)
@@ -596,7 +598,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             'CIE XYZ cone-fundamental-based spectral tristimulus values')
         self.COMBO_XYZ = 4
         self.plot_combo.addItem(
-            'XYZ cone-fundamental-based tristimulus values for purple-line stimuli')
+            'XYZ cone-fundamental-based tristimulus values for ' +
+            'purple-line stimuli')
         self.COMBO_PURPLE = 5
         self.plot_combo.addItem(
             'CIE xy cone-fundamental-based chromaticity diagram')
