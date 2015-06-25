@@ -229,8 +229,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             # Setup GUI
             self.compare_label_31.setEnabled(False)
             self.compare_label_64.setEnabled(False)
-            self.wavelength_check.setDisabled(False)
-            self.wavelength_label.setDisabled(False)
+            self.wavelength_check.setDisabled(True)
+            self.wavelength_label.setDisabled(True)
             self.cie31_check.setEnabled(False)
             self.cie64_check.setEnabled(False)
 
