@@ -454,6 +454,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     def on_draw_plot_only(self):
         self.on_draw(False)
 
+    def on_draw_all(self):
+        self.on_draw(True)
+
     def on_compute(self):
         if self.lambda_max_spin.value() < 700:
             self.lambda_max_spin.setValue(700)
@@ -474,7 +477,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if self.results['xyz'][-1, 0] != self.last_lambda_max:
             self.last_lambda_max = self.results['xyz'][-1, 0]
             self.lambda_max_spin.setValue(self.last_lambda_max)
-        self.on_draw()
+        self.on_draw(True)
 
     def add_actions(self, target, actions):
         for action in actions:
@@ -558,7 +561,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.field_combo.addItem(u'10\N{DEGREE SIGN} (1964)')
         self.field_combo.hide()
         self.connect(self.field_combo,
-                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw_all)
 
         self.resolution_spin = qt.QDoubleSpinBox()
         self.resolution_spin.setLocale(qtcore.QLocale('C'))
@@ -609,7 +612,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
         self.COMBO_XYSTD = 8
         self.connect(self.plot_combo,
-                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw_all)
 
         self.grid_check = qt.QCheckBox()
         self.connect(self.grid_check,
@@ -632,7 +635,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         self.norm_check = qt.QCheckBox()
         self.connect(self.norm_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw_all)
 
         self.save_table_button = qt.QPushButton('&Save table')
         self.connect(self.save_table_button,
