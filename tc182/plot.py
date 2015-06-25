@@ -119,7 +119,8 @@ def purple(axes, plots, options):
                         fontsize=10)
     if options['full_title']:
         axes.set_title(
-            ('XYZ cone-fundamental-based tristimulus values for purple-line stimuli\n' +
+            ('XYZ cone-fundamental-based tristimulus values for ' +
+             'purple-line stimuli\n' +
              'Field size: %s''' % plots['field_size'] +
              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
              u' yr,  Wavelength domain: %s\u2013%s nm' %
