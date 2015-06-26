@@ -112,7 +112,7 @@ def purple(axes, plots, options):
     axes.plot(purple[:, 0], purple[:, 2], 'g')
     axes.plot(purple[:, 0], purple[:, 3], 'b')
     axes.axis('normal')
-    axes.axis([480, 580, -.05, .53])
+    axes.axis([480, 580, -.04, .54])
     if options['axis_labels']:
         axes.set_xlabel('Complementary wavelength [nm]', fontsize=10)
         axes.set_ylabel('Cone-fundamental-based tristimulus values (purples)',
