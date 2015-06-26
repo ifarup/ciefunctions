@@ -797,7 +797,8 @@ def compute_purple_xyz(xy, purple_line, white):
                 Y = a * YB + (1 - a) * YR
                 Z = a * ZB + (1 - a) * ZR
                 purple_xyz.append([lbd, X, Y, Z])
-            elif inside == True: break
+            elif inside:
+                break
     return np.array(purple_xyz)
 
 
@@ -1369,7 +1370,8 @@ def compute_tabulated(field_size, age,
         results['lambda_purple_max'] = '%.0f' % results['purple_xyz'][-1, 0]
         results['lambda_step'] = '%.0f' % lambda_step
         results['lambda_purple_min_N'] = '%.0f' % results['purple_xyz_N'][0, 0]
-        results['lambda_purple_max_N'] = '%.0f' % results['purple_xyz_N'][-1, 0]
+        results['lambda_purple_max_N'] = ('%.0f' %
+                                          results['purple_xyz_N'][-1, 0])
         plots['lambda_min'] = '%.0f' % lambda_min
         plots['lambda_max'] = '%.0f' % lambda_max
         plots['lambda_purple_min'] = '%.0f' % plots['purple_xyz'][0, 0]
@@ -1384,7 +1386,8 @@ def compute_tabulated(field_size, age,
         results['lambda_purple_min'] = '%.1f' % results['purple_xyz'][0, 0]
         results['lambda_purple_max'] = '%.1f' % results['purple_xyz'][-1, 0]
         results['lambda_purple_min_N'] = '%.1f' % results['purple_xyz_N'][0, 0]
-        results['lambda_purple_max_N'] = '%.1f' % results['purple_xyz_N'][-1, 0]
+        results['lambda_purple_max_N'] = ('%.1f' %
+                                          results['purple_xyz_N'][-1, 0])
         plots['lambda_min'] = '%.1f' % lambda_min
         plots['lambda_max'] = '%.1f' % lambda_max
         plots['lambda_purple_min'] = '%.1f' % plots['purple_xyz'][0, 0]
