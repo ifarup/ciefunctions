@@ -322,6 +322,7 @@ function refreshPlot(plot){
 								$( "div#" + plot + "_plot" ).siblings(".velo").hide();
 								AJAX_left--;
 								updateAjaxLeft();
+
   							})
   							.fail(function() {
     							console.log( "error when getting " + plot + " plot from server" );
@@ -335,6 +336,8 @@ function refreshPlot(plot){
 		updateAjaxLeft();
 		$( "#theFig .velo" ).hide();
 	}
+	
+	//updateCheckboxes(plot) ;
 }
 
 //This function sends table data to the user
@@ -489,13 +492,12 @@ function showStandard( standard_plot ){
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
 				
-				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
 				
 				$( ".norm-div" ).show().css( "display", "inline-block" );
-				
 				
 			break;
 			
@@ -504,10 +506,10 @@ function showStandard( standard_plot ){
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
 								
-				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#compare1931-2" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
 				
 				$( ".norm-div" ).show();
 			break;
@@ -517,10 +519,10 @@ function showStandard( standard_plot ){
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
 								
-				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
 				
 				$( ".norm-div" ).hide();
 			break;
@@ -530,10 +532,10 @@ function showStandard( standard_plot ){
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
 				
-				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
 				
 				$( ".norm-div" ).hide();
 			break;
@@ -543,10 +545,10 @@ function showStandard( standard_plot ){
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
 				
-				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
 				
 				$( ".norm-div" ).hide();
 			break;
@@ -556,10 +558,10 @@ function showStandard( standard_plot ){
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
 				
-				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
-				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");					
+				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
 				
 				$( ".norm-div" ).hide();
 			break;
@@ -570,10 +572,10 @@ function showStandard( standard_plot ){
 				$( "div.htmlWrapper").css("height", "600px");
 				$( "select#field_size option[year=31]" ).attr("selected", "true");
 				
-				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
-				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#showLabels" ).prop("disabled", true).prev().addClass("disabled");
+				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");					
+				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
 				
 				$( ".norm-div" ).hide();
 			break;
@@ -584,10 +586,10 @@ function showStandard( standard_plot ){
 				$( "div.htmlWrapper").css("height", "600px");
 				$( "select#field_size option[year=31]" ).attr("selected", "true");
 				
-				$( "#showGrid" ).prop("disabled", false).prev().removeClass("disabled");					
-				$( "#compare1931-2" ).prop("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).prop("disabled", false).prev().removeClass("disabled");
-				$( "#showLabels" ).prop("disabled", false).prev().removeClass("disabled");
+				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");					
+				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+				$( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
+				$( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
 				
 				$( ".norm-div" ).hide();
 			break;
@@ -595,8 +597,11 @@ function showStandard( standard_plot ){
 	}
 	
 	// Checkbox events (Bit ugly, but OK)
+		
+	
 				$( "input[type=checkbox]" ).on('click', function(){
 					$( "#theFig .velo" ).show();
+					$( this ).attr("disabled", true ); //Disabling the checkboxes so the user doesn't click on them before the ajax call with the plot comes back. Clearing with updateCheckboxes().
 				});
 	
 				$( "#showGrid" ).on("click", function(){
