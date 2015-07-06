@@ -1,57 +1,52 @@
 /* Script to manage tc web app */
-$( window ).load(function(){
+	//Spinner init.
+	
+$(function(){
 
-//Spinner init.
+	$( "input#age" ).spinner({	
+			min: 20,
+			max: 70,
+			step: 1,
+	});
 
-$( "input#age" ).spinner({	
-							min: 20,
-							max: 70,
-							step: 1,
-});
+	$( "input#field_size" ).spinner({
+			min: 1.0,
+			max: 10.0,
+			step: .1
+	});
 
-$( "input#field_size" ).spinner({
-									min: 1.0,
-									max: 10.0,
-									step: .1
-});
+	$( "input#lambda_min" ).spinner({
+			min: 390.0,
+			max: 400.0,
+			step: .1
+	});
 
-$( "input#lambda_min" ).spinner({
-									min: 390.0,
-									max: 400.0,
-									step: .1
-});
+	$( "input#lambda_max" ).spinner({
+			min: 700.0,
+			max: 830.0,
+			step: .1
+	});
 
-$( "input#lambda_max" ).spinner({
-									min: 700.0,
-									max: 830.0,
-									step: .1
-});
+	$( "input#lambda_step" ).spinner({
+			min: 0.1,
+			max: 5.0,
+			step: .1,
+			numberFormat: 'd'
+	});
 
-$( "input#lambda_step" ).spinner({
-									min: 0.1,
-									max: 5.0,
-									step: .1,
-									numberFormat: 'd'
 });
 
 $( ".ui-spinner" ).width("70px");
+
 $( ".ui-spinner-input" ).width("40px");
 
 
-//Hide the global loader when ajax.
+//Hide the global loader when ajaxStop.
 $( document ).ajaxStop(function() {
 	$("div.velo").hide();
 	MathJax.Hub.Typeset();
-
 });
 
-//Shows how many ajax calls are left to come back from the server
-
-var AJAX_left = 0;
-
-function updateAjaxLeft(){
-	//console.log(AJAX_left);
-}
 
 $( "button#btnCompute" ).on('click', function(){
 	
@@ -168,9 +163,6 @@ $( "button#btnCompute" ).on('click', function(){
 				lambda_max		+ "/" +
 				lambda_step		+ "/";
 
-	//$( "div.velo" ).show(); //We disable the page and show a loader.
-	AJAX_left++;
-	//updateAjaxLeft();
 	flushCache();
 	$.get( ajaxUrl )
 				.done(function( data ) {
@@ -179,12 +171,8 @@ $( "button#btnCompute" ).on('click', function(){
 					updateLabels();
 					$( "div.x_label" ).html(axis_labels[currentPlot].x);
 					$( "div.y_label" ).html(axis_labels[currentPlot].y);
-					AJAX_left--;
-					updateAjaxLeft();
   				}).fail(function() {
     				console.log( "error when calling compute." );
-    				AJAX_left--;
-					updateAjaxLeft();
 	});
 
 	return false;
@@ -224,7 +212,7 @@ var lambda_step = parseInt($( "input#lambda_step" ).val());
 						'xy64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 						
 						'xyz31'		: new axis_label("Wavelength [nm]", "Tristimulus values"),
-						'xyz64'		: new axis_label("Wavelength [nm]", "Tristimulus values"),
+						'xyz64'		: new axis_label("Wavelength [nm]", "Tristimulus values")
 						
 	});
 
@@ -236,8 +224,8 @@ var plot_options = {
 					 'cie31'		: 0,
 					 'cie64'		: 0,
 					 'labels'		: 0,
-					 'norm'			: 0,
-		}
+					 'norm'			: 0
+}
 
 //Init
 var currentPlot = availablePlots[0]; //Current plot LMS
@@ -257,15 +245,11 @@ function refreshObject(object, name){
 /* object is a String: can be 'table' or 'description'*/
 	$( "div#" + name + "_" + object ).siblings(".velo").show();
 	ajaxUrl = '/get_'+ object + '/' + name + '/' + plot_options.norm + "/";
-	AJAX_left++;
-	updateAjaxLeft();
 	$.get( ajaxUrl )
 				.done(function( data ) {
 					$( "div#" + name + "_" + object ).empty();
 					$( "div#" + name + "_" + object ).append(data);
 					$( "div#" + name + "_" + object ).siblings(".velo").hide();
-					AJAX_left--;
-					updateAjaxLeft();
 					
 					if ( $( 'table tr:last-of-type>td:first' ).text() != $( "input#lambda_max" ).val() ){
 
@@ -282,8 +266,6 @@ function refreshObject(object, name){
 					
   				}).fail(function() {
     				console.log( "error when getting " + name + " " + object + " from server" );
-    				AJAX_left--;
-					updateAjaxLeft();
 					$( "div#" + name + "_" + object ).siblings(".velo").hide();
 	});
 }
@@ -304,8 +286,6 @@ function refreshAllObjects(){
 function refreshPlot(plot){
  	var data = all_plots[plot].getPlot(getOptionsString());
 	$( "#theFig .velo" ).show();
-	AJAX_left++;
-	updateAjaxLeft();
 	if ((data == null)) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
 						plot + '/' + 
@@ -320,24 +300,15 @@ function refreshPlot(plot){
 								$( "div#" + plot + "_plot" ).append(data + '<div class="velo"></div>');
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
 								$( "div#" + plot + "_plot" ).siblings(".velo").hide();
-								AJAX_left--;
-								updateAjaxLeft();
-
   							})
   							.fail(function() {
     							console.log( "error when getting " + plot + " plot from server" );
-    							AJAX_left--;
-								updateAjaxLeft();
 				});
 	} else { //Present cached data.
 		$( "div#" + plot + "_plot" ).empty();
 		$( "div#" + plot + "_plot" ).append(data);
-		AJAX_left--;
-		updateAjaxLeft();
 		$( "#theFig .velo" ).hide();
 	}
-	
-	//updateCheckboxes(plot) ;
 }
 
 //This function sends table data to the user
@@ -359,8 +330,8 @@ function refreshAllOthers(plot){
 //Initialization of jQuery UI tabs
 
 	$( "#tc-Tabs" ).tabs({
-					heightStyle: "content",
-					});
+			heightStyle: "content",
+	});
 	
 	$( "#tc-Tabs" ).css({'height': 'auto', 'width': 'auto'});
 	
@@ -371,7 +342,6 @@ function refreshAllOthers(plot){
 
 	$( "button#getCsv" ).button();
 
-//@TODO: Need to make navigation buttons (home, magnifier, cross) more visible.
 	$( "image" ).css("opacity", 1); //To make the nav elements more visible.
 	
 
@@ -380,7 +350,6 @@ function refreshAllOthers(plot){
 	$( "#" + availablePlots[0] + "_plot" ).show();
 	$( "#" + availablePlots[0] + "_description" ).show();
 	$( "#" + availablePlots[0] + "_table" ).show();
-
 
 //Changing plots:
 
@@ -419,8 +388,6 @@ function showStandard( standard_plot ){
 	$( "#descriptionTitle" ).html($( "option[plot=" + standard_plot + "]").html());
 	$( "div.x_label" ).html(axis_labels[standard_plot].x);
 	$( "div.y_label" ).html(axis_labels[standard_plot].y);
-	AJAX_left++;
-	updateAjaxLeft();
 	$( "#theFig .velo" ).show();
 	if ((data == null)) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
@@ -435,17 +402,13 @@ function showStandard( standard_plot ){
 								$( "div#" + standard_plot + "_plot" ).empty();
 								$( "div#" + standard_plot + "_plot" ).append(data);
 								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
-								AJAX_left--;
-								updateAjaxLeft();
   							})
   							.fail(function() {
     							console.log( "error when getting " + standard_plot + " plot from server" );
-				});
+					});
 	} else { //Present cached data.
 		$( "div#" + standard_plot + "_plot" ).empty();
 		$( "div#" + standard_plot + "_plot" ).append(data);
-		AJAX_left--;
-		updateAjaxLeft();
 		$( "#theFig .velo" ).hide();
 	}
 }	
@@ -596,67 +559,73 @@ function showStandard( standard_plot ){
 		}
 	}
 	
-	// Checkbox events (Bit ugly, but OK)
-		
-	
-				$( "input[type=checkbox]" ).on('click', function(){
-					$( "#theFig .velo" ).show();
-					$( this ).attr("disabled", true ); //Disabling the checkboxes so the user doesn't click on them before the ajax call with the plot comes back. Clearing with updateCheckboxes().
-				});
-	
-				$( "#showGrid" ).on("click", function(){
-					if (plot_options.grid==1) {
-						plot_options.grid = 0;
-					} else {
-						plot_options.grid = 1;
-					}
-					
-					refreshPlot(currentPlot);
-					refreshAllOthers(currentPlot);
-					
-				});					
-				$( "#compare1931-2" ).on("click", function(){
-					if (plot_options.cie31==1) {
-						plot_options.cie31 = 0;
-					} else {
-						plot_options.cie31 = 1;
-					}
-					refreshPlot(currentPlot);
-					refreshAllOthers(currentPlot);
-					
-				});
-				$( "#compare1964-10" ).on("click", function(){
-					if (plot_options.cie64==1) {
-						plot_options.cie64 = 0;
-					} else {
-						plot_options.cie64 = 1;
-					}
-					refreshPlot(currentPlot);
-					refreshAllOthers(currentPlot);
-					
-				});
-				$( "#showLabels" ).on("click", function(){
-					if (plot_options.labels==1) {
-						plot_options.labels = 0;
-					} else {
-						plot_options.labels = 1;
-					}
-					refreshPlot(currentPlot);
-					refreshAllOthers(currentPlot);
-					
-				});
-				
-				$( "#norm" ).on("click", function(){
-					if (plot_options.norm==1) {
-						plot_options.norm = 0;
-					} else {
-						plot_options.norm = 1;
-					}
+	// Checkbox events (Bit ugly, but OK)		
 
-					refreshPlot(currentPlot);
-					refreshAllObjects();
-				});
+	$( "input[type=checkbox]" ).on('click', function(){
+		$( "#theFig .velo" ).show();
+		$( this ).attr("disabled", true ); //Disabling the checkboxes so the user doesn't click on them before the ajax call with the plot comes back. Clearing with updateCheckboxes().
+	});
+
+	$( "#showGrid" ).on("click", function(){
+		if (plot_options.grid==1) {
+			plot_options.grid = 0;
+		} else {
+			plot_options.grid = 1;
+		}
+		
+		refreshPlot(currentPlot);
+		refreshAllOthers(currentPlot);
+		
+	});					
+
+	$( "#compare1931-2" ).on("click", function(){
+		if (plot_options.cie31==1) {
+			plot_options.cie31 = 0;
+		} else {
+			plot_options.cie31 = 1;
+		}
+		refreshPlot(currentPlot);
+		refreshAllOthers(currentPlot);
+		
+	});
+
+	$( "#compare1964-10" ).on("click", function(){
+		if (plot_options.cie64==1) {
+			plot_options.cie64 = 0;
+		} else {
+			plot_options.cie64 = 1;
+		}
+		refreshPlot(currentPlot);
+		refreshAllOthers(currentPlot);
+		
+	});
+
+	$( "#showLabels" ).on("click", function(){
+		if (plot_options.labels==1) {
+			plot_options.labels = 0;
+		} else {
+			plot_options.labels = 1;
+		}
+		refreshPlot(currentPlot);
+		refreshAllOthers(currentPlot);
+		
+	});
+			
+	$( "#norm" ).on("click", function(){
+		if (plot_options.norm==1) {
+			plot_options.norm = 0;
+		} else {
+			plot_options.norm = 1;
+		}
+
+		refreshPlot(currentPlot);
 		refreshAllObjects();
 	});
-		
 
+$( function(){
+		$( "button#btnCompute" ).trigger("click");
+});
+
+
+
+	
