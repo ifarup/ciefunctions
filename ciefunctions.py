@@ -56,6 +56,8 @@ class AppForm(qt.QMainWindow):
             suggest += 'xyz_'
         elif self.plot_combo.currentIndex() == self.COMBO_LMS:
             suggest += 'lms_'
+        elif self.plot_combo.currentIndex() == self.COMBO_PURPLE:
+            suggest += 'purple_'
         elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
             suggest += 'lms_9_'
         elif self.plot_combo.currentIndex() == self.COMBO_XY:
@@ -73,6 +75,9 @@ class AppForm(qt.QMainWindow):
         if path:
             if self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
+            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE:
+                np.savetxt(path, self.results['purple_xyz'],
+                           '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMS:
                 np.savetxt(path, self.results['lms'], '%.1f, %.5e, %.5e, %.5e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
@@ -124,7 +129,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.axes.grid(self.grid_check.isChecked())
         self.canvas.draw()
 
-    def on_draw(self):
+    def on_draw(self, redraw_description=True):
 
         # Reset GUI values that have not been computed
         self.field_spin.setValue(self.last_field)
@@ -160,7 +165,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.lambda_min_spin.hide()
             self.lambda_max_spin.hide()
 
-        if self.plot_combo.currentIndex() in [self.COMBO_XY, self.COMBO_XYZ]:
+        if self.plot_combo.currentIndex() in [self.COMBO_XY,
+                                              self.COMBO_XYZ,
+                                              self.COMBO_PURPLE]:
             self.norm_label.setVisible(True)
             self.norm_check.setVisible(True)
         else:
@@ -213,6 +220,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             html_string = tc182.description.xy(self.results,
                                                self.plot_combo.currentText(),
                                                self.options(), True)
+
+        #
+        # Purple plot and table
+        #
+        if self.plot_combo.currentIndex() == self.COMBO_PURPLE:
+
+            # Setup GUI
+            self.compare_label_31.setEnabled(False)
+            self.compare_label_64.setEnabled(False)
+            self.wavelength_check.setDisabled(True)
+            self.wavelength_label.setDisabled(True)
+            self.cie31_check.setEnabled(False)
+            self.cie64_check.setEnabled(False)
+
+            # Create plot
+            tc182.plot.purple(self.axes, self.plots, self.options())
+
+            # Create html description
+            html_string = tc182.description.purple(
+                self.results,
+                self.plot_combo.currentText(),
+                self.options(), True)
+
+            # Create html table
+            html_table = tc182.table.purple(self.results, self.options(), True)
 
         #
         # LMS standard
@@ -414,11 +446,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         # Refresh GUI
 
         base_url = qtcore.QUrl.fromLocalFile(os.getcwd() + os.sep)
-        self.transformation.setHtml(html_string, baseUrl=base_url)
-        self.html_table.setHtml(html_table, baseUrl=base_url)
+        if redraw_description:
+            self.transformation.setHtml(html_string, baseUrl=base_url)
+            self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()
 
+    def on_draw_plot_only(self):
+        self.on_draw(False)
+
+    def on_draw_all(self):
+        self.on_draw(True)
+
     def on_compute(self):
+        if self.lambda_max_spin.value() < 700:
+            self.lambda_max_spin.setValue(700)
+        self.lambda_max_spin.setMinimum(700)
         self.last_age = self.age_spin.value()
         self.last_field = self.field_spin.value()
         self.last_resolution = tc182.my_round(self.resolution_spin.value(), 1)
@@ -430,10 +472,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.last_lambda_min,
             self.last_lambda_max,
             self.last_resolution)
+        if self.results['xyz'][-1, 0] < 700:
+            self.lambda_max_spin.setMinimum(self.results['xyz'][-1, 0])
         if self.results['xyz'][-1, 0] != self.last_lambda_max:
             self.last_lambda_max = self.results['xyz'][-1, 0]
             self.lambda_max_spin.setValue(self.last_lambda_max)
-        self.on_draw()
+        self.on_draw(True)
 
     def add_actions(self, target, actions):
         for action in actions:
@@ -505,7 +549,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.age_spin.setValue(32)
 
         self.field_spin = qt.QDoubleSpinBox()
-        self.field_spin.textFromValue = lambda x: "%.1f" % x
+        self.field_spin.setLocale(qtcore.QLocale('C'))
         self.field_spin.setMinimum(1)
         self.field_spin.setMaximum(10)
         self.field_spin.setDecimals(1)
@@ -517,10 +561,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.field_combo.addItem(u'10\N{DEGREE SIGN} (1964)')
         self.field_combo.hide()
         self.connect(self.field_combo,
-                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('currentIndexChanged(int)'),
+                     self.on_draw_all)
 
         self.resolution_spin = qt.QDoubleSpinBox()
-        self.resolution_spin.textFromValue = lambda x: "%.1f" % x
+        self.resolution_spin.setLocale(qtcore.QLocale('C'))
         self.resolution_spin.setMinimum(0.1)
         self.resolution_spin.setMaximum(5)
         self.resolution_spin.setDecimals(1)
@@ -528,7 +573,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.resolution_spin.setSingleStep(0.1)
 
         self.lambda_min_spin = qt.QDoubleSpinBox()
-        self.lambda_min_spin.textFromValue = lambda x: "%.1f" % x
+        self.lambda_min_spin.setLocale(qtcore.QLocale('C'))
         self.lambda_min_spin.setMinimum(390)
         self.lambda_min_spin.setMaximum(400)
         self.lambda_min_spin.setDecimals(1)
@@ -536,7 +581,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.lambda_min_spin.setSingleStep(0.1)
 
         self.lambda_max_spin = qt.QDoubleSpinBox()
-        self.lambda_max_spin.textFromValue = lambda x: "%.1f" % x
+        self.lambda_max_spin.setLocale(qtcore.QLocale('C'))
         self.lambda_max_spin.setMinimum(700)
         self.lambda_max_spin.setMaximum(830)
         self.lambda_max_spin.setDecimals(1)
@@ -557,14 +602,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             'CIE XYZ cone-fundamental-based spectral tristimulus values')
         self.COMBO_XYZ = 4
         self.plot_combo.addItem(
+            'XYZ cone-fundamental-based tristimulus values for ' +
+            'purple-line stimuli')
+        self.COMBO_PURPLE = 5
+        self.plot_combo.addItem(
             'CIE xy cone-fundamental-based chromaticity diagram')
-        self.COMBO_XY = 5
+        self.COMBO_XY = 6
         self.plot_combo.addItem('CIE XYZ standard colour-matching functions')
-        self.COMBO_XYZSTD = 6
+        self.COMBO_XYZSTD = 7
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
-        self.COMBO_XYSTD = 7
+        self.COMBO_XYSTD = 8
         self.connect(self.plot_combo,
-                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('currentIndexChanged(int)'),
+                     self.on_draw_all)
 
         self.grid_check = qt.QCheckBox()
         self.connect(self.grid_check,
@@ -572,19 +622,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         self.wavelength_check = qt.QCheckBox()
         self.connect(self.wavelength_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'),
+                     self.on_draw_plot_only)
 
         self.cie31_check = qt.QCheckBox()
         self.connect(self.cie31_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'),
+                     self.on_draw_plot_only)
 
         self.cie64_check = qt.QCheckBox()
         self.connect(self.cie64_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'),
+                     self.on_draw_plot_only)
 
         self.norm_check = qt.QCheckBox()
         self.connect(self.norm_check,
-                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw)
+                     qtcore.SIGNAL('stateChanged(int)'), self.on_draw_all)
 
         self.save_table_button = qt.QPushButton('&Save table')
         self.connect(self.save_table_button,

@@ -155,6 +155,36 @@ def _wavelenghts(data):
     """ % (data['lambda_min'], data['lambda_max'], data['lambda_step'])
 
 
+def _wavelenghts_complementary(data, options):
+    if options['norm']:
+        lambda_purple_min = data['lambda_purple_min_N']
+        lambda_purple_max = data['lambda_purple_max_N']
+    else:
+        lambda_purple_min = data['lambda_purple_min']
+        lambda_purple_max = data['lambda_purple_max']
+    return u"""
+    <p>
+    <b class="description-subtitle">Wavelenghts</b>
+    <table>
+    <tr>
+        <td>Wavelength domain of spectral stimuli</td>
+        <td>: &nbsp;&nbsp; %s&ndash;%s nm</td>
+    </tr>
+    <tr>
+        <td>Complementary-wavelength domain of purple-line stimuli</td>
+        <td>: &nbsp;&nbsp; %s&ndash;%s nm</td>
+    </tr>
+    <tr>
+        <td>Step</td>
+        <td>: &nbsp;&nbsp; %s nm</td>
+    </tr>
+    </table>
+    </p>
+    """ % (data['lambda_min'], data['lambda_max'],
+           lambda_purple_min, lambda_purple_max,
+           data['lambda_step'])
+
+
 def _wavelenghts_std():
     return u"""
     <p>
@@ -199,30 +229,117 @@ def _normalisation_lms():
     """
 
 
-def _normalisation_xyz(data, options):
-    html_string = """
+def _normalisation_lm(data):
+    return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    &ndash; Equal cone-fundamental-based tristimulus values for
-    Illuminant E when calculated using """
-    if options['norm']:
-        html_string += data['lambda_step']
-    else:
-        html_string += '1'
-    html_string += """ nm steps<br />
-    &ndash; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
-    &nbsp;peaking at unity at 0.1 nm resolution
+    The chromaticity point of illuminant E,
+    \\((l_{%s,\\,%d\\mathrm{;\\,E}},\\,
+    m_{%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3, 1/3).
     </p>
-    """ % (data['field_size'], data['age'])
-    return html_string
+    """ % (data['field_size'], data['age'],
+           data['field_size'], data['age'])
+
+
+def _normalisation_bm(data):
+    return """ <p> <b class="description-subtitle">Normalisation</b><br /> The
+    corresponding MacLeod&ndash;Boynton tristimulus values,
+    \\(L_{\,\mathrm{MB},\,%s,\,%d}\\),
+    \\(M_{\,\mathrm{MB},\,%s,\,%d}\\), and
+    \\(S_{\,\mathrm{MB},\,%s,\,%d}\\), satisfy
+    <br />
+    &#8226;
+    \\(L_{\,\mathrm{MB},\,%s,\,%d} + M_{\,\mathrm{MB},\,%s,\,%d} =
+    V_{\,\mathrm{F},\,%s,\,%d}\\)
+    <br />
+    &#8226;
+    \\(\\max\\left(
+       S_{\\,\\mathrm{MB},\\,%s,\\,%d}/V_{\\,\\mathrm{F},\\,%s,\\,%d}
+       \\right) =  1\\)
+    <br />
+    where \\(V_{\\,\\mathrm{F},\\,%s,\\,%d} = P_{\\mathrm{v}} /
+      K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\), in which \\(P_{\\mathrm{v}}\\) and
+    \\(K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\) are, respectively, the LM
+    luminous flux and the LM maximum luminous efficacy as determined
+    by the cone-fundamental-based relative spectral luminous efficiency
+    function \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}(\\lambda)\\).
+    </p>
+    """ % (data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'])
+
+
+def _normalisation_xy(data, options):
+    if options['norm']:
+        return """
+        <p>
+        <b class="description-subtitle">Normalisation</b><br />
+        The chromaticity point of illuminant E,
+        \\((x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
+        y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3, 1/3)
+        when calculated using a step size of %s&nbsp;nm and wavelength
+        domain %s&ndash;%s&nbsp;nm.
+        </p>
+        """ % (data['field_size'], data['age'],
+               data['field_size'], data['age'],
+               data['lambda_step'],
+               data['lambda_min'], data['lambda_max'])
+    else:
+        return """
+        <p>
+        <b class="description-subtitle">Normalisation</b><br />
+        The chromaticity point of illuminant E,
+        \\((x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
+        y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3, 1/3)
+        when calculated using a step size of 1&nbsp;nm and wavelenght
+        domain 390&ndash;830&nbsp;nm.
+        </p>
+        """ % (data['field_size'], data['age'],
+               data['field_size'], data['age'])
+
+
+def _normalisation_xyz(data, options):
+    if options['norm']:
+        return """
+        <p>
+        <b class="description-subtitle">Normalisation</b><br />
+        &#8226; Equal cone-fundamental-based tristimulus values for
+        illuminant E when calculated using a step size of %s&nbsp;nm
+        and wavelength domain %s&ndash;%s&nbsp;nm.<br />
+        &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
+        &nbsp;peaking at unity at 0.1 nm resolution
+        </p>
+        """ % (data['lambda_step'],
+               data['lambda_min'], data['lambda_max'],
+               data['field_size'], data['age'])
+    else:
+        return """
+        <p>
+        <b class="description-subtitle">Normalisation</b><br />
+        &#8226; Equal cone-fundamental-based tristimulus values for
+        illuminant E when calculated using a step size of 1&nbsp;nm
+        and wavelenght domain 390&ndash;830&nbsp;nm.<br />
+        &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
+        &nbsp;peaking at unity at 0.1 nm resolution
+        </p>
+        """ % (data['field_size'], data['age'])
 
 
 def _normalisation_31():
     return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    &ndash; Equal tristimulus values for Illuminant E<br />
-    &ndash; Values of &nbsp;\\(\\bar y\\)&nbsp;peaking at unity
+    &#8226; Equal tristimulus values for illuminant E<br />
+    &#8226; Values of &nbsp;\\(\\bar y\\)&nbsp;peaking at unity
     at 1 nm resolution
     </p>
     """
@@ -232,8 +349,8 @@ def _normalisation_64():
     return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    &ndash; Equal tristimulus values for Illuminant E<br />
-    &ndash; Values of &nbsp;\\(\\bar y_{10}\\)&nbsp;peaking at unity
+    &#8226; Equal tristimulus values for illuminant E<br />
+    &#8226; Values of &nbsp;\\(\\bar y_{10}\\)&nbsp;peaking at unity
     at 1 nm resolution
     </p>
     """
@@ -293,13 +410,21 @@ def _precision_xy():
     """
 
 
-def _lms_to_xyz(data, options):
+def _lms_to_xyz(data, options, purple=False):
     if options['norm']:
         trans_mat = data['trans_mat_N']
     else:
         trans_mat = data['trans_mat']
     html_string = """
         <b class="description-subtitle">Transformation equation</b><br />
+    """
+    if purple:
+        html_string += """
+        The corresponding transformation from CIE LMS cone
+        fundamentals to CIE XYZ cone-fundamental-based spectral
+        tristimulus values is:<br />
+        """
+    html_string += """
         $$
         \\begin{pmatrix}
         \\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda) \\\\
@@ -341,6 +466,10 @@ def _lms_to_xyz(data, options):
            data['field_size'], data['age'],
            data['field_size'], data['age'])
     return html_string
+
+
+def _lms_to_xyz_purple(data, options):
+    return _lms_to_xyz(data, options, True)
 
 
 def _lms_to_bm(data, options):
@@ -539,7 +668,8 @@ def _illuminant_E_cc(data, options):
     return """
     <b class="description-subtitle">Chromaticity point of illuminant E</b>
     <br />
-    \\( (x_{\,\mathrm{F},\,%s,\,%d;\,E}, \,y_{\,\mathrm{F},\,%s,\,%d;\,E}) =
+    \\( (x_{\,\mathrm{F},\,%s,\,%d;\,\\mathrm{E}},\\,
+    \\,y_{\,\mathrm{F},\,%s,\,%d;\,\\mathrm{E}}) =
     (%.5f, %.5f) \\)<br /><br />
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -722,6 +852,42 @@ def xyz(data, heading, options, include_head=False):
     return html_string
 
 
+def purple(data, heading, options, include_head=False):
+    """
+    Generate html page with information about the purple XYZ.
+
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
+    html_string = ""
+    if include_head:
+        html_string += _head()
+    html_string += (_heading(heading) +
+                    _parameters(data) +
+                    _functions('\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                               (data['field_size'], data['age']),
+                               '\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                               (data['field_size'], data['age']),
+                               '\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                               (data['field_size'], data['age'])) +
+                    _wavelenghts_complementary(data, options) +
+                    _normalisation_xyz(data, options) +
+                    _lms_to_xyz_purple(data, options) +
+                    _precision_xyz())
+    return html_string
+
+
 def xy(data, heading, options, include_head=False):
     """
     Generate html page with information about the xy system.
@@ -752,6 +918,7 @@ def xy(data, heading, options, include_head=False):
                                  '\\(z_{\,\mathrm{F},\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
+                    _normalisation_xy(data, options) +
                     _xyz_to_xy(data) +
                     _precision_xy() +
                     _illuminant_E_cc(data, options) +
@@ -859,6 +1026,7 @@ def bm(data, heading, options, include_head=False):
                                  '\\(s_{\,\mathrm{MB},\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
+                    _normalisation_bm(data) +
                     _lms_to_bm(data, options) +
                     _precision_bm() +
                     _illuminant_E_bm(data) +
@@ -896,6 +1064,7 @@ def lm(data, heading, options, include_head=False):
                                  '\\(s_{\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
+                    _normalisation_lm(data) +
                     _lms_to_lm(data) +
                     _precision_lm() +
                     _illuminant_E_lm(data) +

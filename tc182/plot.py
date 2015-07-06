@@ -88,6 +88,62 @@ def xyz(axes, plots, options):
     lock.release()
 
 
+def purple(axes, plots, options):
+    """
+    Plot the XYZ purple functions onto the given axes.
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    lock.acquire()
+    if options['norm']:
+        purple = plots['purple_xyz_N']
+    else:
+        purple = plots['purple_xyz']
+    axes.clear()
+    axes.grid(options['grid'])
+    axes.tick_params(labelsize=10)
+    axes.plot(purple[:, 0], purple[:, 1], 'r')
+    axes.plot(purple[:, 0], purple[:, 2], 'g')
+    axes.plot(purple[:, 0], purple[:, 3], 'b')
+    axes.axis('normal')
+    axes.axis([480, 580, -.04, .54])
+    if options['axis_labels']:
+        axes.set_xlabel('Complementary wavelength [nm]', fontsize=10)
+        axes.set_ylabel('Cone-fundamental-based tristimulus values (purples)',
+                        fontsize=10)
+    if options['full_title']:
+        axes.set_title(
+            ('XYZ cone-fundamental-based tristimulus values for ' +
+             'purple-line stimuli\n' +
+             'Field size: %s''' % plots['field_size'] +
+             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+             u' yr,  Wavelength domain: %s\u2013%s nm' %
+             (plots['lambda_min'], plots['lambda_max']) +
+             ',  Step: %s nm' % plots['lambda_step']),
+            fontsize=options['title_fontsize'])
+        # Hack in order to write parameter-info as a subtitle with a
+        # smaller font size: does not function (owing to some bugs)?
+        # axes.set_title('''CIE XYZ cone-fundamental-based spectral
+        # tristimulus values\n''', fontsize=11)
+        # axes.twiny.set_xticks([]) # Does not function
+        # axes.twiny.set_xlabel(('Field size: %s' % plots['field_size'] +
+        # u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+        # u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
+        #                                   plots['lambda_max']) +
+        # ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
+    else:
+        axes.set_title('CIE XYZ cone-fundamental-based spectral ' +
+                       'tristimulus values',
+                       fontsize=options['title_fontsize'])
+    lock.release()
+
+
 def xy(axes, plots, options):
     """
     Plot the chromaticity diagram onto the given axes.
