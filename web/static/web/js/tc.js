@@ -625,7 +625,3 @@ function showStandard( standard_plot ){
 $( function(){
 		$( "button#btnCompute" ).trigger("click");
 });
-
-
-
-	
