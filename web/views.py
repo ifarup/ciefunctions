@@ -353,7 +353,6 @@ def home(request):
 	except:
 		lambda_min = 390.0
 		
-	
 	try:
 		lambda_max = float(request.POST["lambda_max"])
 		
@@ -386,4 +385,4 @@ def home(request):
 	}
 
 
-	return render(request, 'web/plot.html', context)
+	return render(request, 'web/flex-plot.html', context)

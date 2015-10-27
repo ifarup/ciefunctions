@@ -1,0 +1,52 @@
+/* CSS to handle the layout via Flex standard */
+
+* {
+						box-sizing: border-box;
+						-moz-box-sizing: border-box;
+						-webkit-box-sizing: border-box;
+						margin: 0;
+}
+
+div#flex-container {
+						display: flex;
+						flex-wrap: wrap;
+}
+
+div#flex-container * {
+						box-sizing: border-box;
+						-moz-box-sizing: border-box;
+						-webkit-box-sizing: border-box;
+}
+
+div#header {
+						width: 100vw;
+						height: 10vh;
+						border-bottom: 1px solid #aaa;
+						align-items: center;
+}
+
+section#plot-table {
+						width: 50vw;
+						height: 70vh;
+						border-bottom: 1px solid #aaa;
+}
+
+section#plot { 
+						display: none;
+}					
+
+section#plot, section#table {
+					
+						height: 70vh;
+						background-color: aliceBlue;
+}
+
+section#description {
+						width: 50vw;
+						height: 70vh;
+						background-color: wheat;
+}
+
+section#parameters {
+
+}

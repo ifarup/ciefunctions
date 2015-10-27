@@ -1,0 +1,179 @@
+{% load mathjax %}
+{% load staticfiles %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Ciefunctions</title>
+		<link rel="stylesheet" href="{% static 'web/css/redmond/jquery-ui-1.10.4.custom.min.css' %}"></link>
+		
+		<link rel="stylesheet" href="{% static 'web/css/flex.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/main.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/plot.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/table.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/description.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'web/css/test.css' %}"></link>
+		<script src="{% static 'web/js/jquery-1.10.2.js' %}"></script>
+		<script src="{% static 'web/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+		<script src="{% static 'web/js/plotLoader.js' %}"></script>
+		
+			<!-- MathJax -->
+    	{% mathjax_scripts %}
+    	
+		<script>
+			//Namespace for current form_values
+			currentForm = (	{	age			: '{{ age }}',
+								field_size	: '{{ field_size }}',
+								lambda_min	: '{{ lambda_min }}',
+								lambda_max	: '{{ lambda_max }}',
+								lambda_step	: '{{ lambda_step }}'
+							});
+			//Enable the tab system
+			$( '#tabSys a' ).click(function(e) {
+				e.preventDefault();
+				$( this ).tab('show');
+				console.log($(this));
+			});
+			
+			$(function(){
+				$( "select#plot-select option" ).eq(0).prop("selected", "selected"); //Reset the plot selector on load, otherwise it remembers from last time.
+			});
+			
+			//MathJax	
+			MathJax.Hub.Config({
+  				SVG: {
+    				scale: 90
+	  			},
+	  			jax: ["input/TeX","output/SVG"],
+			    displayAlign: "left"
+			});
+			
+			
+			MathJax.Hub.Register.StartupHook("MathMenu Ready",
+  				function (e) {
+  					console.log(e);
+  				}
+			);
+			
+			
+			MathJax.Hub.Register.MessageHook("End", function (e) {
+  				console.log(e);
+			})
+		</script>
+	</head>
+	<body>
+		<div id="flex-container">
+			<div id="header">
+				{% include "web/modules/header.html" %}
+			</div>
+			<section id="plot-table">
+				<section id="plot">
+					<div id="theFig">
+						<div id="xyz_plot" class="plot">
+							<!-- ajax plot xyz -->
+						</div>
+						<div id="xy_plot" class="plot">
+							<!-- ajax plot xy -->
+						</div>
+						<div id="lms_plot" class="plot">
+							<!-- ajax plot lms -->
+						</div>
+						<div id="lms_base_plot" class="plot">
+							<!-- ajax plot lms_base -->
+						</div>
+						<div id="bm_plot" class="plot">
+							<!-- ajax plot bm -->
+						</div>
+						<div id="lm_plot" class="plot">
+							<!-- ajax plot lm -->
+						</div>
+						<div id="xyz31_plot" class="plot">
+							<!-- ajax plot xyz31 -->
+						</div>
+						<div id="xyz64_plot" class="plot">
+							<!-- ajax plot xyz64 -->
+						</div>
+						<div id="xy31_plot" class="plot">
+							<!-- ajax plot xy31 -->
+						</div>
+						<div id="xy64_plot" class="plot">
+							<!-- ajax plot xy64 -->
+						</div>
+						<div class="x_label"></div>
+						<div class="y_label"></div>
+						<div class="velo"></div>
+					</div>
+					<div id="figOptions">
+						<div class="figOptionCheckboxContainer">
+							<!-- Start with default enabled ticks, might need to go to an init function -->
+							<div class="figOptionCheckbox">
+								<label for="#compare1931-2" class="disabled">Compare with CIE 1931 2 &deg;</label>
+								<input type="checkbox" id="compare1931-2" disabled/>
+							</div>
+							<div class="figOptionCheckbox">
+								<label for="#compare1964-10" class="disabled">Compare with CIE 1964 10 &deg;</label>
+								<input type="checkbox" id="compare1964-10" disabled/>
+							</div>
+							<div class="figOptionCheckbox">
+								<label for="#showGrid">Grid</label>
+								<input id ="showGrid" type="checkbox"/>
+							</div>
+							<div class="figOptionCheckbox">
+								<label for="#showLabels" class="disabled">Labels</label>
+								<input id ="showLabels" type="checkbox" disabled/>
+							</div>
+							<br style="float:none"/>
+						</div>
+					</div>
+				</section>
+				<section id="table">
+				<div class="tableWrapper">
+					<div id="xyz_table" class="table">
+						<!-- ajax table xyz -->
+					</div>
+					<div id="xy_table" class="table">
+						<!-- ajax table xy -->
+					</div>
+					<div id="lms_table" class="table">
+						<!-- ajax table lms -->
+					</div>
+					<div id="lms_base_table" class="table">
+						<!-- ajax table lms_base -->
+					</div>
+					<div id="bm_table" class="table">
+						<!-- ajax table bm -->
+					</div>
+					<div id="lm_table" class="table">
+						<!-- ajax table lm -->
+					</div>
+					<div id="xyz31_table" class="table">
+						<!-- ajax table xyz31 -->
+					</div>
+					<div id="xyz64_table" class="table">
+						<!-- ajax table xyz64 -->
+					</div>
+					<div id="xy31_table" class="table">
+						<!-- ajax table xy31 -->
+					</div>
+					<div id="xy64_table" class="table">
+						<!-- ajax table xy64 -->
+					</div>
+					<div class="velo"></div>
+				</div>	<!-- end .tableWrapper -->
+				<div id="getCsv-container">
+					<button id="getCsv">Save Table</button>
+				</div>
+				</section>
+			</section>
+			<section id="description">
+	
+			</section>
+			<section id="parameters">
+	
+			</section>
+	
+			<footer>
+	
+			</footer>
+		</div>
+	</body>
+</html>
