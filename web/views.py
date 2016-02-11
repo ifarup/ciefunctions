@@ -385,4 +385,4 @@ def home(request):
 	}
 
 
-	return render(request, 'web/flex-plot.html', context)
+	return render(request, 'web/plot.html', context)
