@@ -780,17 +780,14 @@ def compute_purple_xyz(xy, purple_line, white):
             cx = xy[i, 1]
             cy = xy[i, 2]
 
-            # Equations for parameter for convex linear combination of
-            # tristimulus values of purple line termini found by
+            # Equation for parameter for convex linear combination of
+            # tristimulus values of purple-line termini, determined by
             # Mathematica:
-            a = (
-                (-cx + wx) * YR + wy * ((-1 + cx) * XR + cx * (YR + ZR)) -
-                cy * ((-1 + wx) * XR + wx * (YR + ZR))
-            ) / (
-                (cx - wx) * (YB - YR) + wy * (XB - cx * XB - XR +
-                                              cx * (XR - YB + YR - ZB + ZR)) +
-                cy * ((-1 + wx) * XB + XR - wx * (XR - YB + YR - ZB + ZR))
-            )
+            a = (1
+              / (1 - ((cy - wy) * XB - (cx - wx) * YB + 
+                                       (cx * wy - cy * wx) * (XB + YB + ZB))
+                   / ((cy - wy) * XR - (cx - wx) * YR + 
+                                       (cx * wy - cy * wx) * (XR + YR + ZR))))
             if a >= 0 and a <= 1:
                 inside = True
                 X = a * XB + (1 - a) * XR
@@ -1341,7 +1338,7 @@ def compute_tabulated(field_size, age,
     results['bm_s_max'] = bm_s_max
     results['lms_N_inv'] = lms_N_inv
 
-    # Add tristimulus values for maximum saturated purples
+    # Add tristimulus values for puple-line stimuli
     results['purple_xyz'] = compute_purple_xyz(results['xy'],
                                                results['purple_line_xyz'],
                                                results['xy_white'])
