@@ -254,15 +254,15 @@ def _normalisation_bm(data):
     <br />
     &#8226;
     \\(\\max\\left(
-      \\frac{S_{\\,\\mathrm{MB},\\,%s,\\,%d}}{V_{\\,\\mathrm{F},\\,%s,\\,%d}}
-    \\right) =  1\\)
+       S_{\\,\\mathrm{MB},\\,%s,\\,%d}/V_{\\,\\mathrm{F},\\,%s,\\,%d}
+       \\right) =  1\\)
     <br />
     where \\(V_{\\,\\mathrm{F},\\,%s,\\,%d} = P_{\\mathrm{v}} /
       K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\), in which \\(P_{\\mathrm{v}}\\) and
     \\(K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\) are, respectively, the LM
     luminous flux and the LM maximum luminous efficacy as determined
-    by the cone-fundamental-based relative spectral luminous efficacy
-    function \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}\\).
+    by the cone-fundamental-based relative spectral luminous efficiency
+    function \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}(\\lambda)\\).
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -313,7 +313,7 @@ def _normalisation_xyz(data, options):
         <p>
         <b class="description-subtitle">Normalisation</b><br />
         &#8226; Equal cone-fundamental-based tristimulus values for
-        Illuminant E when calculated using a step size of %s&nbsp;nm
+        illuminant E when calculated using a step size of %s&nbsp;nm
         and wavelength domain %s&ndash;%s&nbsp;nm.<br />
         &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
         &nbsp;peaking at unity at 0.1 nm resolution
@@ -326,7 +326,7 @@ def _normalisation_xyz(data, options):
         <p>
         <b class="description-subtitle">Normalisation</b><br />
         &#8226; Equal cone-fundamental-based tristimulus values for
-        Illuminant E when calculated using a step size of 1&nbsp;nm
+        illuminant E when calculated using a step size of 1&nbsp;nm
         and wavelenght domain 390&ndash;830&nbsp;nm.<br />
         &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
         &nbsp;peaking at unity at 0.1 nm resolution
@@ -338,7 +338,7 @@ def _normalisation_31():
     return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    &#8226; Equal tristimulus values for Illuminant E<br />
+    &#8226; Equal tristimulus values for illuminant E<br />
     &#8226; Values of &nbsp;\\(\\bar y\\)&nbsp;peaking at unity
     at 1 nm resolution
     </p>
@@ -349,7 +349,7 @@ def _normalisation_64():
     return """
     <p>
     <b class="description-subtitle">Normalisation</b><br />
-    &#8226; Equal tristimulus values for Illuminant E<br />
+    &#8226; Equal tristimulus values for illuminant E<br />
     &#8226; Values of &nbsp;\\(\\bar y_{10}\\)&nbsp;peaking at unity
     at 1 nm resolution
     </p>
