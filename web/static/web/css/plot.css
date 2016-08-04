@@ -48,14 +48,14 @@ div.x_label {
 }
 
 div.y_label {	position:absolute;
-				top:175;
-				width: 400px;
+				bottom: 33%;
+				width: auto;
+                left: 10;
 				margin: 0;
-				/*background-color: coral;*/
-				writing-mode:tb-rl;
-    			-webkit-transform:rotate(-90deg);
-    			-moz-transform:rotate(-90deg);
-    			-o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+                transform-origin: left top 0;
+                /*-webkit-transform:rotate(90deg);
+    			-moz-transform:rotate(90deg);
+    			-o-transform: rotate(90deg);*/
 }
-
 

@@ -47,8 +47,8 @@ for (i=0; i < availablePlots.length; i++){
 
 $( document ).ready(function(){
 
-	var leftPos = -170;
-	$( ".y_label" ).css("left", leftPos); //Place the label at a distance from the middle of the containing div of the plot.
+	/*var leftPos = -170;
+	$( ".y_label" ).css("left", leftPos); //Place the label at a distance from the middle of the containing div of the plot.*/
 	$( "#tabSys" ).width(620);
 });
 

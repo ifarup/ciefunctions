@@ -780,21 +780,22 @@ def compute_purple_xyz(xy, purple_line, white):
             cx = xy[i, 1]
             cy = xy[i, 2]
 
-            # Equation for parameter for convex linear combination of
+            # Equations for parameter for convex linear combination of
             # tristimulus values of purple-line termini, determined by
             # Mathematica:
-            a = (1
-              / (1 - ((cy - wy) * XB - (cx - wx) * YB + 
-                                       (cx * wy - cy * wx) * (XB + YB + ZB))
-                   / ((cy - wy) * XR - (cx - wx) * YR + 
-                                       (cx * wy - cy * wx) * (XR + YR + ZR))))
+            a = (1 /
+                 (1 - ((cy - wy) * XB - (cx - wx) * YB +
+                       (cx * wy - cy * wx) * (XB + YB + ZB))
+                  / ((cy - wy) * XR - (cx - wx) * YR +
+                     (cx * wy - cy * wx) * (XR + YR + ZR))))
             if a >= 0 and a <= 1:
                 inside = True
                 X = a * XB + (1 - a) * XR
                 Y = a * YB + (1 - a) * YR
                 Z = a * ZB + (1 - a) * ZR
                 purple_xyz.append([lbd, X, Y, Z])
-            elif inside == True: break
+            elif inside:
+                break
     return np.array(purple_xyz)
 
 
@@ -1366,7 +1367,8 @@ def compute_tabulated(field_size, age,
         results['lambda_purple_max'] = '%.0f' % results['purple_xyz'][-1, 0]
         results['lambda_step'] = '%.0f' % lambda_step
         results['lambda_purple_min_N'] = '%.0f' % results['purple_xyz_N'][0, 0]
-        results['lambda_purple_max_N'] = '%.0f' % results['purple_xyz_N'][-1, 0]
+        results['lambda_purple_max_N'] = ('%.0f' %
+                                          results['purple_xyz_N'][-1, 0])
         plots['lambda_min'] = '%.0f' % lambda_min
         plots['lambda_max'] = '%.0f' % lambda_max
         plots['lambda_purple_min'] = '%.0f' % plots['purple_xyz'][0, 0]
@@ -1381,7 +1383,8 @@ def compute_tabulated(field_size, age,
         results['lambda_purple_min'] = '%.1f' % results['purple_xyz'][0, 0]
         results['lambda_purple_max'] = '%.1f' % results['purple_xyz'][-1, 0]
         results['lambda_purple_min_N'] = '%.1f' % results['purple_xyz_N'][0, 0]
-        results['lambda_purple_max_N'] = '%.1f' % results['purple_xyz_N'][-1, 0]
+        results['lambda_purple_max_N'] = ('%.1f' %
+                                          results['purple_xyz_N'][-1, 0])
         plots['lambda_min'] = '%.1f' % lambda_min
         plots['lambda_max'] = '%.1f' % lambda_max
         plots['lambda_purple_min'] = '%.1f' % plots['purple_xyz'][0, 0]

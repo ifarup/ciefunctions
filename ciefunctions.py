@@ -561,7 +561,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.field_combo.addItem(u'10\N{DEGREE SIGN} (1964)')
         self.field_combo.hide()
         self.connect(self.field_combo,
-                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw_all)
+                     qtcore.SIGNAL('currentIndexChanged(int)'),
+                     self.on_draw_all)
 
         self.resolution_spin = qt.QDoubleSpinBox()
         self.resolution_spin.setLocale(qtcore.QLocale('C'))
@@ -612,7 +613,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
         self.COMBO_XYSTD = 8
         self.connect(self.plot_combo,
-                     qtcore.SIGNAL('currentIndexChanged(int)'), self.on_draw_all)
+                     qtcore.SIGNAL('currentIndexChanged(int)'),
+                     self.on_draw_all)
 
         self.grid_check = qt.QCheckBox()
         self.connect(self.grid_check,
