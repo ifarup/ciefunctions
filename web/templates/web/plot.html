@@ -42,26 +42,28 @@
 				$( "select#plot-select option" ).eq(0).prop("selected", "selected"); //Reset the plot selector on load, otherwise it remembers from last time.
 			});
 			
-			//MathJax	
-			MathJax.Hub.Config({
-  				SVG: {
-    				scale: 90
-	  			},
-	  			jax: ["input/TeX","output/SVG"],
-			    displayAlign: "left"
-			});
-			
-			
-			MathJax.Hub.Register.StartupHook("MathMenu Ready",
-  				function (e) {
-  					console.log(e);
-  				}
-			);
-			
-			
-			MathJax.Hub.Register.MessageHook("End", function (e) {
-  				console.log(e);
-			})
+			//MathJax
+            $(function(){
+                MathJax.Hub.Config({
+                    SVG: {
+                        scale: 90
+                    },
+                    jax: ["input/TeX","output/SVG"],
+                    displayAlign: "left"
+                });
+
+
+                MathJax.Hub.Register.StartupHook("MathMenu Ready",
+                    function (e) {
+                        console.log(e);
+                    }
+                );
+
+
+                MathJax.Hub.Register.MessageHook("End", function (e) {
+                    console.log(e);
+                });
+            });
 		</script>
 	</head>
 	<body>

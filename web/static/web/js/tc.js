@@ -44,7 +44,9 @@ $( ".ui-spinner-input" ).width("40px");
 //Hide the global loader when ajaxStop.
 $( document ).ajaxStop(function() {
 	$("div.velo").hide();
-	MathJax.Hub.Typeset();
+    if (typeof MathJax != "undefined") {
+	   MathJax.Hub.Typeset();
+    }
 });
 
 
@@ -277,7 +279,9 @@ function refreshAllObjects(){
 		refreshObject('description', availablePlots[i]);
 		refreshPlot(availablePlots[i]);
 		updateLabels();
-		MathJax.Hub.Typeset();
+        if (typeof MathJax != "undefined") {
+		  MathJax.Hub.Typeset();
+        }
 	}
 }
 
