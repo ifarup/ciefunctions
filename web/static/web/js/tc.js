@@ -6,7 +6,7 @@ $(function(){
 	$( "input#age" ).spinner({	
 			min: 20,
 			max: 70,
-			step: 1,
+			step: 1
 	});
 
 	$( "input#field_size" ).spinner({
@@ -452,14 +452,16 @@ function showStandard( standard_plot ){
 	
 	//Enable or disable checkboxes
 	function updateCheckboxes(plot){
+        console.log("updating checkboxes ...");
 		switch(plot){
 			
 			case "xyz":
+                console.log("CIE XYZ cone-fundamental-based spectral tristimulus values");
 				$( "div#std-params" ).hide();				
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
 				
-				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
 				$( "#compare1931-2" ).attr("disabled", false).prev().removeClass("disabled");
 				$( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
 				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
@@ -468,7 +470,8 @@ function showStandard( standard_plot ){
 				
 			break;
 			
-			case "xy": // CIE xy fundamental chromacity diagram
+			case "xy":
+                console.log("CIE xy fundamental chromacity diagram");
 				$( "div#std-params" ).hide();
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
@@ -481,7 +484,8 @@ function showStandard( standard_plot ){
 				$( ".norm-div" ).show();
 			break;
 			
-			case "lms": //CIE LMS cone fundamentals
+			case "lms":
+                console.log("CIE LMS cone fundamentals");
 				$( "div#std-params" ).hide();
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
@@ -494,7 +498,8 @@ function showStandard( standard_plot ){
 				$( ".norm-div" ).hide();
 			break;
 			
-			case "lms_base": //CIE LMS cone fundamentals (9 sign.flgs.)
+			case "lms_base":
+                console.log("CIE LMS cone fundamentals (9 sign.flgs.)");
 				$( "div#std-params" ).hide();
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
@@ -507,7 +512,8 @@ function showStandard( standard_plot ){
 				$( ".norm-div" ).hide();
 			break;
 			
-			case "bm": //CIE MacLeod-Boynton ls diagram
+			case "bm":
+                console.log("CIE MacLeod-Boynton ls diagram");
 				$( "div#std-params" ).hide();
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
@@ -520,7 +526,8 @@ function showStandard( standard_plot ){
 				$( ".norm-div" ).hide();
 			break;
 			
-			case "lm": //Equi-power normalised lm diagram
+			case "lm":
+                console.log("Equi-power normalised lm diagram");
 				$( "div#std-params" ).hide();
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
@@ -533,7 +540,8 @@ function showStandard( standard_plot ){
 				$( ".norm-div" ).hide();
 			break;
 			
-			case "xyz31": //Equi-power normalised lm diagram
+			case "xyz31":
+                console.log("Equi-power normalised lm diagram");
 				$( "div#std-params" ).show();
 				$( "div#input-params").hide();
 				$( "div.htmlWrapper").css("height", "600px");
@@ -547,7 +555,8 @@ function showStandard( standard_plot ){
 				$( ".norm-div" ).hide();
 			break;
 			
-			case "xy31": //CIE xy standard chromaticity diagram
+			case "xy31":
+                console.log("CIE xy standard chromaticity diagram");
 				$( "div#std-params" ).show();
 				$( "div#input-params").hide();
 				$( "div.htmlWrapper").css("height", "600px");
