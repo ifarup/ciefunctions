@@ -576,7 +576,10 @@ function showStandard( standard_plot ){
 
 	$( "input[type=checkbox]" ).on('click', function(){
 		$( "#theFig .velo" ).show();
-		$( this ).attr("disabled", true ); //Disabling the checkboxes so the user doesn't click on them before the ajax call with the plot comes back. Clearing with updateCheckboxes().
+		//$( this ).attr("disabled", true ); //Disabling the checkboxes so the user doesn't click on them before the ajax call with the plot comes back. Clearing with updateCheckboxes().
+        /* @TODO here: Hide/disable the options that aren't relevant to the current view. At this point and for demonstration purposes, the user can stil see all the available checkboxes,
+           but only the relevant ones are enabled for each plot.
+        */
 	});
 
 	$( "#showGrid" ).on("click", function(){
