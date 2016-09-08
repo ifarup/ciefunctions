@@ -205,7 +205,7 @@ var lambda_step = parseInt($( "input#lambda_step" ).val());
 						'lms_base'	: new axis_label("Wavelength [nm]", "Relative energy sensitivities"),
 						
 						'bm'		: new axis_label("<span class='math'>l</span><sub>MB, " + field_size + ", " + age + "</sub>", 
-													  "<span class='math'>m</span><sub>MB, " + field_size + ", " + age + "</sub>"),
+													  "<span class='math'>s</span><sub>MB, " + field_size + ", " + age + "</sub>"),
 													  
 						'lm'		: new axis_label("<span class='math'>l</span><sub>" + field_size + ", " + age + "</sub>",
 													  "<span class='math'>m</span><sub>" + field_size + ", " + age + "</sub>"),
