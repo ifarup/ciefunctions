@@ -303,7 +303,7 @@ function refreshPlot(plot){
 								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
 								$( "div#" + plot + "_plot" ).append(data + '<div class="velo"></div>');
-								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
+								//$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
 								$( "div#" + plot + "_plot" ).siblings(".velo").hide();
   							})
   							.fail(function() {
@@ -406,7 +406,7 @@ function showStandard( standard_plot ){
 								all_plots[standard_plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + standard_plot + "_plot" ).empty();
 								$( "div#" + standard_plot + "_plot" ).append(data);
-								$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
+								//$( ".mpld3-toolbar image" ).css("opacity", 1); //Remove transparency for toolbar buttons.
   							})
   							.fail(function() {
     							console.log( "error when getting " + standard_plot + " plot from server" );
