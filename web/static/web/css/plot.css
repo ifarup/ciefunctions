@@ -45,6 +45,7 @@ div.label sub { font-size: 0.8em;
 		}
 	
 div.x_label { 	
+                display: none;
 }
 
 div.y_label {	position:absolute;
@@ -57,5 +58,7 @@ div.y_label {	position:absolute;
                 /*-webkit-transform:rotate(90deg);
     			-moz-transform:rotate(90deg);
     			-o-transform: rotate(90deg);*/
+                display: none;
 }
+
 

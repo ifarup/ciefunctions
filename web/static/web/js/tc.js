@@ -47,6 +47,7 @@ $( document ).ajaxStop(function() {
     if (typeof MathJax != "undefined") {
 	   MathJax.Hub.Typeset();
     }
+    $( ".x_label, .y_label" ).show();
 });
 
 
