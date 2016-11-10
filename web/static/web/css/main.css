@@ -35,6 +35,10 @@ div.velo {  position: absolute;
 
 a.tab-text { font-size: 0.8em; }
 
+div#header {
+                    margin-bottom: 30px;
+}
+
 div#header img {	height: 55px;
 					margin: 0px 0px 10px 10px;
  }

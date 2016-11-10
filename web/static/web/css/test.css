@@ -76,3 +76,10 @@ label {
 /*.paramTable button:hover {
 						background-color: #3a95ac;
 }*/
+
+
+#helpButton {
+        position: absolute;
+        top: 5px;
+        right: 45px;
+}

@@ -48,6 +48,7 @@ $( document ).ajaxStop(function() {
 	   MathJax.Hub.Typeset();
     }
     $( ".x_label, .y_label" ).show();
+    adjustLabelPos();
 });
 
 
@@ -625,7 +626,6 @@ function showStandard( standard_plot ){
 		}
 		refreshPlot(currentPlot);
 		refreshAllOthers(currentPlot);
-		
 	});
 			
 	$( "#norm" ).on("click", function(){
@@ -642,3 +642,24 @@ function showStandard( standard_plot ){
 $( function(){
 		$( "button#btnCompute" ).trigger("click");
 });
+
+
+//Help function
+$( function(){
+    $( "div#helpButton a" ).click(function(){
+        $( "#tabSys li" ).removeClass("active");
+        $( "#tablePanel, #plotPanel").removeClass("active");
+        $( "#helpPanel" ).addClass("active");
+    });
+});
+
+//Move labels away from points
+function adjustLabelPos(){
+    var amountInPix = 7;
+    $( "text.mpld3-text" ).each(function(){     
+        $( this ).attr("x", parseInt($( this ).attr("x")) + amountInPix);
+    });
+}
+
+
+
