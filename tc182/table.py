@@ -175,7 +175,7 @@ def purple(results, options, include_head=False):
                 np.round(float(results['lambda_min']))):
             html_table += """
             <tr>
-               <td>%.0f</td>
+               <td>%.0fc</td>
                <td>%.6e</td>
                <td>%.6e</td>
                <td>%.6e</td>
@@ -187,7 +187,7 @@ def purple(results, options, include_head=False):
         else:
             html_table += """
             <tr>
-               <td>%.1f</td>
+               <td>%.1fc</td>
                <td>%.6e</td>
                <td>%.6e</td>
                <td>%.6e</td>
@@ -318,7 +318,7 @@ def purple_xy(results, options, include_head=False):
                 np.round(float(results['lambda_min']))):
             html_table += """
             <tr>
-               <td>%.0f</td>
+               <td>%.0fc</td>
                <td>%.5f</td>
                <td>%.5f</td>
                <td>%.5f</td>
@@ -330,7 +330,7 @@ def purple_xy(results, options, include_head=False):
         else:
             html_table += """
             <tr>
-               <td>%.1f</td>
+               <td>%.1fc</td>
                <td>%.5f</td>
                <td>%.5f</td>
                <td>%.5f</td>
