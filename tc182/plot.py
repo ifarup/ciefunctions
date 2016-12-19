@@ -144,6 +144,106 @@ def purple(axes, plots, options):
     lock.release()
 
 
+def purple_cc(axes, plots, options):
+    """
+    Plot the chromaticity diagram onto the given axes.
+
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc182.
+    options : dict
+        Plotting options (see code for use).
+    """
+    lock.acquire()
+    if options['norm']:
+        xy = plots['purple_cc_N']
+        xy_white = plots['xy_white_N']
+        locus = plots['xy_N']
+        purpleline = plots['purple_line_cc_N']
+    else:
+        xy = plots['purple_cc']
+        xy_white = plots['xy_white']
+        locus = plots['xy']
+        purpleline = plots['purple_line_cc']
+    axes.clear()
+    axes.grid(options['grid'])
+    axes.tick_params(labelsize=10)
+    axes.plot(xy[:, 1], xy[:, 2], 'k')
+#    lambdavalues = np.concatenate(
+#        ([xy[0, 0]], np.arange(470, 611, 10), [xy[-1, 0]]))
+    lambdavalues = np.arange(400, 700, 10)
+    axes.plot(purpleline[0, 1], purpleline[0, 2], 'wo')
+    axes.plot(purpleline[1, 1], purpleline[1, 2], 'wo')
+    if options['labels']:
+        axes.text(purpleline[0, 1], purpleline[0, 2], '   ' + '%.1f' %
+                  purpleline[0, 0], fontsize=options['label_fontsize'],
+                  verticalalignment='center')
+        axes.text(purpleline[1, 1], purpleline[1, 2], '   ' + '%.1f' %
+                  purpleline[1, 0], fontsize=options['label_fontsize'],
+                  verticalalignment='center')
+
+    for l in lambdavalues:  # add wavelength parameters
+        ind = np.nonzero(xy[:, 0] == l)[0]
+        axes.plot(xy[ind, 1], xy[ind, 2], 'wo')
+        if options['labels']:
+            if np.shape(ind)[0] > 0:
+                axes.text(xy[ind, 1], xy[ind, 2], '   ' + '%.0fc' %
+                          l, fontsize=options['label_fontsize'],
+                          verticalalignment='center')
+    axes.plot(locus[:, 1], locus[:, 2], 'k')
+    axes.plot(purpleline[:, 1], purpleline[:, 2], 'k')
+    axes.plot(xy_white[0], xy_white[1], 'kx')
+    if options['labels']:
+        axes.text(xy_white[0], xy_white[1], '   E',
+                  fontsize=options['label_fontsize'], verticalalignment='center')
+    axes.axis('scaled')
+    axes.set_xlim((-.05, 1.05))
+    axes.set_ylim((-.05, 1.05))
+    if options['axis_labels']:
+        if (float(plots['lambda_min']) == 390 and
+                float(plots['lambda_max']) == 830 and
+                float(plots['lambda_step']) == 1):
+            axes.set_xlabel('$x_\mathrm{\,Fp,\,' +
+                            str(plots['field_size']) + ',\,' +
+                            str(plots['age']) + '}$',
+                            fontsize=14)
+            axes.set_ylabel('$y_\mathrm{\,Fp,\,' +
+                            str(plots['field_size']) + ',\,' +
+                            str(plots['age']) + '}$',
+                            fontsize=14)
+        else:
+            axes.set_xlabel('$x_\mathrm{\,Fp,\,' +
+                            str(plots['field_size']) + ',\,' +
+                            str(plots['age']) +
+                            '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
+                                                  plots['lambda_max'],
+                                                  plots['lambda_step']),
+                            fontsize=14)
+            axes.set_ylabel('$y_\mathrm{\,Fp,\,' +
+                            str(plots['field_size']) + ',\,' +
+                            str(plots['age']) +
+                            '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
+                                                  plots['lambda_max'],
+                                                  plots['lambda_step']),
+                            fontsize=14)
+    if options['full_title']:
+        axes.set_title(
+            ('xy cone-fundamental-based chromaticity diagram (purple line stimuli)\n' +
+             'Field size: %s' % plots['field_size'] +
+             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
+             u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
+                                               plots['lambda_max']) +
+             ',  Step: %s nm' % plots['lambda_step']),
+            fontsize=options['title_fontsize'])
+    else:
+        axes.set_title('CIE xy cone-fundamental-based chromaticity diagram',
+                       fontsize=options['title_fontsize'])
+    lock.release()
+
+
 def xy(axes, plots, options):
     """
     Plot the chromaticity diagram onto the given axes.

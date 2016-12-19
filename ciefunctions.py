@@ -167,7 +167,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         if self.plot_combo.currentIndex() in [self.COMBO_XY,
                                               self.COMBO_XYZ,
-                                              self.COMBO_PURPLE]:
+                                              self.COMBO_PURPLE,
+                                              self.COMBO_PURPLE_XY]:
             self.norm_label.setVisible(True)
             self.norm_check.setVisible(True)
         else:
@@ -245,6 +246,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             # Create html table
             html_table = tc182.table.purple(self.results, self.options(), True)
+
+        #
+        # Purple chromaticity plot and table
+        #
+        if self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
+
+            # Setup GUI
+            self.compare_label_31.setEnabled(False)
+            self.compare_label_64.setEnabled(False)
+            self.wavelength_check.setEnabled(True)
+            self.wavelength_label.setEnabled(True)
+            self.cie31_check.setEnabled(False)
+            self.cie64_check.setEnabled(False)
+
+            # Create plot
+            tc182.plot.purple_cc(self.axes, self.plots, self.options())
+
+            # Create html description
+            html_string = tc182.description.purple_cc(
+                self.results,
+                self.plot_combo.currentText(),
+                self.options(), True)
+
+            # Create html table
+            html_table = tc182.table.purple_xy(self.results, self.options(), True)
+
 
         #
         # LMS standard
@@ -608,10 +635,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.plot_combo.addItem(
             'CIE xy cone-fundamental-based chromaticity diagram')
         self.COMBO_XY = 6
+        self.plot_combo.addItem(
+            'xy cone-fundamental-based chromaticity diagram (purple-line stimuli)')
+        self.COMBO_PURPLE_XY = 7
         self.plot_combo.addItem('CIE XYZ standard colour-matching functions')
-        self.COMBO_XYZSTD = 7
+        self.COMBO_XYZSTD = 8
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
-        self.COMBO_XYSTD = 8
+        self.COMBO_XYSTD = 9
         self.connect(self.plot_combo,
                      qtcore.SIGNAL('currentIndexChanged(int)'),
                      self.on_draw_all)

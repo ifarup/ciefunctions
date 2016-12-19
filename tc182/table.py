@@ -206,7 +206,7 @@ def purple(results, options, include_head=False):
 def xy(results, options, include_head=False):
     """
     Generate html table of chromaticity values for GUI and web apps.
-o
+
     Parameters
     ----------
     results : dict
@@ -232,6 +232,79 @@ o
         <th>\\(x_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
         <th>\\(y_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
         <th>\\(z_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+      </tr>
+      </thead>
+      <tbody>
+    """ % (results['field_size'], results['age'],
+           results['field_size'], results['age'],
+           results['field_size'], results['age'])
+    for i in range(np.shape(xy)[0]):
+        if (float(results['lambda_step']) ==
+                np.round(float(results['lambda_step'])) and
+                float(results['lambda_min']) ==
+                np.round(float(results['lambda_min']))):
+            html_table += """
+            <tr>
+               <td>%.0f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+            </tr>
+            """ % (xy[i, 0],
+                   xy[i, 1],
+                   xy[i, 2],
+                   xy[i, 3])
+        else:
+            html_table += """
+            <tr>
+               <td>%.1f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+               <td>%.5f</td>
+            </tr>
+            """ % (xy[i, 0],
+                   xy[i, 1],
+                   xy[i, 2],
+                   xy[i, 3])
+    html_table += """
+      </tbody>
+    </table>
+    """
+    return html_table
+
+
+def purple_xy(results, options, include_head=False):
+    """
+    Generate html table of chromaticity values for GUI and web apps.
+
+    Parameters
+    ----------
+    results : dict
+        as returned by tc182.compute.compute_tabulated()
+
+    Returns
+    -------
+    html_table : string
+        HTML representation of the chromatictiy table
+    """
+    if options['norm']:
+        xy = results['purple_cc_N']
+    else:
+        xy = results['purple_cc']
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    html_table += """
+    <table>
+      <thead>
+      <tr>
+        <th>\\(\\lambda_{\\,\\mathrm{c}}\\)</th>
+            <th>\\(x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
+            \\)</th>
+        <th>\\(y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
+            \\)</th>
+        <th>\\(z_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
+            \\)</th>
       </tr>
       </thead>
       <tbody>

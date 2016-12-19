@@ -799,6 +799,22 @@ def compute_purple_xyz(xy, purple_line, white):
     return np.array(purple_xyz)
 
 
+def compute_purple_cc(purple_xyz):
+    """
+    Cone-fundamental-based chromaticity coordinates of purple-line stimuli.
+
+    Parameters
+    ----------
+    purple_xyz : ndarray
+        The tristimulus values of the the purple-line stimuli.
+    """
+    purple_cc = purple_xyz.copy() # initialize and copy wavelenghts
+    purple_cc[:, 1] = purple_xyz[:, 1] / (purple_xyz[:, 1] + purple_xyz[:, 2] + purple_xyz[:, 3])
+    purple_cc[:, 2] = purple_xyz[:, 2] / (purple_xyz[:, 1] + purple_xyz[:, 2] + purple_xyz[:, 3])
+    purple_cc[:, 3] = purple_xyz[:, 3] / (purple_xyz[:, 1] + purple_xyz[:, 2] + purple_xyz[:, 3])
+    return purple_cc
+
+
 def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
                lambdas, lambda_ref_min, cc_ref, full_results=False,
                xyz_signfig=7, mat_dp=8):
@@ -1339,7 +1355,7 @@ def compute_tabulated(field_size, age,
     results['bm_s_max'] = bm_s_max
     results['lms_N_inv'] = lms_N_inv
 
-    # Add tristimulus values for puple-line stimuli
+    # Add tristimulus values for purple-line stimuli
     results['purple_xyz'] = compute_purple_xyz(results['xy'],
                                                results['purple_line_xyz'],
                                                results['xy_white'])
@@ -1352,6 +1368,12 @@ def compute_tabulated(field_size, age,
     plots['purple_xyz_N'] = compute_purple_xyz(plots['xy_N'],
                                                plots['purple_line_xyz_N'],
                                                plots['xy_white_N'])
+
+    # Add chromaticity coordinates for purple-line stimuli
+    results['purple_cc'] = compute_purple_cc(results['purple_xyz'])
+    results['purple_cc_N'] = compute_purple_cc(results['purple_xyz_N'])
+    plots['purple_cc'] = compute_purple_cc(plots['purple_xyz'])
+    plots['purple_cc_N'] = compute_purple_cc(plots['purple_xyz_N'])
 
     # Format string representations
     if np.round(field_size, 5) == np.round(field_size):

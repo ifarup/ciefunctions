@@ -621,6 +621,58 @@ def _xyz_to_xy(data):
     return html_string
 
 
+def _xyz_to_xy_complementary(data):
+    html_string = """
+    <b class="description-subtitle">Transformation equations</b><br />
+    $$
+    \\begin{aligned}
+    x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})\\; &=
+    \\frac{\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})}
+    {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}}) +
+    \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}}) +
+    \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})} \\\\
+    y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})\\; &=
+    \\frac{\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})}
+    {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}}) +
+    \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}}) +
+    \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})} \\\\
+    z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})\\; &=
+    \\frac{\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})}
+    {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}}) +
+    \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}}) +
+    \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})} \\\\
+    \\end{aligned}
+    $$
+    </p>
+    """ % (data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'])
+    html_string += """
+        <p>
+        with the cone-fundamental-based spectral tristimulus values for purple-line stimuli,
+        \\( \,\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})\\), \\(
+        \,\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})\\), \\( \,\\bar
+        z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\,\\mathrm{c}})\\), &nbsp;given to the
+        precision of 7 significant figures
+        </p>
+    """ % (data['field_size'], data['age'],
+           data['field_size'], data['age'],
+           data['field_size'], data['age'])
+    return html_string
+
+
 def _xyz_to_xy_31():
     return """
     <b class="description-subtitle">Transformation equations</b><br />
@@ -885,6 +937,44 @@ def purple(data, heading, options, include_head=False):
                     _normalisation_xyz(data, options) +
                     _lms_to_xyz_purple(data, options) +
                     _precision_xyz())
+    return html_string
+
+
+def purple_cc(data, heading, options, include_head=False):
+    """
+    Generate html page with information about the xy system (purple stimuli).
+
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc182 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
+    html_string = ""
+    if include_head:
+        html_string += _head()
+    html_string += (_heading(heading) +
+                    _parameters(data) +
+                    _coordinates('\\(x_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                                 (data['field_size'], data['age']),
+                                 '\\(y_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                                 (data['field_size'], data['age']),
+                                 '\\(z_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                                 (data['field_size'], data['age'])) +
+                    _wavelenghts_complementary(data, options) +
+                    _normalisation_xy(data, options) +
+                    _xyz_to_xy_complementary(data) +
+                    _precision_xy() +
+                    _illuminant_E_cc(data, options) +
+                    _purple_cc(data, options))
     return html_string
 
 
