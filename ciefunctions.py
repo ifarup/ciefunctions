@@ -58,9 +58,9 @@ class AppForm(qt.QMainWindow):
         elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
             pre = 'lms_9'
         elif self.plot_combo.currentIndex() == self.COMBO_MB:
-            pre = 'mb'
+            pre = 'macleod_boynton_ls'
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
-            pre = 'lm'
+            pre = 'maxwellian_lm'
             post = '__renormalised_values'
         elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
             pre = 'xyz'
@@ -97,22 +97,46 @@ class AppForm(qt.QMainWindow):
                                                   'Save file', suggest,
                                                   file_choices))
         if path:
-            if self.plot_combo.currentIndex() == self.COMBO_XYZ:
-                np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
-            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
-                np.savetxt(path, self.results['purple_xyz'],
-                           '%.1f, %.6e, %.6e, %.6e')
-            elif self.plot_combo.currentIndex() == self.COMBO_LMS:
+            if self.plot_combo.currentIndex() == self.COMBO_LMS:
                 np.savetxt(path, self.results['lms'], '%.1f, %.5e, %.5e, %.5e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
                 np.savetxt(path, self.results['lms_base'],
                            '%.1f, %.8e, %.8e, %.8e')
-            elif self.plot_combo.currentIndex() == self.COMBO_XY:
-                np.savetxt(path, self.results['xy'], '%.1f, %.5f, %.5f, %.5f')
             elif self.plot_combo.currentIndex() == self.COMBO_MB:
                 np.savetxt(path, self.results['bm'], '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == self.COMBO_LM:
                 np.savetxt(path, self.results['lm'], '%.1f, %.6f, %.6f, %.6f')
+            elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
+                if self.norm_check.isChecked():
+                    np.savetxt(path, self.results['xyz_N'], '%.1f, %.6e, %.6e, %.6e')
+                else:
+                    np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
+            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
+                if self.norm_check.isChecked():
+                    np.savetxt(path, self.results['purple_xyz_N'], '%.1f, %.6e, %.6e, %.6e')
+                else:
+                    np.savetxt(path, self.results['purple_xyz'], '%.1f, %.6e, %.6e, %.6e')
+            elif self.plot_combo.currentIndex() == self.COMBO_XY:
+                if self.norm_check.isChecked():
+                    np.savetxt(path, self.results['xy_N'], '%.1f, %.5f, %.5f, %.5f')
+                else:
+                    np.savetxt(path, self.results['xy'], '%.1f, %.5f, %.5f, %.5f')
+            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
+                if self.norm_check.isChecked():
+                    np.savetxt(path, self.results['purple_cc_N'], '%.1f, %.5f, %.5f, %.5f')
+                else:
+                    np.savetxt(path, self.results['purple_cc'], '%.1f, %.5f, %.5f, %.5f')
+            elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD:
+                if self.field_combo.currentIndex() == 0: # 2 degrees
+                    np.savetxt(path, self.results['xyz31'], '%.1f, %.6e, %.6e, %.6e')
+                else:
+                    np.savetxt(path, self.results['xyz64'], '%.1f, %.6e, %.6e, %.6e')
+            elif self.plot_combo.currentIndex() == self.COMBO_XYSTD:
+                if self.field_combo.currentIndex() == 0: # 2 degrees
+                    np.savetxt(path, self.results['xy31'], '%.1f, %.5f, %.5f, %.5f')
+                else:
+                    np.savetxt(path, self.results['xy64'], '%.1f, %.5f, %.5f, %.5f')
+
 
     def options(self):
         """
