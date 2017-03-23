@@ -195,6 +195,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                               self.COMBO_PURPLE_XY]:
             self.norm_label.setVisible(True)
             self.norm_check.setVisible(True)
+        elif self.plot_combo.currentIndex() == self.COMBO_LM:
+            self.norm_label.setVisible(True)
+            self.norm_check.setVisible(False)
         else:
             self.norm_label.setVisible(False)
             self.norm_check.setVisible(False)
