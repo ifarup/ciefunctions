@@ -32,7 +32,7 @@ import PyQt4.QtWebKit as qtweb
 from matplotlib.backends.backend_qt4agg \
     import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg \
-    import NavigationToolbar2QTAgg \
+    import NavigationToolbar2QT \
     as NavigationToolbar
 from matplotlib.figure import Figure
 
