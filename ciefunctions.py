@@ -51,31 +51,55 @@ class AppForm(qt.QMainWindow):
     def save_table(self):
         file_choices = "CSV (*.csv)|*.csv"
 
-        suggest = ''
-        if self.plot_combo.currentIndex() == self.COMBO_XYZ:
-            suggest += 'xyz_'
-        elif self.plot_combo.currentIndex() == self.COMBO_LMS:
-            suggest += 'lms_'
-        elif self.plot_combo.currentIndex() == self.COMBO_PURPLE:
-            suggest += 'purple_'
+        pre = ''
+        post = ''
+        if self.plot_combo.currentIndex() == self.COMBO_LMS:
+            pre = 'lms'
         elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
-            suggest += 'lms_9_'
-        elif self.plot_combo.currentIndex() == self.COMBO_XY:
-            suggest += 'xy_'
-        elif self.plot_combo.currentIndex() == self.COMBO_BM:
-            suggest += 'bm_'
+            pre = 'lms_9'
+        elif self.plot_combo.currentIndex() == self.COMBO_MB:
+            pre = 'mb'
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
-            suggest += 'lm_'
-        suggest += 'fs_' + str(self.field_spin.value()) + '_age_' + \
-                   str(self.age_spin.value()) + '_res_' + \
-                   str(self.resolution_spin.value()) + '.csv'
+            pre = 'lm'
+            post = '__renormalised_values'
+        elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
+            pre = 'xyz'
+        elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
+            pre = 'purple_xyz'
+        elif self.plot_combo.currentIndex() == self.COMBO_XY:
+            pre = 'xy'
+        elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
+            pre = 'purple_xy'
+
+        if self.plot_combo.currentIndex() == self.COMBO_LM or \
+                ((self.plot_combo.currentIndex() in [self.COMBO_XYZ,
+                                                    self.COMBO_PURPLE_XYZ,
+                                                    self.COMBO_XY,
+                                                    self.COMBO_PURPLE_XY]) and self.norm_check.isChecked()):
+            post = '__renormalised_values'
+
+        suggest = pre + '__fs_' + str(self.field_spin.value()) + \
+                  '__age_' + str(self.age_spin.value()) + \
+                  '__domain_' + str(self.lambda_min_spin.value()) + \
+                  '-' + str(self.lambda_max_spin.value()) + \
+                  '__step_' + str(self.resolution_spin.value()) + post + '.csv'
+
+        if self.plot_combo.currentIndex() == self.COMBO_XYZSTD and self.field_combo.currentIndex() == 0:
+            suggest = 'cie_xyz__standard1931__fs_2.csv'
+        elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD and self.field_combo.currentIndex() == 1:
+            suggest = 'cie_xyz__standard1964__fs_10.csv'
+        elif self.plot_combo.currentIndex() == self.COMBO_XYSTD and self.field_combo.currentIndex() == 0:
+            suggest = 'cie_xy__standard1931__fs_2.csv'
+        elif self.plot_combo.currentIndex() == self.COMBO_XYSTD and self.field_combo.currentIndex() == 1:
+            suggest = 'cie_xy__standard1964__fs_10.csv'
+
         path = str(qt.QFileDialog.getSaveFileName(self,
                                                   'Save file', suggest,
                                                   file_choices))
         if path:
             if self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
-            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE:
+            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
                 np.savetxt(path, self.results['purple_xyz'],
                            '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMS:
@@ -85,7 +109,7 @@ class AppForm(qt.QMainWindow):
                            '%.1f, %.8e, %.8e, %.8e')
             elif self.plot_combo.currentIndex() == self.COMBO_XY:
                 np.savetxt(path, self.results['xy'], '%.1f, %.5f, %.5f, %.5f')
-            elif self.plot_combo.currentIndex() == self.COMBO_BM:
+            elif self.plot_combo.currentIndex() == self.COMBO_MB:
                 np.savetxt(path, self.results['bm'], '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == self.COMBO_LM:
                 np.savetxt(path, self.results['lm'], '%.1f, %.6f, %.6f, %.6f')
@@ -167,7 +191,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         if self.plot_combo.currentIndex() in [self.COMBO_XY,
                                               self.COMBO_XYZ,
-                                              self.COMBO_PURPLE,
+                                              self.COMBO_PURPLE_XYZ,
                                               self.COMBO_PURPLE_XY]:
             self.norm_label.setVisible(True)
             self.norm_check.setVisible(True)
@@ -225,7 +249,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         #
         # Purple plot and table
         #
-        if self.plot_combo.currentIndex() == self.COMBO_PURPLE:
+        if self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
 
             # Setup GUI
             self.compare_label_31.setEnabled(False)
@@ -326,7 +350,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         #
         # MacLeod-Boynton
         #
-        elif self.plot_combo.currentIndex() == self.COMBO_BM:
+        elif self.plot_combo.currentIndex() == self.COMBO_MB:
 
             # Setup GUI
             self.compare_label_31.setDisabled(True)
@@ -622,7 +646,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.COMBO_LMSBASE = 1
         self.plot_combo.addItem(
             u'MacLeod\u2013Boynton ls chromaticity diagram')
-        self.COMBO_BM = 2
+        self.COMBO_MB = 2
         self.plot_combo.addItem('Maxwellian lm chromaticity diagram')
         self.COMBO_LM = 3
         self.plot_combo.addItem(
@@ -631,7 +655,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.plot_combo.addItem(
             'XYZ cone-fundamental-based tristimulus values for ' +
             'purple-line stimuli')
-        self.COMBO_PURPLE = 5
+        self.COMBO_PURPLE_XYZ = 5
         self.plot_combo.addItem(
             'CIE xy cone-fundamental-based chromaticity diagram')
         self.COMBO_XY = 6
