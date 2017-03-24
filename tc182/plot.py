@@ -64,14 +64,15 @@ def xyz(axes, plots, options):
         axes.set_ylabel('Cone-fundamental-based tristimulus values',
                         fontsize=10)
     if options['full_title']:
-        axes.set_title(
-            ('CIE XYZ cone-fundamental-based spectral tristimulus values\n' +
-             'Field size: %s''' % plots['field_size'] +
-             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-             u' yr,  Domain: %s\u2013%s nm' %
-             (plots['lambda_min'], plots['lambda_max']) +
-             ',  Step: %s nm' % plots['lambda_step']),
-            fontsize=options['title_fontsize'])
+        title = 'CIE XYZ cone-fundamental-based spectral tristimulus values\n' + \
+                'Field size: %s''' % plots['field_size'] + \
+                u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
+                u' yr,  Domain: %s\u2013%s nm' % \
+                (plots['lambda_min'], plots['lambda_max']) + \
+                ',  Step: %s nm' % plots['lambda_step']
+        if options['norm']:
+            title += ',  Renormalized values'
+        axes.set_title(title, fontsize=options['title_fontsize'])
         # Hack in order to write parameter-info as a subtitle with a
         # smaller font size: does not function (owing to some bugs)?
         # axes.set_title('''CIE XYZ cone-fundamental-based spectral
@@ -119,15 +120,16 @@ def purple(axes, plots, options):
         axes.set_ylabel('Cone-fundamental-based tristimulus values (purples)',
                         fontsize=10)
     if options['full_title']:
-        axes.set_title(
-            ('XYZ cone-fundamental-based tristimulus values for ' +
-             'purple-line stimuli\n' +
-             'Field size: %s''' % plots['field_size'] +
-             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-             u' yr,  Wavelength domain: %s\u2013%s nm' %
-             (plots['lambda_min'], plots['lambda_max']) +
-             ',  Step: %s nm' % plots['lambda_step']),
-            fontsize=options['title_fontsize'])
+        title = 'XYZ cone-fundamental-based tristimulus values for ' + \
+                'purple-line stimuli\n' + \
+                'Field size: %s''' % plots['field_size'] + \
+                u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
+                u' yr,  Domain: %s\u2013%s nm' % \
+                (plots['lambda_min'], plots['lambda_max']) + \
+                ',  Step: %s nm' % plots['lambda_step']
+        if options['norm']:
+            title += ',  Renormalized values'
+        axes.set_title(title, fontsize=options['title_fontsize'])
         # Hack in order to write parameter-info as a subtitle with a
         # smaller font size: does not function (owing to some bugs)?
         # axes.set_title('''CIE XYZ cone-fundamental-based spectral
@@ -231,14 +233,15 @@ def purple_cc(axes, plots, options):
                                                   plots['lambda_step']),
                             fontsize=14)
     if options['full_title']:
-        axes.set_title(
-            ('xy cone-fundamental-based chromaticity diagram (purple line stimuli)\n' +
-             'Field size: %s' % plots['field_size'] +
-             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-             u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-                                               plots['lambda_max']) +
-             ',  Step: %s nm' % plots['lambda_step']),
-            fontsize=options['title_fontsize'])
+        title = 'xy cone-fundamental-based chromaticity diagram (purple line stimuli)\n' + \
+                'Field size: %s' % plots['field_size'] + \
+                u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
+                u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'], \
+                                                  plots['lambda_max']) + \
+                ',  Step: %s nm' % plots['lambda_step']
+        if options['norm']:
+            title += ',  Renormalized values'
+        axes.set_title(title, fontsize=options['title_fontsize'])
     else:
         axes.set_title('CIE xy cone-fundamental-based chromaticity diagram',
                        fontsize=options['title_fontsize'])
@@ -337,14 +340,15 @@ def xy(axes, plots, options):
                                                   plots['lambda_step']),
                             fontsize=14)
     if options['full_title']:
-        axes.set_title(
-            ('CIE xy cone-fundamental-based chromaticity diagram\n' +
-             'Field size: %s' % plots['field_size'] +
-             u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-             u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-                                               plots['lambda_max']) +
-             ',  Step: %s nm' % plots['lambda_step']),
-            fontsize=options['title_fontsize'])
+        title = 'CIE xy cone-fundamental-based chromaticity diagram\n' +\
+                'Field size: %s' % plots['field_size'] + \
+                u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
+                u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
+                                                  plots['lambda_max']) + \
+                ',  Step: %s nm' % plots['lambda_step']
+        if options['norm']:
+            title += ',  Renormalized values'
+        axes.set_title(title, fontsize=options['title_fontsize'])
 #       # Hack in order to write parameter-info as a subtitle with a
 #       # smaller font size: does not function (owing to some bugs)?
 #       axes.set_title(
@@ -559,7 +563,7 @@ def bm(axes, plots, options):
 
 def lm(axes, plots, options):
     """
-    Plot the normalised lm diagram onto the given axes.
+    Plot the normalized lm diagram onto the given axes.
 
     Parameters
     ----------
@@ -634,7 +638,7 @@ def lm(axes, plots, options):
              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
              u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
                                                plots['lambda_max']) +
-             ',  Step: %s nm' % plots['lambda_step']),
+             ',  Step: %s nm' % plots['lambda_step'] + ',  Renormalized values'),
             fontsize=options['title_fontsize'])
 #      # Hack in order to write parameter-info as a subtitle with a
 #      # smaller font size: does not function (owing to some bugs)?

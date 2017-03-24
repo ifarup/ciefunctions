@@ -61,7 +61,7 @@ class AppForm(qt.QMainWindow):
             pre = 'macleod_boynton_ls'
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
             pre = 'maxwellian_lm'
-            post = '__renormalised_values'
+            post = '__renormalized_values'
         elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
             pre = 'xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
@@ -76,7 +76,7 @@ class AppForm(qt.QMainWindow):
                                                     self.COMBO_PURPLE_XYZ,
                                                     self.COMBO_XY,
                                                     self.COMBO_PURPLE_XY]) and self.norm_check.isChecked()):
-            post = '__renormalised_values'
+            post = '__renormalized_values'
 
         suggest = pre + '__fs_' + str(self.field_spin.value()) + \
                   '__age_' + str(self.age_spin.value()) + \
@@ -147,7 +147,7 @@ class AppForm(qt.QMainWindow):
                 'cie64': self.cie64_check.isChecked(),
                 'labels': self.wavelength_check.isChecked(),
                 'label_fontsize': 7,
-                'title_fontsize': 11,
+                'title_fontsize': 10,
                 'full_title': True,
                 'axis_labels': True,
                 'norm': self.norm_check.isChecked()}
@@ -399,7 +399,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             html_table = tc182.table.bm(self.results, self.options(), True)
 
         #
-        # Normalised lm-diagram
+        # Normalized lm-diagram
         #
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
 
@@ -738,7 +738,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             u'Compare with CIE 1931 2\N{DEGREE SIGN}')
         self.compare_label_64 = qt.QLabel(
             u'Compare with CIE 1964 10\N{DEGREE SIGN}')
-        self.norm_label = qt.QLabel('Renormalised values ')
+        self.norm_label = qt.QLabel('Renormalized values ')
         self.wavelength_label = qt.QLabel('Labels')
         self.age_label = qt.QLabel('Age (yr)')
         self.resolution_label = qt.QLabel('Step (nm)')

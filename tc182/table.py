@@ -548,7 +548,7 @@ def bm(results, options, include_head=False):
 
 def lm(results, options, include_head=False):
     """
-    Generate html table of normalised lm diagram for GUI and web apps.
+    Generate html table of normalized lm diagram for GUI and web apps.
 
     Parameters
     ----------
@@ -558,7 +558,7 @@ def lm(results, options, include_head=False):
     Returns
     -------
     html_table : string
-        HTML representation of the tablulated normalised lm diagram
+        HTML representation of the tablulated normalized lm diagram
     """
     html_table = ""
     if include_head:

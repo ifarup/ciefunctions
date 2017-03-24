@@ -537,7 +537,7 @@ def lms_energy_base(field_size, age):
     lms : ndarray
         The computed lms functions, with wavelengths in first column.
     lms_max : ndarray
-        Max values of the lms functions before renormalisation.
+        Max values of the lms functions before renormalization.
     """
     if age == 32:
         if field_size == 2:
@@ -571,7 +571,7 @@ def lms_energy(field_size, age, signfig=6):
     lms : ndarray
         The computed lms functions, with wavelengths in first column.
     lms_max : ndarray
-        Max values of the lms functions before renormalisation.
+        Max values of the lms functions before renormalization.
     """
     if signfig == 6 and age == 32:
         if field_size == 2:
@@ -941,7 +941,7 @@ def compute_tabulated(field_size, age,
     bm_dp : int
         Number of decimal places in Boynton-MacLeod chromaticity coordinates.
     lm_dp : int
-        Number of decimal places in the normalised lm coordinates.
+        Number of decimal places in the normalized lm coordinates.
 
     Returns
     -------
@@ -958,7 +958,7 @@ def compute_tabulated(field_size, age,
     lms_standard_base = lms_energy(field_size, age, lms_signfig)[0]
     v_lambda_base, weights = v_lambda_energy_from_lms(field_size, age,
                                                       xyz_signfig, mat_dp)
-    # For normalisation of Boynton-MacLeod, see below:
+    # For normalization of Boynton-MacLeod, see below:
     bm_s_max = np.max(lms_base[:, 3] / v_lambda_base[:, 1])
 
     # Spline functions
@@ -1024,7 +1024,7 @@ def compute_tabulated(field_size, age,
                        lambda_x_min_ref, cc_ref, True,
                        xyz_signfig, mat_dp)[1:])
 
-    # Compute xyz (not normalised)
+    # Compute xyz (not normalized)
     xyz_spec = np.dot(trans_mat, lms_spec)  # initialise for in-place editing
     xyz_spec = significant_figures(xyz_spec, xyz_signfig)
     cc_spec = np.array([xyz_spec[0, :] /
@@ -1039,7 +1039,7 @@ def compute_tabulated(field_size, age,
     cc_white = cc_white / np.sum(cc_white)
     cc_white = my_round(cc_white, cc_dp)
 
-    # Normalised version
+    # Normalized version
     trans_mat_N = trans_mat.copy()  # initialise for in-place editing
     if lambda_min != 390 or lambda_max != 830 or lambda_step != 1:
         xyz_spec_N = np.dot(trans_mat, lms_spec)
@@ -1104,7 +1104,7 @@ def compute_tabulated(field_size, age,
     plots['xy'] = np.concatenate(
         (np.array([plots['lms'][:, 0]]).T, plots['xy'].T), axis=1)
 
-    # Normalised versions for plotting and purple line
+    # Normalized versions for plotting and purple line
     plots['xyz_N'] = np.dot(trans_mat_N, plots['lms'][:, 1:].T)
     plots['xyz_N'] = significant_figures(plots['xyz_N'], xyz_signfig)
     plots['xy_N'] = np.array([plots['xyz_N'][0, :] /
@@ -1212,7 +1212,7 @@ def compute_tabulated(field_size, age,
                                                  xyz_signfig)
     purple_line_xyz[:, 0] = my_round(purple_line_xyz[:, 0], 1)
 
-    # Compute purple line for normalised cc
+    # Compute purple line for normalized cc
     delaunay = Delaunay(plots['xy_N'][:, 1:3])
     ind = np.argmax(np.abs(
         delaunay.convex_hull[:, 0] - delaunay.convex_hull[:, 1]))
