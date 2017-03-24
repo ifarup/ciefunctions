@@ -54,22 +54,22 @@ class AppForm(qt.QMainWindow):
         pre = ''
         post = ''
         if self.plot_combo.currentIndex() == self.COMBO_LMS:
-            pre = 'lms'
+            pre = 'cie2006_lms'
         elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
-            pre = 'lms_9'
+            pre = 'cie2006_lms_9figs'
         elif self.plot_combo.currentIndex() == self.COMBO_MB:
             pre = 'macleod_boynton_ls'
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
             pre = 'maxwellian_lm'
             post = '__renormalised_values'
         elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
-            pre = 'xyz'
+            pre = 'xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
-            pre = 'purple_xyz'
+            pre = 'purple_xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_XY:
-            pre = 'xy'
+            pre = 'xy_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
-            pre = 'purple_xy'
+            pre = 'purple_xy_F'
 
         if self.plot_combo.currentIndex() == self.COMBO_LM or \
                 ((self.plot_combo.currentIndex() in [self.COMBO_XYZ,
