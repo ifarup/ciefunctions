@@ -19,10 +19,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import tc182
-import tc182.description
-import tc182.plot
-import tc182.table
+import tc1_97
+import tc1_97.description
+import tc1_97.plot
+import tc1_97.table
 import sys
 import os
 import numpy as np
@@ -240,15 +240,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.cie64_check.setEnabled(True)
 
             # Create plot
-            tc182.plot.xyz(self.axes, self.plots, self.options())
+            tc1_97.plot.xyz(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.xyz(self.results,
+            html_string = tc1_97.description.xyz(self.results,
                                                 self.plot_combo.currentText(),
                                                 self.options(), True)
 
             # Create html table
-            html_table = tc182.table.xyz(self.results, self.options(), True)
+            html_table = tc1_97.table.xyz(self.results, self.options(), True)
 
         #
         # chromaticity diagram
@@ -263,13 +263,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.cie64_check.setEnabled(True)
 
             # Create plot
-            tc182.plot.xy(self.axes, self.plots, self.options())
+            tc1_97.plot.xy(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc182.table.xy(self.results, self.options(), True)
+            html_table = tc1_97.table.xy(self.results, self.options(), True)
 
             # Greate html description
-            html_string = tc182.description.xy(self.results,
+            html_string = tc1_97.description.xy(self.results,
                                                self.plot_combo.currentText(),
                                                self.options(), True)
 
@@ -287,16 +287,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.cie64_check.setEnabled(False)
 
             # Create plot
-            tc182.plot.purple(self.axes, self.plots, self.options())
+            tc1_97.plot.purple(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.purple(
+            html_string = tc1_97.description.purple(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
 
             # Create html table
-            html_table = tc182.table.purple(self.results, self.options(), True)
+            html_table = tc1_97.table.purple(self.results, self.options(), True)
 
         #
         # Purple chromaticity plot and table
@@ -312,16 +312,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.cie64_check.setEnabled(False)
 
             # Create plot
-            tc182.plot.purple_cc(self.axes, self.plots, self.options())
+            tc1_97.plot.purple_cc(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.purple_cc(
+            html_string = tc1_97.description.purple_cc(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
 
             # Create html table
-            html_table = tc182.table.purple_xy(self.results, self.options(), True)
+            html_table = tc1_97.table.purple_xy(self.results, self.options(), True)
 
 
         #
@@ -338,15 +338,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.lms(self.axes, self.plots, self.options())
+            tc1_97.plot.lms(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.lms(self.results,
+            html_string = tc1_97.description.lms(self.results,
                                                 self.plot_combo.currentText(),
                                                 self.options(), True)
 
             # Create html table
-            html_table = tc182.table.lms(self.results, self.options(), True)
+            html_table = tc1_97.table.lms(self.results, self.options(), True)
 
         #
         # LMS base
@@ -362,16 +362,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.lms_base(self.axes, self.plots, self.options())
+            tc1_97.plot.lms_base(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.lms_base(
+            html_string = tc1_97.description.lms_base(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
 
             # Create html table
-            html_table = tc182.table.lms_base(self.results,
+            html_table = tc1_97.table.lms_base(self.results,
                                               self.options(), True)
 
         #
@@ -388,15 +388,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.cie64_check.setDisabled(True)
 
             # Create plot
-            tc182.plot.bm(self.axes, self.plots, self.options())
+            tc1_97.plot.bm(self.axes, self.plots, self.options())
 
             # Create html description
-            html_string = tc182.description.bm(self.results,
+            html_string = tc1_97.description.bm(self.results,
                                                self.plot_combo.currentText(),
                                                self.options(), True)
 
             # Create html table
-            html_table = tc182.table.bm(self.results, self.options(), True)
+            html_table = tc1_97.table.bm(self.results, self.options(), True)
 
         #
         # Normalized lm-diagram
@@ -412,15 +412,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.cie64_check.setDisabled(True)
 
             # Create html description
-            html_string = tc182.description.lm(self.results,
+            html_string = tc1_97.description.lm(self.results,
                                                self.plot_combo.currentText(),
                                                self.options(), True)
 
             # Create plot
-            tc182.plot.lm(self.axes, self.plots, self.options())
+            tc1_97.plot.lm(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc182.table.lm(self.results, self.options(), True)
+            html_table = tc1_97.table.lm(self.results, self.options(), True)
 
         #
         # CIE standard XYZ
@@ -440,17 +440,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 self.cie64_check.setEnabled(True)
 
                 # Create html descrption
-                html_string = tc182.description.xyz31(
+                html_string = tc1_97.description.xyz31(
                     self.results,
                     self.plot_combo.currentText(),
                     self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xyz31(self.results,
+                html_table = tc1_97.table.xyz31(self.results,
                                                self.options(), True)
 
                 # Create plot
-                tc182.plot.xyz31(self.axes, self.plots, self.options())
+                tc1_97.plot.xyz31(self.axes, self.plots, self.options())
 
             else:               # 10 deg
 
@@ -461,16 +461,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 self.cie64_check.setDisabled(True)
 
                 # Create html descption
-                html_string = tc182.description.xyz64(
+                html_string = tc1_97.description.xyz64(
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xyz64(self.results,
+                html_table = tc1_97.table.xyz64(self.results,
                                                self.options(), True)
 
                 # Create plot
-                tc182.plot.xyz64(self.axes, self.plots, self.options())
+                tc1_97.plot.xyz64(self.axes, self.plots, self.options())
 
         #
         # CIE standard chromaticity diagram
@@ -490,16 +490,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 self.cie64_check.setEnabled(True)
 
                 # Create html description
-                html_string = tc182.description.xy31(
+                html_string = tc1_97.description.xy31(
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xy31(self.results,
+                html_table = tc1_97.table.xy31(self.results,
                                               self.options(), True)
 
                 # Create plot
-                tc182.plot.xy31(self.axes, self.plots, self.options())
+                tc1_97.plot.xy31(self.axes, self.plots, self.options())
 
             else:               # 10 deg
 
@@ -510,16 +510,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 self.cie64_check.setDisabled(True)
 
                 # Create html description
-                html_string = tc182.description.xy64(
+                html_string = tc1_97.description.xy64(
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
                 # Create html table
-                html_table = tc182.table.xy64(self.results,
+                html_table = tc1_97.table.xy64(self.results,
                                               self.options(), True)
 
                 # Create plot
-                tc182.plot.xy64(self.axes, self.plots, self.options())
+                tc1_97.plot.xy64(self.axes, self.plots, self.options())
 
         # Refresh GUI
 
@@ -541,10 +541,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.lambda_max_spin.setMinimum(700)
         self.last_age = self.age_spin.value()
         self.last_field = self.field_spin.value()
-        self.last_resolution = tc182.my_round(self.resolution_spin.value(), 1)
-        self.last_lambda_min = tc182.my_round(self.lambda_min_spin.value(), 1)
-        self.last_lambda_max = tc182.my_round(self.lambda_max_spin.value(), 1)
-        self.results, self.plots = tc182.compute_tabulated(
+        self.last_resolution = tc1_97.my_round(self.resolution_spin.value(), 1)
+        self.last_lambda_min = tc1_97.my_round(self.lambda_min_spin.value(), 1)
+        self.last_lambda_max = tc1_97.my_round(self.lambda_max_spin.value(), 1)
+        self.results, self.plots = tc1_97.compute_tabulated(
             self.last_field,
             self.last_age,
             self.last_lambda_min,
