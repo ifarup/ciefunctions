@@ -26,12 +26,12 @@ import tc1_97.table
 import sys
 import os
 import numpy as np
-import PyQt4.QtGui as qt
-import PyQt4.QtCore as qtcore
-import PyQt4.QtWebKit as qtweb
-from matplotlib.backends.backend_qt4agg \
+import PyQt5.QtWidgets as qt
+import PyQt5.QtCore as qtcore
+import PyQt5.QtWebKit as qtweb
+from matplotlib.backends.backend_qt5agg \
     import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg \
+from matplotlib.backends.backend_qt5agg \
     import NavigationToolbar2QT \
     as NavigationToolbar
 from matplotlib.figure import Figure
