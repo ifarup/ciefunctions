@@ -178,8 +178,8 @@ def purple_cc(axes, plots, options):
 #    lambdavalues = np.concatenate(
 #        ([xy[0, 0]], np.arange(470, 611, 10), [xy[-1, 0]]))
     lambdavalues = np.arange(400, 700, 10)
-    axes.plot(purpleline[0, 1], purpleline[0, 2], 'wo')
-    axes.plot(purpleline[1, 1], purpleline[1, 2], 'wo')
+    axes.plot(purpleline[0, 1], purpleline[0, 2], 'o', markeredgecolor='k', markerfacecolor='None')
+    axes.plot(purpleline[1, 1], purpleline[1, 2], 'o', markeredgecolor='k', markerfacecolor='None')
     if options['labels']:
         axes.text(purpleline[0, 1], purpleline[0, 2], '   ' + '%.1f' %
                   purpleline[0, 0], fontsize=options['label_fontsize'],
@@ -190,7 +190,7 @@ def purple_cc(axes, plots, options):
 
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(xy[:, 0] == l)[0]
-        axes.plot(xy[ind, 1], xy[ind, 2], 'wo')
+        axes.plot(xy[ind, 1], xy[ind, 2], 'o', markeredgecolor='k', markerfacecolor='None')
         if options['labels']:
             if np.shape(ind)[0] > 0:
                 axes.text(xy[ind, 1], xy[ind, 2], '   ' + '%.0fc' %
@@ -293,7 +293,7 @@ def xy(axes, plots, options):
     axes.plot(purple_line_cc[:, 1], purple_line_cc[:, 2], 'k')
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(xy[:, 0] == l)[0]
-        axes.plot(xy[ind, 1], xy[ind, 2], 'wo')
+        axes.plot(xy[ind, 1], xy[ind, 2], 'o', markeredgecolor='k', markerfacecolor='None')
         if l == 700 or l == 390:
             align = 'top'
         elif l == 830:
@@ -491,7 +491,7 @@ def bm(axes, plots, options):
          [500, 550, 575, 600, 700], [plots['bm'][-1, 0]]))
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(plots['bm'][:, 0] == l)[0]
-        axes.plot(plots['bm'][ind, 1], plots['bm'][ind, 3], 'wo')
+        axes.plot(plots['bm'][ind, 1], plots['bm'][ind, 3], 'o', markeredgecolor='k', markerfacecolor='None')
         if l > 490:
             align = 'bottom'
         elif l == 830:
@@ -586,7 +586,7 @@ def lm(axes, plots, options):
          [plots['lm'][-1, 0]]))
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(plots['lm'][:, 0] == l)[0]
-        axes.plot(plots['lm'][ind, 1], plots['lm'][ind, 2], 'wo')
+        axes.plot(plots['lm'][ind, 1], plots['lm'][ind, 2], 'o', markeredgecolor='k', markerfacecolor='None')
         if l == 390:
             align = 'top'
         else:
