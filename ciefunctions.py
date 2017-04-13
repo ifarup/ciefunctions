@@ -824,6 +824,13 @@ def main():
     Run the CIE Functions application.
     """
     app = qt.QApplication(sys.argv)
+    app_icon = qt.QIcon()
+    app_icon.addFile('icons/ciefunctions_icon (16x16) .png', qtcore.QSize(16, 16))
+    app_icon.addFile('icons/ciefunctions_icon (24x24) .png', qtcore.QSize(24, 24))
+    app_icon.addFile('icons/ciefunctions_icon (32x32) .png', qtcore.QSize(32, 32))
+    app_icon.addFile('icons/ciefunctions_icon (48x48) .png', qtcore.QSize(48, 48))
+    app_icon.addFile('icons/ciefunctions_icon (256x256) .png', qtcore.QSize(256, 256))
+    app.setWindowIcon(app_icon)
     form = AppForm()
     form.show()
     app.exec_()
