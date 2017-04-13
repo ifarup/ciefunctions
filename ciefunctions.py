@@ -26,7 +26,7 @@ import tc1_97.table
 import sys
 import os
 import numpy as np
-from PyQt5 import QtWidgets, QtGui, QtCore, QtWebKit
+from PyQt5 import QtWidgets, QtGui, QtCore, QtWebKitWidgets
 from matplotlib.backends.backend_qt5agg \
     import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg \
@@ -581,19 +581,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     def create_menu(self):
         self.file_menu = self.menuBar().addMenu("&File")
-
-        quit_action = self.create_action("&Quit", slot=self.close,
-                                         shortcut="Ctrl+Q",
-                                         tip="Close the application")
-
-        self.add_actions(self.file_menu, (quit_action,))
+        quit_action = self.file_menu.addAction("&Quit")
+        quit_action.triggered.connect(self.close)
 
         self.help_menu = self.menuBar().addMenu("&Help")
-        about_action = self.create_action("&About",
-                                          shortcut='F1', slot=self.on_about,
-                                          tip='About CIE Functions')
+        about_action = self.help_menu.addAction("&About")
+        about_action.triggered.connect(self.on_about)
 
-        self.add_actions(self.help_menu, (about_action,))
+#        about_action = self.create_action("&About",
+#                                          shortcut='F1', slot=self.on_about,
+#                                          tip='About CIE Functions')
+
+#        self.add_actions(self.help_menu, (about_action,))
 
     def create_main_frame(self):
         self.main_frame = QtWidgets.QWidget()
@@ -636,9 +635,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.field_combo.addItem(u'2\N{DEGREE SIGN} (1931)')
         self.field_combo.addItem(u'10\N{DEGREE SIGN} (1964)')
         self.field_combo.hide()
-        self.connect(self.field_combo,
-                     QtCore.SIGNAL('currentIndexChanged(int)'),
-                     self.on_draw_all)
+        self.field_combo.currentIndexChanged.connect(self.on_draw_all)
 
         self.resolution_spin = QtWidgets.QDoubleSpinBox()
         self.resolution_spin.setLocale(QtCore.QLocale('C'))
@@ -691,44 +688,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.COMBO_XYZSTD = 8
         self.plot_combo.addItem('CIE xy standard chromaticity diagram')
         self.COMBO_XYSTD = 9
-        self.connect(self.plot_combo,
-                     QtCore.SIGNAL('currentIndexChanged(int)'),
-                     self.on_draw_all)
+        self.plot_combo.currentIndexChanged.connect(self.on_draw_all)
 
         self.grid_check = QtWidgets.QCheckBox()
-        self.connect(self.grid_check,
-                     QtCore.SIGNAL('stateChanged(int)'), self.on_grid)
+        self.grid_check.stateChanged.connect(self.on_grid)
 
         self.wavelength_check = QtWidgets.QCheckBox()
-        self.connect(self.wavelength_check,
-                     QtCore.SIGNAL('stateChanged(int)'),
-                     self.on_draw_plot_only)
+        self.wavelength_check.stateChanged.connect(self.on_draw_plot_only)
 
         self.cie31_check = QtWidgets.QCheckBox()
-        self.connect(self.cie31_check,
-                     QtCore.SIGNAL('stateChanged(int)'),
-                     self.on_draw_plot_only)
+        self.cie31_check.stateChanged.connect(self.on_draw_plot_only)
 
         self.cie64_check = QtWidgets.QCheckBox()
-        self.connect(self.cie64_check,
-                     QtCore.SIGNAL('stateChanged(int)'),
-                     self.on_draw_plot_only)
+        self.cie64_check.stateChanged.connect(self.on_draw_plot_only)
 
         self.norm_check = QtWidgets.QCheckBox()
-        self.connect(self.norm_check,
-                     QtCore.SIGNAL('stateChanged(int)'), self.on_draw_all)
+        self.norm_check.stateChanged.connect(self.on_draw_all)
 
         self.save_table_button = QtWidgets.QPushButton('&Save table')
-        self.connect(self.save_table_button,
-                     QtCore.SIGNAL('clicked(bool)'),
-                     self.save_table)
+        self.save_table_button.clicked.connect(self.save_table)
 
         self.compute_button = QtWidgets.QPushButton('       &Compute       ')
-        self.connect(self.compute_button,
-                     QtCore.SIGNAL('clicked(bool)'), self.on_compute)
+        self.compute_button.clicked.connect(self.on_compute)
 
-        self.transformation = QtWebKit.QWebView()
-        self.html_table = QtWebKit.QWebView()
+        self.transformation = QtWebKitWidgets.QWebView()
+        self.html_table = QtWebKitWidgets.QWebView()
 
         # Layout with labels
         #
@@ -744,11 +728,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.lambda_min_max_dash = QtWidgets.QLabel(u'\u2013')
         grid = QtWidgets.QGridLayout()
         grid.addWidget(QtWidgets.QLabel(u'Field size (\N{DEGREE SIGN})'), 0,
-                       0, QtCore.QtWidgets.AlignRight)
-        grid.addWidget(self.age_label, 0, 2, QtCore.QtWidgets.AlignRight)
-        grid.addWidget(self.lambda_min_max_label, 0, 4, QtCore.QtWidgets.AlignRight)
+                       0, QtCore.Qt.AlignRight)
+        grid.addWidget(self.age_label, 0, 2, QtCore.Qt.AlignRight)
+        grid.addWidget(self.lambda_min_max_label, 0, 4, QtCore.Qt.AlignRight)
         grid.addWidget(self.lambda_min_max_dash, 0, 6)
-        grid.addWidget(self.resolution_label, 0, 8, QtCore.QtWidgets.AlignRight)
+        grid.addWidget(self.resolution_label, 0, 8, QtCore.Qt.AlignRight)
 
         grid.addWidget(self.field_spin, 0, 1)
         grid.addWidget(self.field_combo, 0, 1)
@@ -766,13 +750,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         inner_vbox.addWidget(self.mpl_toolbar)
         inner_vbox.addWidget(self.canvas)
         check_bar = QtWidgets.QGridLayout()
-        check_bar.addWidget(self.compare_label_31, 0, 0, QtCore.QtWidgets.AlignRight)
+        check_bar.addWidget(self.compare_label_31, 0, 0, QtCore.Qt.AlignRight)
         check_bar.addWidget(self.cie31_check, 0, 1)
-        check_bar.addWidget(self.compare_label_64, 0, 2, QtCore.QtWidgets.AlignRight)
+        check_bar.addWidget(self.compare_label_64, 0, 2, QtCore.Qt.AlignRight)
         check_bar.addWidget(self.cie64_check, 0, 3)
-        check_bar.addWidget(QtWidgets.QLabel('Grid'), 0, 4, QtCore.QtWidgets.AlignRight)
+        check_bar.addWidget(QtWidgets.QLabel('Grid'), 0, 4, QtCore.Qt.AlignRight)
         check_bar.addWidget(self.grid_check, 0, 5)
-        check_bar.addWidget(self.wavelength_label, 0, 6, QtCore.QtWidgets.AlignRight)
+        check_bar.addWidget(self.wavelength_label, 0, 6, QtCore.Qt.AlignRight)
         check_bar.addWidget(self.wavelength_check, 0, 7)
         check_widget = QtWidgets.QWidget()
         check_widget.setLayout(check_bar)
@@ -794,7 +778,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         combo_grid = QtWidgets.QGridLayout(combo_widget)
         combo_grid.addWidget(self.plot_combo, 0, 0)
         combo_grid.addWidget(QtWidgets.QLabel('   '), 0, 1)
-        combo_grid.addWidget(self.norm_label, 0, 2, QtCore.QtWidgets.AlignRight)
+        combo_grid.addWidget(self.norm_label, 0, 2, QtCore.Qt.AlignRight)
         combo_grid.addWidget(self.norm_check, 0, 3)
         combo_grid.setColumnMinimumWidth(2, 150)
         combo_grid.setColumnMinimumWidth(3, 20)
