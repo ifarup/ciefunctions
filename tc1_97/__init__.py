@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-tc182: Python package for the calculation of the CIE provided by CIE TC1-82.
+tc1_97: Python package for the calculation of the CIE provided by CIE TC1-97.
 
-Copyright (C) 2014 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
