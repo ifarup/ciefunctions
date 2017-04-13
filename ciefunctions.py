@@ -26,7 +26,7 @@ import tc1_97.table
 import sys
 import os
 import numpy as np
-from PyQt5 import QtWidgets, QtGui, QtCore, QtWebKitWidgets
+from PyQt5 import QtWidgets, QtGui, QtCore, QtWebEngineWidgets
 from matplotlib.backends.backend_qt5agg \
     import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg \
@@ -711,8 +711,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.compute_button = QtWidgets.QPushButton('       &Compute       ')
         self.compute_button.clicked.connect(self.on_compute)
 
-        self.transformation = QtWebKitWidgets.QWebView()
-        self.html_table = QtWebKitWidgets.QWebView()
+        self.transformation = QtWebEngineWidgets.QWebEngineView()
+        self.html_table = QtWebEngineWidgets.QWebEngineView()
 
         # Layout with labels
         #
