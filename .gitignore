@@ -1,4 +1,5 @@
 *.pyc
+.idea/
 generateplots.py
 /.project
 /.pydevproject
