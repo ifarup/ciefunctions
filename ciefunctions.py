@@ -3,7 +3,7 @@
 """
 ciefunctions: GUI application for the calculation of CIE functions.
 
-Copyright (C) 2012-2014 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -61,11 +61,11 @@ class AppForm(QtWidgets.QMainWindow):
             pre = 'maxwellian_lm'
             post = '__renormalized_values'
         elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
-            pre = 'xyz_F'
+            pre = 'cie_xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
             pre = 'purple_xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_XY:
-            pre = 'xy_F'
+            pre = 'cie_xy_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
             pre = 'purple_xy_F'
 
@@ -152,9 +152,9 @@ class AppForm(QtWidgets.QMainWindow):
 
     def on_about(self):
         msg = """
-CIE Functions: Calculate the CIE functions according to CIE TC1-82.
+CIE Functions: Calculates the CIE functions according to CIE TC 1-97.
 
-Copyright (C) 2012-2013 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -397,7 +397,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             html_table = tc1_97.table.bm(self.results, self.options(), True)
 
         #
-        # Normalized lm-diagram
+        # Maxwellian lm-diagram
         #
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
 

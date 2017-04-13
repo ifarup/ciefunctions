@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-description: Generate html description strings for the tc182 package.
+description: Generate html description strings for the tc1_97 package.
 
-Copyright (C) 2014 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -206,7 +206,7 @@ def _wavelenghts_std():
 def _normalization(data):
     return u"""
     <em class="description-subtitle">Normalization:</em><br />
-    Equal tristimulus values for illuminant E for
+    Equal tristimulus values for Illuminant E for
     <table>
         <tr>
             <td>Wavelength domain:</td>
@@ -233,7 +233,7 @@ def _normalization_lm(data):
     return """
     <p>
     <b class="description-subtitle">Normalization</b><br />
-    The chromaticity point of illuminant E,
+    The chromaticity point of Illuminant E,
     \\((l_{%s,\\,%d\\mathrm{;\\,E}},\\,
     m_{%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3, 1/3).
     </p>
@@ -261,7 +261,7 @@ def _normalization_bm(data):
       K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\), in which \\(P_{\\mathrm{v}}\\) and
     \\(K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\) are, respectively, the LM
     luminous flux and the LM maximum luminous efficacy as determined
-    by the cone-fundamental-based relative spectral luminous efficiency
+    by the cone-fundamental-based spectral luminous efficiency
     function \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}(\\lambda)\\).
     </p>
     """ % (data['field_size'], data['age'],
@@ -313,7 +313,7 @@ def _normalization_xyz(data, options):
         <p>
         <b class="description-subtitle">Normalization</b><br />
         &#8226; Equal cone-fundamental-based tristimulus values for
-        illuminant E when calculated using a step size of %s&nbsp;nm
+        Illuminant E when calculated using a step size of %s&nbsp;nm
         and wavelength domain %s&ndash;%s&nbsp;nm.<br />
         &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
         &nbsp;peaking at unity at 0.1 nm resolution
@@ -326,7 +326,7 @@ def _normalization_xyz(data, options):
         <p>
         <b class="description-subtitle">Normalization</b><br />
         &#8226; Equal cone-fundamental-based tristimulus values for
-        illuminant E when calculated using a step size of 1&nbsp;nm
+        Illuminant E when calculated using a step size of 1&nbsp;nm
         and wavelenght domain 390&ndash;830&nbsp;nm.<br />
         &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
         &nbsp;peaking at unity at 0.1 nm resolution
@@ -338,7 +338,7 @@ def _normalization_31():
     return """
     <p>
     <b class="description-subtitle">Normalization</b><br />
-    &#8226; Equal tristimulus values for illuminant E<br />
+    &#8226; Equal tristimulus values for Illuminant E<br />
     &#8226; Values of &nbsp;\\(\\bar y\\)&nbsp;peaking at unity
     at 1 nm resolution
     </p>
@@ -349,7 +349,7 @@ def _normalization_64():
     return """
     <p>
     <b class="description-subtitle">Normalization</b><br />
-    &#8226; Equal tristimulus values for illuminant E<br />
+    &#8226; Equal tristimulus values for Illuminant E<br />
     &#8226; Values of &nbsp;\\(\\bar y_{10}\\)&nbsp;peaking at unity
     at 1 nm resolution
     </p>
@@ -718,7 +718,7 @@ def _illuminant_E_cc(data, options):
     else:
         xy_white = data['xy_white']
     return """
-    <b class="description-subtitle">Chromaticity point of illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
     <br />
     \\( (x_{\,\mathrm{F},\,%s,\,%d;\,\\mathrm{E}},\\,
     \\,y_{\,\mathrm{F},\,%s,\,%d;\,\\mathrm{E}}) =
@@ -731,7 +731,7 @@ def _illuminant_E_cc(data, options):
 def _illuminant_E_cc_31():
     return """
     <p>
-    <b class="description-subtitle">Chromaticity point of illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
     <br />
     \\((x_{\mathrm{E}},\,y_{\,\mathrm{E}}) = (0.33331,0.33329) \\)
     </p>
@@ -741,7 +741,7 @@ def _illuminant_E_cc_31():
 def _illuminant_E_cc_64():
     return """
     <p>
-    <b class="description-subtitle">Chromaticity point of illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
     <br />
     \\((x_{10;\,\mathrm{E}},\,y_{\,10;\,\mathrm{E}}) = (0.33330, 0.33333) \\)
     </p>
@@ -750,7 +750,7 @@ def _illuminant_E_cc_64():
 
 def _illuminant_E_lm(data):
     return """
-    <b class="description-subtitle">Chromaticity point of illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
     <br />
     \\( (l_{\,%s,\,%d;\,\mathrm{E}},\,m_{\,%s,\,%d;\,\mathrm{E}}) =
     (%.6f, %.6f)\\) <br /><br />
@@ -761,7 +761,7 @@ def _illuminant_E_lm(data):
 
 def _illuminant_E_bm(data):
     return """
-    <b class="description-subtitle">Chromaticity point of illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
     <br />
     \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,\mathrm{E}},
     \,s_{\,\mathrm{MB},\,%s,\,%d;\,\mathrm{E}}) =
@@ -875,7 +875,7 @@ def xyz(data, heading, options, include_head=False):
     Parameters
     ----------
     data : dict
-        Computed CIE functions as returned from the tc182 module.
+        Computed CIE functions as returned from the tc1_97 module.
     heading : string
         The heading of the page.
     include_head : bool
@@ -911,7 +911,7 @@ def purple(data, heading, options, include_head=False):
     Parameters
     ----------
     data : dict
-        Computed CIE functions as returned from the tc182 module.
+        Computed CIE functions as returned from the tc1_97 module.
     heading : string
         The heading of the page.
     include_head : bool
@@ -947,7 +947,7 @@ def purple_cc(data, heading, options, include_head=False):
     Parameters
     ----------
     data : dict
-        Computed CIE functions as returned from the tc182 module.
+        Computed CIE functions as returned from the tc1_97 module.
     heading : string
         The heading of the page.
     include_head : bool
@@ -985,7 +985,7 @@ def xy(data, heading, options, include_head=False):
     Parameters
     ----------
     data : dict
-        Computed CIE functions as returned from the tc182 module.
+        Computed CIE functions as returned from the tc1_97 module.
     heading : string
         The heading of the page.
     include_head : bool
@@ -1023,7 +1023,7 @@ def lms(data, heading, options, include_head=False):
     Parameters
     ----------
     data : dict
-        Computed CIE functions as returned from the tc182 module.
+        Computed CIE functions as returned from the tc1_97 module.
     heading : string
         The heading of the page.
     include_head : bool
@@ -1058,7 +1058,7 @@ def lms_base(data, heading, options, include_head=False):
     Parameters
     ----------
     data : dict
-        Computed CIE functions as returned from the tc182 module.
+        Computed CIE functions as returned from the tc1_97 module.
     heading : string
         The heading of the page.
     include_head : bool
@@ -1093,7 +1093,7 @@ def bm(data, heading, options, include_head=False):
     Parameters
     ----------
     data : dict
-        Computed CIE functions as returned from the tc182 module.
+        Computed CIE functions as returned from the tc1_97 module.
     heading : string
         The heading of the page.
     include_head : bool
@@ -1131,7 +1131,7 @@ def lm(data, heading, options, include_head=False):
     Parameters
     ----------
     data : dict
-        Computed CIE functions as returned from the tc182 module.
+        Computed CIE functions as returned from the tc1_97 module.
     heading : string
         The heading of the page.
     include_head : bool
