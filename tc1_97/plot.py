@@ -175,11 +175,12 @@ def purple_cc(axes, plots, options):
     axes.grid(options['grid'])
     axes.tick_params(labelsize=10)
     axes.plot(xy[:, 1], xy[:, 2], 'k')
-#    lambdavalues = np.concatenate(
-#        ([xy[0, 0]], np.arange(470, 611, 10), [xy[-1, 0]]))
     lambdavalues = np.arange(400, 700, 10)
-    axes.plot(purpleline[0, 1], purpleline[0, 2], 'o', markeredgecolor='k', markerfacecolor='None')
-    axes.plot(purpleline[1, 1], purpleline[1, 2], 'o', markeredgecolor='k', markerfacecolor='None')
+    axes.plot(locus[:, 1], locus[:, 2], 'k')
+    axes.plot(purpleline[:, 1], purpleline[:, 2], 'k')
+    axes.plot(xy_white[0], xy_white[1], 'kx')
+    axes.plot(purpleline[0, 1], purpleline[0, 2], 'o', markeredgecolor='k', markerfacecolor='w')
+    axes.plot(purpleline[1, 1], purpleline[1, 2], 'o', markeredgecolor='k', markerfacecolor='w')
     if options['labels']:
         axes.text(purpleline[0, 1], purpleline[0, 2], '   ' + '%.1f' %
                   purpleline[0, 0], fontsize=options['label_fontsize'],
@@ -190,15 +191,12 @@ def purple_cc(axes, plots, options):
 
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(xy[:, 0] == l)[0]
-        axes.plot(xy[ind, 1], xy[ind, 2], 'o', markeredgecolor='k', markerfacecolor='None')
+        axes.plot(xy[ind, 1], xy[ind, 2], 'o', markeredgecolor='k', markerfacecolor='w')
         if options['labels']:
             if np.shape(ind)[0] > 0:
                 axes.text(xy[ind, 1], xy[ind, 2], '   ' + '%.0fc' %
                           l, fontsize=options['label_fontsize'],
                           verticalalignment='center')
-    axes.plot(locus[:, 1], locus[:, 2], 'k')
-    axes.plot(purpleline[:, 1], purpleline[:, 2], 'k')
-    axes.plot(xy_white[0], xy_white[1], 'kx')
     if options['labels']:
         axes.text(xy_white[0], xy_white[1], '   E',
                   fontsize=options['label_fontsize'], verticalalignment='center')
@@ -212,11 +210,11 @@ def purple_cc(axes, plots, options):
             axes.set_xlabel('$x_\mathrm{\,Fp,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=14)
+                            fontsize=10)
             axes.set_ylabel('$y_\mathrm{\,Fp,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=14)
+                            fontsize=10)
         else:
             axes.set_xlabel('$x_\mathrm{\,Fp,\,' +
                             str(plots['field_size']) + ',\,' +
@@ -224,14 +222,14 @@ def purple_cc(axes, plots, options):
                             '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
                                                   plots['lambda_max'],
                                                   plots['lambda_step']),
-                            fontsize=14)
+                            fontsize=10)
             axes.set_ylabel('$y_\mathrm{\,Fp,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) +
                             '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
                                                   plots['lambda_max'],
                                                   plots['lambda_step']),
-                            fontsize=14)
+                            fontsize=10)
     if options['full_title']:
         title = 'xy cone-fundamental-based chromaticity diagram (purple line stimuli)\n' + \
                 'Field size: %s' % plots['field_size'] + \
@@ -293,7 +291,7 @@ def xy(axes, plots, options):
     axes.plot(purple_line_cc[:, 1], purple_line_cc[:, 2], 'k')
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(xy[:, 0] == l)[0]
-        axes.plot(xy[ind, 1], xy[ind, 2], 'o', markeredgecolor='k', markerfacecolor='None')
+        axes.plot(xy[ind, 1], xy[ind, 2], 'o', markeredgecolor='k', markerfacecolor='w')
         if l == 700 or l == 390:
             align = 'top'
         elif l == 830:
@@ -319,11 +317,11 @@ def xy(axes, plots, options):
             axes.set_xlabel('$x_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=14)
+                            fontsize=10)
             axes.set_ylabel('$y_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=14)
+                            fontsize=10)
         else:
             axes.set_xlabel('$x_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
@@ -331,14 +329,14 @@ def xy(axes, plots, options):
                             '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
                                                   plots['lambda_max'],
                                                   plots['lambda_step']),
-                            fontsize=14)
+                            fontsize=10)
             axes.set_ylabel('$y_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) +
                             '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
                                                   plots['lambda_max'],
                                                   plots['lambda_step']),
-                            fontsize=14)
+                            fontsize=10)
     if options['full_title']:
         title = 'CIE xy cone-fundamental-based chromaticity diagram\n' +\
                 'Field size: %s' % plots['field_size'] + \
@@ -491,7 +489,7 @@ def bm(axes, plots, options):
          [500, 550, 575, 600, 700], [plots['bm'][-1, 0]]))
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(plots['bm'][:, 0] == l)[0]
-        axes.plot(plots['bm'][ind, 1], plots['bm'][ind, 3], 'o', markeredgecolor='k', markerfacecolor='None')
+        axes.plot(plots['bm'][ind, 1], plots['bm'][ind, 3], 'o', markeredgecolor='k', markerfacecolor='w')
         if l > 490:
             align = 'bottom'
         elif l == 830:
@@ -518,11 +516,11 @@ def bm(axes, plots, options):
             axes.set_xlabel('$l_\mathrm{\,MB,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=14)
+                            fontsize=10)
             axes.set_ylabel('$s_\mathrm{\,MB,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=14)
+                            fontsize=10)
         else:
             axes.set_xlabel('$l_\mathrm{\,MB,\,' +
                             str(plots['field_size']) + ',\,' +
@@ -530,14 +528,14 @@ def bm(axes, plots, options):
                             (plots['lambda_min'],
                              plots['lambda_max'],
                              plots['lambda_step']),
-                            fontsize=14)
+                            fontsize=10)
             axes.set_ylabel('$s_\mathrm{\,MB,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '\,(%s-%s,\,%s)}$' %
                             (plots['lambda_min'],
                              plots['lambda_max'],
                              plots['lambda_step']),
-                            fontsize=14)
+                            fontsize=10)
     if options['full_title']:
         axes.set_title((u'MacLeod\u2013Boynton ls chromaticity ' +
                         u'diagram\nField size: %s''' % plots['field_size'] +
@@ -586,7 +584,7 @@ def lm(axes, plots, options):
          [plots['lm'][-1, 0]]))
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(plots['lm'][:, 0] == l)[0]
-        axes.plot(plots['lm'][ind, 1], plots['lm'][ind, 2], 'o', markeredgecolor='k', markerfacecolor='None')
+        axes.plot(plots['lm'][ind, 1], plots['lm'][ind, 2], 'o', markeredgecolor='k', markerfacecolor='w')
         if l == 390:
             align = 'top'
         else:
@@ -611,11 +609,11 @@ def lm(axes, plots, options):
             axes.set_xlabel('$l_\mathrm{\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=14)
+                            fontsize=10)
             axes.set_ylabel('$m_\mathrm{\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=14)
+                            fontsize=10)
         else:
             axes.set_xlabel('$l_\mathrm{\,' +
                             str(plots['field_size']) + ',\,' +
@@ -630,7 +628,7 @@ def lm(axes, plots, options):
                             (plots['lambda_min'],
                              plots['lambda_max'],
                              plots['lambda_step']),
-                            fontsize=14)
+                            fontsize=10)
     if options['full_title']:
         axes.set_title(
             ('Maxwellian lm chromaticity diagram\nField size: %s' %
@@ -776,8 +774,8 @@ def xy31(axes, plots, options):
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
     if options['axis_labels']:
-        axes.set_xlabel('$x$', fontsize=16)
-        axes.set_ylabel('$y$', fontsize=16)
+        axes.set_xlabel('$x$', fontsize=10)
+        axes.set_ylabel('$y$', fontsize=10)
     axes.set_title(
         u'CIE 1931 xy standard 2\N{DEGREE SIGN} chromaticity diagram',
         fontsize=options['title_fontsize'])
@@ -834,8 +832,8 @@ def xy64(axes, plots, options):
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
     if options['axis_labels']:
-        axes.set_xlabel('$x_{10}$', fontsize=16)
-        axes.set_ylabel('$y_{10}$', fontsize=16)
+        axes.set_xlabel('$x_{10}$', fontsize=10)
+        axes.set_ylabel('$y_{10}$', fontsize=10)
     axes.set_title(
         u'CIE 1964 xy standard 10\N{DEGREE SIGN} chromaticity diagram',
         fontsize=options['title_fontsize'])

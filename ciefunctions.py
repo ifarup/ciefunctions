@@ -588,12 +588,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         about_action = self.help_menu.addAction("&About")
         about_action.triggered.connect(self.on_about)
 
-#        about_action = self.create_action("&About",
-#                                          shortcut='F1', slot=self.on_about,
-#                                          tip='About CIE Functions')
-
-#        self.add_actions(self.help_menu, (about_action,))
-
     def create_main_frame(self):
         self.main_frame = QtWidgets.QWidget()
 
