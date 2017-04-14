@@ -40,7 +40,7 @@ def _head():
     """
     if sys.platform.startswith('win'):
         html_string += """
-                scale: 190
+                scale: 100
         """
     elif sys.platform.startswith('linux'):
         html_string += """
