@@ -755,7 +755,7 @@ You should have received a copy of the GNU General Public License along with thi
         grid.setColumnStretch(2, 1)
         grid.setColumnStretch(4, 1)
         grid.setColumnStretch(8, 1)
-        grid.setColumnStretch(10, 3)
+        grid.setColumnStretch(10, 1)
 
         inner_vbox = qt.QVBoxLayout()
         inner_vbox.addWidget(self.mpl_toolbar)
