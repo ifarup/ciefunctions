@@ -776,6 +776,7 @@ You should have received a copy of the GNU General Public License along with thi
         spectral_vbox = QtWidgets.QVBoxLayout(spectral_innerwidget)
         spectral_vbox.addWidget(spectral_tabs)
         spectral_vbox.addWidget(combo_widget)
+        spectral_vbox.addLayout(grid)
 
         spectral_splitter = QtWidgets.QSplitter()
         spectral_splitter.addWidget(spectral_innerwidget)
@@ -783,7 +784,6 @@ You should have received a copy of the GNU General Public License along with thi
 
         vbox = QtWidgets.QVBoxLayout()
         vbox.addWidget(spectral_splitter)
-        vbox.addLayout(grid)
         self.main_frame.setLayout(vbox)
         self.setCentralWidget(self.main_frame)
 
