@@ -117,7 +117,7 @@ def purple(axes, plots, options):
     axes.axis([480, 580, -.04, .54])
     if options['axis_labels']:
         axes.set_xlabel('Complementary wavelength [nm]', fontsize=10)
-        axes.set_ylabel('Cone-fundamental-based tristimulus values (purples)',
+        axes.set_ylabel('Cone-fundamental-based tristimulus values',
                         fontsize=10)
     if options['full_title']:
         title = 'XYZ cone-fundamental-based tristimulus values for ' + \
