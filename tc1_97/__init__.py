@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-tc1_97: Python package for the calculation of the CIE provided by CIE TC1-97.
+__init__: Initiate the calculation of the CIE functions 
+          provided by CIE TC 1-97.
 
 Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 

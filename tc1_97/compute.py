@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-tc182: CIE TC1-82 Computations
+compute: Calculate the CIE functions provided by CIE TC 1-97.
 
-Copyright (C) 2012-2014 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -283,10 +283,10 @@ class VisualData:
     lms2_log_quant = read_csv_file('data/ss2_10q_fine_8dp.csv')
     lms2_lin_energ = read_csv_file('data/linss2_10e_fine_8dp.csv', 0)
     lms2_lin_energ_n_signfig = read_csv_file('data/linss2_10e_fine.csv', 0)
-    vlambdaLM_10_lin_energ = read_csv_file('data/linCIE2008v10e_fine_8dp.csv')
-    vlambdaLM_2_lin_energ = read_csv_file('data/linCIE2008v2e_fine_8dp.csv')
-    vlambdaLM_10_log_quant = read_csv_file('data/logCIE2008v10q_fine_8dp.csv')
-    vlambdaLM_2_log_quant = read_csv_file('data/logCIE2008v2q_fine_8dp.csv')
+    vlambdaLM_10_lin_energ = read_csv_file('data/linCIE2015v10e_fine_8dp.csv')
+    vlambdaLM_2_lin_energ = read_csv_file('data/linCIE2015v2e_fine_8dp.csv')
+    vlambdaLM_10_log_quant = read_csv_file('data/logCIE2015v10q_fine_8dp.csv')
+    vlambdaLM_2_log_quant = read_csv_file('data/logCIE2015v2q_fine_8dp.csv')
     xyz31 = read_csv_file('data/ciexyz31_1.csv')
     xyz64 = read_csv_file('data/ciexyz64_1.csv')
     docul2 = read_csv_file('data/docul2.csv')
@@ -748,7 +748,7 @@ def projective_lms_to_cc_matrix(trans_mat):
     return mat
 
 
-def compute_purple_xyz(xy, purple_line, white):
+def compute_xyz_purples(xy, purple_line, white):
     """
     XYZ cone-fundamental-based tristimulus values for purple-line stimuli.
 
@@ -799,7 +799,7 @@ def compute_purple_xyz(xy, purple_line, white):
     return np.array(purple_xyz)
 
 
-def compute_purple_cc(purple_xyz):
+def compute_cc_purples(purple_xyz):
     """
     Cone-fundamental-based chromaticity coordinates of purple-line stimuli.
 
@@ -908,7 +908,7 @@ def square_sum(a13, a21, a22, a33, l_spline, m_spline, s_spline, v_spline,
 def compute_tabulated(field_size, age,
                       lambda_min=390, lambda_max=830, lambda_step=1,
                       xyz_signfig=7, cc_dp=5, mat_dp=8,
-                      lms_signfig=6, bm_dp=6, lm_dp=6):
+                      lms_signfig=6, mb_dp=6, lm_dp=6):
     """
     Compute tabulated quantities as a function of field size and age.
 
@@ -938,7 +938,7 @@ def compute_tabulated(field_size, age,
         Number of decimal places in transformation matrix.
     lms_signfig : int
         Number of significant figures in LMS standard
-    bm_dp : int
+    mb_dp : int
         Number of decimal places in Boynton-MacLeod chromaticity coordinates.
     lm_dp : int
         Number of decimal places in the normalized lm coordinates.
@@ -947,10 +947,10 @@ def compute_tabulated(field_size, age,
     -------
     results : dict
         All results: xyz, cc, cc_white, mat, lms_standard, lms_base,
-        bm, bm_white, lm, lm_white, lambda_test_min, purple_line_cc,
-        purple_line_bm, purple_line_lm
+        mb, mb_white, lm, lm_white, lambda_test_min, purple_line_cc,
+        purple_line_mb, purple_line_lm
     plots : dict
-        Versions of xyz, cc, lms, bm, lm at 0.1 nm for
+        Versions of xyz, cc, lms, mb, lm at 0.1 nm for
         plotting. Includes also CIE1964 and CIE1931 data.
     """
     plots = dict()
@@ -959,7 +959,7 @@ def compute_tabulated(field_size, age,
     v_lambda_base, weights = v_lambda_energy_from_lms(field_size, age,
                                                       xyz_signfig, mat_dp)
     # For normalization of Boynton-MacLeod, see below:
-    bm_s_max = np.max(lms_base[:, 3] / v_lambda_base[:, 1])
+    mb_s_max = np.max(lms_base[:, 3] / v_lambda_base[:, 1])
 
     # Spline functions
     l_spline = scipy.interpolate.InterpolatedUnivariateSpline(
@@ -1124,33 +1124,33 @@ def compute_tabulated(field_size, age,
     plots['xy_N'] = np.concatenate(
         (np.array([plots['lms'][:, 0]]).T, plots['xy_N'].T), axis=1)
 
-    # Boynton-MacLeod -- heavy reuse of variables, see comment on code
+    # MacLeod-Boynton -- heavy reuse of variables, see comment on code
     # conventions on the top
-    bm_spec = lms_spec.copy()
-    bm_spec[:, 1] = trans_mat[1, 0] * lms_spec[:, 1] / Vl[:, 1]
-    bm_spec[:, 2] = trans_mat[1, 1] * lms_spec[:, 2] / Vl[:, 1]
-    bm_spec[:, 3] = lms_spec[:, 3] / Vl[:, 1]
-    bm_spec[:, 3] = bm_spec[:, 3] / bm_s_max
-    bm_spec[:, 1:] = my_round(bm_spec[:, 1:], bm_dp)
-    bm_spec[bm_spec <= 0] = 0
+    mb_spec = lms_spec.copy()
+    mb_spec[:, 1] = trans_mat[1, 0] * lms_spec[:, 1] / Vl[:, 1]
+    mb_spec[:, 2] = trans_mat[1, 1] * lms_spec[:, 2] / Vl[:, 1]
+    mb_spec[:, 3] = lms_spec[:, 3] / Vl[:, 1]
+    mb_spec[:, 3] = mb_spec[:, 3] / mb_s_max
+    mb_spec[:, 1:] = my_round(mb_spec[:, 1:], mb_dp)
+    mb_spec[mb_spec <= 0] = 0
 
     # Version for plotting and purple line
-    plots['bm'] = plots['lms'].copy()
-    plots['bm'][:, 1] = (trans_mat[1, 0] * plots['lms'][:, 1] /
+    plots['mb'] = plots['lms'].copy()
+    plots['mb'][:, 1] = (trans_mat[1, 0] * plots['lms'][:, 1] /
                          plots['xyz'][:, 2])
-    plots['bm'][:, 2] = (trans_mat[1, 1] * plots['lms'][:, 2] /
+    plots['mb'][:, 2] = (trans_mat[1, 1] * plots['lms'][:, 2] /
                          plots['xyz'][:, 2])
-    plots['bm'][:, 3] = plots['lms'][:, 3] / plots['xyz'][:, 2]
-    plots['bm'][:, 3] = plots['bm'][:, 3] / bm_s_max
+    plots['mb'][:, 3] = plots['lms'][:, 3] / plots['xyz'][:, 2]
+    plots['mb'][:, 3] = plots['mb'][:, 3] / mb_s_max
 
     L_E = trans_mat[1, 0] * np.sum(lms_spec[:, 1])
     M_E = trans_mat[1, 1] * np.sum(lms_spec[:, 2])
-    S_E = np.sum(lms_spec[:, 3]) / bm_s_max
+    S_E = np.sum(lms_spec[:, 3]) / mb_s_max
 
-    bm_white = np.array([L_E / (L_E + M_E),
+    mb_white = np.array([L_E / (L_E + M_E),
                          M_E / (L_E + M_E),
                          S_E / (L_E + M_E)])
-    bm_white = my_round(bm_white, bm_dp)
+    mb_white = my_round(mb_white, mb_dp)
 
     # Maxwellian lm diagram
     if lm_dp > 5:
@@ -1239,19 +1239,19 @@ def compute_tabulated(field_size, age,
                                                    xyz_signfig)
     purple_line_xyz_N[:, 0] = my_round(purple_line_xyz_N[:, 0], 1)
 
-    # Compute purple line for bm
-    delaunay = Delaunay(plots['bm'][:, 1:4:2])
+    # Compute purple line for mb
+    delaunay = Delaunay(plots['mb'][:, 1:4:2])
     ind = np.argmax(np.abs(
         delaunay.convex_hull[:, 0] - delaunay.convex_hull[:, 1]))
-    purple_line_bm = np.zeros((2, 3))  # initialise for in-place editing
-    purple_line_bm[0, 0] = plots['bm'][delaunay.convex_hull[ind, 0], 0]
-    purple_line_bm[0, 1] = plots['bm'][delaunay.convex_hull[ind, 0], 1]
-    purple_line_bm[0, 2] = plots['bm'][delaunay.convex_hull[ind, 0], 3]
-    purple_line_bm[1, 0] = plots['bm'][delaunay.convex_hull[ind, 1], 0]
-    purple_line_bm[1, 1] = plots['bm'][delaunay.convex_hull[ind, 1], 1]
-    purple_line_bm[1, 2] = plots['bm'][delaunay.convex_hull[ind, 1], 3]
-    plots['purple_line_bm'] = purple_line_bm.copy()
-    purple_line_bm[:, 1:] = my_round(purple_line_bm[:, 1:], bm_dp)
+    purple_line_mb = np.zeros((2, 3))  # initialise for in-place editing
+    purple_line_mb[0, 0] = plots['mb'][delaunay.convex_hull[ind, 0], 0]
+    purple_line_mb[0, 1] = plots['mb'][delaunay.convex_hull[ind, 0], 1]
+    purple_line_mb[0, 2] = plots['mb'][delaunay.convex_hull[ind, 0], 3]
+    purple_line_mb[1, 0] = plots['mb'][delaunay.convex_hull[ind, 1], 0]
+    purple_line_mb[1, 1] = plots['mb'][delaunay.convex_hull[ind, 1], 1]
+    purple_line_mb[1, 2] = plots['mb'][delaunay.convex_hull[ind, 1], 3]
+    plots['purple_line_mb'] = purple_line_mb.copy()
+    purple_line_mb[:, 1:] = my_round(purple_line_mb[:, 1:], mb_dp)
 
     # Hack to report correct wavelength also for the chromaticity diagram
     # (they give the same value anyway)
@@ -1260,9 +1260,9 @@ def compute_tabulated(field_size, age,
     # Edit: they don't always give the same value proved by example:
     # fs: 10 degrees, age: 60 years, step = 1nm
 
-    # if ( purple_line_cc[1,0] != purple_line_bm[1,0] ):
+    # if ( purple_line_cc[1,0] != purple_line_mb[1,0] ):
     #     print('Wavelengths differ!')
-    #     purple_line_cc[1,0] = purple_line_bm[1,0]
+    #     purple_line_cc[1,0] = purple_line_mb[1,0]
 
     # Compute purple line for lm
     delaunay = Delaunay(plots['lm'][:, 1:3])
@@ -1319,7 +1319,7 @@ def compute_tabulated(field_size, age,
     plots['lambda_step'] = lambda_step
     plots['xy_white'] = cc_white
     plots['xy_white_N'] = cc_white_N
-    plots['bm_white'] = bm_white
+    plots['mb_white'] = mb_white
     plots['lm_white'] = lm_white
 
     # Stack all the results in a dict() for return
@@ -1334,8 +1334,8 @@ def compute_tabulated(field_size, age,
     results['trans_mat_N'] = chop(trans_mat_N)
     results['lms'] = chop(lms_standard_spec)
     results['lms_base'] = chop(lms_spec)
-    results['bm'] = chop(bm_spec)
-    results['bm_white'] = chop(bm_white)
+    results['mb'] = chop(mb_spec)
+    results['mb_white'] = chop(mb_white)
     results['lm'] = chop(lm_spec)
     results['lm_white'] = chop(lm_white)
     results['lambda_ref_min'] = lambda_x_min_ref
@@ -1346,34 +1346,34 @@ def compute_tabulated(field_size, age,
     results['purple_line_cc31'] = chop(plots['purple_line_cc31'])
     results['purple_line_cc64'] = chop(plots['purple_line_cc64'])
     results['purple_line_lm'] = chop(purple_line_lm)
-    results['purple_line_bm'] = chop(purple_line_bm)
+    results['purple_line_mb'] = chop(purple_line_mb)
     results['age'] = chop(age)
     results['xyz31'] = chop(VisualData.xyz31.copy())
     results['xyz64'] = chop(VisualData.xyz64.copy())
     results['xy31'] = chop(my_round(VisualData.cc31, 5))
     results['xy64'] = chop(my_round(VisualData.cc64, 5))
-    results['bm_s_max'] = bm_s_max
+    results['mb_s_max'] = mb_s_max
     results['lms_N_inv'] = lms_N_inv
 
     # Add tristimulus values for purple-line stimuli
-    results['purple_xyz'] = compute_purple_xyz(results['xy'],
+    results['purple_xyz'] = compute_xyz_purples(results['xy'],
                                                results['purple_line_xyz'],
                                                results['xy_white'])
-    results['purple_xyz_N'] = compute_purple_xyz(results['xy_N'],
+    results['purple_xyz_N'] = compute_xyz_purples(results['xy_N'],
                                                  results['purple_line_xyz_N'],
                                                  results['xy_white_N'])
-    plots['purple_xyz'] = compute_purple_xyz(plots['xy'],
+    plots['purple_xyz'] = compute_xyz_purples(plots['xy'],
                                              plots['purple_line_xyz'],
                                              plots['xy_white'])
-    plots['purple_xyz_N'] = compute_purple_xyz(plots['xy_N'],
+    plots['purple_xyz_N'] = compute_xyz_purples(plots['xy_N'],
                                                plots['purple_line_xyz_N'],
                                                plots['xy_white_N'])
 
     # Add chromaticity coordinates for purple-line stimuli
-    results['purple_cc'] = compute_purple_cc(results['purple_xyz'])
-    results['purple_cc_N'] = compute_purple_cc(results['purple_xyz_N'])
-    plots['purple_cc'] = compute_purple_cc(plots['purple_xyz'])
-    plots['purple_cc_N'] = compute_purple_cc(plots['purple_xyz_N'])
+    results['purple_cc'] = compute_cc_purples(results['purple_xyz'])
+    results['purple_cc_N'] = compute_cc_purples(results['purple_xyz_N'])
+    plots['purple_cc'] = compute_cc_purples(plots['purple_xyz'])
+    plots['purple_cc_N'] = compute_cc_purples(plots['purple_xyz_N'])
 
     # Format string representations
     if np.round(field_size, 5) == np.round(field_size):
