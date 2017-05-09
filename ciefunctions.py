@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 ciefunctions: GUI application for the calculation of the CIE functions 
