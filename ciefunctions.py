@@ -384,8 +384,8 @@ You should have received a copy of the GNU General Public License along with thi
             tc1_97.plot.xyz_purples(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.xyz_purples(self.results, self.options(),
-                                                  True)
+            html_table = tc1_97.table.xyz_purples(self.results, 
+                                                  self.options(), True)
 
         #
         # CIE xy cone-fundamental-based chromaticity diagram
@@ -435,8 +435,8 @@ You should have received a copy of the GNU General Public License along with thi
             tc1_97.plot.xy_purples(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.xy_purples(self.results, self.options(),
-                                                 True)
+            html_table = tc1_97.table.xy_purples(self.results, 
+                                                 self.options(), True)
 
         #
         # CIE XYZ standard colour-matching functions
