@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-ciefunctions: GUI application for the calculation of the CIE functions
-              provided by CIE TC 1-97.
+ciefunctions: GUI application for the calculation of the CIE 
+cone-fundamental-based colorimetric functions provided by CIE TC 1-97.
 
 Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 
@@ -236,7 +236,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         #
         # CIE LMS cone fundamentals
-        # (plot, description and table)
+        # (description, plot and table)
         #
         if self.plot_combo.currentIndex() == self.COMBO_LMS:
 
@@ -248,20 +248,19 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
 
-            # Create plot
-            tc1_97.plot.lms(self.axes, self.plots, self.options())
-
             # Create html description
             html_string = tc1_97.description.lms(self.results,
                                                  self.plot_combo.currentText(),
                                                  self.options(), True)
+            # Create plot
+            tc1_97.plot.lms(self.axes, self.plots, self.options())
 
             # Create html table
             html_table = tc1_97.table.lms(self.results, self.options(), True)
 
         #
         # CIE LMS cone fundamentals (9 sign. figs.)
-        # (plot, description and table)
+        # (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
 
@@ -273,14 +272,14 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
 
-            # Create plot
-            tc1_97.plot.lms_base(self.axes, self.plots, self.options())
-
             # Create html description
             html_string = tc1_97.description.lms_base(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
+            
+            # Create plot
+            tc1_97.plot.lms_base(self.axes, self.plots, self.options())
 
             # Create html table
             html_table = tc1_97.table.lms_base(self.results,
@@ -288,7 +287,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         #
         # MacLeod-Boynton ls chromaticity diagram
-        # (plot, description and table)
+        # (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_MB:
 
@@ -300,20 +299,20 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie31_check.setDisabled(True)
             self.cie64_check.setDisabled(True)
 
-            # Create plot
-            tc1_97.plot.mb(self.axes, self.plots, self.options())
-
             # Create html description
             html_string = tc1_97.description.mb(self.results,
                                                 self.plot_combo.currentText(),
                                                 self.options(), True)
+            
+            # Create plot
+            tc1_97.plot.mb(self.axes, self.plots, self.options())
 
             # Create html table
             html_table = tc1_97.table.mb(self.results, self.options(), True)
 
         #
         # Maxwellian lm chromaticity diagram
-        # (plot, description and table)
+        # (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
 
@@ -338,7 +337,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         #
         # CIE XYZ cone-fundamental-based tristimulus functions
-        # (plot, description and table)
+        # (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
 
@@ -350,20 +349,20 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
 
-            # Create plot
-            tc1_97.plot.xyz(self.axes, self.plots, self.options())
-
             # Create html description
             html_string = tc1_97.description.xyz(self.results,
                                                  self.plot_combo.currentText(),
                                                  self.options(), True)
+            
+            # Create plot
+            tc1_97.plot.xyz(self.axes, self.plots, self.options())
 
             # Create html table
             html_table = tc1_97.table.xyz(self.results, self.options(), True)
 
         #
         # XYZ cone-fundamental-based tristimulus functions for
-        # purple-line stimuli (plot, description and table)
+        # purple-line stimuli (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
 
@@ -375,14 +374,14 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie31_check.setEnabled(False)
             self.cie64_check.setEnabled(False)
 
-            # Create plot
-            tc1_97.plot.xyz_purples(self.axes, self.plots, self.options())
-
             # Create html descriptions
             html_string = tc1_97.description.xyz_purples(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
+            
+            # Create plot
+            tc1_97.plot.xyz_purples(self.axes, self.plots, self.options())
 
             # Create html table
             html_table = tc1_97.table.xyz_purples(self.results, self.options(),
@@ -390,7 +389,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         #
         # CIE xy cone-fundamental-based chromaticity diagram
-        # (plot, description and table)
+        # (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_XY:
             # Setup GUI
@@ -401,20 +400,20 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie31_check.setEnabled(True)
             self.cie64_check.setEnabled(True)
 
+            # Create html description
+            html_string = tc1_97.description.xy(self.results,
+                                                self.plot_combo.currentText(),
+                                                self.options(), True)
+            
             # Create plot
             tc1_97.plot.xy(self.axes, self.plots, self.options())
 
             # Create html table
             html_table = tc1_97.table.xy(self.results, self.options(), True)
 
-            # Greate html description
-            html_string = tc1_97.description.xy(self.results,
-                                                self.plot_combo.currentText(),
-                                                self.options(), True)
-
         #
         # xy cone-fundamental-based chromaticity diagram (purple-line stimuli)
-        # (plot, description and table)
+        # (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
 
@@ -426,14 +425,14 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie31_check.setEnabled(False)
             self.cie64_check.setEnabled(False)
 
-            # Create plot
-            tc1_97.plot.xy_purples(self.axes, self.plots, self.options())
-
             # Create html description
             html_string = tc1_97.description.xy_purples(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
+            
+            # Create plot
+            tc1_97.plot.xy_purples(self.axes, self.plots, self.options())
 
             # Create html table
             html_table = tc1_97.table.xy_purples(self.results, self.options(),
@@ -441,7 +440,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         #
         # CIE XYZ standard colour-matching functions
-        # (plot, description and table)
+        # (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD:
 
@@ -457,18 +456,18 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie31_check.setDisabled(True)
                 self.cie64_check.setEnabled(True)
 
-                # Create html descrption
+                # Create html description
                 html_string = tc1_97.description.xyz_31(
                     self.results,
                     self.plot_combo.currentText(),
                     self.options(), True)
+                
+                # Create plot
+                tc1_97.plot.xyz_31(self.axes, self.plots, self.options())          
 
                 # Create html table
                 html_table = tc1_97.table.xyz_31(self.results,
                                                  self.options(), True)
-
-                # Create plot
-                tc1_97.plot.xyz_31(self.axes, self.plots, self.options())
 
             else:               # 10 deg
 
@@ -478,21 +477,21 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie31_check.setEnabled(True)
                 self.cie64_check.setDisabled(True)
 
-                # Create html descption
+                # Create html description
                 html_string = tc1_97.description.xyz_64(
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
+                # Create plot
+                tc1_97.plot.xyz_64(self.axes, self.plots, self.options())
+                
                 # Create html table
                 html_table = tc1_97.table.xyz_64(self.results,
                                                  self.options(), True)
-
-                # Create plot
-                tc1_97.plot.xyz_64(self.axes, self.plots, self.options())
-
+                
         #
         # CIE xy standard chromaticity diagrams
-        # (plot, description and table)
+        # (description, plot and table)
         #
         elif self.plot_combo.currentIndex() == self.COMBO_XYSTD:
 
@@ -513,12 +512,12 @@ You should have received a copy of the GNU General Public License along with thi
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
+                # Create plot
+                tc1_97.plot.xy_31(self.axes, self.plots, self.options())
+                
                 # Create html table
                 html_table = tc1_97.table.xy_31(self.results,
                                                 self.options(), True)
-
-                # Create plot
-                tc1_97.plot.xy_31(self.axes, self.plots, self.options())
 
             else:               # 10 deg
 
@@ -533,13 +532,13 @@ You should have received a copy of the GNU General Public License along with thi
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
+                # Create plot
+                tc1_97.plot.xy_64(self.axes, self.plots, self.options())
+                
                 # Create html table
                 html_table = tc1_97.table.xy_64(self.results,
                                                 self.options(), True)
-
-                # Create plot
-                tc1_97.plot.xy_64(self.axes, self.plots, self.options())
-
+                
         #
         # Refresh GUI
         #
