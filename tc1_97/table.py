@@ -81,7 +81,7 @@ def lms(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
         <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
         <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
@@ -147,7 +147,7 @@ def lms_base(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
         <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
         <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
@@ -213,7 +213,7 @@ def mb(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(l_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
         <th>\\(m_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
         <th>\\(s_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
@@ -281,7 +281,7 @@ def lm(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(l_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
         <th>\\(m_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
         <th>\\(s_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
@@ -352,7 +352,7 @@ def xyz(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(\\bar x_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
         <th>\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
         <th>\\(\\bar z_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
@@ -495,7 +495,7 @@ def xy(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
         <th>\\(y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
         <th>\\(z_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
@@ -634,7 +634,7 @@ def xyz_31(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(\\bar x(\lambda) \\)</th>
         <th>\\(\\bar y(\lambda) \\)</th>
         <th>\\(\\bar z(\lambda) \\)</th>
@@ -682,7 +682,7 @@ def xyz_64(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(\\bar x_{10}(\lambda) \\)</th>
         <th>\\(\\bar y_{10}(\lambda) \\)</th>
         <th>\\(\\bar z_{10}(\lambda) \\)</th>
@@ -730,7 +730,7 @@ def xy_31(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(x_{\mathrm{\\lambda}} \\)</th>
         <th>\\(y_{\mathrm{\\lambda}} \\)</th>
         <th>\\(z_{\mathrm{\\lambda}} \\)</th>
@@ -778,7 +778,7 @@ def xy_64(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\lambda\\)</th>
+        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
         <th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
         <th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
