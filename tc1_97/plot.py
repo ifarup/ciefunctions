@@ -60,7 +60,6 @@ def lms(axes, plots, options):
                                                plots['lambda_max']) +
              ',  Step: %s nm' % plots['lambda_step']),
             fontsize=options['title_fontsize'])
-
     else:
         axes.set_title('CIE 2006 LMS cone fundamentals',
                        fontsize=options['title_fontsize'])
@@ -102,7 +101,6 @@ def lms_base(axes, plots, options):
                             plots['lambda_max']) +
                         ',  Step: %s nm' % plots['lambda_step']),
                        fontsize=options['title_fontsize'])
-
     else:
         axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)',
                        fontsize=options['title_fontsize'])
@@ -189,7 +187,6 @@ def mb(axes, plots, options):
                         (plots['lambda_min'], plots['lambda_max']) +
                         ',  Step: %s nm' % plots['lambda_step']),
                        fontsize=options['title_fontsize'])
-
     else:
         axes.set_title(u'MacLeod\u2013Boynton ls chromaticity diagram',
                        fontsize=options['title_fontsize'])
@@ -275,16 +272,6 @@ def lm(axes, plots, options):
                                                plots['lambda_max']) +
              ',  Step: %s nm' % plots['lambda_step'] + ',  Renormalized values'),
             fontsize=options['title_fontsize'])
-#      # Hack in order to write parameter-info as a subtitle with a
-#      # smaller font size: does not function (owing to some bugs)?
-#      axes.set_title('Maxwellian lm chromaticity diagram\n',
-#      fontsize=10.5)
-#      axes.twiny().set_xticks([]) # Does not function
-#      axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
-#              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-#              u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-#                                                plots['lambda_max']) +
-#             ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
     else:
         axes.set_title('Maxwellian lm chromaticity diagram',
                        fontsize=options['title_fontsize'])
@@ -338,7 +325,6 @@ def xyz(axes, plots, options):
         if options['norm']:
             title += ',  Renormalized values'
         axes.set_title(title, fontsize=options['title_fontsize'])
-
     else:
         axes.set_title('CIE XYZ cone-fundamental-based ' +
                        'tristimulus functions',
@@ -542,7 +528,6 @@ def xy_purples(axes, plots, options):
         axes.text(purpleline[1, 1], purpleline[1, 2], '   ' + '%.1f' %
                   purpleline[1, 0], fontsize=options['label_fontsize'],
                   verticalalignment='center')
-
     for l in lambdavalues:  # add wavelength parameters
         ind = np.nonzero(xy[:, 0] == l)[0]
         axes.plot(xy[ind, 1], xy[ind, 2], 'o', markeredgecolor='k', markerfacecolor='w')
