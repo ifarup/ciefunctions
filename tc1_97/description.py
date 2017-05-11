@@ -939,13 +939,13 @@ def _purpleline_tangentpoints_xy_complementary(data, options):
     <b class="description-subtitle">Tangent points of the purple line</b>
     </p>
     <p style="margin:0 0 0 0">
-    \\( (x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{\,c,\,tan1}}}},
-    \,y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{\,c,\,tan1}}}}) 
+    \\( (x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}},
+    \,y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}}) 
     = (%.5f, %.5f)\\)
     </p>
     <p style="margin:0 0 0.2em 0">
-    \\( (x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{\,c,\,tan2}}}},
-    \,y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{\,c,\,tan2}}}}) 
+    \\( (x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}},
+    \,y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}}) 
     = (%.5f, %.5f)\\)
     </p>
     """ % (data['field_size'], data['age'],
