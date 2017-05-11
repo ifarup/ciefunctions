@@ -300,10 +300,14 @@ def _normalization_lm(data):
     <p style="margin:0 0 1.3em 0">
     The chromaticity point of Illuminant&nbsp;E,
     \\((l_{%s,\\,%d\\mathrm{;\\,E}},\\,
-    m_{%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3,&nbsp;1/3).
+    m_{%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3,&nbsp;1/3), 
+    when calculated using a step size of %s&nbsp;nm and 
+    wavelength domain %s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm.
     </p>
     """ % (data['field_size'], data['age'],
-           data['field_size'], data['age'])
+           data['field_size'], data['age'],
+           data['lambda_step'],
+           data['lambda_min'], data['lambda_max'])
 
 
 def _normalization_xyz(data, options):

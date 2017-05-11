@@ -162,7 +162,7 @@ class AppForm(QtWidgets.QMainWindow):
                 'cie64': self.cie64_check.isChecked(),
                 'labels': self.wavelength_check.isChecked(),
                 'label_fontsize': 7,
-                'title_fontsize': 10,
+                'title_fontsize': 10.5,
                 'full_title': True,
                 'axis_labels': True,
                 'norm': self.norm_check.isChecked()}
@@ -738,9 +738,9 @@ You should have received a copy of the GNU General Public License along with thi
             u'Compare with CIE 1964 10\N{DEGREE SIGN}')
         self.norm_label = QtWidgets.QLabel('Renormalized values ')
         self.wavelength_label = QtWidgets.QLabel('Labels')
-        self.age_label = QtWidgets.QLabel('Age (yr)')
-        self.resolution_label = QtWidgets.QLabel('Step (nm)')
-        self.lambda_min_max_label = QtWidgets.QLabel('Domain (nm)')
+        self.age_label = QtWidgets.QLabel(' Age (yr)')
+        self.resolution_label = QtWidgets.QLabel(' Step (nm)')
+        self.lambda_min_max_label = QtWidgets.QLabel('   Domain (nm)')
         self.lambda_min_max_dash = QtWidgets.QLabel(u'\u2013')
         grid = QtWidgets.QGridLayout()
         grid.addWidget(QtWidgets.QLabel(u'Field size (\N{DEGREE SIGN})'), 0,

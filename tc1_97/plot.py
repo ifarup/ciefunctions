@@ -62,7 +62,7 @@ def lms(axes, plots, options):
             fontsize=options['title_fontsize'])
 #       # Hack in order to write parameter-info as a subtitle with a
 #       # smaller font size: does not function (owing to some bugs)?
-#       axes.set_title('CIE 2006 LMS cone fundamentals\n', fontsize=11)
+#       axes.set_title('CIE 2006 LMS cone fundamentals\n', fontsize=10)
 #       axes.twiny().set_xticks([]) # Does not function
 #       axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
 #            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -101,9 +101,9 @@ def lms_base(axes, plots, options):
         axes.set_xlabel('Wavelength [nm]', fontsize=10)
         axes.set_ylabel('Relative energy sensitivities', fontsize=10)
     if options['full_title']:
-        axes.set_title(('CIE 2006 LMS cone fundamentals ' +
+       axes.set_title(('CIE 2006 LMS cone fundamentals ' +
                         '(9 sign. figs. data)\nField size: %s''' %
-                        plots['field_size'] +
+                       plots['field_size'] +
                         u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
                         u' yr,  Domain: %s nm \u2013 %s nm' % (
                             plots['lambda_min'],
@@ -113,7 +113,7 @@ def lms_base(axes, plots, options):
 #       # Hack in order to write parameter-info as a subtitle with a
 #       # smaller font size: does not function (owing to some bugs)?
 #       axes.set_title('''CIE 2006 LMS cone fundamentals
-#                      (9 sign. figs. data)\n''', fontsize=11)
+#                      (9 sign. figs. data)\n''', fontsize=10)
 #       axes.twiny().set_xticks([]) # Does not function
 #       axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
 #              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -208,7 +208,7 @@ def mb(axes, plots, options):
                        fontsize=options['title_fontsize'])
 #      # Hack in order to write parameter-info as a subtitle with a
 #      # smaller font size: does not function (owing to some bugs)?
-#      axes.set_title('Maxwellian lm chromaticity diagram\n', fontsize=11)
+#      axes.set_title('Maxwellian lm chromaticity diagram\n', fontsize=10)
 #      axes.twiny().set_xticks([]) # Does not function
 #      axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
 #           u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -283,7 +283,7 @@ def lm(axes, plots, options):
                             (plots['lambda_min'],
                              plots['lambda_max'],
                              plots['lambda_step']),
-                            fontsize=16)
+                            fontsize=10)
             axes.set_ylabel('$m_\mathrm{\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '\,(%s-%s,\,%s)}$' %
@@ -303,7 +303,7 @@ def lm(axes, plots, options):
 #      # Hack in order to write parameter-info as a subtitle with a
 #      # smaller font size: does not function (owing to some bugs)?
 #      axes.set_title('Maxwellian lm chromaticity diagram\n',
-#      fontsize=11)
+#      fontsize=10)
 #      axes.twiny().set_xticks([]) # Does not function
 #      axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
 #              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -366,7 +366,7 @@ def xyz(axes, plots, options):
         # Hack in order to write parameter-info as a subtitle with a
         # smaller font size: does not function (owing to some bugs)?
         # axes.set_title('''CIE XYZ cone-fundamental-based 
-        # functions\n''', fontsize=11)
+        # functions\n''', fontsize=10)
         # axes.twiny.set_xticks([]) # Does not function
         # axes.twiny.set_xlabel(('Field size: %s' % plots['field_size'] +
         # u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -423,7 +423,7 @@ def xyz_purples(axes, plots, options):
         # Hack in order to write parameter-info as a subtitle with a
         # smaller font size: does not function (owing to some bugs)?
         # axes.set_title('''CIE XYZ cone-fundamental-based
-        # tristimulus functions\n''', fontsize=11)
+        # tristimulus functions\n''', fontsize=10)
         # axes.twiny.set_xticks([]) # Does not function
         # axes.twiny.set_xlabel(('Field size: %s' % plots['field_size'] +
         # u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -542,7 +542,7 @@ def xy(axes, plots, options):
 #       # smaller font size: does not function (owing to some bugs)?
 #       axes.set_title(
 #       '''CIE xy cone-fundamental-based chromaticity diagram\n''',
-#       fontsize=11)
+#       fontsize=10)
 #       axes.twiny().set_xticks([]) # Does not function
 #       axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
 #            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
