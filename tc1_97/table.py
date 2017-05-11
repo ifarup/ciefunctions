@@ -422,7 +422,7 @@ def xyz_purples(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\\lambda_{\\,\\mathrm{c}}\\)</th>
+        <th>\\(\\lambda_{\\,\\mathrm{c}}\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
             \\)</th>
         <th>\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
@@ -565,7 +565,7 @@ def xy_purples(results, options, include_head=False):
     <table>
       <thead>
       <tr>
-        <th>\\(\\lambda_{\\,\\mathrm{c}}\\)</th>
+        <th>\\(\\lambda_{\\,\\mathrm{c}}\,\mathsf{\small\,(nm)}\\)</th>
         <th>\\(x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}
             \\)</th>
         <th>\\(y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}

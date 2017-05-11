@@ -49,7 +49,7 @@ def lms(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.05, 1.05])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
         axes.set_ylabel('Relative energy sensitivities', fontsize=10.5)
     if options['full_title']:
         axes.set_title(
@@ -89,7 +89,7 @@ def lms_base(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.05, 1.05])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
         axes.set_ylabel('Relative energy sensitivities', fontsize=10.5)
     if options['full_title']:
        axes.set_title(('CIE 2006 LMS cone fundamentals ' +
@@ -312,7 +312,7 @@ def xyz(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
         axes.set_ylabel('Cone-fundamental-based tristimulus values',
                         fontsize=10.5)
     if options['full_title']:
@@ -358,7 +358,7 @@ def xyz_purples(axes, plots, options):
     axes.axis('normal')
     axes.axis([480, 580, -.04, .54])
     if options['axis_labels']:
-        axes.set_xlabel('Complementary wavelength [nm]', fontsize=10.5)
+        axes.set_xlabel('Complementary wavelength (nm)', fontsize=10.5)
         axes.set_ylabel('Cone-fundamental-based tristimulus values',
                         fontsize=10.5)
     if options['full_title']:
@@ -612,7 +612,7 @@ def xyz_31(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
         axes.set_ylabel('Tristimulus values', fontsize=10.5)
     axes.set_title(
         u'CIE 1931 XYZ standard 2\N{DEGREE SIGN} colour-matching functions',
@@ -647,7 +647,7 @@ def xyz_64(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
         axes.set_ylabel('Tristimulus values', fontsize=10.5)
     axes.set_title(
         u'CIE 1964 XYZ standard 10\N{DEGREE SIGN} colour-matching functions',
