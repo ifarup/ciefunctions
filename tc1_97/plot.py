@@ -49,8 +49,8 @@ def lms(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.05, 1.05])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10)
-        axes.set_ylabel('Relative energy sensitivities', fontsize=10)
+        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_ylabel('Relative energy sensitivities', fontsize=10.5)
     if options['full_title']:
         axes.set_title(
             ('CIE 2006 LMS cone fundamentals\nField size: %s' %
@@ -60,15 +60,7 @@ def lms(axes, plots, options):
                                                plots['lambda_max']) +
              ',  Step: %s nm' % plots['lambda_step']),
             fontsize=options['title_fontsize'])
-#       # Hack in order to write parameter-info as a subtitle with a
-#       # smaller font size: does not function (owing to some bugs)?
-#       axes.set_title('CIE 2006 LMS cone fundamentals\n', fontsize=10)
-#       axes.twiny().set_xticks([]) # Does not function
-#       axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
-#            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-#            u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-#                                              plots['lambda_max']) +
-#           ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
+
     else:
         axes.set_title('CIE 2006 LMS cone fundamentals',
                        fontsize=options['title_fontsize'])
@@ -98,8 +90,8 @@ def lms_base(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.05, 1.05])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10)
-        axes.set_ylabel('Relative energy sensitivities', fontsize=10)
+        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_ylabel('Relative energy sensitivities', fontsize=10.5)
     if options['full_title']:
        axes.set_title(('CIE 2006 LMS cone fundamentals ' +
                         '(9 sign. figs. data)\nField size: %s''' %
@@ -110,16 +102,7 @@ def lms_base(axes, plots, options):
                             plots['lambda_max']) +
                         ',  Step: %s nm' % plots['lambda_step']),
                        fontsize=options['title_fontsize'])
-#       # Hack in order to write parameter-info as a subtitle with a
-#       # smaller font size: does not function (owing to some bugs)?
-#       axes.set_title('''CIE 2006 LMS cone fundamentals
-#                      (9 sign. figs. data)\n''', fontsize=10)
-#       axes.twiny().set_xticks([]) # Does not function
-#       axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
-#              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-#              u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-#                                                plots['lambda_max']) +
-#             ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
+
     else:
         axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)',
                        fontsize=options['title_fontsize'])
@@ -178,11 +161,11 @@ def mb(axes, plots, options):
             axes.set_xlabel('$l_\mathrm{\,MB,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=10)
+                            fontsize=11)
             axes.set_ylabel('$s_\mathrm{\,MB,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=10)
+                            fontsize=11)
         else:
             axes.set_xlabel('$l_\mathrm{\,MB,\,' +
                             str(plots['field_size']) + ',\,' +
@@ -190,14 +173,14 @@ def mb(axes, plots, options):
                             (plots['lambda_min'],
                              plots['lambda_max'],
                              plots['lambda_step']),
-                            fontsize=10)
+                            fontsize=11)
             axes.set_ylabel('$s_\mathrm{\,MB,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '\,(%s-%s,\,%s)}$' %
                             (plots['lambda_min'],
                              plots['lambda_max'],
                              plots['lambda_step']),
-                            fontsize=10)
+                            fontsize=11)
     if options['full_title']:
         axes.set_title((u'MacLeod\u2013Boynton ls chromaticity ' +
                         u'diagram\nField size: %s''' % plots['field_size'] +
@@ -206,15 +189,7 @@ def mb(axes, plots, options):
                         (plots['lambda_min'], plots['lambda_max']) +
                         ',  Step: %s nm' % plots['lambda_step']),
                        fontsize=options['title_fontsize'])
-#      # Hack in order to write parameter-info as a subtitle with a
-#      # smaller font size: does not function (owing to some bugs)?
-#      axes.set_title('Maxwellian lm chromaticity diagram\n', fontsize=10)
-#      axes.twiny().set_xticks([]) # Does not function
-#      axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
-#           u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-#           u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-#                                             plots['lambda_max']) +
-#           ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
+
     else:
         axes.set_title(u'MacLeod\u2013Boynton ls chromaticity diagram',
                        fontsize=options['title_fontsize'])
@@ -271,11 +246,11 @@ def lm(axes, plots, options):
             axes.set_xlabel('$l_\mathrm{\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=10)
+                            fontsize=11)
             axes.set_ylabel('$m_\mathrm{\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=10)
+                            fontsize=11)
         else:
             axes.set_xlabel('$l_\mathrm{\,' +
                             str(plots['field_size']) + ',\,' +
@@ -283,14 +258,14 @@ def lm(axes, plots, options):
                             (plots['lambda_min'],
                              plots['lambda_max'],
                              plots['lambda_step']),
-                            fontsize=10)
+                            fontsize=11)
             axes.set_ylabel('$m_\mathrm{\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '\,(%s-%s,\,%s)}$' %
                             (plots['lambda_min'],
                              plots['lambda_max'],
                              plots['lambda_step']),
-                            fontsize=10)
+                            fontsize=11)
     if options['full_title']:
         axes.set_title(
             ('Maxwellian lm chromaticity diagram\nField size: %s' %
@@ -303,7 +278,7 @@ def lm(axes, plots, options):
 #      # Hack in order to write parameter-info as a subtitle with a
 #      # smaller font size: does not function (owing to some bugs)?
 #      axes.set_title('Maxwellian lm chromaticity diagram\n',
-#      fontsize=10)
+#      fontsize=10.5)
 #      axes.twiny().set_xticks([]) # Does not function
 #      axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
 #              u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
@@ -350,9 +325,9 @@ def xyz(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10)
+        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
         axes.set_ylabel('Cone-fundamental-based tristimulus values',
-                        fontsize=10)
+                        fontsize=10.5)
     if options['full_title']:
         title = 'CIE XYZ cone-fundamental-based tristimulus functions\n' + \
                 'Field size: %s''' % plots['field_size'] + \
@@ -363,16 +338,7 @@ def xyz(axes, plots, options):
         if options['norm']:
             title += ',  Renormalized values'
         axes.set_title(title, fontsize=options['title_fontsize'])
-        # Hack in order to write parameter-info as a subtitle with a
-        # smaller font size: does not function (owing to some bugs)?
-        # axes.set_title('''CIE XYZ cone-fundamental-based 
-        # functions\n''', fontsize=10)
-        # axes.twiny.set_xticks([]) # Does not function
-        # axes.twiny.set_xlabel(('Field size: %s' % plots['field_size'] +
-        # u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-        # u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-        #                                   plots['lambda_max']) +
-        # ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
+
     else:
         axes.set_title('CIE XYZ cone-fundamental-based ' +
                        'tristimulus functions',
@@ -406,30 +372,20 @@ def xyz_purples(axes, plots, options):
     axes.axis('normal')
     axes.axis([480, 580, -.04, .54])
     if options['axis_labels']:
-        axes.set_xlabel('Complementary wavelength [nm]', fontsize=10)
+        axes.set_xlabel('Complementary wavelength [nm]', fontsize=10.5)
         axes.set_ylabel('Cone-fundamental-based tristimulus values',
-                        fontsize=10)
+                        fontsize=10.5)
     if options['full_title']:
         title = 'XYZ cone-fundamental-based tristimulus functions for ' + \
                 'purple-line stimuli\n' + \
                 'Field size: %s''' % plots['field_size'] + \
-                u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
+               u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
                 u' yr,  Domain: %s nm \u2013 %s nm' % \
                 (plots['lambda_min'], plots['lambda_max']) + \
-                ',  Step: %s nm' % plots['lambda_step']
+                ',  Step: %s nm' % plots['lambda_step']    
+        axes.set_title(title, fontsize=options['title_fontsize'])
         if options['norm']:
             title += ',  Renormalized values'
-        axes.set_title(title, fontsize=options['title_fontsize'])
-        # Hack in order to write parameter-info as a subtitle with a
-        # smaller font size: does not function (owing to some bugs)?
-        # axes.set_title('''CIE XYZ cone-fundamental-based
-        # tristimulus functions\n''', fontsize=10)
-        # axes.twiny.set_xticks([]) # Does not function
-        # axes.twiny.set_xlabel(('Field size: %s' % plots['field_size'] +
-        # u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-        # u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-        #                                   plots['lambda_max']) +
-        # ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
     else:
         axes.set_title('CIE XYZ cone-fundamental-based ' +
                        'tristimulus functions',
@@ -508,11 +464,11 @@ def xy(axes, plots, options):
             axes.set_xlabel('$x_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=10)
+                            fontsize=11)
             axes.set_ylabel('$y_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=10)
+                            fontsize=11)
         else:
             axes.set_xlabel('$x_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
@@ -520,14 +476,14 @@ def xy(axes, plots, options):
                             '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
                                                   plots['lambda_max'],
                                                   plots['lambda_step']),
-                            fontsize=10)
+                            fontsize=11)
             axes.set_ylabel('$y_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) +
                             '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
                                                   plots['lambda_max'],
                                                   plots['lambda_step']),
-                            fontsize=10)
+                            fontsize=11)
     if options['full_title']:
         title = 'CIE xy cone-fundamental-based chromaticity diagram\n' +\
                 'Field size: %s' % plots['field_size'] + \
@@ -538,17 +494,7 @@ def xy(axes, plots, options):
         if options['norm']:
             title += ',  Renormalized values'
         axes.set_title(title, fontsize=options['title_fontsize'])
-#       # Hack in order to write parameter-info as a subtitle with a
-#       # smaller font size: does not function (owing to some bugs)?
-#       axes.set_title(
-#       '''CIE xy cone-fundamental-based chromaticity diagram\n''',
-#       fontsize=10)
-#       axes.twiny().set_xticks([]) # Does not function
-#       axes.twiny().set_xlabel(('Field size: %s' % plots['field_size'] +
-#            u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-#            u' yr,  Domain: %s\u2013%s nm' % (plots['lambda_min'],
-#                                              plots['lambda_max']) +
-#            ',  Step: %s nm' % plots['lambda_step']), fontsize=9, labelpad=6)
+
     else:
         axes.set_title('CIE xy cone-fundamental-based chromaticity diagram',
                        fontsize=options['title_fontsize'])
@@ -618,11 +564,11 @@ def xy_purples(axes, plots, options):
             axes.set_xlabel('$x_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=10)
+                            fontsize=11)
             axes.set_ylabel('$y_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) + '}$',
-                            fontsize=10)
+                            fontsize=11)
         else:
             axes.set_xlabel('$x_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
@@ -630,14 +576,14 @@ def xy_purples(axes, plots, options):
                             '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
                                                   plots['lambda_max'],
                                                   plots['lambda_step']),
-                            fontsize=10)
+                            fontsize=11)
             axes.set_ylabel('$y_\mathrm{\,F,\,' +
                             str(plots['field_size']) + ',\,' +
                             str(plots['age']) +
                             '\,(%s-%s,\,%s)}$' % (plots['lambda_min'],
                                                   plots['lambda_max'],
                                                   plots['lambda_step']),
-                            fontsize=10)
+                            fontsize=11)
     if options['full_title']:
         title = 'xy cone-fundamental-based chromaticity diagram (purple-line stimuli)\n' + \
                 'Field size: %s' % plots['field_size'] + \
@@ -681,8 +627,8 @@ def xyz_31(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10)
-        axes.set_ylabel('Tristimulus values', fontsize=10)
+        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_ylabel('Tristimulus values', fontsize=10.5)
     axes.set_title(
         u'CIE 1931 XYZ standard 2\N{DEGREE SIGN} colour-matching functions',
         fontsize=options['title_fontsize'])
@@ -716,8 +662,8 @@ def xyz_64(axes, plots, options):
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
-        axes.set_xlabel('Wavelength [nm]', fontsize=10)
-        axes.set_ylabel('Tristimulus values', fontsize=10)
+        axes.set_xlabel('Wavelength [nm]', fontsize=10.5)
+        axes.set_ylabel('Tristimulus values', fontsize=10.5)
     axes.set_title(
         u'CIE 1964 XYZ standard 10\N{DEGREE SIGN} colour-matching functions',
         fontsize=options['title_fontsize'])
@@ -774,8 +720,8 @@ def xy_31(axes, plots, options):
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
     if options['axis_labels']:
-        axes.set_xlabel('$x$', fontsize=10)
-        axes.set_ylabel('$y$', fontsize=10)
+        axes.set_xlabel('$x$', fontsize=11)
+        axes.set_ylabel('$y$', fontsize=11)
     axes.set_title(
         u'CIE 1931 xy standard 2\N{DEGREE SIGN} chromaticity diagram',
         fontsize=options['title_fontsize'])
@@ -832,8 +778,8 @@ def xy_64(axes, plots, options):
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, 1.05))
     if options['axis_labels']:
-        axes.set_xlabel('$x_{10}$', fontsize=10)
-        axes.set_ylabel('$y_{10}$', fontsize=10)
+        axes.set_xlabel('$x_{10}$', fontsize=11)
+        axes.set_ylabel('$y_{10}$', fontsize=11)
     axes.set_title(
         u'CIE 1964 xy standard 10\N{DEGREE SIGN} chromaticity diagram',
         fontsize=options['title_fontsize'])
