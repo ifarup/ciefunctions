@@ -746,6 +746,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.resolution_label = QtWidgets.QLabel(' Step (nm)')
         
         grid = QtWidgets.QGridLayout()
+        grid.setRowMinimumHeight(0, 35)
         grid.addWidget(self.field_label, 0, 0, QtCore.Qt.AlignRight)
         grid.addWidget(self.age_label, 0, 2, QtCore.Qt.AlignRight)
         grid.addWidget(self.lambda_min_max_label, 0, 4, QtCore.Qt.AlignRight)
