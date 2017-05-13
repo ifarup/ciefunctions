@@ -627,7 +627,7 @@ def _xyz_to_xy(data):
 def _xyz_purples_to_xy_purples(data):
     html_string = """
     <p style="margin:0 0 0 0">
-    <b class="description-subtitle">Coordinate definitions</b></p>
+    <b class="description-subtitle">Coordinate formulae</b></p>
     <p style="margin:0 0 0 0">
     $$
     \\begin{aligned}
