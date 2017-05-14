@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 ciefunctions: GUI application for the calculation of the CIE 
-cone-fundamental-based colorimetric functions provided by CIE TC 1-97.
+              cone-fundamental-based colorimetric functions provided 
+              by CIE TC 1-97.
 
 Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 
@@ -36,12 +37,13 @@ from matplotlib.backends.backend_qt5agg \
 from matplotlib.figure import Figure
 
 
-class AppForm(QtWidgets.QMainWindow):
+class AppForm(QtWidgets.QMainWindow, QtWidgets.QWidget):
     """
     The main application window.
     """
     def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
+        QtWidgets.QWidget.move(self, 0, 0)
         self.setWindowTitle('CIE Functions')
         self.create_menu()
         self.create_main_frame()
