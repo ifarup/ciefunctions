@@ -316,10 +316,11 @@ def _normalization_xyz(data, options):
         <p style="margin:0 0 0.3em 0">
         <b class="description-subtitle">Normalization</b>
         </p>
-        <p style="margin:0 0 1.3em 0">
+        <p style="margin:0 0 0.3em 0">
         &#8226; Equal cone-fundamental-based tristimulus values for
         Illuminant&nbsp;E when calculated using a step size of %s&nbsp;nm
-        and wavelength domain %s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm.<br />
+        and wavelength domain %s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm</p>
+        <p style="margin:0 0 1.3em 0">
         &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
         &nbsp;peaking at unity at 0.1&nbspnm resolution
         </p>
@@ -331,10 +332,11 @@ def _normalization_xyz(data, options):
         <p style="margin:0 0 0.3em 0">
         <b class="description-subtitle">Normalization</b>
         </p>
-        <p style="margin:0 0 1.3em 0">
+        <p style="margin:0 0 0.3em 0">
         &#8226; Equal cone-fundamental-based tristimulus values for
         Illuminant&nbsp;E when calculated using a step size of 1&nbsp;nm
-        and wavelenght domain 390&nbsp;nm&nbsp;&minus;&nbsp;830&nbsp;nm.<br />
+        and wavelenght domain 390&nbsp;nm&nbsp;&minus;&nbsp;830&nbsp;nm</p>
+        <p style="margin:0 0 1.3em 0">
         &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
         &nbsp;peaking at unity at 0.1&nbsp;nm resolution
         </p>
