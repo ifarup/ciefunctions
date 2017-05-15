@@ -37,7 +37,7 @@ from matplotlib.backends.backend_qt5agg \
 from matplotlib.figure import Figure
 
 
-class AppForm(QtWidgets.QMainWindow, QtWidgets.QWidget):
+class AppForm(QtWidgets.QMainWindow):
     """
     The main application window.
     """
@@ -59,101 +59,83 @@ class AppForm(QtWidgets.QMainWindow, QtWidgets.QWidget):
         elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
             pre = 'cie2006_lms_9figs'
         elif self.plot_combo.currentIndex() == self.COMBO_MB:
-            pre = 'macleod_boynton_ls'
+            pre = 'macleod_boynton_cc'
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
-            pre = 'maxwellian_lm'
-            post = '__renormalized_values'
+            pre = 'maxwellian_cc'
+
         elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
             pre = 'cie_xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
             pre = 'purple_xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_XY:
-            pre = 'cie_xy_F'
+            pre = 'cie_cc_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
-            pre = 'purple_xy_F'
+            pre = 'purple_cc_F'
 
         if self.plot_combo.currentIndex() == self.COMBO_LM or \
                 ((self.plot_combo.currentIndex() in [self.COMBO_XYZ,
-                                                     self.COMBO_PURPLE_XYZ,
-                                                     self.COMBO_XY,
-                                                     self.COMBO_PURPLE_XY]) and
-                 self.norm_check.isChecked()):
+                                                    self.COMBO_PURPLE_XYZ,
+                                                    self.COMBO_XY,
+                                                    self.COMBO_PURPLE_XY]) and self.norm_check.isChecked()):
             post = '__renormalized_values'
 
-        suggest = (pre + '__fs_' + str(self.field_spin.value()) +
-                   '__age_' + str(self.age_spin.value()) +
-                   '__domain_' + str(self.lambda_min_spin.value()) +
-                   '-' + str(self.lambda_max_spin.value()) +
-                   '__step_' + str(self.resolution_spin.value()) +
-                   post + '.csv')
-
-        if (self.plot_combo.currentIndex() == self.COMBO_XYZSTD and
-            self.field_combo.currentIndex() == 0):
+        if self.plot_combo.currentIndex() == self.COMBO_XYZSTD and self.field_combo.currentIndex() == 0:
             suggest = 'cie_xyz__standard1931__fs_2.csv'
-        elif (self.plot_combo.currentIndex() == self.COMBO_XYZSTD and
-              self.field_combo.currentIndex() == 1):
+        elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD and self.field_combo.currentIndex() == 1:
             suggest = 'cie_xyz__standard1964__fs_10.csv'
-        elif (self.plot_combo.currentIndex() == self.COMBO_XYSTD and
-              self.field_combo.currentIndex() == 0):
-            suggest = 'cie_xy__standard1931__fs_2.csv'
-        elif (self.plot_combo.currentIndex() == self.COMBO_XYSTD and
-              self.field_combo.currentIndex() == 1):
-            suggest = 'cie_xy__standard1964__fs_10.csv'
+        elif self.plot_combo.currentIndex() == self.COMBO_XYSTD and self.field_combo.currentIndex() == 0:
+            suggest = 'cie_cc__standard1931__fs_2.csv'
+        elif self.plot_combo.currentIndex() == self.COMBO_XYSTD and self.field_combo.currentIndex() == 1:
+            suggest = 'cie_cc__standard1964__fs_10.csv'
+        else:     
+            suggest = pre + '__fs_' + str(self.field_spin.value()) + \
+                  '__age_' + str(self.age_spin.value()) + \
+                  '__domain_' + str(self.lambda_min_spin.value()) + \
+                  '-' + str(self.lambda_max_spin.value()) + \
+                  '__step_' + str(self.resolution_spin.value()) + post + '.csv'    
 
-        path = str(QtWidgets.QFileDialog.getSaveFileName(
-            self, 'Save file', suggest, file_choices))
+        path = str(QtWidgets.QFileDialog.getSaveFileName(self, 
+                                                         'Save file', suggest, 
+                                                         file_choices))
         if path:
             if self.plot_combo.currentIndex() == self.COMBO_LMS:
                 np.savetxt(path, self.results['lms'], '%.1f, %.5e, %.5e, %.5e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
-                np.savetxt(path, self.results['lms_base'],
-                           '%.1f, %.8e, %.8e, %.8e')
+                np.savetxt(path, self.results['lms_base'], '%.1f, %.8e, %.8e, %.8e')
             elif self.plot_combo.currentIndex() == self.COMBO_MB:
                 np.savetxt(path, self.results['mb'], '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == self.COMBO_LM:
                 np.savetxt(path, self.results['lm'], '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['xyz_N'],
-                               '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['xyz_N'], '%.1f, %.6e, %.6e, %.6e')
                 else:
-                    np.savetxt(path, self.results['xyz'],
-                               '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
                 if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['purple_xyz_N'],
-                               '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['purple_xyz_N'], '%.1f, %.6e, %.6e, %.6e')
                 else:
-                    np.savetxt(path, self.results['purple_xyz'],
-                               '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['purple_xyz'], '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_XY:
                 if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['xy_N'],
-                               '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xy_N'], '%.1f, %.5f, %.5f, %.5f')
                 else:
-                    np.savetxt(path, self.results['xy'],
-                               '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xy'], '%.1f, %.5f, %.5f, %.5f')
             elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
                 if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['purple_cc_N'],
-                               '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['purple_cc_N'], '%.1f, %.5f, %.5f, %.5f')
                 else:
-                    np.savetxt(path, self.results['purple_cc'],
-                               '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['purple_cc'], '%.1f, %.5f, %.5f, %.5f')
             elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD:
                 if self.field_combo.currentIndex() == 0:  # 2 degrees
-                    np.savetxt(path, self.results['xyz31'],
-                               '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['xyz31'], '%.1f, %.6e, %.6e, %.6e')
                 else:
-                    np.savetxt(path, self.results['xyz64'],
-                               '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['xyz64'], '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_XYSTD:
                 if self.field_combo.currentIndex() == 0:  # 2 degrees
-                    np.savetxt(path, self.results['xy31'],
-                               '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xy31'], '%.1f, %.5f, %.5f, %.5f')
                 else:
-                    np.savetxt(path, self.results['xy64'],
-                               '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xy64'], '%.1f, %.5f, %.5f, %.5f')
 
     def options(self):
         """
