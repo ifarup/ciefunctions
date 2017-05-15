@@ -62,7 +62,6 @@ class AppForm(QtWidgets.QMainWindow):
             pre = 'macleod_boynton_cc'
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
             pre = 'maxwellian_cc'
-
         elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
             pre = 'cie_xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:

@@ -219,24 +219,6 @@ def _wavelenghts_std():
     """ % (360, 830, 1)
 
 
-# KAN DENNE FUNKSJONEN SLETTES?
-#def _normalization(data):
-#    return u"""
-#    <em class="description-subtitle">Normalization:</em><br />
-#    Equal tristimulus values for Illuminant&nbsp;E for
-#    <table>
-#        <tr>
-#            <td>Wavelength domain:</td>
-#            <td valign="bottom">&nbsp;%s\u2013%s&nbsp;nm</td>
-#        </tr>
-#        <tr>
-#            <td>Wavelength step:</td>
-#            <td valign="bottom">&nbsp;%s&nbsp;nm</td>
-#        </tr>
-#    </table>
-#    """ % (data['lambda_min'], data['lambda_max'], data['lambda_step'])
-
-
 def _normalization_lms():
     return """
     <p style="margin:0 0 0.3em 0">
@@ -246,6 +228,7 @@ def _normalization_lms():
     Function values peaking at unity at 0.1&nbsp;nm resolution
     </p>
     """
+
 
 def _normalization_mb(data):
     return """ 
