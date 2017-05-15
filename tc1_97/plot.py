@@ -641,9 +641,9 @@ def xyz_64(axes, plots, options):
     axes.plot(plots['xyz64'][:, 0], plots['xyz64'][:, 2], 'g')
     axes.plot(plots['xyz64'][:, 0], plots['xyz64'][:, 3], 'b')
     if options['cie31']:
-        axes.plot(plots['xyz31'][:, 0], plots['xyz31'][:, 1], 'r:')
-        axes.plot(plots['xyz31'][:, 0], plots['xyz31'][:, 2], 'g:')
-        axes.plot(plots['xyz31'][:, 0], plots['xyz31'][:, 3], 'b:')
+        axes.plot(plots['xyz31'][:, 0], plots['xyz31'][:, 1], 'r--')
+        axes.plot(plots['xyz31'][:, 0], plots['xyz31'][:, 2], 'g--')
+        axes.plot(plots['xyz31'][:, 0], plots['xyz31'][:, 3], 'b--')
     axes.axis('normal')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:

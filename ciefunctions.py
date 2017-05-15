@@ -44,7 +44,7 @@ class AppForm(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
         QtWidgets.QWidget.move(self, 0, 0)
-        self.setWindowTitle('CIE Functions')
+        self.setWindowTitle(' CIE Functions')
         self.create_menu()
         self.create_main_frame()
         self.on_compute()
