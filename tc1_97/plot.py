@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import numpy as np
 import matplotlib
 import threading
+from matplotlib.ticker import MaxNLocator
 
 lock = threading.Lock()
 
@@ -236,8 +237,7 @@ def lm(axes, plots, options):
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
     axes.set_ylim((-.05, .65))
-    axes.set_yticks(np.arange(0.0, 0.65, 0.2))
-#    axes.set_ylim((-.05, .65))
+    axes.yaxis.set_major_locator( MaxNLocator(nbins = 4, prune = 'lower') )
     if options['axis_labels']:
         if (float(plots['lambda_min']) == 390 and
                 float(plots['lambda_max']) == 830 and
