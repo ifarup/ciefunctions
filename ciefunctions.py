@@ -88,15 +88,17 @@ class AppForm(QtWidgets.QMainWindow):
         elif self.plot_combo.currentIndex() == self.COMBO_XYSTD and self.field_combo.currentIndex() == 1:
             suggest = 'cie_cc__standard1964__fs_10.csv'
         else:     
-            suggest = pre + '__fs_' + str(self.field_spin.value()) + \
-                  '__age_' + str(self.age_spin.value()) + \
-                  '__domain_' + str(self.lambda_min_spin.value()) + \
-                  '-' + str(self.lambda_max_spin.value()) + \
-                  '__step_' + str(self.resolution_spin.value()) + post + '.csv'    
+            suggest = (pre + '__fs_' + str(self.field_spin.value()) +
+                       '__age_' + str(self.age_spin.value()) +
+                       '__domain_' + str(self.lambda_min_spin.value()) +
+                       '-' + str(self.lambda_max_spin.value()) +
+                       '__step_' + str(self.resolution_spin.value()) +
+                       post + '.csv')
 
-        path = str(QtWidgets.QFileDialog.getSaveFileName(self, 
-                                                         'Save file', suggest, 
-                                                         file_choices))
+        path = QtWidgets.QFileDialog.getSaveFileName(self, 
+                                                     'Save file', suggest, 
+                                                     file_choices)[0]
+
         if path:
             if self.plot_combo.currentIndex() == self.COMBO_LMS:
                 np.savetxt(path, self.results['lms'], '%.1f, %.5e, %.5e, %.5e')
