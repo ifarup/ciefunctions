@@ -236,7 +236,7 @@ def lm(axes, plots, options):
                       verticalalignment=align)
     axes.axis('scaled')
     axes.set_xlim((-.05, 1.05))
-    axes.xaxis.set_major_locator( MaxNLocator(nbins = 6, min_n_ticks = 3) )
+    axes.xaxis.set_major_locator( MaxNLocator(nbins = 6, min_n_ticks = 2) )
     axes.set_ylim((-.05, .65))
     axes.yaxis.set_major_locator( MaxNLocator(nbins = 4, min_n_ticks = 4) )
     if options['axis_labels']:
