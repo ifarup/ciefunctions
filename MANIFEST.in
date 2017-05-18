@@ -1,0 +1,2 @@
+include tc1_97/data/*
+recursive-include web/static/web/MathJax-2.4-latest *
