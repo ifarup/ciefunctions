@@ -6,7 +6,7 @@ setup(
     packages=['tc1_97', 'web'],
     scripts=['ciefunctions.py'],
     include_package_data=True,
-    package_data={'tc1_97': ['data/*'],
+    package_data={'tc1_97': ['data/*', '*.css'],
                   'web': ['static/*']},
     install_requires=[
         'numpy',
