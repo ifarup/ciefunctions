@@ -128,7 +128,7 @@ def _functions(func1, func2, func3, argument):
         <td style="vertical-align:top">
         <p style="margin:0.15em 0 0 0">:</p></td>
         <td>
-        &nbsp;%s&nbsp;
+        &nbsp;%s&nbsp;<font size="0.1">&nbsp;</font>
         <nobr>&nbsp;%s</nobr>&nbsp;
         <nobr>&nbsp;%s&nbsp;</nobr></td>
     </tr>
