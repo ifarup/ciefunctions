@@ -744,7 +744,7 @@ def _xyz_purples_to_xy_purples(data):
         \\(\,\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})\\) and 
         \\(\,\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})\\) are
         the values of the cone-fundamental-based tristimulus functions for 
-        purple-line stimili given to the precision of 7 significant figures
+        purple-line stimuli given to the precision of 7 significant figures
             </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
