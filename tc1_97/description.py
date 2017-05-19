@@ -20,14 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import sys
+import inspect
+import os.path
 
 
 def _head():
+    package_path = os.path.dirname(os.path.abspath(inspect.getsourcefile(lambda:0)))
     html_string = """
     <head>
-    <link type="text/css" rel="stylesheet" href="description.css" />
+    <link type="text/css" rel="stylesheet" href="%s/description.css" />
     <script type="text/javascript"
-    src="web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML">
+    src="%s/../web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML">
     </script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
@@ -37,7 +40,7 @@ def _head():
             inlineMath:[["\\(","\\)"]],
             displayMath:[["$$","$$"]],
             "HTML-CSS": {
-    """
+    """ % (package_path, package_path)
     if sys.platform.startswith('win'):
         html_string += """
                 scale: 95
