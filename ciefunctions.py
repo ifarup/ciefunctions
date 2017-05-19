@@ -724,7 +724,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.grid_label = QtWidgets.QLabel('Grid')
         self.wavelength_label = QtWidgets.QLabel('Labels')
         self.norm_label = QtWidgets.QLabel(' Renormalized values  ')
-        self.field_label = QtWidgets.QLabel(u'Field size (\N{DEGREE SIGN})')
+        self.field_label = QtWidgets.QLabel(u' Field size (\N{DEGREE SIGN})')
         self.age_label = QtWidgets.QLabel(' Age (yr)')
         self.lambda_min_max_label = QtWidgets.QLabel(' Domain (nm)')
         self.lambda_min_max_dash = QtWidgets.QLabel(u'\u2013')

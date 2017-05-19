@@ -81,19 +81,21 @@ def _parameters(data):
     <p style="margin:0 0 1.3em 0">
     <table>
     <tr>
-        <td>Field size</td>
-        <td>:&nbsp;&nbsp;&nbsp;&nbsp;%s\u00b0 </td>
+        <td style="vertical-align:top"><nobr>Field size</nobr></td>
+        <td style="vertical-align:top">:</td>
+        <td><nobr>&ensp;%s\u00b0</nobr></td>
     </tr>
     <tr>
-        <td>Age</td>
-        <td>:&nbsp;&nbsp;&nbsp;&nbsp;%d&nbsp;yr</td>
+        <td style="vertical-align:top"><nobr>Age</nobr></td>
+        <td style="vertical-align:top">:</td>
+        <td><nobr>&ensp;%d&nbsp;yr</nobr></td>
     </tr>
     </table>
     </p>
     """ % (data['field_size'], data['age'])
 
 
-def _parameters_31():
+def _parameters_std(fieldsize):
     return u"""
     <p style="margin:0 0 0.1em 0">
     <b class="description-subtitle">Parameters</b>
@@ -101,39 +103,40 @@ def _parameters_31():
     <p style="margin:0 0 1.3em 0">
     <table>
     <tr>
-        <td>Field size</td>
-        <td>:&nbsp;&nbsp;&nbsp;&nbsp;2\u00b0 </td>
+        <td style="vertical-align:top"><nobr>Field size</nobr></td>
+        <td style="vertical-align:top">:</td>
+        <td><nobr>&nbsp;%s\u00b0</nobr></td>
     </tr>
     </table>
     </p>
-    """
+    """ % (fieldsize)
 
 
-def _parameters_64():
-    return u"""
-    <p style="margin:0 0 0.1em 0">
-    <b class="description-subtitle">Parameters</b>
-    </p>
-    <p style="margin:0 0 1.3em 0">
-    <table>
-    <tr>
-        <td>Field size</td>
-        <td>:&nbsp;&nbsp;&nbsp;&nbsp;10\u00b0 </td>
-    </tr>
-    </table>
-    </p>
-    """
-
-
-def _functions(func1, func2, func3):
+def _functions(func1, func2, func3, argument):    
     return """
-    <p style="margin:0 0 0.1em 0">
+    <p style="margin:0 0 0.05em 0">
     <b class="description-subtitle">Function symbols</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    %s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s&nbsp;&nbsp;&nbsp;&nbsp;%s
+    <table>
+    <tr>
+        <td style="vertical-align:top">
+        <p style="margin:0.15em 0 0 0">Functions</p></td>
+        <td style="vertical-align:top">
+        <p style="margin:0.15em 0 0 0">:</p></td>
+        <td>
+        &nbsp;%s&nbsp;
+        <nobr>&nbsp;%s</nobr>&nbsp;
+        <nobr>&nbsp;%s&nbsp;</nobr></td>
+    </tr>
+    <tr>
+        <td style="vertical-align:top">Argument</td>
+        <td style="vertical-align:top">:</td>
+        <td>&nbsp;%s</td>
+    </tr>
+    </table>
     </p>
-    """ % (func1, func2, func3)
+    """ % (func1, func2, func3, argument)   
 
 
 def _coordinates(cc1, cc2, cc3):
@@ -142,7 +145,7 @@ def _coordinates(cc1, cc2, cc3):
     <b class="description-subtitle">Coordinate symbols</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    %s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s&nbsp;&nbsp;&nbsp;&nbsp;%s
+    %s&nbsp;&nbsp;&nbsp; %s&nbsp;&nbsp;&nbsp; %s&nbsp;&nbsp;&nbsp
     </p>
     """ % (cc1, cc2, cc3)
     
@@ -155,12 +158,16 @@ def _wavelenghts(data):
     <p style="margin:0 0 1.3em 0">
     <table>
     <tr>
-        <td>Domain</td>
-        <td>:&nbsp;&nbsp;&nbsp;&nbsp;%s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm</td>
+        <td style="vertical-align:top">Domain</td>
+        <td style="vertical-align:top">:&nbsp;</td>
+        <td style="vertical-align:top">
+        &nbsp;&nbsp;&nbsp;%s&nbsp;nm <nobr>&ndash; %s&nbsp;nm</nobr></td>
     </tr>
     <tr>
-        <td>Step</td>
-        <td>:&nbsp;&nbsp;&nbsp;&nbsp;%s&nbspnm</td>
+        <td style="vertical-align:top">Step</td>
+        <td style="vertical-align:top">:&nbsp;</td>
+        <td style="vertical-align:top">
+        &nbsp;&nbsp;&nbsp;%s&nbsp;nm</td>
     </tr>
     </table>
     </p>
@@ -181,16 +188,27 @@ def _wavelenghts_complementary(data, options):
     <p style="margin:0 0 1.3em 0">
     <table>
     <tr>
-        <td>Wavelength domain of spectral stimuli&nbsp</td>
-        <td>&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;%s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm</td>
-        </tr>
+        <td style="vertical-align:top">
+        Wavelength domain of spectral stimuli&nbsp</td>
+        <td style="vertical-align:top">:&nbsp;</td>
+        <td style="vertical-align:top">
+        <nobr>&ensp;&nbsp;%s nm </nobr>
+        <nobr>&ndash; %s nm</nobr></td>
+        </tr>    
     <tr>
-        <td>Step (spectral-stimuli domain)</td>
-        <td>&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;%s&nbsp;nm</td>
-    </tr>
+        <td style="vertical-align:top">
+        Step (spectral-stimuli domain)</td>
+        <td style="vertical-align:middle">:&nbsp;</td>
+        <td style="vertical-align:middle">
+        <nobr>&ensp;&nbsp;%s nm</nobr></td>
+        </tr>    
     <tr>
-        <td>Complementary-wavelength domain of purple-line stimuli</td>
-        <td>&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;%s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm</td>
+        <td style="vertical-align:top">
+        Complementary-wavelength domain of purple-line stimuli</td>
+        <td style="vertical-align:top">:&nbsp;</td>
+        <td style="vertical-align:top">
+        <nobr>&ensp;&nbsp;%s nm </nobr>
+        <nobr>&ndash; %s nm</nobr></td>
         </tr>
     </table>
     </p>
@@ -207,13 +225,16 @@ def _wavelenghts_std():
     <p style="margin:0 0 1.3em 0">
     <table>
     <tr>
-        <td>Domain</td>
-        <td>:&nbsp;&nbsp;&nbsp;&nbsp;%d&nbsp;nm&nbsp;&minus;&nbsp;%d&nbsp;nm</td>
+        <td style="vertical-align:top">Domain</td>
+        <td style="vertical-align:top">:&nbsp;</td>
+        <td style="vertical-align:top">
+        &nbsp;&nbsp;&nbsp;%s&nbsp;nm <nobr>&ndash; %s&nbsp;nm</nobr></td>
     </tr>
     <tr>
-        <td>Step</td>
-        <td>:&nbsp;&nbsp;&nbsp;&nbsp;%d&nbsp;nm</td>
-    </tr>
+        <td style="vertical-align:top">Step</td>
+        <td style="vertical-align:top">:&nbsp;</td>
+        <td style="vertical-align:top">
+        &nbsp;&nbsp;&nbsp;%s&nbsp;nm</td>
     </table>
     </p>
     """ % (360, 830, 1)
@@ -236,30 +257,30 @@ def _normalization_mb(data):
     <b class="description-subtitle">Normalization</b>
     </p> 
     <p style="margin:0 0 0.7em 0">
-    The corresponding MacLeod&ndash;Boynton tristimulus values, 
-    \\(L_{\,\mathrm{MB},\,%s,\,%d},\,\\)
-    \\(M_{\,\mathrm{MB},\,%s,\,%d},\,\\) and
-    \\(S_{\,\mathrm{MB},\,%s,\,%d},\,\\) calculated using a step size of 
-    1 nm and wavelength domain 390&nbsp;nm&nbsp;&minus;&nbsp;830&nbsp;nm, 
-    satisfy
+    The corresponding MacLeod&ndash;Boynton tristimulus
+    <nobr>values\\(,\,L_{\,\mathrm{MB},\,%s,\,%d},\,\\)</nobr>
+    <nobr>\\(M_{\,\mathrm{MB},\,%s,\,%d}\,\\)</nobr> and
+    <nobr>\\(S_{\,\mathrm{MB},\,%s,\,%d},\,\\)</nobr> calculated using a step
+    size of 1&nbsp;nm and wavelength domain
+    <nobr>390 nm &ndash; 830 nm\\(,\\)</nobr> satisfy
     </p> 
     <p style="margin:0 0 0.2em 0">
-    &#8226;&nbsp;
-    \\(L_{\,\mathrm{MB},\,%s,\,%d} + M_{\,\mathrm{MB},\,%s,\,%d} = 
-       V_{\,\mathrm{F},\,%s,\,%d}\\)
+    <nobr>&#8226;
+    \\(\,L_{\,\mathrm{MB},\,%s,\,%d} + M_{\,\mathrm{MB},\,%s,\,%d} = 
+       V_{\,\mathrm{F},\,%s,\,%d}\\)</nobr>
     <p style="margin:0 0 0.7em 0">
-    &#8226;&nbsp;
-    \\(\\max\\left(
+    <nobr>&#8226;
+    \\(\,\\max\\left(
        S_{\\,\\mathrm{MB},\\,%s,\\,%d}/V_{\\,\\mathrm{F},\\,%s,\\,%d}
-       \\right) =  1\\)
+       \\right) =  1\\)</nobr>
     </p>
     <p style="margin:0 0 1.3em 0">
     where \\(V_{\\,\\mathrm{F},\\,%s,\\,%d} = P_{\\mathrm{v}} /
-      K_{\\mathrm{F,\\,m},\\,%s,\\,%d},\,\\) in which \\(P_{\\mathrm{v}}\\) and
-    \\(K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\) are, respectively, the LM
-    luminous flux and the LM maximum luminous efficacy as determined
-    by the cone-fundamental-based spectral luminous efficiency
-    function \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}(\\lambda)\\).
+      K_{\\mathrm{F,\\,m},\\,%s,\\,%d},\,\\) with \\(P_{\\mathrm{v}}\\)
+    and \\(K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\) equal <nobr>to\\(,\\)</nobr>
+    <nobr>respectively\\(,\\)</nobr> the LM luminous flux and the LM maximum 
+    luminous efficacy as determined by the cone-fundamental-based spectral 
+    luminous efficiency function \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}(\\lambda)\\).
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -281,11 +302,11 @@ def _normalization_lm(data):
     <b class="description-subtitle">Normalization</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    The chromaticity point of Illuminant&nbsp;E,
-    \\((l_{%s,\\,%d\\mathrm{;\\,E}},\\,
-    m_{%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3,&nbsp;1/3), 
+    The chromaticity point of <nobr>Illuminant E\\(,\\) </nobr>
+    \\( (l_{%s,\\,%d\\mathrm{;\\,E}},\\, m_{%s,\\,%d\\mathrm{;\\,E}}),\, \\)
+    equals <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> 
     when calculated using a step size of %s&nbsp;nm and 
-    wavelength domain %s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm.
+    wavelength domain <nobr>%s nm &ndash; %s nm</nobr>.
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -296,32 +317,46 @@ def _normalization_lm(data):
 def _normalization_xyz(data, options):
     if options['norm']:
         return """
-        <p style="margin:0 0 0.3em 0">
+        <p style="margin:0 0 0 0">
         <b class="description-subtitle">Normalization</b>
         </p>
-        <p style="margin:0 0 0.3em 0">
-        &#8226; Equal cone-fundamental-based tristimulus values for
-        Illuminant&nbsp;E when calculated using a step size of %s&nbsp;nm
-        and wavelength domain %s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm</p>
         <p style="margin:0 0 1.3em 0">
-        &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
-        &nbsp;peaking at unity at 0.1&nbspnm resolution
+        <table>
+        <tr>
+            <td style="vertical-align:top">&#8226;&nbsp;</td>
+            <td>Equal cone-fundamental-based tristimulus values for
+            Illuminant&nbsp;E when calculated using a step size of %s&nbsp;nm
+            and wavelength domain <nobr>%s nm &ndash; %s nm</nobr></td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top">&#8226;&nbsp;</td>
+            <td>Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\,\\)
+            peaking at unity at 0.1&nbsp;nm resolution</td>
+        </tr>
+        </table>
         </p>
         """ % (data['lambda_step'],
                data['lambda_min'], data['lambda_max'],
                data['field_size'], data['age'])
     else:
         return """
-        <p style="margin:0 0 0.3em 0">
+        <p style="margin:0 0 0 0">
         <b class="description-subtitle">Normalization</b>
         </p>
-        <p style="margin:0 0 0.3em 0">
-        &#8226; Equal cone-fundamental-based tristimulus values for
-        Illuminant&nbsp;E when calculated using a step size of 1&nbsp;nm
-        and wavelenght domain 390&nbsp;nm&nbsp;&minus;&nbsp;830&nbsp;nm</p>
         <p style="margin:0 0 1.3em 0">
-        &#8226; Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)
-        &nbsp;peaking at unity at 0.1&nbsp;nm resolution
+        <table>
+        <tr>
+            <td style="vertical-align:top">&#8226;&nbsp;</td>
+            <td>Equal cone-fundamental-based tristimulus values for
+            Illuminant&nbsp;E when calculated using a step size of 1&nbsp;nm
+            and wavelenght domain <nobr>390 nm &ndash; 830 nm</nobr></td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top">&#8226;&nbsp;</td>
+            <td>Values of &nbsp;\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\,\\)
+            peaking at unity at 0.1&nbsp;nm resolution</td>
+        </tr>
+        </table>
         </p>
         """ % (data['field_size'], data['age'])
         
@@ -333,11 +368,12 @@ def _normalization_xy(data, options):
         <b class="description-subtitle">Normalization</b>
         </p>
         <p style="margin:0 0 1.3em 0">
-        The chromaticity point of Illuminant&nbsp;E
-        \\(,(\,x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
-        y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}}),\\) equals (1/3,&nbsp;1/3)
-        when calculated using a step size of %s&nbsp;nm and wavelength
-        domain %s&nbsp;nm&nbsp;&minus;&nbsp;%s&nbsp;nm.
+        The chromaticity point of <nobr>Illuminant E\\(, \\) </nobr>
+        \\( (\,x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
+        y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}}), \\) equals
+        <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> when calculated 
+        using a step size of %s&nbsp;nm and wavelength domain 
+        <nobr>%s nm &ndash; %s nm</nobr>.
         </p>
         """ % (data['field_size'], data['age'],
                data['field_size'], data['age'],
@@ -349,41 +385,85 @@ def _normalization_xy(data, options):
         <b class="description-subtitle">Normalization</b>
         </p>
         <p style="margin:0 0 1.3em 0">
-        The chromaticity point of Illuminant&nbsp;E,
-        \\((x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,\,
-        y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}})\\), equals (1/3,&nbsp;1/3)
-        when calculated using a step size of 1&nbsp;nm and wavelenght
-        domain 390&nbsp;nm&nbsp;&minus;&nbsp;830&nbsp;nm.
+        The chromaticity point of <nobr>Illuminant E\\(, \\) </nobr>
+        \\( (\,x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
+        y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}}), \\) equals 
+        <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> when calculated 
+        using a step size of 1&nbsp;nm and wavelenght domain 
+        <nobr>390 nm &ndash; 830 nm.</nobr>
         </p>
         """ % (data['field_size'], data['age'],
                data['field_size'], data['age'])        
 
 
-def _normalization_31():
+def _normalization_xyz_31():
+    return """
+    <p style="margin:0 0 0.3em 0">
+    <b class="description-subtitle">Normalization</b>
+    </p>
+     <p style="margin:0 0 1.3em 0">
+        <table>
+        <tr>
+            <td style="vertical-align:top">&#8226;&nbsp;</td>
+            <td>Equal tristimulus values for Illuminant&nbsp;E</td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top">&#8226;&nbsp;</td>
+            <td>Values of &nbsp;\\( \\bar y \\)&nbsp;peaking at
+            unity at 1&nbsp;nm resolution</td>
+        </tr>
+        </table>
+    </p>
+    """
+
+
+def _normalization_xyz_64():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    &#8226; Equal tristimulus values for Illuminant&nbsp;E<br />
-    &#8226; Values of &nbsp;\\(\\bar y\\)&nbsp;peaking at unity
-    at 1&nbsp;nm resolution
+        <table>
+        <tr>
+            <td style="vertical-align:top">&#8226;&nbsp;</td>
+            <td>Equal tristimulus values for Illuminant&nbsp;E</td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top">&#8226;&nbsp;</td>
+            <td>Values of &nbsp;\\( \\bar y_{10} \\)&nbsp;peaking at
+            unity at 1&nbsp;nm resolution</td>
+        </tr>
+        </table>
     </p>
     """
 
-
-def _normalization_64():
+    
+def _normalization_xy_31():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    &#8226; Equal tristimulus values for Illuminant&nbsp;E<br />
-    &#8226; Values of &nbsp;\\(\\bar y_{10}\\)&nbsp;peaking at unity
-    at 1&nbsp;nm resolution
+    The chromaticity point of <nobr>Illuminant&nbsp;E\\(, \\) </nobr>
+    \\( (x,\\, y), \\) equals <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> to
+    the precision of 4 decimal places.
     </p>
     """
-
+        
+        
+def _normalization_xy_64():
+     return """
+     <p style="margin:0 0 0.3em 0">
+     <b class="description-subtitle">Normalization</b>
+     </p>
+     <p style="margin:0 0 1.3em 0">
+     The chromaticity point of <nobr>Illuminant&nbsp;E\\(, \\) </nobr>
+     \\( (x_{\,10},\\, y_{\,10}), \\) equals
+     <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> to
+     the precision of 4 decimal places.
+     </p>
+        """
+        
 
 def _lms_to_mb(data, options):
     if options['norm']:
@@ -423,11 +503,12 @@ def _lms_to_mb(data, options):
            trans_mat[1, 0], data['field_size'], data['age'],
            trans_mat[1, 1], data['field_size'], data['age'])
     html_string += """
-        <p style="margin:1.4em 0 1.3em 0">
-        with the cone fundamentals \\( \,\\bar
-        l_{%s,\,%d}(\\lambda),\; \\bar m_{\,%s,\,%d}(\\lambda),\;
-        \\bar s_{%s,\,%d}(\\lambda)\\) &nbsp;given to the precision of
-        9 significant figures
+        <p style="margin:0.9em 0 1.3em 0">
+        with the cone fundamentals
+        \\( \,\\bar l_{%s,\,%d}(\\lambda),\,\\)
+        \\( \,\\bar m_{\,%s,\,%d}(\\lambda)\,\\) and
+        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given 
+        to the precision of 9 significant figures
         </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -474,11 +555,12 @@ def _lms_to_lm(data):
            data['lms_N_inv'][1], data['field_size'], data['age'],
            data['lms_N_inv'][2], data['field_size'], data['age'])
     html_string += """
-        <p style="margin:1.4em 0 1.3em 0">
-        with the cone fundamentals \\( \,\\bar
-        l_{%s,\,%d}(\\lambda),\; \\bar m_{\,%s,\,%d}(\\lambda),\;
-        \\bar s_{%s,\,%d}(\\lambda)\\) &nbsp;given to the precision of
-        9 significant figures
+        <p style="margin:0.9em 0 1.3em 0">
+        with the cone fundamentals
+        \\( \,\\bar l_{%s,\,%d}(\\lambda),\,\\)
+        \\( \,\\bar m_{\,%s,\,%d}(\\lambda)\,\\) and
+        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given 
+        to the precision of 9 significant figures
         </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -539,10 +621,12 @@ def _lms_to_xyz(data, options, purple=False):
            data['field_size'], data['age'],
            data['field_size'], data['age'])
     html_string += """
-        <p style="margin:1em 0 1.3em 0">
-        with the cone fundamentals \\( \,\\bar l_{%s,\,%d}(\\lambda),\;
-        \\bar m_{\,%s,\,%d}(\\lambda),\; \\bar s_{%s,\,%d}(\\lambda)\\)
-        &nbsp;given to the precision of 9 significant figures
+        <p style="margin:0.9em 0 1.3em 0">
+        with the cone fundamentals
+        \\( \,\\bar l_{%s,\,%d}(\\lambda),\,\\)
+        \\( \,\\bar m_{\,%s,\,%d}(\\lambda)\,\\) and
+        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given 
+        to the precision of 9 significant figures
         </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -596,7 +680,7 @@ def _xyz_to_xy(data):
            data['field_size'], data['age'],
            data['field_size'], data['age'])
     html_string += """
-        <p style="margin:1em 0 1.3em 0">
+        <p style="margin:0.9em 0 1.3em 0">
         with the values of the cone-fundamental-based tristimulus functions,
         \\( \,\\bar x_{\,\mathrm{F},\,%s,\,%d}(\\lambda),\\) \\(
         \,\,\\bar y_{\,\mathrm{F},\,%s,\,%d}(\\lambda),\\) \\( \,\\bar
@@ -611,29 +695,29 @@ def _xyz_to_xy(data):
 
 def _xyz_purples_to_xy_purples(data):
     html_string = """
-    <p style="margin:0 0 0 0">
-    <b class="description-subtitle">Coordinate formulae</b></p>
-    <p style="margin:0 0 0 0">
-    $$
-    \\begin{aligned}
-    x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\; &=
-    \,\\frac{\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})}
-    {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
-    \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
-    \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})} \\\\
-    y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\; &=
-    \,\\frac{\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})}
-    {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
-    \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
-    \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})} \\\\
-    z_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\; &=
-    \,\\frac{\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})}
-    {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
-    \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
-    \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})} \\\\
-    \\end{aligned}
-    $$
-    </p>
+        <p style="margin:0 0 0 0">
+        <b class="description-subtitle">Coordinate formulae</b></p>
+        <p style="margin:0 0 0 0">
+        $$
+        \\begin{aligned}
+        x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\; &=
+        \,\\frac{\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})}
+        {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
+        \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
+        \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})} \\\\
+        y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\; &=
+        \,\\frac{\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})}
+        {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
+        \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
+        \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})} \\\\
+        z_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\; &=
+        \,\\frac{\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})}
+        {\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
+        \\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}) +
+        \\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})} \\\\
+        \\end{aligned}
+        $$
+        </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -650,14 +734,15 @@ def _xyz_purples_to_xy_purples(data):
            data['field_size'], data['age'],
            data['field_size'], data['age'])
     html_string += """
-        <p style="margin:1em 0 1.3em 0">
-        with the values of the cone-fundamental-based tristimulus functions 
-        for purple-line stimuli,
+        <p style="margin:0.9em 0 1.3em 0">
+        where \\(\\lambda_{\\mathrm{c}}\\) is the complementary wavelength 
+        of the purple-line stimulus, and 
         \\(\,\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}),\\) 
-        \\(\,\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}),\\) 
-        \\(\,\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})\\),
-        &nbsp;given to the precision of 7 significant figures
-        </p>
+        \\(\,\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})\\) and 
+        \\(\,\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})\\) are
+        the values of the cone-fundamental-based tristimulus functions for 
+        purple-line stimili given to the precision of 7 significant figures
+            </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['field_size'], data['age'])
@@ -766,11 +851,12 @@ def _precision_xy():
 def _illuminant_E_mb(data):
     return """
     <p style="margin:0 0 0.3em 0">
-    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,\mathrm{E}},
-    \,s_{\,\mathrm{MB},\,%s,\,%d;\,\mathrm{E}}) =  (%.6f, %.6f)\\)
+    \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,\mathrm{E}},\\,
+    \\,  s_{\,\mathrm{MB},\,%s,\,%d;\,\mathrm{E}})\\)\
+    \\( = (%.6f, %.6f) \\)
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -780,11 +866,12 @@ def _illuminant_E_mb(data):
 def _illuminant_E_lm(data):
     return """
     <p style="margin:0 0 0.3em 0">
-    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    \\( (l_{\,%s,\,%d;\,\mathrm{E}},\,m_{\,%s,\,%d;\,\mathrm{E}}) =
-    (%.6f, %.6f)\\)
+    \\( (l_{\,%s,\,%d;\,\mathrm{E}},\\,
+    \\,  m_{\,%s,\,%d;\,\mathrm{E}}) \\)\
+    \\( = (%.6f, %.6f) \\)
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -798,11 +885,12 @@ def _illuminant_E_xy(data, options):
         xy_white = data['xy_white']
     return """
     <p style="margin:0 0 0.3em 0">
-    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
     </p>
-    <p style="margin:0 0 1.3em 0">
-    \\( (x_{\,\mathrm{F},\,%s,\,%d;\,\\mathrm{E}},\\,
-    \\,y_{\,\mathrm{F},\,%s,\,%d;\,\\mathrm{E}}) = (%.5f, %.5f) \\)
+    <p style="margin:0 0 1.3em 0"> 
+    \\( (x_{\\,\mathrm{F},\\,%s,\\,%d;\\,\\mathrm{E}},\\,
+    \\,  y_{\\,\mathrm{F},\\,%s,\\,%d;\\,\\mathrm{E}}) \\)\
+    \\( = (%.5f, %.5f) \\)
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
            xy_white[0], xy_white[1])
@@ -811,10 +899,12 @@ def _illuminant_E_xy(data, options):
 def _illuminant_E_xy_31():
     return """
     <p style="margin:0 0 0.3em 0">
-    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    \\((x_{\mathrm{E}},\,y_{\,\mathrm{E}}) = (0.33331,0.33329) \\)
+    \\( (x_{\mathrm{E}},\\,
+    \\,  y_{\\,\mathrm{E}}) \\)\
+    \\( = (0.33331,0.33329) \\)
     </p>
     """
 
@@ -822,10 +912,12 @@ def _illuminant_E_xy_31():
 def _illuminant_E_xy_64():
     return """
     <p style="margin:0 0 0.3em 0">
-    <b class="description-subtitle">Chromaticity point of Illuminant E</b>
+    <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
     </p>
     <p style="margin:0 0 1.3em 0">
-    \\((x_{10;\,\mathrm{E}},\,y_{\,10;\,\mathrm{E}}) = (0.33330, 0.33333) \\)
+    \\( (x_{10;\\,\mathrm{E}},\\,
+    \\,  y_{\\,10;\\,\mathrm{E}})\\)\
+    \\(= (0.33330, 0.33333) \\)
     </p>
     """
 
@@ -833,14 +925,16 @@ def _purpleline_tangentpoints_mb(data):
     return """   
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Tangent points of the purple line</b>
+    </p>    
+    <p style="margin:0 0 0.2em 0">
+    \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}},\\,
+    \\,  m_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
+    \\(  = (%.6f, %.6f) \\) 
     </p>
     <p style="margin:0 0 0.2em 0">
-    \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}},
-    \,m_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}}) = (%.6f, %.6f)\\) 
-    </p>
-    <p style="margin:0 0 0.2em 0">
-    \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}},
-    \,m_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}}) = (%.6f, %.6f)\\)
+    \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}},\\,
+    \\,  m_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
+    \\(  = (%.6f, %.6f) \\)
     </p>
     """ % (data['field_size'], data['age'], data['purple_line_mb'][0, 0],
            data['field_size'], data['age'], data['purple_line_mb'][0, 0],
@@ -849,15 +943,6 @@ def _purpleline_tangentpoints_mb(data):
            data['field_size'], data['age'], data['purple_line_mb'][1, 0],
            data['purple_line_mb'][1, 1], data['purple_line_mb'][1, 2])
 
-#    $$
-#    \\begin{align}
-#    (l_{\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}, m_{\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) 
-#    (%.6f, %.6f) \\\\
-#    (l_{\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}, m_{\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) &=
-#    (%.6f, %.6f) \\\\
-#    \\end{align}
-#    $$
-
 
 def _purpleline_tangentpoints_lm(data):
     return """
@@ -865,12 +950,14 @@ def _purpleline_tangentpoints_lm(data):
     <b class="description-subtitle">Tangent points of the purple line</b>
     </p>
     <p style="margin:0 0 0.2em 0">
-    \\( (l_{\,%s,\,%d;\,%.1f\,\mathrm{nm}},
-    \,m_{\,%s,\,%d;\,%.1f\,\mathrm{nm}}) = (%.6f, %.6f)\\)
+    \\( (l_{\,%s,\,%d;\,%.1f\,\mathrm{nm}},\\,
+    \\,  m_{\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
+    \\(  = (%.6f, %.6f) \\)
     </p>    
     <p style="margin:0 0 0.2em 0">
-    \\( (l_{\,%s,\,%d;\,%.1f\,\mathrm{nm}},
-    \,m_{\,%s,\,%d;\,%.1f\,\mathrm{nm}}) = (%.6f, %.6f)\\)
+    \\( (l_{\,%s,\,%d;\,%.1f\,\mathrm{nm}},\\,
+    \\,  m_{\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
+    \\(  = (%.6f, %.6f) \\)
     </p>    
     """ % (data['field_size'], data['age'], data['purple_line_lm'][0, 0],
            data['field_size'], data['age'], data['purple_line_lm'][0, 0],
@@ -890,28 +977,21 @@ def _purpleline_tangentpoints_xy(data, options):
     <b class="description-subtitle">Tangent points of the purple line</b>
     </p>
     <p style="margin:0 0 0.2em 0">
-    \\( (x_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}},
-    \,y_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) = (%.5f, %.5f)\\)
+    \\( (x_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}},\\,
+    \\,  y_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) \\)
+    \\(  = (%.5f, %.5f) \\)
     </p>
     <p style="margin:0 0 0.2em 0">
-    \\( (x_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}},
-    \,y_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) = (%.5f, %.5f)\\)
+    \\( (x_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}},\\,
+    \\,  y_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) \\)
+    \\(  = (%.5f, %.5f) \\)
     </p>
     """ % (data['field_size'], data['age'], purple_line_cc[0, 0],
            data['field_size'], data['age'], purple_line_cc[0, 0],
            purple_line_cc[0, 1], purple_line_cc[0, 2],
            data['field_size'], data['age'], purple_line_cc[1, 0],
            data['field_size'], data['age'], purple_line_cc[1, 0],
-           purple_line_cc[1, 1], purple_line_cc[1, 2])
-    
-#    $$
-#    \\begin{align}    
-#    (x_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}},
-#    \,\\,y_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) &= (%.5f, %.5f) \\\\
-#    (x_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}},
-#    \,\\,y_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) &= (%.5f, %.5f) \\\\
-#    \\end{align}
-#    $$    
+           purple_line_cc[1, 1], purple_line_cc[1, 2])  
  
  
 def _purpleline_tangentpoints_xy_complementary(data, options):
@@ -924,14 +1004,18 @@ def _purpleline_tangentpoints_xy_complementary(data, options):
     <b class="description-subtitle">Tangent points of the purple line</b>
     </p>
     <p style="margin:0 0 0 0">
-    \\( (x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}},
-    \,y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}}) 
-    = (%.5f, %.5f)\\)
+    \\( (x_{\,\mathrm{F},\,%s,
+            \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}},\\,
+    \\,  y_{\,\mathrm{F},\,%s,
+            \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}}) \\) 
+    \\(  = (%.5f, %.5f) \\)
     </p>
     <p style="margin:0 0 0.2em 0">
-    \\( (x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}},
-    \,y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}}) 
-    = (%.5f, %.5f)\\)
+    \\( (x_{\,\mathrm{F},\,%s,
+            \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}},\\,
+    \\,  y_{\,\mathrm{F},\,%s,
+            \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}}) \\) 
+    \\(  = (%.5f, %.5f) \\)
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -940,14 +1024,6 @@ def _purpleline_tangentpoints_xy_complementary(data, options):
            data['field_size'], data['age'],
            purple_line_cc[1, 1], purple_line_cc[1, 2])
 
-#    $$
-#    \\begin{align}
-#    (x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,tan}}}},
-#    \,\\,y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,tan}}}}) &= (%.5f, %.5f) \\\\
-#    (x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,tan}}}},
-#    \,\\,y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,tan}}}}) &= (%.5f, %.5f) \\\\
-#    \\end{align}
-#    $$
 
 def _purpleline_tangentpoints_xy_31(data):
     return """
@@ -955,11 +1031,13 @@ def _purpleline_tangentpoints_xy_31(data):
     <b class="description-subtitle">Tangent points of the purple line</b>
     </p>
     <p style="margin:0 0 0 0">
-    \\( (x_{\,%.1f\,\mathrm{nm}},\,y_{\,%.1f\,\mathrm{nm}}) = (%.5f, %.5f)\\)
+    \\( (x_{\,%.1f\,\mathrm{nm}},\\,\\,y_{\,%.1f\,\mathrm{nm}}) \\)
+    \\(  = (%.5f, %.5f) \\)
     </p>
     <p style="margin:0 0 0.2em 0">
-    \\( (x_{\,\mathrm{699\,nm\,–\,830\,nm}},
-    \,y_{\,\mathrm{699\,nm\,–\,830\,nm}}) = (%.5f, %.5f)\\)
+    \\( (x_{\,\mathrm{699\,nm\,–\,830\,nm}},\\,
+    \\,  y_{\,\mathrm{699\,nm\,–\,830\,nm}}) \\) 
+    \\(  = (%.5f, %.5f) \\)
     </p>
     """ % (data['purple_line_cc31'][0, 0],
            data['purple_line_cc31'][0, 0],
@@ -968,12 +1046,6 @@ def _purpleline_tangentpoints_xy_31(data):
 #           data['purple_line_cc31'][1, 0],
            data['purple_line_cc31'][1, 1], data['purple_line_cc31'][1, 2])
 
-#    $$
-#    \\begin{align}
-#    (x_{\,%.1f\,\mathrm{nm}},\,y_{\,%.1f\,\mathrm{nm}}) &= (%.5f, %.5f) \\\\
-#    (x_{\,%.1f\,\mathrm{nm}},\,y_{\,%.1f\,\mathrm{nm}}) &= (%.5f, %.5f) \\\\
-#    \\end{align}
-#    $$
 
 def _purpleline_tangentpoints_xy_64(data):
     return """
@@ -981,12 +1053,13 @@ def _purpleline_tangentpoints_xy_64(data):
     <b class="description-subtitle">Tangent points of the purple line</b>
     </p>
     <p style="margin:0 0 0 0">
-    \\( (x_{10;\,%.1f\,\mathrm{nm}},\,y_{10;\,%.1f\,\mathrm{nm}}) =
-    (%.5f, %.5f)\\)
+    \\( (x_{10;\,%.1f\,\mathrm{nm}},\\,\\,y_{10;\,%.1f\,\mathrm{nm}}) \\)
+    \\(  = (%.5f, %.5f) \\)
     </p>
     <p style="margin:0 0 0.2em 0">
-    \\( (x_{10;\,\mathrm{700\,nm\,–\,702\,nm}},
-    \,y_{10;\,\mathrm{700\,nm\,–\,702\,nm}}) =(%.5f, %.5f)\\)
+    \\( (x_{10;\,\mathrm{700\,nm\,–\,702\,nm}},\\,
+    \\,  y_{10;\,\mathrm{700\,nm\,–\,702\,nm}}) \\)
+    \\(  = (%.5f, %.5f) \\)
     </p>
     """ % (data['purple_line_cc64'][0, 0],
            data['purple_line_cc64'][0, 0],
@@ -995,14 +1068,6 @@ def _purpleline_tangentpoints_xy_64(data):
 #           data['purple_line_cc64'][1, 0],
            data['purple_line_cc64'][1, 1], data['purple_line_cc64'][1, 2])
 
-#    $$
-#    \\begin{align}
-#    (x_{10;\,%.1f\,\mathrm{nm}},\,y_{10;\,%.1f\,\mathrm{nm}}) &= 
-#    (%.5f, %.5f) \\\\
-#    (x_{10;\,%.1f\,\mathrm{nm}},\,y_{10;\,%.1f\,\mathrm{nm}}) &= 
-#    (%.5f, %.5f) \\\\
-#    \\end{align}
-#    $$
 
 def lms(data, heading, options, include_head=False):
     """
@@ -1032,7 +1097,8 @@ def lms(data, heading, options, include_head=False):
                                '\\(\\bar m_{\,%s,\,%d}\\)' %
                                (data['field_size'], data['age']),
                                '\\(\\bar s_{%s,\,%d}\\)' %
-                               (data['field_size'], data['age'])) +
+                               (data['field_size'], data['age']),
+                               '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts(data) +
                     _normalization_lms() +
                     _precision_lms())
@@ -1067,7 +1133,8 @@ def lms_base(data, heading, options, include_head=False):
                                '\\(\\bar m_{\,%s,\,%d}\\)' %
                                (data['field_size'], data['age']),
                                '\\(\\bar s_{%s,\,%d}\\)' %
-                               (data['field_size'], data['age'])) +
+                               (data['field_size'], data['age']),
+                               '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts(data) +
                     _normalization_lms() +
                     _precision_lms_base())
@@ -1178,7 +1245,8 @@ def xyz(data, heading, options, include_head=False):
                                '\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)' %
                                (data['field_size'], data['age']),
                                '\\(\\bar z_{\,\mathrm{F},\,%s,\,%d}\\)' %
-                               (data['field_size'], data['age'])) +
+                               (data['field_size'], data['age']), 
+                               '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts(data) +
                     _normalization_xyz(data, options) +
                     _lms_to_xyz(data, options) +
@@ -1209,12 +1277,16 @@ def xyz_purples(data, heading, options, include_head=False):
         html_string += _head()
     html_string += (_heading(heading) +
                     _parameters(data) +
-                    _functions('\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
-                               (data['field_size'], data['age']),
-                               '\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
-                               (data['field_size'], data['age']),
-                               '\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
-                               (data['field_size'], data['age'])) +
+                    _functions(
+                            '\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                            (data['field_size'], data['age']),
+                            '\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                            (data['field_size'], data['age']),
+                            '\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}\\)' %
+                            (data['field_size'], data['age']),
+                            '<nobr>\\(\\lambda_{\\mathrm{c}}\\)</nobr> \
+                            &nbsp;(complementary<font size="0.0em"> </font>\
+                            &nbsp;wavelength)') +                     
                     _wavelenghts_complementary(data, options) +
                     _normalization_xyz(data, options) +
                     _lms_to_xyz_purples(data, options) +
@@ -1288,7 +1360,7 @@ def xy_purples(data, heading, options, include_head=False):
                                  '\\(y_{\,\mathrm{F},\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age']),
                                  '\\(z_{\,\mathrm{F},\,%s,\,%d}\\)' %
-                                (data['field_size'], data['age'])) +                               
+                                 (data['field_size'], data['age'])) +                               
                     _wavelenghts_complementary(data, options) +
                     _normalization_xy(data, options) +
                     _xyz_purples_to_xy_purples(data) +
@@ -1320,12 +1392,13 @@ def xyz_31(data, heading, options, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _parameters_31() +
-                    _functions('\\(\\bar x\\)',
-                               '\\(\\bar y\\)',
-                               '\\(\\bar z\\)') +
+                    _parameters_std('2') +
+                    _functions('\\(\\bar x\\) ',
+                               '\\(\\bar y\\) ',
+                               '\\(\\bar z\\)',
+                               '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts_std() +
-                    _normalization_31() +
+                    _normalization_xyz_31() +
                     _precision_xyz())
     return html_string
 
@@ -1353,12 +1426,13 @@ def xyz_64(data, heading, options, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _parameters_64() +
+                    _parameters_std('10') +
                     _functions('\\(\\bar x_{10}\\)',
                                '\\(\\bar y_{10}\\)',
-                               '\\(\\bar z_{10}\\)') +
+                               '\\(\\bar z_{10}\\)',
+                               '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts_std() +
-                    _normalization_64() +
+                    _normalization_xyz_64() +
                     _precision_xyz())
     return html_string
 
@@ -1385,9 +1459,10 @@ def xy_31(data, heading, options, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _parameters_31() +
+                    _parameters_std('2') +
                     _coordinates('\\(x\\)', '\\(y\\)', '\\(z\\)') +
                     _wavelenghts_std() +
+                    _normalization_xy_31() +
                     _xyz_31_to_xy_31() +
                     _precision_xy() +
                     _illuminant_E_xy_31() +
@@ -1417,11 +1492,12 @@ def xy_64(data, heading, options, include_head=False):
     if include_head:
         html_string += _head()
     html_string += (_heading(heading) +
-                    _parameters_64() +
+                    _parameters_std('10') +
                     _coordinates('\\(x_{10}\\)',
                                  '\\(y_{\,10}\\)',
                                  '\\(z_{\,10}\\)') +
                     _wavelenghts_std() +
+                    _normalization_xy_64() +
                     _xyz_64_to_xy_64() +
                     _precision_xy() +
                     _illuminant_E_xy_64() +
