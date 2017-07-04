@@ -71,20 +71,30 @@ class AppForm(QtWidgets.QMainWindow):
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
             pre = 'purple_cc_F'
 
-        if self.plot_combo.currentIndex() == self.COMBO_LM or \
-                ((self.plot_combo.currentIndex() in [self.COMBO_XYZ,
-                                                    self.COMBO_PURPLE_XYZ,
-                                                    self.COMBO_XY,
-                                                    self.COMBO_PURPLE_XY]) and self.norm_check.isChecked()):
+        if ((self.plot_combo.currentIndex() in [self.COMBO_LMS,
+                                                self.COMBO_LMSBASE]) and
+             self.log_check.isChecked()):
+            post = '__logarithmic_values'
+        
+        elif (self.plot_combo.currentIndex() == self.COMBO_LM or
+              ((self.plot_combo.currentIndex() in [self.COMBO_XYZ,
+                                                   self.COMBO_PURPLE_XYZ,
+                                                   self.COMBO_XY,
+                                                   self.COMBO_PURPLE_XY]) and
+                self.norm_check.isChecked())):
             post = '__renormalized_values'
 
-        if self.plot_combo.currentIndex() == self.COMBO_XYZSTD and self.field_combo.currentIndex() == 0:
+        if (self.plot_combo.currentIndex() == self.COMBO_XYZSTD and
+            self.field_combo.currentIndex() == 0):
             suggest = 'cie_xyz__standard1931__fs_2.csv'
-        elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD and self.field_combo.currentIndex() == 1:
+        elif (self.plot_combo.currentIndex() == self.COMBO_XYZSTD and
+              self.field_combo.currentIndex() == 1):
             suggest = 'cie_xyz__standard1964__fs_10.csv'
-        elif self.plot_combo.currentIndex() == self.COMBO_XYSTD and self.field_combo.currentIndex() == 0:
+        elif (self.plot_combo.currentIndex() == self.COMBO_XYSTD and
+              self.field_combo.currentIndex() == 0):
             suggest = 'cie_cc__standard1931__fs_2.csv'
-        elif self.plot_combo.currentIndex() == self.COMBO_XYSTD and self.field_combo.currentIndex() == 1:
+        elif (self.plot_combo.currentIndex() == self.COMBO_XYSTD and
+              self.field_combo.currentIndex() == 1):
             suggest = 'cie_cc__standard1964__fs_10.csv'
         else:     
             suggest = (pre + '__fs_' + str(self.field_spin.value()) +
@@ -100,43 +110,67 @@ class AppForm(QtWidgets.QMainWindow):
 
         if path:
             if self.plot_combo.currentIndex() == self.COMBO_LMS:
-                np.savetxt(path, self.results['lms'], '%.1f, %.5e, %.5e, %.5e')
+                if self.log_check.isChecked():
+                    np.savetxt(path, self.results['logLMS'],
+                               '%.1f, %.5f, %.5f, %.5f')
+                else:
+                    np.savetxt(path, self.results['LMS'],
+                               '%.1f, %.5e, %.5e, %.5e')           
             elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
-                np.savetxt(path, self.results['lms_base'], '%.1f, %.8e, %.8e, %.8e')
+                if self.log_check.isChecked():
+                    np.savetxt(path, self.results['logLMS_base'],
+                               '%.1f, %.8f, %.8f, %.8f')
+                else:
+                    np.savetxt(path, self.results['LMS_base'],
+                               '%.1f, %.8e, %.8e, %.8e')    
             elif self.plot_combo.currentIndex() == self.COMBO_MB:
-                np.savetxt(path, self.results['mb'], '%.1f, %.6f, %.6f, %.6f')
+                np.savetxt(path, self.results['lms_mb'],
+                           '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == self.COMBO_LM:
-                np.savetxt(path, self.results['lm'], '%.1f, %.6f, %.6f, %.6f')
+                np.savetxt(path, self.results['lms_mw'],
+                           '%.1f, %.6f, %.6f, %.6f')
             elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
                 if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['xyz_N'], '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['XYZ_N'],
+                               '%.1f, %.6e, %.6e, %.6e')
                 else:
-                    np.savetxt(path, self.results['xyz'], '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['XYZ'],
+                               '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
                 if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['purple_xyz_N'], '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['XYZ_purples_N'],
+                               '%.1f, %.6e, %.6e, %.6e')
                 else:
-                    np.savetxt(path, self.results['purple_xyz'], '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['XYZ_purple'],
+                               '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_XY:
                 if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['xy_N'], '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xyz_N'],
+                               '%.1f, %.5f, %.5f, %.5f')
                 else:
-                    np.savetxt(path, self.results['xy'], '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xyz'],
+                               '%.1f, %.5f, %.5f, %.5f')
             elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
                 if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['purple_cc_N'], '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xyz_purples_N'],
+                               '%.1f, %.5f, %.5f, %.5f')
                 else:
-                    np.savetxt(path, self.results['purple_cc'], '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xyz_purples'],
+                               '%.1f, %.5f, %.5f, %.5f')
             elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD:
                 if self.field_combo.currentIndex() == 0:  # 2 degrees
-                    np.savetxt(path, self.results['xyz31'], '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['XYZ31'],
+                               '%.1f, %.6e, %.6e, %.6e')
                 else:
-                    np.savetxt(path, self.results['xyz64'], '%.1f, %.6e, %.6e, %.6e')
+                    np.savetxt(path, self.results['XYZ64'],
+                               '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_XYSTD:
                 if self.field_combo.currentIndex() == 0:  # 2 degrees
-                    np.savetxt(path, self.results['xy31'], '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xyz31'],
+                               '%.1f, %.5f, %.5f, %.5f')
                 else:
-                    np.savetxt(path, self.results['xy64'], '%.1f, %.5f, %.5f, %.5f')
+                    np.savetxt(path, self.results['xyz64'],
+                               '%.1f, %.5f, %.5f, %.5f')
 
     def options(self):
         """
@@ -146,23 +180,33 @@ class AppForm(QtWidgets.QMainWindow):
                 'cie31': self.cie31_check.isChecked(),
                 'cie64': self.cie64_check.isChecked(),
                 'labels': self.wavelength_check.isChecked(),
+                'log10': self.log_check.isChecked(),
+                'norm': self.norm_check.isChecked(),
                 'label_fontsize': 7,
                 'title_fontsize': 10.5,
                 'full_title': True,
-                'axis_labels': True,
-                'norm': self.norm_check.isChecked()}
+                'axis_labels': True}
+                
 
     def on_about(self):
         msg = """
-CIE Functions:  Calculates the CIE cone-fundamental-based colorimetric functions according to CIE TC 1-97.
+CIE Functions:  Calculates the CIE cone-fundamental-based colorimetric \
+functions according to CIE TC 1-97.
 
 Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it \
+under the terms of the GNU General Public License as published by the \
+Free Software Foundation, either version 3 of the License, or (at your \
+option) any later version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but \
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY \
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License \
+for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along \
+with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
         QtWidgets.QMessageBox.about(self, "About the demo", msg.strip())
 
@@ -206,19 +250,31 @@ You should have received a copy of the GNU General Public License along with thi
             self.lambda_min_spin.hide()
             self.lambda_max_spin.hide()
 
-        if self.plot_combo.currentIndex() in [self.COMBO_XY,
+        if self.plot_combo.currentIndex() in [self.COMBO_LMS,
+                                              self.COMBO_LMSBASE]:
+            self.norm_label.setVisible(False)
+            self.norm_check.setVisible(False) 
+            self.log_label.setVisible(True)
+            self.log_check.setVisible(True)          
+        elif self.plot_combo.currentIndex() == self.COMBO_LM:
+            self.log_label.setVisible(False)
+            self.log_check.setVisible(False)
+            self.norm_check.setVisible(False) 
+            self.norm_label.setVisible(True)     
+        elif self.plot_combo.currentIndex() in [self.COMBO_XY,
                                               self.COMBO_XYZ,
                                               self.COMBO_PURPLE_XYZ,
                                               self.COMBO_PURPLE_XY]:
+            self.log_label.setVisible(False)
+            self.log_check.setVisible(False)
             self.norm_label.setVisible(True)
             self.norm_check.setVisible(True)
-        elif self.plot_combo.currentIndex() == self.COMBO_LM:
-            self.norm_label.setVisible(True)
-            self.norm_check.setVisible(False)
         else:
+            self.log_label.setVisible(False)
+            self.log_check.setVisible(False)
             self.norm_label.setVisible(False)
             self.norm_check.setVisible(False)
-
+        
         #
         # CIE LMS cone fundamentals
         # (description, plot and table)
@@ -234,14 +290,14 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create html description
-            html_string = tc1_97.description.lms(self.results,
+            html_string = tc1_97.description.LMS(self.results,
                                                  self.plot_combo.currentText(),
                                                  self.options(), True)
             # Create plot
-            tc1_97.plot.lms(self.axes, self.plots, self.options())
+            tc1_97.plot.LMS(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.lms(self.results, self.options(), True)
+            html_table = tc1_97.table.LMS(self.results, self.options(), True)
 
         #
         # CIE LMS cone fundamentals (9 sign. figs.)
@@ -258,16 +314,16 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create html description
-            html_string = tc1_97.description.lms_base(
+            html_string = tc1_97.description.LMS_base(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
             
             # Create plot
-            tc1_97.plot.lms_base(self.axes, self.plots, self.options())
+            tc1_97.plot.LMS_base(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.lms_base(self.results,
+            html_table = tc1_97.table.LMS_base(self.results,
                                                self.options(), True)
 
         #
@@ -285,15 +341,16 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create html description
-            html_string = tc1_97.description.mb(self.results,
-                                                self.plot_combo.currentText(),
-                                                self.options(), True)
+            html_string = tc1_97.description.lms_mb(
+                    self.results,
+                    self.plot_combo.currentText(),
+                    self.options(), True)
             
             # Create plot
-            tc1_97.plot.mb(self.axes, self.plots, self.options())
+            tc1_97.plot.ls_mb(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.mb(self.results, self.options(), True)
+            html_table = tc1_97.table.lms_mb(self.results, self.options(), True)
 
         #
         # Maxwellian lm chromaticity diagram
@@ -310,15 +367,16 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setDisabled(True)
 
             # Create html description
-            html_string = tc1_97.description.lm(self.results,
-                                                self.plot_combo.currentText(),
-                                                self.options(), True)
+            html_string = tc1_97.description.lms_mw(
+                    self.results, self.plot_combo.currentText(),
+                    self.options(), True)
 
             # Create plot
-            tc1_97.plot.lm(self.axes, self.plots, self.options())
+            tc1_97.plot.lm_mw(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.lm(self.results, self.options(), True)
+            html_table = tc1_97.table.lms_mw(
+                    self.results, self.options(), True)
 
         #
         # CIE XYZ cone-fundamental-based tristimulus functions
@@ -335,15 +393,15 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(True)
 
             # Create html description
-            html_string = tc1_97.description.xyz(self.results,
+            html_string = tc1_97.description.XYZ(self.results,
                                                  self.plot_combo.currentText(),
                                                  self.options(), True)
             
             # Create plot
-            tc1_97.plot.xyz(self.axes, self.plots, self.options())
+            tc1_97.plot.XYZ(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.xyz(self.results, self.options(), True)
+            html_table = tc1_97.table.XYZ(self.results, self.options(), True)
 
         #
         # XYZ cone-fundamental-based tristimulus functions for
@@ -360,16 +418,16 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(False)
 
             # Create html descriptions
-            html_string = tc1_97.description.xyz_purples(
+            html_string = tc1_97.description.XYZ_purples(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
             
             # Create plot
-            tc1_97.plot.xyz_purples(self.axes, self.plots, self.options())
+            tc1_97.plot.XYZ_purples(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.xyz_purples(self.results, 
+            html_table = tc1_97.table.XYZ_purples(self.results, 
                                                   self.options(), True)
 
         #
@@ -386,7 +444,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(True)
 
             # Create html description
-            html_string = tc1_97.description.xy(self.results,
+            html_string = tc1_97.description.xyz(self.results,
                                                 self.plot_combo.currentText(),
                                                 self.options(), True)
             
@@ -394,7 +452,7 @@ You should have received a copy of the GNU General Public License along with thi
             tc1_97.plot.xy(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.xy(self.results, self.options(), True)
+            html_table = tc1_97.table.xyz(self.results, self.options(), True)
 
         #
         # xy cone-fundamental-based chromaticity diagram (purple-line stimuli)
@@ -411,7 +469,7 @@ You should have received a copy of the GNU General Public License along with thi
             self.cie64_check.setEnabled(False)
 
             # Create html description
-            html_string = tc1_97.description.xy_purples(
+            html_string = tc1_97.description.xyz_purples(
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
@@ -420,8 +478,8 @@ You should have received a copy of the GNU General Public License along with thi
             tc1_97.plot.xy_purples(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.xy_purples(self.results, 
-                                                 self.options(), True)
+            html_table = tc1_97.table.xyz_purples(self.results, 
+                                                  self.options(), True)
 
         #
         # CIE XYZ standard colour-matching functions
@@ -442,16 +500,16 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
 
                 # Create html description
-                html_string = tc1_97.description.xyz_31(
+                html_string = tc1_97.description.XYZ31(
                     self.results,
                     self.plot_combo.currentText(),
                     self.options(), True)
                 
                 # Create plot
-                tc1_97.plot.xyz_31(self.axes, self.plots, self.options())          
+                tc1_97.plot.XYZ31(self.axes, self.plots, self.options())          
 
                 # Create html table
-                html_table = tc1_97.table.xyz_31(self.results,
+                html_table = tc1_97.table.XYZ31(self.results,
                                                  self.options(), True)
 
             else:               # 10 deg
@@ -463,15 +521,15 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
 
                 # Create html description
-                html_string = tc1_97.description.xyz_64(
+                html_string = tc1_97.description.XYZ64(
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
                 # Create plot
-                tc1_97.plot.xyz_64(self.axes, self.plots, self.options())
+                tc1_97.plot.XYZ64(self.axes, self.plots, self.options())
                 
                 # Create html table
-                html_table = tc1_97.table.xyz_64(self.results,
+                html_table = tc1_97.table.XYZ64(self.results,
                                                  self.options(), True)
                 
         #
@@ -493,18 +551,18 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setEnabled(True)
 
                 # Create html description
-                html_string = tc1_97.description.xy_31(
+                html_string = tc1_97.description.xyz31(
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
                 # Create plot
-                tc1_97.plot.xy_31(self.axes, self.plots, self.options())
+                tc1_97.plot.xy31(self.axes, self.plots, self.options())
                 
                 # Create html table
-                html_table = tc1_97.table.xy_31(self.results,
+                html_table = tc1_97.table.xyz31(self.results,
                                                 self.options(), True)
 
-            else:               # 10 deg
+            else:   # 10 deg
 
                 # Setup GUI
                 self.compare_label_31.setEnabled(True)
@@ -513,15 +571,15 @@ You should have received a copy of the GNU General Public License along with thi
                 self.cie64_check.setDisabled(True)
 
                 # Create html description
-                html_string = tc1_97.description.xy_64(
+                html_string = tc1_97.description.xyz64(
                     self.results, self.plot_combo.currentText(),
                     self.options(), True)
 
                 # Create plot
-                tc1_97.plot.xy_64(self.axes, self.plots, self.options())
+                tc1_97.plot.xy64(self.axes, self.plots, self.options())
                 
                 # Create html table
-                html_table = tc1_97.table.xy_64(self.results,
+                html_table = tc1_97.table.xyz64(self.results,
                                                 self.options(), True)
                 
         #
@@ -554,10 +612,10 @@ You should have received a copy of the GNU General Public License along with thi
             self.last_lambda_min,
             self.last_lambda_max,
             self.last_resolution)
-        if self.results['xyz'][-1, 0] < 700:
-            self.lambda_max_spin.setMinimum(self.results['xyz'][-1, 0])
-        if self.results['xyz'][-1, 0] != self.last_lambda_max:
-            self.last_lambda_max = self.results['xyz'][-1, 0]
+        if self.results['XYZ'][-1, 0] < 700:
+            self.lambda_max_spin.setMinimum(self.results['XYZ'][-1, 0])
+        if self.results['XYZ'][-1, 0] != self.last_lambda_max:
+            self.last_lambda_max = self.results['XYZ'][-1, 0]
             self.lambda_max_spin.setValue(self.last_lambda_max)
         self.on_draw(True)
 
@@ -705,7 +763,10 @@ You should have received a copy of the GNU General Public License along with thi
 
         self.norm_check = QtWidgets.QCheckBox()
         self.norm_check.stateChanged.connect(self.on_draw_all)
-
+        
+        self.log_check = QtWidgets.QCheckBox()
+        self.log_check.stateChanged.connect(self.on_draw_all)
+        
         self.save_table_button = QtWidgets.QPushButton('&Save table')
         self.save_table_button.clicked.connect(self.save_table)
 
@@ -724,6 +785,7 @@ You should have received a copy of the GNU General Public License along with thi
         self.grid_label = QtWidgets.QLabel('Grid')
         self.wavelength_label = QtWidgets.QLabel('Labels')
         self.norm_label = QtWidgets.QLabel(' Renormalized values  ')
+        self.log_label = QtWidgets.QLabel(' Logarithmic values  ')
         self.field_label = QtWidgets.QLabel(u' Field size (\N{DEGREE SIGN})')
         self.age_label = QtWidgets.QLabel(' Age (yr)')
         self.lambda_min_max_label = QtWidgets.QLabel(' Domain (nm)')
@@ -790,6 +852,8 @@ You should have received a copy of the GNU General Public License along with thi
         combo_grid.addWidget(QtWidgets.QLabel('   '), 0, 1)
         combo_grid.addWidget(self.norm_label, 0, 2, QtCore.Qt.AlignRight)
         combo_grid.addWidget(self.norm_check, 0, 3)
+        combo_grid.addWidget(self.log_label, 0, 2, QtCore.Qt.AlignRight)
+        combo_grid.addWidget(self.log_check, 0, 3)
         combo_grid.setColumnMinimumWidth(0, 650)
         combo_grid.setColumnMinimumWidth(2, 150)
         combo_grid.setColumnMinimumWidth(3, 20)
@@ -832,6 +896,7 @@ def main():
     form = AppForm()
     form.show()
     app.exec_()
+    
 
 if __name__ == '__main__':
     main()
