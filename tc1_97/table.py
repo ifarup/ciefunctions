@@ -24,7 +24,6 @@ import sys
 import inspect
 import os.path
 
-
 def _head():
     package_path = os.path.dirname(os.path.abspath(inspect.getsourcefile(lambda:0)))
     html_string = """
@@ -63,9 +62,123 @@ def _head():
     return html_string
 
 
-def lms(results, options, include_head=False):
+def LMS(results, options, include_head=False):
     """
-    Generate html table of LMS functions for inclusion in GUI app and web app.
+    Generate html table of LMS functions for GUI and web apps.
+
+    Parameters
+    ----------
+    results : dict
+        as returned by tc1_97.compute.compute_tabulated()
+
+    Returns
+    -------
+    html_table : string
+        HTML representation of the LMS table
+    """ 
+    html_table = ""
+    if include_head:
+        html_table += _head()
+    if options['log10']:
+        html_table += """
+        <table>
+          <thead>
+          <tr>
+            <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar l_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar m_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar s_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+          </tr>
+          </thead>
+          <tbody>
+        """ % (results['field_size'], results['age'],
+               results['field_size'], results['age'],
+               results['field_size'], results['age'])
+        for i in range(np.shape(results['logLMS'])[0]):
+            if (float(results['λ_step']) ==
+                    np.round(float(results['λ_step'])) and
+                    float(results['λ_min']) ==
+                    np.round(float(results['λ_min']))):
+                html_table += """
+                <tr>
+                  <td>%.0f</td>
+                  <td>%.5f</td>
+                  <td>%.5f</td>
+                  <td>%.5f</td>
+                </tr>
+                """ % (results['logLMS'][i, 0],
+                       results['logLMS'][i, 1],
+                       results['logLMS'][i, 2],
+                       results['logLMS'][i, 3])
+            else:
+                html_table += """
+                <tr>
+                  <td>%.1f</td>
+                  <td>%.5f</td>
+                  <td>%.5f</td>
+                  <td>%.5f</td>
+                </tr>
+                """ % (results['logLMS'][i, 0],
+                       results['logLMS'][i, 1],
+                       results['logLMS'][i, 2],
+                       results['logLMS'][i, 3])
+        html_table += """
+          </tbody>
+        </table>
+        """
+    else:
+        html_table += """
+        <table>
+          <thead>
+          <tr>
+            <th>\\(\lambda\,\mathsf{\small\,(nm)} \\)</th>
+            <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
+            <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
+            <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
+          </tr>
+          </thead>
+          <tbody>
+        """ % (results['field_size'], results['age'],
+               results['field_size'], results['age'],
+               results['field_size'], results['age'])
+        for i in range(np.shape(results['LMS'])[0]):
+            if (float(results['λ_step']) ==
+                      np.round(float(results['λ_step'])) and
+                      float(results['λ_min']) ==
+                      np.round(float(results['λ_min']))):
+                html_table += """
+                <tr>
+                  <td>%.0f</td>
+                  <td>%.5e</td>
+                  <td>%.5e</td>
+                  <td>%.5e</td>
+                </tr>
+                """ % (results['LMS'][i, 0],
+                       results['LMS'][i, 1],
+                       results['LMS'][i, 2],
+                       results['LMS'][i, 3])
+            else:
+                html_table += """
+                <tr>
+                  <td>%.1f</td>
+                  <td>%.5e</td>
+                  <td>%.5e</td>
+                  <td>%.5e</td>
+                </tr>
+                """ % (results['LMS'][i, 0],
+                       results['LMS'][i, 1],
+                       results['LMS'][i, 2],
+                       results['LMS'][i, 3])
+        html_table += """
+          </tbody>
+        </table>
+        """
+    return html_table
+
+
+def LMS_base(results, options, include_head=False):
+    """
+    Generate html tables of LMS functions for GUI and web apps.
 
     Parameters
     ----------
@@ -80,122 +193,104 @@ def lms(results, options, include_head=False):
     html_table = ""
     if include_head:
         html_table += _head()
-    html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
-        <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
-        <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
-      </tr>
-      </thead>
-      <tbody>
-    """ % (results['field_size'], results['age'],
-           results['field_size'], results['age'],
-           results['field_size'], results['age'])
-    for i in range(np.shape(results['lms'])[0]):
-        if (float(results['lambda_step']) ==
-                np.round(float(results['lambda_step'])) and
-                float(results['lambda_min']) ==
-                np.round(float(results['lambda_min']))):
-            html_table += """
-            <tr>
-               <td>%.0f</td>
-               <td>%.5e</td>
-               <td>%.5e</td>
-               <td>%.5e</td>
-            </tr>
-            """ % (results['lms'][i, 0],
-                   results['lms'][i, 1],
-                   results['lms'][i, 2],
-                   results['lms'][i, 3])
-        else:
-            html_table += """
-            <tr>
-               <td>%.1f</td>
-               <td>%.5e</td>
-               <td>%.5e</td>
-               <td>%.5e</td>
-            </tr>
-            """ % (results['lms'][i, 0],
-                   results['lms'][i, 1],
-                   results['lms'][i, 2],
-                   results['lms'][i, 3])
-    html_table += """
-      </tbody>
-    </table>
-    """
+    if options['log10']:
+        html_table += """
+        <table>
+          <thead>
+          <tr>
+            <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar l_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar m_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar s_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+          </tr>
+          </thead>          
+          <tbody>
+        """ % (results['field_size'], results['age'],
+               results['field_size'], results['age'],
+               results['field_size'], results['age'])
+        for i in range(np.shape(results['LogLMS_base'])[0]):     
+            if (float(results['λ_step']) ==
+                    np.round(float(results['λ_step'])) and
+                    float(results['λ_min']) ==
+                    np.round(float(results['λ_min']))):
+                html_table += """
+                <tr>
+                  <td>%.0f</td>
+                  <td>%.8f</td>
+                  <td>%.8f</td>
+                  <td>%.8f</td>
+                </tr>
+                """ % (results['logLMS_base'][i, 0],
+                       results['logLMS_base'][i, 1],
+                       results['logLMS_base'][i, 2],
+                       results['logLMS_base'][i, 3])
+            else:
+                html_table += """
+                <tr>
+                  <td>%.1f</td>
+                  <td>%.8f</td>
+                  <td>%.8f</td>
+                  <td>%.8f</td>
+                </tr>
+                """ % (results['logLMS_base'][i, 0],
+                       results['logLMS_base'][i, 1],
+                       results['logLMS_base'][i, 2],
+                       results['logLMS_base'][i, 3])
+        html_table += """
+          </tbody>
+        </table>
+        """
+    else:
+        html_table += """
+        <table>
+          <thead>
+          <tr>
+            <th>\\(\lambda\,\mathsf{\small\,(nm)} \\)</th>
+            <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
+            <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
+            <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
+          </tr>
+          </thead>
+          <tbody>
+        """ % (results['field_size'], results['age'],
+               results['field_size'], results['age'],
+               results['field_size'], results['age'])
+        for i in range(np.shape(results['LMS_base'])[0]):     
+            if (float(results['λ_step']) ==
+                    np.round(float(results['λ_step'])) and
+                    float(results['λ_min']) ==
+                    np.round(float(results['λ_min']))):
+                html_table += """
+                <tr>
+                  <td>%.0f</td>
+                  <td>%.8e</td>
+                  <td>%.8e</td>
+                  <td>%.8e</td>
+                </tr>
+                """ % (results['LMS_base'][i, 0],
+                       results['LMS_base'][i, 1],
+                       results['LMS_base'][i, 2],
+                       results['LMS_base'][i, 3])
+            else:
+                html_table += """
+                <tr>
+                  <td>%.1f</td>
+                  <td>%.8e</td>
+                  <td>%.8e</td>
+                  <td>%.8e</td>
+                </tr>
+                """ % (results['LMS_base'][i, 0],
+                       results['LMS_base'][i, 1],
+                       results['LMS_base'][i, 2],
+                       results['LMS_base'][i, 3])
+        html_table += """
+          </tbody>
+        </table>
+        """
     return html_table
 
 
-def lms_base(results, options, include_head=False):
-    """
-    Generate html table of LMS base functions for GUI and web apps.
-
-    Parameters
-    ----------
-    results : dict
-        as returned by tc1_97.compute.compute_tabulated()
-
-    Returns
-    -------
-    html_table : string
-        HTML representation of the LMS base table
-    """
-    html_table = ""
-    if include_head:
-        html_table += _head()
-    html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
-        <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
-        <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
-      </tr>
-      </thead>
-      <tbody>
-    """ % (results['field_size'], results['age'],
-           results['field_size'], results['age'],
-           results['field_size'], results['age'])
-    for i in range(np.shape(results['lms_base'])[0]):
-        if (float(results['lambda_step']) ==
-                np.round(float(results['lambda_step'])) and
-                float(results['lambda_min']) ==
-                np.round(float(results['lambda_min']))):
-            html_table += """
-            <tr>
-               <td>%.0f</td>
-               <td>%.8e</td>
-               <td>%.8e</td>
-               <td>%.8e</td>
-            </tr>
-            """ % (results['lms_base'][i, 0],
-                   results['lms_base'][i, 1],
-                   results['lms_base'][i, 2],
-                   results['lms_base'][i, 3])
-        else:
-            html_table += """
-            <tr>
-               <td>%.1f</td>
-               <td>%.8e</td>
-               <td>%.8e</td>
-               <td>%.8e</td>
-            </tr>
-            """ % (results['lms_base'][i, 0],
-                   results['lms_base'][i, 1],
-                   results['lms_base'][i, 2],
-                   results['lms_base'][i, 3])
-    html_table += """
-      </tbody>
-    </table>
-    """
-    return html_table
-
-
-def mb(results, options, include_head=False):
+def lms_mb(results, options, include_head=False):
     """
     Generate html table of MacLeod-Boynton diagram for GUI and web apps.
 
@@ -226,12 +321,11 @@ def mb(results, options, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    results['mb'][results['mb'] <= 0] = 0
-    for i in range(np.shape(results['mb'])[0]):
-        if (float(results['lambda_step']) ==
-                np.round(float(results['lambda_step'])) and
-                float(results['lambda_min']) ==
-                np.round(float(results['lambda_min']))):
+    for i in range(np.shape(results['lms_mb'])[0]):
+        if (float(results['λ_step']) ==
+                np.round(float(results['λ_step'])) and
+                float(results['λ_min']) ==
+                np.round(float(results['λ_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -239,10 +333,10 @@ def mb(results, options, include_head=False):
                <td>%.6f</td>
                <td>%.6f</td>
             </tr>
-            """ % (results['mb'][i, 0],
-                   results['mb'][i, 1],
-                   results['mb'][i, 2],
-                   results['mb'][i, 3])
+            """ % (results['lms_mb'][i, 0],
+                   results['lms_mb'][i, 1],
+                   results['lms_mb'][i, 2],
+                   results['lms_mb'][i, 3])
         else:
             html_table += """
             <tr>
@@ -251,11 +345,10 @@ def mb(results, options, include_head=False):
                <td>%.6f</td>
                <td>%.6f</td>
             </tr>
-            """ % (results['mb'][i, 0],
-                   results['mb'][i, 1],
-                   results['mb'][i, 2],
-                   results['mb'][i, 3])
-
+            """ % (results['lms_mb'][i, 0],
+                   results['lms_mb'][i, 1],
+                   results['lms_mb'][i, 2],
+                   results['lms_mb'][i, 3])
     html_table += """
       </tbody>
     </table>
@@ -263,7 +356,7 @@ def mb(results, options, include_head=False):
     return html_table
 
 
-def lm(results, options, include_head=False):
+def lms_mw(results, options, include_head=False):
     """
     Generate html table of normalized lm diagram for GUI and web apps.
 
@@ -294,11 +387,11 @@ def lm(results, options, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(results['lm'])[0]):
-        if (float(results['lambda_step']) ==
-                np.round(float(results['lambda_step'])) and
-                float(results['lambda_min']) ==
-                np.round(float(results['lambda_min']))):
+    for i in range(np.shape(results['lms_mw'])[0]):
+        if (float(results['λ_step']) ==
+                np.round(float(results['λ_step'])) and
+                float(results['λ_min']) ==
+                np.round(float(results['λ_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -306,10 +399,10 @@ def lm(results, options, include_head=False):
                <td>%.6f</td>
                <td>%.6f</td>
             </tr>
-            """ % (results['lm'][i, 0],
-                   results['lm'][i, 1],
-                   results['lm'][i, 2],
-                   results['lm'][i, 3])
+            """ % (results['lms_mw'][i, 0],
+                   results['lms_mw'][i, 1],
+                   results['lms_mw'][i, 2],
+                   results['lms_mw'][i, 3])
         else:
             html_table += """
             <tr>
@@ -318,10 +411,10 @@ def lm(results, options, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (results['lm'][i, 0],
-                   results['lm'][i, 1],
-                   results['lm'][i, 2],
-                   results['lm'][i, 3])
+            """ % (results['lms_mw'][i, 0],
+                   results['lms_mw'][i, 1],
+                   results['lms_mw'][i, 2],
+                   results['lms_mw'][i, 3])
 
     html_table += """
       </tbody>
@@ -330,7 +423,7 @@ def lm(results, options, include_head=False):
     return html_table
 
 
-def xyz(results, options, include_head=False):
+def XYZ(results, options, include_head=False):
     """
     Generate html table of XYZ values for inclusion in GUI app and web app.
 
@@ -345,9 +438,9 @@ def xyz(results, options, include_head=False):
         HTML representation of the XYZ table
     """
     if options['norm']:
-        xyz = results['xyz_N']
+        XYZ = results['xyz_N']
     else:
-        xyz = results['xyz']
+        XYZ = results['xyz']
     html_table = ""
     if include_head:
         html_table += _head()
@@ -365,11 +458,11 @@ def xyz(results, options, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(xyz)[0]):
-        if (float(results['lambda_step']) ==
-                np.round(float(results['lambda_step'])) and
-                float(results['lambda_min']) ==
-                np.round(float(results['lambda_min']))):
+    for i in range(np.shape(XYZ)[0]):
+        if (float(results['λ_step']) ==
+                np.round(float(results['λ_step'])) and
+                float(results['λ_min']) ==
+                np.round(float(results['λ_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -377,10 +470,10 @@ def xyz(results, options, include_head=False):
                <td>%.6e</td>
                <td>%.6e</td>
             </tr>
-            """ % (xyz[i, 0],
-                   xyz[i, 1],
-                   xyz[i, 2],
-                   xyz[i, 3])
+            """ % (XYZ[i, 0],
+                   XYZ[i, 1],
+                   XYZ[i, 2],
+                   XYZ[i, 3])
         else:
             html_table += """
             <tr>
@@ -389,10 +482,10 @@ def xyz(results, options, include_head=False):
                <td>%.6e</td>
                <td>%.6e</td>
             </tr>
-            """ % (xyz[i, 0],
-                   xyz[i, 1],
-                   xyz[i, 2],
-                   xyz[i, 3])
+            """ % (XYZ[i, 0],
+                   XYZ[i, 1],
+                   XYZ[i, 2],
+                   XYZ[i, 3])
     html_table += """
       </tbody>
     </table>
@@ -400,7 +493,7 @@ def xyz(results, options, include_head=False):
     return html_table
 
 
-def xyz_purples(results, options, include_head=False):
+def XYZ_purples(results, options, include_head=False):
     """
     Generate html table of XYZ values (purples) for inclusion apps.
 
@@ -415,9 +508,9 @@ def xyz_purples(results, options, include_head=False):
         HTML representation of the XYZ table (purples)
     """
     if options['norm']:
-        purple = results['purple_xyz_N']
+        XYZ_p = results['XYZ_purples_N']
     else:
-        purple = results['purple_xyz']
+        XYZ_p = results['XYZ_purples']
     html_table = ""
     if include_head:
         html_table += _head()
@@ -438,11 +531,11 @@ def xyz_purples(results, options, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(purple)[0]):
-        if (float(results['lambda_step']) ==
-                np.round(float(results['lambda_step'])) and
-                float(results['lambda_min']) ==
-                np.round(float(results['lambda_min']))):
+    for i in range(np.shape(XYZ_p)[0]):
+        if (float(results['λ_step']) ==
+                np.round(float(results['λ_step'])) and
+                float(results['λ_min']) ==
+                np.round(float(results['λ_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -450,10 +543,10 @@ def xyz_purples(results, options, include_head=False):
                <td>%.6e</td>
                <td>%.6e</td>
             </tr>
-            """ % (purple[i, 0],
-                   purple[i, 1],
-                   purple[i, 2],
-                   purple[i, 3])
+            """ % (XYZ_p[i, 0],
+                   XYZ_p[i, 1],
+                   XYZ_p[i, 2],
+                   XYZ_p[i, 3])
         else:
             html_table += """
             <tr>
@@ -462,10 +555,10 @@ def xyz_purples(results, options, include_head=False):
                <td>%.6e</td>
                <td>%.6e</td>
             </tr>
-            """ % (purple[i, 0],
-                   purple[i, 1],
-                   purple[i, 2],
-                   purple[i, 3])
+            """ % (XYZ_p[i, 0],
+                   XYZ_p[i, 1],
+                   XYZ_p[i, 2],
+                   XYZ_p[i, 3])
     html_table += """
       </tbody>
     </table>
@@ -473,7 +566,7 @@ def xyz_purples(results, options, include_head=False):
     return html_table
 
 
-def xy(results, options, include_head=False):
+def xyz(results, options, include_head=False):
     """
     Generate html table of chromaticity values for GUI and web apps.
 
@@ -488,9 +581,9 @@ def xy(results, options, include_head=False):
         HTML representation of the chromatictiy table
     """
     if options['norm']:
-        xy = results['xy_N']
+        xyz = results['xyz_N']
     else:
-        xy = results['xy']
+        xyz = results['xyz']
     html_table = ""
     if include_head:
         html_table += _head()
@@ -508,11 +601,11 @@ def xy(results, options, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(xy)[0]):
-        if (float(results['lambda_step']) ==
-                np.round(float(results['lambda_step'])) and
-                float(results['lambda_min']) ==
-                np.round(float(results['lambda_min']))):
+    for i in range(np.shape(xyz)[0]):
+        if (float(results['λ_step']) ==
+                np.round(float(results['λ_step'])) and
+                float(results['λ_min']) ==
+                np.round(float(results['λ_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -520,10 +613,10 @@ def xy(results, options, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (xy[i, 0],
-                   xy[i, 1],
-                   xy[i, 2],
-                   xy[i, 3])
+            """ % (xyz[i, 0],
+                   xyz[i, 1],
+                   xyz[i, 2],
+                   xyz[i, 3])
         else:
             html_table += """
             <tr>
@@ -532,10 +625,10 @@ def xy(results, options, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (xy[i, 0],
-                   xy[i, 1],
-                   xy[i, 2],
-                   xy[i, 3])
+            """ % (xyz[i, 0],
+                   xyz[i, 1],
+                   xyz[i, 2],
+                   xyz[i, 3])
     html_table += """
       </tbody>
     </table>
@@ -543,7 +636,7 @@ def xy(results, options, include_head=False):
     return html_table
 
 
-def xy_purples(results, options, include_head=False):
+def xyz_purples(results, options, include_head=False):
     """
     Generate html table of chromaticity values (purples) for GUI and web apps.
 
@@ -558,9 +651,9 @@ def xy_purples(results, options, include_head=False):
         HTML representation of the chromatictiy table (purples)
     """
     if options['norm']:
-        xy = results['purple_cc_N']
+        xyz_purples = results['xyz_purples_N']
     else:
-        xy = results['purple_cc']
+        xyz_purples = results['xyz_purples']
     html_table = ""
     if include_head:
         html_table += _head()
@@ -581,11 +674,11 @@ def xy_purples(results, options, include_head=False):
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
-    for i in range(np.shape(xy)[0]):
-        if (float(results['lambda_step']) ==
-                np.round(float(results['lambda_step'])) and
-                float(results['lambda_min']) ==
-                np.round(float(results['lambda_min']))):
+    for i in range(np.shape(xyz_purples)[0]):
+        if (float(results['λ_step']) ==
+                np.round(float(results['λ_step'])) and
+                float(results['λ_min']) ==
+                np.round(float(results['λ_min']))):
             html_table += """
             <tr>
                <td>%.0f</td>
@@ -593,10 +686,10 @@ def xy_purples(results, options, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (xy[i, 0],
-                   xy[i, 1],
-                   xy[i, 2],
-                   xy[i, 3])
+            """ % (xyz_purples[i, 0],
+                   xyz_purples[i, 1],
+                   xyz_purples[i, 2],
+                   xyz_purples[i, 3])
         else:
             html_table += """
             <tr>
@@ -605,10 +698,10 @@ def xy_purples(results, options, include_head=False):
                <td>%.5f</td>
                <td>%.5f</td>
             </tr>
-            """ % (xy[i, 0],
-                   xy[i, 1],
-                   xy[i, 2],
-                   xy[i, 3])
+            """ % (xyz_purples[i, 0],
+                   xyz_purples[i, 1],
+                   xyz_purples[i, 2],
+                   xyz_purples[i, 3])
     html_table += """
       </tbody>
     </table>
@@ -616,7 +709,7 @@ def xy_purples(results, options, include_head=False):
     return html_table
 
 
-def xyz_31(results, options, include_head=False):
+def XYZ31(results, options, include_head=False):
     """
     Generate html table of CIE 1931 XYZ values for GUI app and web app.
 
@@ -645,7 +738,7 @@ def xyz_31(results, options, include_head=False):
       </thead>
       <tbody>
     """
-    for i in range(np.shape(results['xyz31'])[0]):
+    for i in range(np.shape(results['XYZ31'])[0]):
         html_table += """
         <tr>
            <td>%.0f</td>
@@ -653,10 +746,10 @@ def xyz_31(results, options, include_head=False):
            <td>%.6e</td>
            <td>%.6e</td>
         </tr>
-        """ % (results['xyz31'][i, 0],
-               results['xyz31'][i, 1],
-               results['xyz31'][i, 2],
-               results['xyz31'][i, 3])
+        """ % (results['XYZ31'][i, 0],
+               results['XYZ31'][i, 1],
+               results['XYZ31'][i, 2],
+               results['XYZ31'][i, 3])
     html_table += """
       </tbody>
     </table>
@@ -664,7 +757,7 @@ def xyz_31(results, options, include_head=False):
     return html_table
 
 
-def xyz_64(results, options, include_head=False):
+def XYZ64(results, options, include_head=False):
     """
     Generate html table of CIE 1964 XYZ values for GUI and web apps.
 
@@ -693,7 +786,7 @@ def xyz_64(results, options, include_head=False):
       </thead>
       <tbody>
     """
-    for i in range(np.shape(results['xyz64'])[0]):
+    for i in range(np.shape(results['XYZ64'])[0]):
         html_table += """
         <tr>
            <td>%.0f</td>
@@ -701,10 +794,10 @@ def xyz_64(results, options, include_head=False):
            <td>%.6e</td>
            <td>%.6e</td>
         </tr>
-        """ % (results['xyz64'][i, 0],
-               results['xyz64'][i, 1],
-               results['xyz64'][i, 2],
-               results['xyz64'][i, 3])
+        """ % (results['XYZ64'][i, 0],
+               results['XYZ64'][i, 1],
+               results['XYZ64'][i, 2],
+               results['XYZ64'][i, 3])
     html_table += """
       </tbody>
     </table>
@@ -712,7 +805,7 @@ def xyz_64(results, options, include_head=False):
     return html_table
 
 
-def xy_31(results, options, include_head=False):
+def xyz31(results, options, include_head=False):
     """
     Generate html table of CIE 1931 chromaticity values for GUI and web apps.
 
@@ -741,7 +834,7 @@ def xy_31(results, options, include_head=False):
       </thead>
       <tbody>
     """
-    for i in range(np.shape(results['xy31'])[0]):
+    for i in range(np.shape(results['xyz31'])[0]):
         html_table += """
         <tr>
            <td>%.0f</td>
@@ -749,10 +842,10 @@ def xy_31(results, options, include_head=False):
            <td>%.5f</td>
            <td>%.5f</td>
         </tr>
-        """ % (results['xy31'][i, 0],
-               results['xy31'][i, 1],
-               results['xy31'][i, 2],
-               results['xy31'][i, 3])
+        """ % (results['xyz31'][i, 0],
+               results['xyz31'][i, 1],
+               results['xyz31'][i, 2],
+               results['xyz31'][i, 3])
     html_table += """
       </tbody>
     </table>
@@ -760,7 +853,7 @@ def xy_31(results, options, include_head=False):
     return html_table
 
 
-def xy_64(results, options, include_head=False):
+def xyz64(results, options, include_head=False):
     """
     Generate html table of CIE 1964 chromaticity values for GUI and web apps.
 
@@ -789,7 +882,7 @@ def xy_64(results, options, include_head=False):
       </thead>
       <tbody>
     """
-    for i in range(np.shape(results['xy64'])[0]):
+    for i in range(np.shape(results['xyz64'])[0]):
         html_table += """
         <tr>
            <td>%.0f</td>
@@ -797,10 +890,10 @@ def xy_64(results, options, include_head=False):
            <td>%.5f</td>
            <td>%.5f</td>
         </tr>
-        """ % (results['xy64'][i, 0],
-               results['xy64'][i, 1],
-               results['xy64'][i, 2],
-               results['xy64'][i, 3])
+        """ % (results['xyz64'][i, 0],
+               results['xyz64'][i, 1],
+               results['xyz64'][i, 2],
+               results['xyz64'][i, 3])
     html_table += """
       </tbody>
     </table>

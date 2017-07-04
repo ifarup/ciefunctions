@@ -98,7 +98,7 @@ def _parameters(data):
     """ % (data['field_size'], data['age'])
 
 
-def _parameters_std(fieldsize):
+def _parameters_std(field_size):
     return u"""
     <p style="margin:0 0 0.1em 0">
     <b class="description-subtitle">Parameters</b>
@@ -112,7 +112,7 @@ def _parameters_std(fieldsize):
     </tr>
     </table>
     </p>
-    """ % (fieldsize)
+    """ % (field_size)
 
 
 def _functions(func1, func2, func3, argument):    
@@ -174,16 +174,16 @@ def _wavelenghts(data):
     </tr>
     </table>
     </p>
-    """ % (data['lambda_min'], data['lambda_max'], data['lambda_step'])
+    """ % (data['λ_min'], data['λ_max'], data['λ_step'])
 
 
 def _wavelenghts_complementary(data, options):
     if options['norm']:
-        lambda_purple_min = data['lambda_purple_min_N']
-        lambda_purple_max = data['lambda_purple_max_N']
+        λ_purple_min = data['λ_purple_min_N']
+        λ_purple_max = data['λ_purple_max_N']
     else:
-        lambda_purple_min = data['lambda_purple_min']
-        lambda_purple_max = data['lambda_purple_max']
+        λ_purple_min = data['λ_purple_min']
+        λ_purple_max = data['λ_purple_max']
     return u"""
     <p style="margin:0 0 0.1em 0">
     <b class="description-subtitle">Wavelengths</b>
@@ -215,9 +215,9 @@ def _wavelenghts_complementary(data, options):
         </tr>
     </table>
     </p>
-    """ % (data['lambda_min'], data['lambda_max'],
-           data['lambda_step'],
-           lambda_purple_min, lambda_purple_max)
+    """ % (data['λ_min'], data['λ_max'],
+           data['λ_step'],
+           λ_purple_min, λ_purple_max)
 
 
 def _wavelenghts_std():
@@ -243,18 +243,27 @@ def _wavelenghts_std():
     """ % (360, 830, 1)
 
 
-def _normalization_lms():
-    return """
+def _normalization_LMS(options):
+    html_string = """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
     </p>
-    <p style="margin:0 0 1.3em 0">
-    Function values peaking at unity at 0.1&nbsp;nm resolution
-    </p>
-    """
+    <span style="margin:0 0 1.3em 0">
+    Function values peaking at unity at 0.1&nbsp;nm resolution 
+    </span>"""
+    if options['log10']:
+        html_string += """
+        <p style="margin:0 0 1.3em 0">
+        (i.e. logarithm of function values peaking at zero
+        at 0.1&nbsp;nm resolution) 
+        </p>"""
+    else:
+        html_string += """
+        <p style="margin:0 0 1.3em 0"></p>"""
+    return html_string
 
 
-def _normalization_mb(data):
+def _normalization_lms_mb(data):
     return """ 
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
@@ -299,7 +308,7 @@ def _normalization_mb(data):
            data['field_size'], data['age'])
     
     
-def _normalization_lm(data):
+def _normalization_lms_mw(data):
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
@@ -313,11 +322,11 @@ def _normalization_lm(data):
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
-           data['lambda_step'],
-           data['lambda_min'], data['lambda_max'])
+           data['λ_step'],
+           data['λ_min'], data['λ_max'])
 
 
-def _normalization_xyz(data, options):
+def _normalization_XYZ(data, options):
     if options['norm']:
         return """
         <p style="margin:0 0 0 0">
@@ -338,8 +347,8 @@ def _normalization_xyz(data, options):
         </tr>
         </table>
         </p>
-        """ % (data['lambda_step'],
-               data['lambda_min'], data['lambda_max'],
+        """ % (data['λ_step'],
+               data['λ_min'], data['λ_max'],
                data['field_size'], data['age'])
     else:
         return """
@@ -364,7 +373,7 @@ def _normalization_xyz(data, options):
         """ % (data['field_size'], data['age'])
         
         
-def _normalization_xy(data, options):
+def _normalization_xyz(data, options):
     if options['norm']:
         return """
         <p style="margin:0 0 0.3em 0">
@@ -380,8 +389,8 @@ def _normalization_xy(data, options):
         </p>
         """ % (data['field_size'], data['age'],
                data['field_size'], data['age'],
-               data['lambda_step'],
-               data['lambda_min'], data['lambda_max'])
+               data['λ_step'],
+               data['λ_min'], data['λ_max'])
     else:
         return """
         <p style="margin:0 0 0.3em 0">
@@ -399,7 +408,7 @@ def _normalization_xy(data, options):
                data['field_size'], data['age'])        
 
 
-def _normalization_xyz_31():
+def _normalization_XYZ31():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
@@ -420,7 +429,7 @@ def _normalization_xyz_31():
     """
 
 
-def _normalization_xyz_64():
+def _normalization_XYZ64():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
@@ -441,7 +450,7 @@ def _normalization_xyz_64():
     """
 
     
-def _normalization_xy_31():
+def _normalization_xyz31():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
@@ -454,7 +463,7 @@ def _normalization_xy_31():
     """
         
         
-def _normalization_xy_64():
+def _normalization_xyz64():
      return """
      <p style="margin:0 0 0.3em 0">
      <b class="description-subtitle">Normalization</b>
@@ -468,7 +477,7 @@ def _normalization_xy_64():
         """
         
 
-def _lms_to_mb(data, options):
+def _LMS_to_lms_mb(data, options):
     if options['norm']:
         trans_mat = data['trans_mat_N']
     else:
@@ -494,17 +503,17 @@ def _lms_to_mb(data, options):
         $$
         </p>
     """ % (data['field_size'], data['age'],
-           trans_mat[1, 0], data['field_size'], data['age'],
-           trans_mat[1, 0], data['field_size'], data['age'],
-           trans_mat[1, 1], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mb'][0], data['age'],
+           data['norm_coeffs_lms_mb'][0], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mb'][1], data['field_size'], data['age'],
            data['field_size'], data['age'],
-           trans_mat[1, 1], data['field_size'], data['age'],
-           trans_mat[1, 0], data['field_size'], data['age'],
-           trans_mat[1, 1], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mb'][1], data['age'],
+           data['norm_coeffs_lms_mb'][0], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mb'][1], data['field_size'], data['age'],
            data['field_size'], data['age'],
-           1./data['mb_s_max'], data['field_size'], data['age'],
-           trans_mat[1, 0], data['field_size'], data['age'],
-           trans_mat[1, 1], data['field_size'], data['age'])
+           data['norm_coeffs_lms_mb'][2], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mb'][0], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mb'][1], data['field_size'], data['age'])
     html_string += """
         <p style="margin:0.9em 0 1.3em 0">
         with the cone fundamentals
@@ -519,7 +528,7 @@ def _lms_to_mb(data, options):
     return html_string
 
 
-def _lms_to_lm(data):
+def _LMS_to_lms_mw(data):
     html_string = """
     <p style="margin:0 0 0 0">
     <b class="description-subtitle">Spectral coordinates</b>
@@ -543,20 +552,20 @@ def _lms_to_lm(data):
     $$
     </p>
     """ % (data['field_size'], data['age'],
-           data['lms_N_inv'][0], data['field_size'], data['age'],
-           data['lms_N_inv'][0], data['field_size'], data['age'],
-           data['lms_N_inv'][1], data['field_size'], data['age'],
-           data['lms_N_inv'][2], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][0], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][0], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][1], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][2], data['field_size'], data['age'],
            data['field_size'], data['age'],
-           data['lms_N_inv'][1], data['field_size'], data['age'],
-           data['lms_N_inv'][0], data['field_size'], data['age'],
-           data['lms_N_inv'][1], data['field_size'], data['age'],
-           data['lms_N_inv'][2], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][1], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][0], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][1], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][2], data['field_size'], data['age'],
            data['field_size'], data['age'],
-           data['lms_N_inv'][2], data['field_size'], data['age'],
-           data['lms_N_inv'][0], data['field_size'], data['age'],
-           data['lms_N_inv'][1], data['field_size'], data['age'],
-           data['lms_N_inv'][2], data['field_size'], data['age'])
+           data['norm_coeffs_lms_mw'][2], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][0], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][1], data['field_size'], data['age'],
+           data['norm_coeffs_lms_mw'][2], data['field_size'], data['age'])
     html_string += """
         <p style="margin:0.9em 0 1.3em 0">
         with the cone fundamentals
@@ -571,7 +580,7 @@ def _lms_to_lm(data):
     return html_string
 
 
-def _lms_to_xyz(data, options, purple=False):
+def _LMS_to_XYZ(data, options, purples=False):
     if options['norm']:
         trans_mat = data['trans_mat_N']
     else:
@@ -582,7 +591,7 @@ def _lms_to_xyz(data, options, purple=False):
         Transformation from cone fundamentals</b>
         </p>
     """
-    if purple:
+    if purples:
         html_string += """
         <p style="margin:0.2em 0 0 0">
         The corresponding transformation from CIE LMS cone
@@ -637,11 +646,11 @@ def _lms_to_xyz(data, options, purple=False):
     return html_string
 
 
-def _lms_to_xyz_purples(data, options):
-    return _lms_to_xyz(data, options, True)
+def _LMS_to_XYZ_purples(data, options):
+    return _LMS_to_XYZ(data, options, True)
 
 
-def _xyz_to_xy(data):
+def _XYZ_to_xyz(data):
     html_string = """
     <p style="margin:0 0 0 0">
     <b class="description-subtitle">Spectral coordinates</b>
@@ -696,7 +705,7 @@ def _xyz_to_xy(data):
     return html_string
 
 
-def _xyz_purples_to_xy_purples(data):
+def _XYZ_purples_to_xyz_purples(data):
     html_string = """
         <p style="margin:0 0 0 0">
         <b class="description-subtitle">Coordinate formulae</b></p>
@@ -752,7 +761,7 @@ def _xyz_purples_to_xy_purples(data):
     return html_string
 
 
-def _xyz_31_to_xy_31():
+def _XYZ31_to_xyz31():
     return """
     <p style="margin:0 0 0 0">
     <b class="description-subtitle">Spectral coordinates</b>
@@ -772,7 +781,7 @@ def _xyz_31_to_xy_31():
     """
 
 
-def _xyz_64_to_xy_64():
+def _XYZ64_to_xyz64():
     return """
     <p style="margin:0 0 0 0">
     <b class="description-subtitle">Spectral coordinates</b>
@@ -797,25 +806,33 @@ def _xyz_64_to_xy_64():
     """
 
 
-def _precision_lms():
-    return """
+def _precision_LMS(options,base=False):
+    html_string = """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Precision of tabulated values</b>
     </p>
-    <p style="margin:0 0 1.3em 0">6 significant figures</p>
     """
+    if options['log10']:
+        html_string += """
+        <p style="margin:0 0 0 0">%d decimal places</p>
+        <p style="margin:0 0 1.3em 0">(logarithmic values 
+        to base&nbsp10)</p>
+        """
+        if base:
+            return html_string % 8
+        else:
+            return html_string % 5    
+    else:
+        html_string += """
+        <p style="margin:0 0 1.3em 0">%d significant figures</p>
+        """
+        if base:
+            return html_string % 9
+        else:
+            return html_string % 6
 
 
-def _precision_lms_base():
-    return """
-    <p style="margin:0 0 0.3em 0">
-    <b class="description-subtitle">Precision of tabulated values</b>
-    </p>
-    <p style="margin:0 0 1.3em 0">9 significant figures</p>
-    """
-
-
-def _precision_mb():
+def _precision_lms_mb():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Precision of tabulated values</b>
@@ -824,7 +841,7 @@ def _precision_mb():
     """
 
 
-def _precision_lm():
+def _precision_lms_mw():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Precision of tabulated values</b>
@@ -833,7 +850,7 @@ def _precision_lm():
     """
 
 
-def _precision_xyz():
+def _precision_XYZ():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Precision of tabulated values</b>
@@ -842,7 +859,7 @@ def _precision_xyz():
     """
 
 
-def _precision_xy():
+def _precision_xyz():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Precision of tabulated values</b>
@@ -851,7 +868,7 @@ def _precision_xy():
     """
 
 
-def _illuminant_E_mb(data):
+def _illuminant_E_lms_mb(data):
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
@@ -863,10 +880,10 @@ def _illuminant_E_mb(data):
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
-           data['mb_white'][0], data['mb_white'][2])
+           data['lms_mb_white'][0], data['lms_mb_white'][2])
 
 
-def _illuminant_E_lm(data):
+def _illuminant_E_lms_mw(data):
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
@@ -878,14 +895,14 @@ def _illuminant_E_lm(data):
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
-           data['lm_white'][0], data['lm_white'][1])
+           data['lms_mw_white'][0], data['lms_mw_white'][1])
 
 
-def _illuminant_E_xy(data, options):
+def _illuminant_E_xyz(data, options):
     if options['norm']:
-        xy_white = data['xy_white_N']
+        xyz_white = data['xyz_white_N']
     else:
-        xy_white = data['xy_white']
+        xyz_white = data['xyz_white']
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
@@ -896,10 +913,10 @@ def _illuminant_E_xy(data, options):
     \\( = (%.5f, %.5f) \\)
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
-           xy_white[0], xy_white[1])
+           xyz_white[0], xyz_white[1])
 
 
-def _illuminant_E_xy_31():
+def _illuminant_E_xyz31():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
@@ -907,12 +924,12 @@ def _illuminant_E_xy_31():
     <p style="margin:0 0 1.3em 0">
     \\( (x_{\mathrm{E}},\\,
     \\,  y_{\\,\mathrm{E}}) \\)\
-    \\( = (0.33331,0.33329) \\)
+    \\( = (0.33331, 0.33329) \\)
     </p>
     """
 
 
-def _illuminant_E_xy_64():
+def _illuminant_E_xyz64():
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
@@ -924,7 +941,7 @@ def _illuminant_E_xy_64():
     </p>
     """
 
-def _purpleline_tangentpoints_mb(data):
+def _purpleline_tangentpoints_lms_mb(data):
     return """   
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Tangent points of the purple line</b>
@@ -939,15 +956,15 @@ def _purpleline_tangentpoints_mb(data):
     \\,  m_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
     \\(  = (%.6f, %.6f) \\)
     </p>
-    """ % (data['field_size'], data['age'], data['purple_line_mb'][0, 0],
-           data['field_size'], data['age'], data['purple_line_mb'][0, 0],
-           data['purple_line_mb'][0, 1], data['purple_line_mb'][0, 2],
-           data['field_size'], data['age'], data['purple_line_mb'][1, 0],
-           data['field_size'], data['age'], data['purple_line_mb'][1, 0],
-           data['purple_line_mb'][1, 1], data['purple_line_mb'][1, 2])
+    """ % (data['field_size'], data['age'], data['lms_mb_tg_purple'][0, 0],
+           data['field_size'], data['age'], data['lms_mb_tg_purple'][0, 0],
+           data['lms_mb_tg_purple'][0, 1], data['lms_mb_tg_purple'][0, 2],
+           data['field_size'], data['age'], data['lms_mb_tg_purple'][1, 0],
+           data['field_size'], data['age'], data['lms_mb_tg_purple'][1, 0],
+           data['lms_mb_tg_purple'][1, 1], data['lms_mb_tg_purple'][1, 2])
 
 
-def _purpleline_tangentpoints_lm(data):
+def _purpleline_tangentpoints_lms_mw(data):
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Tangent points of the purple line</b>
@@ -962,19 +979,19 @@ def _purpleline_tangentpoints_lm(data):
     \\,  m_{\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
     \\(  = (%.6f, %.6f) \\)
     </p>    
-    """ % (data['field_size'], data['age'], data['purple_line_lm'][0, 0],
-           data['field_size'], data['age'], data['purple_line_lm'][0, 0],
-           data['purple_line_lm'][0, 1], data['purple_line_lm'][0, 2],
-           data['field_size'], data['age'], data['purple_line_lm'][1, 0],
-           data['field_size'], data['age'], data['purple_line_lm'][1, 0],
-           data['purple_line_lm'][1, 1], data['purple_line_lm'][1, 2])
+    """ % (data['field_size'], data['age'], data['lms_mw_tg_purple'][0, 0],
+           data['field_size'], data['age'], data['lms_mw_tg_purple'][0, 0],
+           data['lms_mw_tg_purple'][0, 1], data['lms_mw_tg_purple'][0, 2],
+           data['field_size'], data['age'], data['lms_mw_tg_purple'][1, 0],
+           data['field_size'], data['age'], data['lms_mw_tg_purple'][1, 0],
+           data['lms_mw_tg_purple'][1, 1], data['lms_mw_tg_purple'][1, 2])
   
     
-def _purpleline_tangentpoints_xy(data, options):
+def _purpleline_tangentpoints_xyz(data, options):
     if options['norm']:
-        purple_line_cc = data['purple_line_cc_N']
+        xyz_tg_purple = data['xyz_tg_purple_N']
     else:
-        purple_line_cc = data['purple_line_cc']
+        xyz_tg_purple = data['xyz_tg_purple']
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Tangent points of the purple line</b>
@@ -989,19 +1006,19 @@ def _purpleline_tangentpoints_xy(data, options):
     \\,  y_{\,\mathrm{F},\,%s,\,%d\\,;\,%.1f\\,\\mathrm{nm}}) \\)
     \\(  = (%.5f, %.5f) \\)
     </p>
-    """ % (data['field_size'], data['age'], purple_line_cc[0, 0],
-           data['field_size'], data['age'], purple_line_cc[0, 0],
-           purple_line_cc[0, 1], purple_line_cc[0, 2],
-           data['field_size'], data['age'], purple_line_cc[1, 0],
-           data['field_size'], data['age'], purple_line_cc[1, 0],
-           purple_line_cc[1, 1], purple_line_cc[1, 2])  
+    """ % (data['field_size'], data['age'], xyz_tg_purple[0, 0],
+           data['field_size'], data['age'], xyz_tg_purple[0, 0],
+           xyz_tg_purple[0, 1], xyz_tg_purple[0, 2],
+           data['field_size'], data['age'], xyz_tg_purple[1, 0],
+           data['field_size'], data['age'], xyz_tg_purple[1, 0],
+           xyz_tg_purple[1, 1], xyz_tg_purple[1, 2])  
  
  
-def _purpleline_tangentpoints_xy_complementary(data, options):
+def _purpleline_tangentpoints_xyz_complementary(data, options):
     if options['norm']:
-        purple_line_cc = data['purple_line_cc_N']
+        xyz_tg_purple = data['xyz_tg_purple_N']
     else:
-        purple_line_cc = data['purple_line_cc']
+        xyz_tg_purple = data['xyz_tg_purple']
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Tangent points of the purple line</b>
@@ -1022,13 +1039,13 @@ def _purpleline_tangentpoints_xy_complementary(data, options):
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
-           purple_line_cc[0, 1], purple_line_cc[0, 2],
+           xyz_tg_purple[0, 1], xyz_tg_purple[0, 2],
            data['field_size'], data['age'],
            data['field_size'], data['age'],
-           purple_line_cc[1, 1], purple_line_cc[1, 2])
+           xyz_tg_purple[1, 1], xyz_tg_purple[1, 2])
 
 
-def _purpleline_tangentpoints_xy_31(data):
+def _purpleline_tangentpoints_xyz31(data):
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Tangent points of the purple line</b>
@@ -1042,15 +1059,15 @@ def _purpleline_tangentpoints_xy_31(data):
     \\,  y_{\,\mathrm{699\,nm\,–\,830\,nm}}) \\) 
     \\(  = (%.5f, %.5f) \\)
     </p>
-    """ % (data['purple_line_cc31'][0, 0],
-           data['purple_line_cc31'][0, 0],
-           data['purple_line_cc31'][0, 1], data['purple_line_cc31'][0, 2],
-#           data['purple_line_cc31'][1, 0],
-#           data['purple_line_cc31'][1, 0],
-           data['purple_line_cc31'][1, 1], data['purple_line_cc31'][1, 2])
+    """ % (data['xyz31_tg_purple'][0, 0],
+           data['xyz31_tg_purple'][0, 0],
+           data['xyz31_tg_purple'][0, 1], data['xyz31_tg_purple'][0, 2],
+#           data['xyz31_tg_purple'][1, 0],
+#           data['xyz31_tg_purple'][1, 0],
+           data['xyz31_tg_purple'][1, 1], data['xyz31_tg_purple'][1, 2])
 
 
-def _purpleline_tangentpoints_xy_64(data):
+def _purpleline_tangentpoints_xyz64(data):
     return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Tangent points of the purple line</b>
@@ -1064,15 +1081,15 @@ def _purpleline_tangentpoints_xy_64(data):
     \\,  y_{10;\,\mathrm{700\,nm\,–\,702\,nm}}) \\)
     \\(  = (%.5f, %.5f) \\)
     </p>
-    """ % (data['purple_line_cc64'][0, 0],
-           data['purple_line_cc64'][0, 0],
-           data['purple_line_cc64'][0, 1], data['purple_line_cc64'][0, 2],
-#           data['purple_line_cc64'][1, 0],
-#           data['purple_line_cc64'][1, 0],
-           data['purple_line_cc64'][1, 1], data['purple_line_cc64'][1, 2])
+    """ % (data['xyz64_tg_purple'][0, 0],
+           data['xyz64_tg_purple'][0, 0],
+           data['xyz64_tg_purple'][0, 1], data['xyz64_tg_purple'][0, 2],
+#           data['xyz64_tg_purple'][1, 0],
+#           data['xyz64_tg_purple'][1, 0],
+           data['xyz64_tg_purple'][1, 1], data['xyz64_tg_purple'][1, 2])
 
 
-def lms(data, heading, options, include_head=False):
+def LMS(data, heading, options, include_head=False):
     """
     Generate html page with information about the LMS system.
 
@@ -1103,12 +1120,12 @@ def lms(data, heading, options, include_head=False):
                                (data['field_size'], data['age']),
                                '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts(data) +
-                    _normalization_lms() +
-                    _precision_lms())
+                    _normalization_LMS(options) +
+                    _precision_LMS(options))
     return html_string
 
 
-def lms_base(data, heading, options, include_head=False):
+def LMS_base(data, heading, options, include_head=False):
     """
     Generate html page with information about the LMS base system.
 
@@ -1139,12 +1156,12 @@ def lms_base(data, heading, options, include_head=False):
                                (data['field_size'], data['age']),
                                '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts(data) +
-                    _normalization_lms() +
-                    _precision_lms_base())
+                    _normalization_LMS(options) +
+                    _precision_LMS(options, True))
     return html_string
 
 
-def mb(data, heading, options, include_head=False):
+def lms_mb(data, heading, options, include_head=False):
     """
     Generate html page with information about the MacLeod-Boynton system.
 
@@ -1173,16 +1190,16 @@ def mb(data, heading, options, include_head=False):
                                  (data['field_size'], data['age']),
                                  '\\(s_{\,\mathrm{MB},\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +
-                    _wavelenghts(data) +
-                    _normalization_mb(data) +
-                    _lms_to_mb(data, options) +
-                    _precision_mb() +
-                    _illuminant_E_mb(data) +
-                    _purpleline_tangentpoints_mb(data))
+                     _wavelenghts(data) +
+                     _normalization_lms_mb(data) +
+                     _LMS_to_lms_mb(data, options) +
+                     _precision_lms_mb() +
+                     _illuminant_E_lms_mb(data) +
+                     _purpleline_tangentpoints_lms_mb(data))
     return html_string
 
 
-def lm(data, heading, options, include_head=False):
+def lms_mw(data, heading, options, include_head=False):
     """
     Generate html page with information about the Maxwellian lm system.
 
@@ -1211,16 +1228,16 @@ def lm(data, heading, options, include_head=False):
                                  (data['field_size'], data['age']),
                                  '\\(s_{\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +
-                    _wavelenghts(data) +
-                    _normalization_lm(data) +
-                    _lms_to_lm(data) +
-                    _precision_lm() +
-                    _illuminant_E_lm(data) +
-                    _purpleline_tangentpoints_lm(data))
+                     _wavelenghts(data) +
+                     _normalization_lms_mw(data) +
+                     _LMS_to_lms_mw(data) +
+                     _precision_lms_mw() +
+                     _illuminant_E_lms_mw(data) +
+                     _purpleline_tangentpoints_lms_mw(data))
     return html_string
 
 
-def xyz(data, heading, options, include_head=False):
+def XYZ(data, heading, options, include_head=False):
     """
     Generate html page with information about the XYZ system.
 
@@ -1251,13 +1268,13 @@ def xyz(data, heading, options, include_head=False):
                                (data['field_size'], data['age']), 
                                '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts(data) +
-                    _normalization_xyz(data, options) +
-                    _lms_to_xyz(data, options) +
-                    _precision_xyz())
+                    _normalization_XYZ(data, options) +
+                    _LMS_to_XYZ(data, options) +
+                    _precision_XYZ())
     return html_string
 
 
-def xyz_purples(data, heading, options, include_head=False):
+def XYZ_purples(data, heading, options, include_head=False):
     """
     Generate html page with information about the purple XYZ.
 
@@ -1291,13 +1308,13 @@ def xyz_purples(data, heading, options, include_head=False):
                             &nbsp;(complementary<font size="0.0em"> </font>\
                             &nbsp;wavelength)') +                     
                     _wavelenghts_complementary(data, options) +
-                    _normalization_xyz(data, options) +
-                    _lms_to_xyz_purples(data, options) +
-                    _precision_xyz())
+                    _normalization_XYZ(data, options) +
+                    _LMS_to_XYZ_purples(data, options) +
+                    _precision_XYZ())
     return html_string
 
 
-def xy(data, heading, options, include_head=False):
+def xyz(data, heading, options, include_head=False):
     """
     Generate html page with information about the xy system.
 
@@ -1327,15 +1344,15 @@ def xy(data, heading, options, include_head=False):
                                  '\\(z_{\,\mathrm{F},\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +
                     _wavelenghts(data) +
-                    _normalization_xy(data, options) +
-                    _xyz_to_xy(data) +
-                    _precision_xy() +
-                    _illuminant_E_xy(data, options) +
-                    _purpleline_tangentpoints_xy(data, options))
+                    _normalization_xyz(data, options) +
+                    _XYZ_to_xyz(data) +
+                    _precision_xyz() +
+                    _illuminant_E_xyz(data, options) +
+                    _purpleline_tangentpoints_xyz(data, options))
     return html_string
 
 
-def xy_purples(data, heading, options, include_head=False):
+def xyz_purples(data, heading, options, include_head=False):
     """
     Generate html page with information about the xy system (purple stimuli).
 
@@ -1365,15 +1382,15 @@ def xy_purples(data, heading, options, include_head=False):
                                  '\\(z_{\,\mathrm{F},\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +                               
                     _wavelenghts_complementary(data, options) +
-                    _normalization_xy(data, options) +
-                    _xyz_purples_to_xy_purples(data) +
-                    _precision_xy() +
-                    _illuminant_E_xy(data, options) +
-                    _purpleline_tangentpoints_xy_complementary(data, options))
+                    _normalization_xyz(data, options) +
+                    _XYZ_purples_to_xyz_purples(data) +
+                    _precision_xyz() +
+                    _illuminant_E_xyz(data, options) +
+                    _purpleline_tangentpoints_xyz_complementary(data, options))
     return html_string
 
 
-def xyz_31(data, heading, options, include_head=False):
+def XYZ31(data, heading, options, include_head=False):
     """
     Generate html page with information about the standard
 
@@ -1401,12 +1418,12 @@ def xyz_31(data, heading, options, include_head=False):
                                '\\(\\bar z\\)',
                                '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts_std() +
-                    _normalization_xyz_31() +
-                    _precision_xyz())
+                    _normalization_XYZ31() +
+                    _precision_XYZ())
     return html_string
 
 
-def xyz_64(data, heading, options, include_head=False):
+def XYZ64(data, heading, options, include_head=False):
 
     """
     Generate html page with information about the standard
@@ -1435,12 +1452,12 @@ def xyz_64(data, heading, options, include_head=False):
                                '\\(\\bar z_{10}\\)',
                                '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts_std() +
-                    _normalization_xyz_64() +
-                    _precision_xyz())
+                    _normalization_XYZ64() +
+                    _precision_XYZ())
     return html_string
 
 
-def xy_31(data, heading, options, include_head=False):
+def xyz31(data, heading, options, include_head=False):
     """
     Generate html page with information about the standard
 
@@ -1465,15 +1482,15 @@ def xy_31(data, heading, options, include_head=False):
                     _parameters_std('2') +
                     _coordinates('\\(x\\)', '\\(y\\)', '\\(z\\)') +
                     _wavelenghts_std() +
-                    _normalization_xy_31() +
-                    _xyz_31_to_xy_31() +
-                    _precision_xy() +
-                    _illuminant_E_xy_31() +
-                    _purpleline_tangentpoints_xy_31(data))
+                    _normalization_xyz31() +
+                    _XYZ31_to_xyz31() +
+                    _precision_xyz() +
+                    _illuminant_E_xyz31() +
+                    _purpleline_tangentpoints_xyz31(data))
     return html_string
 
 
-def xy_64(data, heading, options, include_head=False):
+def xyz64(data, heading, options, include_head=False):
     """
     Generate html page with information about the standard
 
@@ -1500,9 +1517,9 @@ def xy_64(data, heading, options, include_head=False):
                                  '\\(y_{\,10}\\)',
                                  '\\(z_{\,10}\\)') +
                     _wavelenghts_std() +
-                    _normalization_xy_64() +
-                    _xyz_64_to_xy_64() +
-                    _precision_xy() +
-                    _illuminant_E_xy_64() +
-                    _purpleline_tangentpoints_xy_64(data))
+                    _normalization_xyz64() +
+                    _XYZ64_to_xyz64() +
+                    _precision_xyz() +
+                    _illuminant_E_xyz64() +
+                    _purpleline_tangentpoints_xyz64(data))
     return html_string

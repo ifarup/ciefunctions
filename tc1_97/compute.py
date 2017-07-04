@@ -1584,7 +1584,7 @@ def compute_CIE_standard_XYZ(XYZ31_std, XYZ64_std):
     Y31_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(
         λ_main, Y31_main)
     Z31_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_main, Z64_main)
+        λ_main, Z31_main)
     X64_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(
         λ_main, X64_main)
     Y64_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(
@@ -1767,11 +1767,11 @@ def compute_tabulated(field_size, age, λ_min=390, λ_max=830, λ_step=1):
     
     # wavelength arrays:
         
-    λ_all = my_round(np.arange(390., 830. + .1, .1), 1)
-#    λ_main = np.arange(390, 830 + 1, 1)
+    λ_all = my_round(np.arange(390., 830. + .01, .1), 1)
+#    λ_main = np.arange(390, 830 + .01, 1)
     λ_spec = np.arange(λ_min, λ_max + .01, λ_step)
     λ_max = λ_spec[-1]
-    λ_plot = my_round(np.arange(λ_min, λ_max + .1, .1), 1)
+    λ_plot = my_round(np.arange(λ_min, λ_max + .01, .1), 1)
     # LMS arrays:
         
     # LMS-base values (9 sign.figs.), λ 390nm-830nm, 0.1nm steps; 
