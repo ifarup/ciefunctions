@@ -94,17 +94,11 @@ def LMS_base(axes, plots, options):
     options : dict
         Plotting options (see code for use).
     """
-    
-    
-    if options['log10']:
-        log = True
-    else:
-        log = False
     lock.acquire()
     axes.clear()
     axes.grid(options['grid'])
     axes.tick_params(labelsize=10)
-    if log is True:
+    if options['log10']:
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 1], 'r')
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 2], 'g')
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 3], 'b')
