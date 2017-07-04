@@ -278,9 +278,9 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         #
         # CIE LMS cone fundamentals
         # (description, plot and table)
-        #
+        #       
         if self.plot_combo.currentIndex() == self.COMBO_LMS:
-
+         
             # Setup GUI
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
