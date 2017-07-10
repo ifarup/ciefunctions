@@ -85,16 +85,16 @@ class AppForm(QtWidgets.QMainWindow):
             post = '__renormalized_values'
 
         if (self.plot_combo.currentIndex() == self.COMBO_XYZSTD and
-            self.field_combo.currentIndex() == 0):
+            self.field_combo.currentIndex() == self.STD_31):
             suggest = 'cie_xyz__standard1931__fs_2.csv'
         elif (self.plot_combo.currentIndex() == self.COMBO_XYZSTD and
-              self.field_combo.currentIndex() == 1):
+              self.field_combo.currentIndex() == self.STD_64):
             suggest = 'cie_xyz__standard1964__fs_10.csv'
         elif (self.plot_combo.currentIndex() == self.COMBO_XYSTD and
-              self.field_combo.currentIndex() == 0):
+              self.field_combo.currentIndex() == self.STD_31):
             suggest = 'cie_cc__standard1931__fs_2.csv'
         elif (self.plot_combo.currentIndex() == self.COMBO_XYSTD and
-              self.field_combo.currentIndex() == 1):
+              self.field_combo.currentIndex() == self.STD_64):
             suggest = 'cie_cc__standard1964__fs_10.csv'
         else:     
             suggest = (pre + '__fs_' + str(self.field_spin.value()) +
@@ -158,14 +158,14 @@ class AppForm(QtWidgets.QMainWindow):
                     np.savetxt(path, self.results['xyz_purples'],
                                '%.1f, %.5f, %.5f, %.5f')
             elif self.plot_combo.currentIndex() == self.COMBO_XYZSTD:
-                if self.field_combo.currentIndex() == 0:  # 2 degrees
+                if self.field_combo.currentIndex() == self.STD_31:
                     np.savetxt(path, self.results['XYZ31'],
                                '%.1f, %.6e, %.6e, %.6e')
                 else:
                     np.savetxt(path, self.results['XYZ64'],
                                '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_XYSTD:
-                if self.field_combo.currentIndex() == 0:  # 2 degrees
+                if self.field_combo.currentIndex() == self.STD_31:
                     np.savetxt(path, self.results['xyz31'],
                                '%.1f, %.5f, %.5f, %.5f')
                 else:
@@ -491,7 +491,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.wavelength_check.setDisabled(True)
             self.wavelength_label.setDisabled(True)
 
-            if self.field_combo.currentIndex() == 0:  # 2 deg
+            if self.field_combo.currentIndex() == self.STD_31:
 
                 # Setup GUI
                 self.compare_label_31.setDisabled(True)
@@ -512,7 +512,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 html_table = tc1_97.table.XYZ31(self.results,
                                                  self.options(), True)
 
-            else:               # 10 deg
+            else:  # STD_64
 
                 # Setup GUI
                 self.compare_label_31.setEnabled(True)
@@ -542,7 +542,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.wavelength_check.setEnabled(True)
             self.wavelength_label.setEnabled(True)
 
-            if self.field_combo.currentIndex() == 0:  # 2 deg
+            if self.field_combo.currentIndex() == self.STD_31:
 
                 # Setup GUI
                 self.compare_label_31.setDisabled(True)
@@ -562,7 +562,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 html_table = tc1_97.table.xyz31(self.results,
                                                 self.options(), True)
 
-            else:   # 10 deg
+            else:   # STD_64
 
                 # Setup GUI
                 self.compare_label_31.setEnabled(True)
@@ -686,7 +686,9 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         self.field_combo = QtWidgets.QComboBox()
         self.field_combo.addItem(u'2\N{DEGREE SIGN} (1931)')
+        self.STD_31 = 0
         self.field_combo.addItem(u'10\N{DEGREE SIGN} (1964)')
+        self.STD_64 = 1
         self.field_combo.hide()
         self.field_combo.currentIndexChanged.connect(self.on_draw_all)
        
