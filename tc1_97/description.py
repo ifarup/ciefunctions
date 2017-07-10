@@ -478,10 +478,6 @@ def _normalization_xyz64():
         
 
 def _LMS_to_lms_mb(data, options):
-    if options['norm']:
-        trans_mat = data['trans_mat_N']
-    else:
-        trans_mat = data['trans_mat']
     html_string = """
         <p style="margin:0 0 0 0">
         <b class="description-subtitle">Spectral coordinates</b>
@@ -503,11 +499,11 @@ def _LMS_to_lms_mb(data, options):
         $$
         </p>
     """ % (data['field_size'], data['age'],
-           data['norm_coeffs_lms_mb'][0], data['age'],
+           data['norm_coeffs_lms_mb'][0], data['field_size'], data['age'],
            data['norm_coeffs_lms_mb'][0], data['field_size'], data['age'],
            data['norm_coeffs_lms_mb'][1], data['field_size'], data['age'],
            data['field_size'], data['age'],
-           data['norm_coeffs_lms_mb'][1], data['age'],
+           data['norm_coeffs_lms_mb'][1], data['field_size'], data['age'],
            data['norm_coeffs_lms_mb'][0], data['field_size'], data['age'],
            data['norm_coeffs_lms_mb'][1], data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -646,10 +642,6 @@ def _LMS_to_XYZ(data, options, purples=False):
     return html_string
 
 
-def _LMS_to_XYZ_purples(data, options):
-    return _LMS_to_XYZ(data, options, True)
-
-
 def _XYZ_to_xyz(data):
     html_string = """
     <p style="margin:0 0 0 0">
@@ -703,6 +695,10 @@ def _XYZ_to_xyz(data):
            data['field_size'], data['age'],
            data['field_size'], data['age'])
     return html_string
+
+
+def _LMS_to_XYZ_purples(data, options):
+    return _LMS_to_XYZ(data, options, True)
 
 
 def _XYZ_purples_to_xyz_purples(data):
@@ -1274,6 +1270,44 @@ def XYZ(data, heading, options, include_head=False):
     return html_string
 
 
+def xyz(data, heading, options, include_head=False):
+    """
+    Generate html page with information about the xy system.
+
+    Parameters
+    ----------
+    data : dict
+        Computed CIE functions as returned from the tc1_97 module.
+    heading : string
+        The heading of the page.
+    include_head : bool
+        Indlue html head with css (for matrix etc.)
+
+    Returns
+    -------
+    html_string : string
+        The generated page.
+    """
+    html_string = ""
+    if include_head:
+        html_string += _head()
+    html_string += (_heading(heading) +
+                    _parameters(data) +
+                    _coordinates('\\(x_{\,\mathrm{F},\,%s,\,%d}\\)' %
+                                 (data['field_size'], data['age']),
+                                 '\\(y_{\,\mathrm{F},\,%s,\,%d}\\)' %
+                                 (data['field_size'], data['age']),
+                                 '\\(z_{\,\mathrm{F},\,%s,\,%d}\\)' %
+                                 (data['field_size'], data['age'])) +
+                    _wavelenghts(data) +
+                    _normalization_xyz(data, options) +
+                    _XYZ_to_xyz(data) +
+                    _precision_xyz() +
+                    _illuminant_E_xyz(data, options) +
+                    _purpleline_tangentpoints_xyz(data, options))
+    return html_string
+
+
 def XYZ_purples(data, heading, options, include_head=False):
     """
     Generate html page with information about the purple XYZ.
@@ -1311,44 +1345,6 @@ def XYZ_purples(data, heading, options, include_head=False):
                     _normalization_XYZ(data, options) +
                     _LMS_to_XYZ_purples(data, options) +
                     _precision_XYZ())
-    return html_string
-
-
-def xyz(data, heading, options, include_head=False):
-    """
-    Generate html page with information about the xy system.
-
-    Parameters
-    ----------
-    data : dict
-        Computed CIE functions as returned from the tc1_97 module.
-    heading : string
-        The heading of the page.
-    include_head : bool
-        Indlue html head with css (for matrix etc.)
-
-    Returns
-    -------
-    html_string : string
-        The generated page.
-    """
-    html_string = ""
-    if include_head:
-        html_string += _head()
-    html_string += (_heading(heading) +
-                    _parameters(data) +
-                    _coordinates('\\(x_{\,\mathrm{F},\,%s,\,%d}\\)' %
-                                 (data['field_size'], data['age']),
-                                 '\\(y_{\,\mathrm{F},\,%s,\,%d}\\)' %
-                                 (data['field_size'], data['age']),
-                                 '\\(z_{\,\mathrm{F},\,%s,\,%d}\\)' %
-                                 (data['field_size'], data['age'])) +
-                    _wavelenghts(data) +
-                    _normalization_xyz(data, options) +
-                    _XYZ_to_xyz(data) +
-                    _precision_xyz() +
-                    _illuminant_E_xyz(data, options) +
-                    _purpleline_tangentpoints_xyz(data, options))
     return html_string
 
 

@@ -64,10 +64,10 @@ class AppForm(QtWidgets.QMainWindow):
             pre = 'maxwellian_cc'
         elif self.plot_combo.currentIndex() == self.COMBO_XYZ:
             pre = 'cie_xyz_F'
-        elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
-            pre = 'purple_xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_XY:
             pre = 'cie_cc_F'
+        elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
+            pre = 'purple_xyz_F'
         elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
             pre = 'purple_cc_F'
 
@@ -78,8 +78,8 @@ class AppForm(QtWidgets.QMainWindow):
         
         elif (self.plot_combo.currentIndex() == self.COMBO_LM or
               ((self.plot_combo.currentIndex() in [self.COMBO_XYZ,
-                                                   self.COMBO_PURPLE_XYZ,
                                                    self.COMBO_XY,
+                                                   self.COMBO_PURPLE_XYZ,
                                                    self.COMBO_PURPLE_XY]) and
                 self.norm_check.isChecked())):
             post = '__renormalized_values'
@@ -136,13 +136,6 @@ class AppForm(QtWidgets.QMainWindow):
                 else:
                     np.savetxt(path, self.results['XYZ'],
                                '%.1f, %.6e, %.6e, %.6e')
-            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
-                if self.norm_check.isChecked():
-                    np.savetxt(path, self.results['XYZ_purples_N'],
-                               '%.1f, %.6e, %.6e, %.6e')
-                else:
-                    np.savetxt(path, self.results['XYZ_purple'],
-                               '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_XY:
                 if self.norm_check.isChecked():
                     np.savetxt(path, self.results['xyz_N'],
@@ -150,6 +143,13 @@ class AppForm(QtWidgets.QMainWindow):
                 else:
                     np.savetxt(path, self.results['xyz'],
                                '%.1f, %.5f, %.5f, %.5f')
+            elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XYZ:
+                if self.norm_check.isChecked():
+                    np.savetxt(path, self.results['XYZ_purples_N'],
+                               '%.1f, %.6e, %.6e, %.6e')
+                else:
+                    np.savetxt(path, self.results['XYZ_purple'],
+                               '%.1f, %.6e, %.6e, %.6e')
             elif self.plot_combo.currentIndex() == self.COMBO_PURPLE_XY:
                 if self.norm_check.isChecked():
                     np.savetxt(path, self.results['xyz_purples_N'],
@@ -261,10 +261,10 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.log_check.setVisible(False)
             self.norm_check.setVisible(False) 
             self.norm_label.setVisible(True)     
-        elif self.plot_combo.currentIndex() in [self.COMBO_XY,
-                                              self.COMBO_XYZ,
-                                              self.COMBO_PURPLE_XYZ,
-                                              self.COMBO_PURPLE_XY]:
+        elif self.plot_combo.currentIndex() in [self.COMBO_XYZ,
+                                                self.COMBO_XY,                                                
+                                                self.COMBO_PURPLE_XYZ,
+                                                self.COMBO_PURPLE_XY]:
             self.log_label.setVisible(False)
             self.log_check.setVisible(False)
             self.norm_label.setVisible(True)
@@ -404,6 +404,30 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             html_table = tc1_97.table.XYZ(self.results, self.options(), True)
 
         #
+        # CIE xy cone-fundamental-based chromaticity diagram
+        # (description, plot and table)
+        #
+        elif self.plot_combo.currentIndex() == self.COMBO_XY:
+            # Setup GUI
+            self.compare_label_31.setEnabled(True)
+            self.compare_label_64.setEnabled(True)
+            self.wavelength_check.setEnabled(True)
+            self.wavelength_label.setEnabled(True)
+            self.cie31_check.setEnabled(True)
+            self.cie64_check.setEnabled(True)
+
+            # Create html description
+            html_string = tc1_97.description.xyz(self.results,
+                                                self.plot_combo.currentText(),
+                                                self.options(), True)
+            
+            # Create plot
+            tc1_97.plot.xy(self.axes, self.plots, self.options())
+
+            # Create html table
+            html_table = tc1_97.table.xyz(self.results, self.options(), True)
+
+        #
         # XYZ cone-fundamental-based tristimulus functions for
         # purple-line stimuli (description, plot and table)
         #
@@ -429,30 +453,6 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             # Create html table
             html_table = tc1_97.table.XYZ_purples(self.results, 
                                                   self.options(), True)
-
-        #
-        # CIE xy cone-fundamental-based chromaticity diagram
-        # (description, plot and table)
-        #
-        elif self.plot_combo.currentIndex() == self.COMBO_XY:
-            # Setup GUI
-            self.compare_label_31.setEnabled(True)
-            self.compare_label_64.setEnabled(True)
-            self.wavelength_check.setEnabled(True)
-            self.wavelength_label.setEnabled(True)
-            self.cie31_check.setEnabled(True)
-            self.cie64_check.setEnabled(True)
-
-            # Create html description
-            html_string = tc1_97.description.xyz(self.results,
-                                                self.plot_combo.currentText(),
-                                                self.options(), True)
-            
-            # Create plot
-            tc1_97.plot.xy(self.axes, self.plots, self.options())
-
-            # Create html table
-            html_table = tc1_97.table.xyz(self.results, self.options(), True)
 
         #
         # xy cone-fundamental-based chromaticity diagram (purple-line stimuli)
@@ -676,11 +676,6 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         # Other GUI controls
         #
-        self.age_spin = QtWidgets.QSpinBox()
-        self.age_spin.setMinimum(20)
-        self.age_spin.setMaximum(70)
-        self.age_spin.setValue(32)
-
         self.field_spin = QtWidgets.QDoubleSpinBox()
         self.field_spin.setLocale(QtCore.QLocale('C'))
         self.field_spin.setMinimum(1)
@@ -694,15 +689,12 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.field_combo.addItem(u'10\N{DEGREE SIGN} (1964)')
         self.field_combo.hide()
         self.field_combo.currentIndexChanged.connect(self.on_draw_all)
-
-        self.resolution_spin = QtWidgets.QDoubleSpinBox()
-        self.resolution_spin.setLocale(QtCore.QLocale('C'))
-        self.resolution_spin.setMinimum(0.1)
-        self.resolution_spin.setMaximum(5)
-        self.resolution_spin.setDecimals(1)
-        self.resolution_spin.setValue(1)
-        self.resolution_spin.setSingleStep(0.1)
-
+       
+        self.age_spin = QtWidgets.QSpinBox()
+        self.age_spin.setMinimum(20)
+        self.age_spin.setMaximum(70)
+        self.age_spin.setValue(32)
+        
         self.lambda_min_spin = QtWidgets.QDoubleSpinBox()
         self.lambda_min_spin.setLocale(QtCore.QLocale('C'))
         self.lambda_min_spin.setMinimum(390)
@@ -718,6 +710,14 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.lambda_max_spin.setDecimals(1)
         self.lambda_max_spin.setValue(830)
         self.lambda_max_spin.setSingleStep(0.1)
+        
+        self.resolution_spin = QtWidgets.QDoubleSpinBox()
+        self.resolution_spin.setLocale(QtCore.QLocale('C'))
+        self.resolution_spin.setMinimum(0.1)
+        self.resolution_spin.setMaximum(5)
+        self.resolution_spin.setDecimals(1)
+        self.resolution_spin.setValue(1)
+        self.resolution_spin.setSingleStep(0.1)
 
         self.plot_combo = QtWidgets.QComboBox()
         self.plot_combo.addItem('CIE LMS cone fundamentals')
@@ -733,12 +733,12 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             'CIE XYZ cone-fundamental-based tristimulus functions')
         self.COMBO_XYZ = 4
         self.plot_combo.addItem(
+            'CIE xy cone-fundamental-based chromaticity diagram')
+        self.COMBO_XY = 5
+        self.plot_combo.addItem(
             'XYZ cone-fundamental-based tristimulus functions for ' +
             'purple-line stimuli')
-        self.COMBO_PURPLE_XYZ = 5
-        self.plot_combo.addItem(
-            'CIE xy cone-fundamental-based chromaticity diagram')
-        self.COMBO_XY = 6
+        self.COMBO_PURPLE_XYZ = 6
         self.plot_combo.addItem(
             'xy cone-fundamental-based chromaticity diagram ' +
             '(purple-line stimuli)')

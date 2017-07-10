@@ -24,8 +24,8 @@ import matplotlib
 import threading
 from matplotlib.ticker import MaxNLocator
 
-lock = threading.Lock()
 
+lock = threading.Lock()
 
 def LMS(axes, plots, options):
     """
@@ -44,13 +44,14 @@ def LMS(axes, plots, options):
     axes.clear()
     axes.grid(options['grid'])
     axes.tick_params(labelsize=10)
-    if options['log10']:
+    if options['log10']: 
         axes.plot(plots['logLMS'][:, 0], plots['logLMS'][:, 1], 'r')
         axes.plot(plots['logLMS'][:, 0], plots['logLMS'][:, 2], 'g')
         axes.plot(plots['logLMS'][:, 0], plots['logLMS'][:, 3], 'b')
+        axes.axis('normal')
         axes.set_xlim((350, 850))
-        axes.set_ylim((-8.5, 1))
-        axes.yaxis.set_major_locator(MaxNLocator(nbins = 5, min_n_ticks = 4))
+        axes.set_ylim((-7.4, 0.4))
+        axes.yaxis.set_major_locator(MaxNLocator(nbins = 7, min_n_ticks = 6))
     else:
         axes.plot(plots['LMS'][:, 0], plots['LMS'][:, 1], 'r')
         axes.plot(plots['LMS'][:, 0], plots['LMS'][:, 2], 'g')
@@ -66,12 +67,12 @@ def LMS(axes, plots, options):
             axes.set_ylabel('Relative energy sensitivities', fontsize=10.5)
         
     if options['full_title']:
-        title = 'CIE 2006 LMS cone fundamentals\n' + \
-                'Field size: %s''' % plots['field_size'] + \
-                u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
-                u' yr,  Domain: %s nm \u2013 %s nm' % \
-                (plots['λ_min'], plots['λ_max']) + \
-                ',  Step: %s nm' % plots['λ_step']
+        title = ('CIE 2006 LMS cone fundamentals\n' + 
+                'Field size: %s''' % plots['field_size'] + 
+                u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + 
+                u' yr,  Domain: %s nm \u2013 %s nm' % 
+                (plots['λ_min'], plots['λ_max']) + 
+                ',  Step: %s nm' % plots['λ_step'])
         if options['log10']:
             title += ',  Logarithmic values'
         axes.set_title(title, fontsize=options['title_fontsize'])
@@ -102,9 +103,10 @@ def LMS_base(axes, plots, options):
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 1], 'r')
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 2], 'g')
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 3], 'b')
+        axes.axis('normal')
         axes.set_xlim((350, 850))
-        axes.set_ylim((-8.5, 1))
-        axes.yaxis.set_major_locator(MaxNLocator(nbins = 5, min_n_ticks = 4))
+        axes.set_ylim((-7.4, 0.4))
+        axes.yaxis.set_major_locator(MaxNLocator(nbins = 7, min_n_ticks = 6))
     else:
         axes.plot(plots['LMS_base'][:, 0], plots['LMS_base'][:, 1], 'r')
         axes.plot(plots['LMS_base'][:, 0], plots['LMS_base'][:, 2], 'g')
@@ -120,15 +122,16 @@ def LMS_base(axes, plots, options):
             axes.set_ylabel('Relative energy sensitivities', fontsize=10.5)
         
     if options['full_title']:
-       axes.set_title(('CIE 2006 LMS cone fundamentals ' +
-                        '(9 sign. figs. data)\nField size: %s''' %
-                       plots['field_size'] +
-                        u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) +
-                        u' yr,  Domain: %s nm \u2013 %s nm' % (
-                            plots['λ_min'],
-                            plots['λ_max']) +
-                        ',  Step: %s nm' % plots['λ_step']),
-                       fontsize=options['title_fontsize'])
+        title = ('CIE 2006 LMS cone fundamentals ' +
+                 '(9 sign. figs. data)\nField size: %s''' %
+                 plots['field_size'] + u'\N{DEGREE SIGN},  Age: ' +
+                 str(plots['age']) + 
+                 u' yr,  Domain: %s nm \u2013 %s nm' %
+                 ( plots['λ_min'], plots['λ_max']) +
+                 ',  Step: %s nm' % plots['λ_step'])
+        if options['log10']:
+            title += ',  Logarithmic values'
+        axes.set_title(title, fontsize=options['title_fontsize'])
     else:
         axes.set_title('CIE 2006 LMS cone fundamentals (9 sign. figs. data)',
                        fontsize=options['title_fontsize'])
@@ -158,20 +161,20 @@ def ls_mb(axes, plots, options):
     λ_values = np.concatenate(
         ([plots['lms_mb'][0, 0]], np.arange(410, 490, 10),
          [500, 550, 575, 600, 700], [plots['lms_mb'][-1, 0]]))
-    for l in λ_values:  # add wavelength parameters
-        ind = np.nonzero(plots['lms_mb'][:, 0] == l)[0]
+    for λ in λ_values:  # add wavelength parameters
+        ind = np.nonzero(plots['lms_mb'][:, 0] == λ)[0]
         axes.plot(plots['lms_mb'][ind, 1], plots['lms_mb'][ind, 3],
                   'o', markeredgecolor='k', markerfacecolor='w')
-        if l > 490:
+        if λ > 490:
             align = 'bottom'
-        elif l == 830:
+        elif λ == 830:
             align = 'top'
         else:
             align = 'center'
         if options['labels'] and np.shape(ind)[0] > 0:
             axes.text(plots['lms_mb'][ind, 1], plots['lms_mb'][ind, 3],
                       '   ' + '%.0f' %
-                      l, fontsize=options['label_fontsize'],
+                      λ, fontsize=options['label_fontsize'],
                       verticalalignment=align)
     axes.plot(plots['lms_mb_white'][0], plots['lms_mb_white'][2], 'kx')
     if options['labels']:
@@ -245,17 +248,17 @@ def lm_mw(axes, plots, options):
     λ_values = np.concatenate(
         (np.arange(450, 631, 10), [700], [plots['lms_mw'][0, 0]],
          [plots['lms_mw'][-1, 0]]))
-    for l in λ_values:  # add wavelength parameters
-        ind = np.nonzero(plots['lms_mw'][:, 0] == l)[0]
+    for λ in λ_values:  # add wavelength parameters
+        ind = np.nonzero(plots['lms_mw'][:, 0] == λ)[0]
         axes.plot(plots['lms_mw'][ind, 1], plots['lms_mw'][ind, 2],
                   'o', markeredgecolor='k', markerfacecolor='w')
-        if l == 390:
+        if λ == 390:
             align = 'top'
         else:
             align = 'center'
         if options['labels'] and np.shape(ind)[0] > 0:
             axes.text(plots['lms_mw'][ind, 1], plots['lms_mw'][ind, 2],
-                      '   ' + '%.0f' % l,
+                      '   ' + '%.0f' % λ,
                       fontsize=options['label_fontsize'],
                       verticalalignment=align)
     axes.plot(plots['lms_mw_white'][0], plots['lms_mw_white'][1], 'kx')
@@ -359,56 +362,6 @@ def XYZ(axes, plots, options):
         if options['norm']:
             title += ',  Renormalized values'
         axes.set_title(title, fontsize=options['title_fontsize'])
-    else:
-        axes.set_title('CIE XYZ cone-fundamental-based ' +
-                       'tristimulus functions',
-                       fontsize=options['title_fontsize'])
-    lock.release()
-
-
-def XYZ_purples(axes, plots, options):
-    """
-    Plot the XYZ cone-fundamental-based  tristimulus functions for purple-
-    line stimuli, as parameterized by complementary wavelength, onto the 
-    given axes.
-    
-    Parameters
-    ----------
-    axes : Axes
-        Matplotlib axes on which to plot.
-    plots : dict
-        Data for plotting as returned by tc1_97.
-    options : dict
-        Plotting options (see code for use).
-    """
-    lock.acquire()
-    if options['norm']:
-        XYZ_p = plots['XYZ_purples_N']
-    else:
-        XYZ_p = plots['XYZ_purples']  
-    axes.clear()
-    axes.grid(options['grid'])
-    axes.tick_params(labelsize=10)
-    axes.plot(XYZ_p[:, 0], XYZ_p[:, 1], 'r')
-    axes.plot(XYZ_p[:, 0], XYZ_p[:, 2], 'g')
-    axes.plot(XYZ_p[:, 0], XYZ_p[:, 3], 'b')
-    axes.axis('normal')
-    axes.axis([480, 580, -.04, .54])
-    if options['axis_labels']:
-        axes.set_xlabel('Complementary wavelength (nm)', fontsize=10.5)
-        axes.set_ylabel('Cone-fundamental-based tristimulus values',
-                        fontsize=10.5)
-    if options['full_title']:
-        title = 'XYZ cone-fundamental-based tristimulus functions for ' + \
-                'purple-line stimuli\n' + \
-                'Field size: %s''' % plots['field_size'] + \
-               u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
-                u' yr,  Domain: %s nm \u2013 %s nm' % \
-                (plots['λ_min'], plots['λ_max']) + \
-                ',  Step: %s nm' % plots['λ_step'] 
-        if options['norm']:
-            title += ',  Renormalized values'
-        axes.set_title(title, fontsize=options['title_fontsize'])    
     else:
         axes.set_title('CIE XYZ cone-fundamental-based ' +
                        'tristimulus functions',
@@ -523,6 +476,56 @@ def xy(axes, plots, options):
         axes.set_title('CIE xy cone-fundamental-based chromaticity diagram',
                        fontsize=options['title_fontsize'])
     lock.release()
+    
+    
+def XYZ_purples(axes, plots, options):
+    """
+    Plot the XYZ cone-fundamental-based  tristimulus functions for purple-
+    line stimuli, as parameterized by complementary wavelength, onto the 
+    given axes.
+    
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes on which to plot.
+    plots : dict
+        Data for plotting as returned by tc1_97.
+    options : dict
+        Plotting options (see code for use).
+    """
+    lock.acquire()
+    if options['norm']:
+        XYZ_p = plots['XYZ_purples_N']
+    else:
+        XYZ_p = plots['XYZ_purples']  
+    axes.clear()
+    axes.grid(options['grid'])
+    axes.tick_params(labelsize=10)
+    axes.plot(XYZ_p[:, 0], XYZ_p[:, 1], 'r')
+    axes.plot(XYZ_p[:, 0], XYZ_p[:, 2], 'g')
+    axes.plot(XYZ_p[:, 0], XYZ_p[:, 3], 'b')
+    axes.axis('normal')
+    axes.axis([480, 580, -.04, .54])
+    if options['axis_labels']:
+        axes.set_xlabel('Complementary wavelength (nm)', fontsize=10.5)
+        axes.set_ylabel('Cone-fundamental-based tristimulus values',
+                        fontsize=10.5)
+    if options['full_title']:
+        title = 'XYZ cone-fundamental-based tristimulus functions for ' + \
+                'purple-line stimuli\n' + \
+                'Field size: %s''' % plots['field_size'] + \
+               u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + \
+                u' yr,  Domain: %s nm \u2013 %s nm' % \
+                (plots['λ_min'], plots['λ_max']) + \
+                ',  Step: %s nm' % plots['λ_step'] 
+        if options['norm']:
+            title += ',  Renormalized values'
+        axes.set_title(title, fontsize=options['title_fontsize'])    
+    else:
+        axes.set_title('CIE XYZ cone-fundamental-based ' +
+                       'tristimulus functions',
+                       fontsize=options['title_fontsize'])
+    lock.release()    
     
     
 def xy_purples(axes, plots, options):
