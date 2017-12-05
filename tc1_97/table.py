@@ -56,38 +56,38 @@ def resource_path(relative):
 def _head():
     package_path = resource_path(".")
     html_string = """
-    <head>
-    <link type="text/css" rel="stylesheet" href="%s/table.css" />
-    <script type="text/javascript"
+ <head>
+<link type="text/css" rel="stylesheet" href="%s/table.css" />
+<script type="text/javascript"
     src="%s/../web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML">
-    </script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            displayAlign: "left",
-            showProcessingMessages: false,
-            messageStyle: "none",
-            inlineMath:[["\\(","\\)"]],
-            displayMath:[["$$","$$"]],
-            tex2jax: { preview: "none" },
-            "HTML-CSS": {
+</script>
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+   displayAlign: "left",
+   showProcessingMessages: false,
+   messageStyle: "none",
+   inlineMath:[["\\(","\\)"]],
+   displayMath:[["$$","$$"]],
+   tex2jax: { preview: "none" },
+   "HTML-CSS": {
     """ % (package_path, package_path)
     if sys.platform.startswith('win'):
         html_string += """
-                scale: 95
+    scale: 95
         """
     elif sys.platform.startswith('linux'):
         html_string += """
-                scale: 95
+    scale: 95
         """
     else:
         html_string += """
-                scale: 100
+    scale: 100
         """
     html_string += """
-            }
-        });
-    </script>
-    </head>
+    }
+});
+</script>
+</head>
     """
     return html_string
 
@@ -110,25 +110,21 @@ def LMS(results, options, include_head=False):
     λ_min = float(results['λ_min'])
     length_LMS = np.shape(results['LMS'])[0]
     length_logLMS = np.shape(results['logLMS'])[0]
-    if length_LMS > 3601:
-        length_LMS = 3601
-        length_logLMS = 3601
-#       length_logLMS = int(4 * (length_logLMS - (length_logLMS % 20)) / 5)
     html_table = ""
     if include_head:
         html_table += _head()
     if options['log10']:
         html_table += """
-        <table>
-          <thead>
-          <tr>
-            <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar l_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
-            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar m_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
-            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar s_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
-          </tr>
-          </thead>
-          <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(\mathrm{log_{\,10}}\,(\,\\bar l_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+<th>\\(\mathrm{log_{\,10}}\,(\,\\bar m_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+<th>\\(\mathrm{log_{\,10}}\,(\,\\bar s_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+</tr>
+</thead>
+<tbody>
         """ % (results['field_size'], results['age'],
                results['field_size'], results['age'],
                results['field_size'], results['age'])
@@ -136,44 +132,44 @@ def LMS(results, options, include_head=False):
             if (np.abs(λ_step-np.round(λ_step)) < 0.05 and
                 np.abs(λ_min-np.round(λ_min)) < 0.05):
                 html_table += """
-                <tr>
-                  <td>%.0f</td>
-                  <td>%.5f</td>
-                  <td>%.5f</td>
-                  <td>%.5f</td>
-                </tr>
+<tr>
+<td>%.0f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
                 """ % (results['logLMS'][i, 0],
                        results['logLMS'][i, 1],
                        results['logLMS'][i, 2],
                        results['logLMS'][i, 3])
             else:
                 html_table += """
-                <tr>
-                  <td>%.1f</td>
-                  <td>%.5f</td>
-                  <td>%.5f</td>
-                  <td>%.5f</td>
-                </tr>
+<tr>
+<td>%.1f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
                 """ % (results['logLMS'][i, 0],
                        results['logLMS'][i, 1],
                        results['logLMS'][i, 2],
                        results['logLMS'][i, 3])
         html_table += """
-          </tbody>
-        </table>
+</tbody>
+</table>
         """
     else:
         html_table += """
-        <table>
-          <thead>
-          <tr>
-            <th>\\(\lambda\,\mathsf{\small\,(nm)} \\)</th>
-            <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
-            <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
-            <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
-          </tr>
-          </thead>
-          <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)} \\)</th>
+<th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
+<th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
+<th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
+</tr>
+</thead>
+<tbody>
         """ % (results['field_size'], results['age'],
                results['field_size'], results['age'],
                results['field_size'], results['age'])
@@ -181,24 +177,24 @@ def LMS(results, options, include_head=False):
             if (np.abs(λ_step-np.round(λ_step)) < 0.05 and
                 np.abs(λ_min-np.round(λ_min)) < 0.05):
                 html_table += """
-                <tr>
-                  <td>%.0f</td>
-                  <td>%.5e</td>
-                  <td>%.5e</td>
-                  <td>%.5e</td>
-                </tr>
+<tr>
+<td>%.0f</td>
+<td>%.5e</td>
+<td>%.5e</td>
+<td>%.5e</td>
+</tr>
                 """ % (results['LMS'][i, 0],
                        results['LMS'][i, 1],
                        results['LMS'][i, 2],
                        results['LMS'][i, 3])
             else:
                 html_table += """
-                <tr>
-                  <td>%.1f</td>
-                  <td>%.5e</td>
-                  <td>%.5e</td>
-                  <td>%.5e</td>
-                </tr>
+<tr>
+<td>%.1f</td>
+<td>%.5e</td>
+<td>%.5e</td>
+<td>%.5e</td>
+</tr>
                 """ % (results['LMS'][i, 0],
                        results['LMS'][i, 1],
                        results['LMS'][i, 2],
@@ -228,25 +224,21 @@ def LMS_base(results, options, include_head=False):
     λ_min = float(results['λ_min'])
     length_LMS_base = np.shape(results['LMS_base'])[0]
     length_logLMS_base = np.shape(results['logLMS_base'])[0]
-    if length_LMS_base > 3601:
-        length_LMS_base = 3601
-        length_logLMS_base = 3601
-#       length_logLMS = int(4 * (length_logLMS - (length_logLMS % 20)) / 5)
     html_table = ""
     if include_head:
         html_table += _head()
     if options['log10']:
         html_table += """
-        <table>
-          <thead>
-          <tr>
-            <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar l_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
-            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar m_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
-            <th>\\(\mathrm{log_{\,10}}\,(\,\\bar s_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
-          </tr>
-          </thead>
-          <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(\mathrm{log_{\,10}}\,(\,\\bar l_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+<th>\\(\mathrm{log_{\,10}}\,(\,\\bar m_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+<th>\\(\mathrm{log_{\,10}}\,(\,\\bar s_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
+</tr>
+</thead>
+<tbody>
         """ % (results['field_size'], results['age'],
                results['field_size'], results['age'],
                results['field_size'], results['age'])
@@ -254,44 +246,44 @@ def LMS_base(results, options, include_head=False):
             if (np.abs(λ_step-np.round(λ_step)) < 0.05 and
                 np.abs(λ_min-np.round(λ_min)) < 0.05):
                 html_table += """
-                <tr>
-                  <td>%.0f</td>
-                  <td>%.8f</td>
-                  <td>%.8f</td>
-                  <td>%.8f</td>
-                </tr>
+<tr>
+<td>%.0f</td>
+<td>%.8f</td>
+<td>%.8f</td>
+<td>%.8f</td>
+</tr>
                 """ % (results['logLMS_base'][i, 0],
                        results['logLMS_base'][i, 1],
                        results['logLMS_base'][i, 2],
                        results['logLMS_base'][i, 3])
             else:
                 html_table += """
-                <tr>
-                  <td>%.1f</td>
-                  <td>%.8f</td>
-                  <td>%.8f</td>
-                  <td>%.8f</td>
-                </tr>
+<tr>
+<td>%.1f</td>
+<td>%.8f</td>
+<td>%.8f</td>
+<td>%.8f</td>
+</tr>
                 """ % (results['logLMS_base'][i, 0],
                        results['logLMS_base'][i, 1],
                        results['logLMS_base'][i, 2],
                        results['logLMS_base'][i, 3])
         html_table += """
-          </tbody>
-        </table>
+</tbody>
+</table>
         """
     else:
         html_table += """
-        <table>
-          <thead>
-          <tr>
-            <th>\\(\lambda\,\mathsf{\small\,(nm)} \\)</th>
-            <th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
-            <th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
-            <th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
-          </tr>
-          </thead>
-          <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)} \\)</th>
+<th>\\(\\bar l_{%s,\,%d}(\lambda) \\)</th>
+<th>\\(\\bar m_{\,%s,\,%d}(\lambda) \\)</th>
+<th>\\(\\bar s_{\,%s,\,%d}(\lambda) \\)</th>
+</tr>
+</thead>
+<tbody>
         """ % (results['field_size'], results['age'],
                results['field_size'], results['age'],
                results['field_size'], results['age'])
@@ -299,31 +291,31 @@ def LMS_base(results, options, include_head=False):
             if (np.abs(λ_step-np.round(λ_step)) < 0.05 and
                 np.abs(λ_min-np.round(λ_min)) < 0.05):
                 html_table += """
-                <tr>
-                  <td>%.0f</td>
-                  <td>%.8e</td>
-                  <td>%.8e</td>
-                  <td>%.8e</td>
-                </tr>
+<tr>
+<td>%.0f</td>
+<td>%.8e</td>
+<td>%.8e</td>
+<td>%.8e</td>
+</tr>
                 """ % (results['LMS_base'][i, 0],
                        results['LMS_base'][i, 1],
                        results['LMS_base'][i, 2],
                        results['LMS_base'][i, 3])
             else:
                 html_table += """
-                <tr>
-                  <td>%.1f</td>
-                  <td>%.8e</td>
-                  <td>%.8e</td>
-                  <td>%.8e</td>
-                </tr>
+<tr>
+<td>%.1f</td>
+<td>%.8e</td>
+<td>%.8e</td>
+<td>%.8e</td>
+</tr>
                 """ % (results['LMS_base'][i, 0],
                        results['LMS_base'][i, 1],
                        results['LMS_base'][i, 2],
                        results['LMS_base'][i, 3])
         html_table += """
-          </tbody>
-        </table>
+</tbody>
+</table>
         """
     return html_table
 
@@ -346,16 +338,16 @@ def lms_mb(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(l_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-        <th>\\(m_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-        <th>\\(s_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(l_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+<th>\\(m_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+<th>\\(s_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+</tr>
+</thead>
+<tbody>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -365,31 +357,31 @@ def lms_mb(results, options, include_head=False):
                 float(results['λ_min']) ==
                 np.round(float(results['λ_min']))):
             html_table += """
-            <tr>
-               <td>%.0f</td>
-               <td>%.6f</td>
-               <td>%.6f</td>
-               <td>%.6f</td>
-            </tr>
+<tr>
+<td>%.0f</td>
+<td>%.6f</td>
+<td>%.6f</td>
+<td>%.6f</td>
+</tr>
             """ % (results['lms_mb'][i, 0],
                    results['lms_mb'][i, 1],
                    results['lms_mb'][i, 2],
                    results['lms_mb'][i, 3])
         else:
             html_table += """
-            <tr>
-               <td>%.1f</td>
-               <td>%.6f</td>
-               <td>%.6f</td>
-               <td>%.6f</td>
-            </tr>
+<tr>
+<td>%.1f</td>
+<td>%.6f</td>
+<td>%.6f</td>
+<td>%.6f</td>
+</tr>
             """ % (results['lms_mb'][i, 0],
                    results['lms_mb'][i, 1],
                    results['lms_mb'][i, 2],
                    results['lms_mb'][i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -412,16 +404,16 @@ def lms_mw(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(l_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-        <th>\\(m_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-        <th>\\(s_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(l_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+<th>\\(m_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+<th>\\(s_{\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+</tr>
+</thead>
+<tbody>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -431,32 +423,32 @@ def lms_mw(results, options, include_head=False):
                 float(results['λ_min']) ==
                 np.round(float(results['λ_min']))):
             html_table += """
-            <tr>
-               <td>%.0f</td>
-               <td>%.6f</td>
-               <td>%.6f</td>
-               <td>%.6f</td>
-            </tr>
+<tr>
+<td>%.0f</td>
+<td>%.6f</td>
+<td>%.6f</td>
+<td>%.6f</td>
+</tr>
             """ % (results['lms_mw'][i, 0],
                    results['lms_mw'][i, 1],
                    results['lms_mw'][i, 2],
                    results['lms_mw'][i, 3])
         else:
             html_table += """
-            <tr>
-               <td>%.1f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-            </tr>
+<tr>
+<td>%.1f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
             """ % (results['lms_mw'][i, 0],
                    results['lms_mw'][i, 1],
                    results['lms_mw'][i, 2],
                    results['lms_mw'][i, 3])
 
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -483,16 +475,16 @@ def XYZ(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(\\bar x_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
-        <th>\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
-        <th>\\(\\bar z_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(\\bar x_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+<th>\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+<th>\\(\\bar z_{\,\mathrm{F},\,%s,\,%d}(\lambda) \\)</th>
+</tr>
+</thead>
+<tbody>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -502,31 +494,31 @@ def XYZ(results, options, include_head=False):
                 float(results['λ_min']) ==
                 np.round(float(results['λ_min']))):
             html_table += """
-            <tr>
-               <td>%.0f</td>
-               <td>%.6e</td>
-               <td>%.6e</td>
-               <td>%.6e</td>
-            </tr>
+<tr>
+<td>%.0f</td>
+<td>%.6e</td>
+<td>%.6e</td>
+<td>%.6e</td>
+</tr>
             """ % (XYZ[i, 0],
                    XYZ[i, 1],
                    XYZ[i, 2],
                    XYZ[i, 3])
         else:
             html_table += """
-            <tr>
-               <td>%.1f</td>
-               <td>%.6e</td>
-               <td>%.6e</td>
-               <td>%.6e</td>
-            </tr>
+<tr>
+<td>%.1f</td>
+<td>%.6e</td>
+<td>%.6e</td>
+<td>%.6e</td>
+</tr>
             """ % (XYZ[i, 0],
                    XYZ[i, 1],
                    XYZ[i, 2],
                    XYZ[i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -553,16 +545,16 @@ def xyz(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-        <th>\\(y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-        <th>\\(z_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+<th>\\(y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+<th>\\(z_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda}} \\)</th>
+</tr>
+</thead>
+<tbody>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -572,31 +564,31 @@ def xyz(results, options, include_head=False):
                 float(results['λ_min']) ==
                 np.round(float(results['λ_min']))):
             html_table += """
-            <tr>
-               <td>%.0f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-            </tr>
+<tr>
+<td>%.0f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
             """ % (xyz[i, 0],
                    xyz[i, 1],
                    xyz[i, 2],
                    xyz[i, 3])
         else:
             html_table += """
-            <tr>
-               <td>%.1f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-            </tr>
+<tr>
+<td>%.1f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
             """ % (xyz[i, 0],
                    xyz[i, 1],
                    xyz[i, 2],
                    xyz[i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -623,19 +615,16 @@ def XYZ_purples(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\\lambda_{\\,\\mathrm{c}}\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
-            \\)</th>
-        <th>\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
-            \\)</th>
-        <th>\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})
-            \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\\lambda_{\\,\\mathrm{c}}\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})\\)</th>
+<th>\\(\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})\\)</th>
+<th>\\(\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\lambda_{\\,\\mathrm{c}})\\)</th>
+</tr>
+</thead>
+<tbody>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -645,31 +634,31 @@ def XYZ_purples(results, options, include_head=False):
                 float(results['λ_min']) ==
                 np.round(float(results['λ_min']))):
             html_table += """
-            <tr>
-               <td>%.0f</td>
-               <td>%.6e</td>
-               <td>%.6e</td>
-               <td>%.6e</td>
-            </tr>
+<tr>
+<td>%.0f</td>
+<td>%.6e</td>
+<td>%.6e</td>
+<td>%.6e</td>
+</tr>
             """ % (XYZ_p[i, 0],
                    XYZ_p[i, 1],
                    XYZ_p[i, 2],
                    XYZ_p[i, 3])
         else:
             html_table += """
-            <tr>
-               <td>%.1f</td>
-               <td>%.6e</td>
-               <td>%.6e</td>
-               <td>%.6e</td>
-            </tr>
+<tr>
+<td>%.1f</td>
+<td>%.6e</td>
+<td>%.6e</td>
+<td>%.6e</td>
+</tr>
             """ % (XYZ_p[i, 0],
                    XYZ_p[i, 1],
                    XYZ_p[i, 2],
                    XYZ_p[i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -696,19 +685,16 @@ def xyz_purples(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\\lambda_{\\,\\mathrm{c}}\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}
-            \\)</th>
-        <th>\\(y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}
-            \\)</th>
-        <th>\\(z_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}
-            \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\\lambda_{\\,\\mathrm{c}}\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(x_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\)</th>
+<th>\\(y_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\)</th>
+<th>\\(z_{\,\mathrm{F},\,%s,\,%d\\mathrm{;\\,\\lambda_{\\mathrm{c}}}}\\)</th>
+</tr>
+</thead>
+<tbody>
     """ % (results['field_size'], results['age'],
            results['field_size'], results['age'],
            results['field_size'], results['age'])
@@ -718,31 +704,31 @@ def xyz_purples(results, options, include_head=False):
                 float(results['λ_min']) ==
                 np.round(float(results['λ_min']))):
             html_table += """
-            <tr>
-               <td>%.0f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-            </tr>
+<tr>
+<td>%.0f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
             """ % (xyz_purples[i, 0],
                    xyz_purples[i, 1],
                    xyz_purples[i, 2],
                    xyz_purples[i, 3])
         else:
             html_table += """
-            <tr>
-               <td>%.1f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-               <td>%.5f</td>
-            </tr>
+<tr>
+<td>%.1f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
             """ % (xyz_purples[i, 0],
                    xyz_purples[i, 1],
                    xyz_purples[i, 2],
                    xyz_purples[i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -765,32 +751,32 @@ def XYZ31(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(\\bar x(\lambda) \\)</th>
-        <th>\\(\\bar y(\lambda) \\)</th>
-        <th>\\(\\bar z(\lambda) \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(\\bar x(\lambda) \\)</th>
+<th>\\(\\bar y(\lambda) \\)</th>
+<th>\\(\\bar z(\lambda) \\)</th>
+</tr>
+</thead>
+<tbody>
     """
     for i in range(np.shape(results['XYZ31'])[0]):
         html_table += """
-        <tr>
-           <td>%.0f</td>
-           <td>%.6e</td>
-           <td>%.6e</td>
-           <td>%.6e</td>
-        </tr>
+<tr>
+<td>%.0f</td>
+<td>%.6e</td>
+<td>%.6e</td>
+<td>%.6e</td>
+</tr>
         """ % (results['XYZ31'][i, 0],
                results['XYZ31'][i, 1],
                results['XYZ31'][i, 2],
                results['XYZ31'][i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -813,32 +799,32 @@ def XYZ64(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(\\bar x_{10}(\lambda) \\)</th>
-        <th>\\(\\bar y_{10}(\lambda) \\)</th>
-        <th>\\(\\bar z_{10}(\lambda) \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(\\bar x_{10}(\lambda) \\)</th>
+<th>\\(\\bar y_{10}(\lambda) \\)</th>
+<th>\\(\\bar z_{10}(\lambda) \\)</th>
+</tr>
+</thead>
+<tbody>
     """
     for i in range(np.shape(results['XYZ64'])[0]):
         html_table += """
-        <tr>
-           <td>%.0f</td>
-           <td>%.6e</td>
-           <td>%.6e</td>
-           <td>%.6e</td>
-        </tr>
+<tr>
+<td>%.0f</td>
+<td>%.6e</td>
+<td>%.6e</td>
+<td>%.6e</td>
+</tr>
         """ % (results['XYZ64'][i, 0],
                results['XYZ64'][i, 1],
                results['XYZ64'][i, 2],
                results['XYZ64'][i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -861,32 +847,32 @@ def xyz31(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(x_{\mathrm{\\lambda}} \\)</th>
-        <th>\\(y_{\mathrm{\\lambda}} \\)</th>
-        <th>\\(z_{\mathrm{\\lambda}} \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(x_{\mathrm{\\lambda}} \\)</th>
+<th>\\(y_{\mathrm{\\lambda}} \\)</th>
+<th>\\(z_{\mathrm{\\lambda}} \\)</th>
+</tr>
+</thead>
+<tbody>
     """
     for i in range(np.shape(results['xyz31'])[0]):
         html_table += """
-        <tr>
-           <td>%.0f</td>
-           <td>%.5f</td>
-           <td>%.5f</td>
-           <td>%.5f</td>
-        </tr>
+<tr>
+<td>%.0f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
         """ % (results['xyz31'][i, 0],
                results['xyz31'][i, 1],
                results['xyz31'][i, 2],
                results['xyz31'][i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
 
@@ -909,31 +895,31 @@ def xyz64(results, options, include_head=False):
     if include_head:
         html_table += _head()
     html_table += """
-    <table>
-      <thead>
-      <tr>
-        <th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
-        <th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
-        <th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
-        <th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
-      </tr>
-      </thead>
-      <tbody>
+<table>
+<thead>
+<tr>
+<th>\\(\lambda\,\mathsf{\small\,(nm)}\\)</th>
+<th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
+<th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
+<th>\\(x_{10;\,\mathrm{\\lambda}} \\)</th>
+</tr>
+</thead>
+<tbody>
     """
     for i in range(np.shape(results['xyz64'])[0]):
         html_table += """
-        <tr>
-           <td>%.0f</td>
-           <td>%.5f</td>
-           <td>%.5f</td>
-           <td>%.5f</td>
-        </tr>
+<tr>
+<td>%.0f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+<td>%.5f</td>
+</tr>
         """ % (results['xyz64'][i, 0],
                results['xyz64'][i, 1],
                results['xyz64'][i, 2],
                results['xyz64'][i, 3])
     html_table += """
-      </tbody>
-    </table>
+</tbody>
+</table>
     """
     return html_table
