@@ -26,7 +26,6 @@ import scipy.optimize
 import scipy.interpolate
 import warnings
 from scipy.spatial import Delaunay
-from scipy.io.matlab.miobase import arr_dtype_number
 
 # The following coding conventions have been applied:
 #
@@ -106,7 +105,7 @@ def sign_figs(x, n=0):
 def chop(arr, epsilon=1e-14):
     """
     Chop values smaller than epsilon in absolute value to zero.
-    
+
     Similar to Mathematica function.
 
     Parameters
@@ -204,7 +203,7 @@ def chrom_coords_µ(tristimulus_µ):
     tristimulus_µ : ndarray
         The tristimulus values for a given set of spectral/purple-line
         stimuli; wavelength/complementary wavelength in first column.
-        
+
     Return
     ------
     cc_µ : ndarray
@@ -212,7 +211,7 @@ def chrom_coords_µ(tristimulus_µ):
         wavelength/complementary wavelength in first column.
     """
     # µ denotes wavelength/complementary wavelength
-    
+
     (µ, A_µ, B_µ, C_µ) = tristimulus_µ.T
     sumABC_µ = A_µ + B_µ + C_µ
     cc_µ = np.array([µ, A_µ / sumABC_µ, B_µ / sumABC_µ, C_µ / sumABC_µ]).T
