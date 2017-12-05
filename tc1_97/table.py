@@ -19,6 +19,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+# The HTML code is aligned left in order to keep the html_string as
+# short as possible This is to stay within the size limit of the
+# QWebEngineView that will render the html code.
+
 import numpy as np
 import sys
 import inspect
