@@ -68,6 +68,7 @@ def _head():
             messageStyle: "none",
             inlineMath:[["\\(","\\)"]],
             displayMath:[["$$","$$"]],
+            tex2jax: { preview: "none" },
             "HTML-CSS": {
     """ % (package_path, package_path)
     if sys.platform.startswith('win'):
