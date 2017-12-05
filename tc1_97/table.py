@@ -24,9 +24,37 @@ import sys
 import inspect
 import os.path
 
+def resource_path(relative):
+    """
+    Extend relative path to full path (mainly for PyInstaller integration).
+
+    Parameters
+    ----------
+    relative : string
+        The relative path name.
+
+    Returns
+    -------
+    absolute : string
+        The absolute path name.
+    """
+    # See if we are running in a PyInstaller "frozen" bundle.  If we are
+    # then we need to prefix all paths with the path of the bundle.
+    if getattr(sys, 'frozen', False) and os.getcwd() == "/":
+      bundle_dir = sys._MEIPASS
+      return bundle_dir + \
+          os.path.dirname(
+            os.path.abspath(
+              inspect.getsourcefile(resource_path))) + '/' + relative
+
+
+    # Original behaviour.
+    return os.path.dirname(
+        os.path.abspath(
+            inspect.getsourcefile(resource_path))) + '/' + relative
 
 def _head():
-    package_path = os.path.dirname(os.path.abspath(inspect.getsourcefile(lambda:0)))
+    package_path = resource_path(".")
     html_string = """
     <head>
     <link type="text/css" rel="stylesheet" href="%s/table.css" />
@@ -98,7 +126,7 @@ def LMS(results, options, include_head=False):
             <th>\\(\mathrm{log_{\,10}}\,(\,\\bar m_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
             <th>\\(\mathrm{log_{\,10}}\,(\,\\bar s_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
           </tr>
-          </thead>          
+          </thead>
           <tbody>
         """ % (results['field_size'], results['age'],
                results['field_size'], results['age'],
@@ -111,7 +139,7 @@ def LMS(results, options, include_head=False):
                   <td>%.0f</td>
                   <td>%.5f</td>
                   <td>%.5f</td>
-                  <td>%.5f</td> 
+                  <td>%.5f</td>
                 </tr>
                 """ % (results['logLMS'][i, 0],
                        results['logLMS'][i, 1],
@@ -156,7 +184,7 @@ def LMS(results, options, include_head=False):
                   <td>%.0f</td>
                   <td>%.5e</td>
                   <td>%.5e</td>
-                  <td>%.5e</td>                  
+                  <td>%.5e</td>
                 </tr>
                 """ % (results['LMS'][i, 0],
                        results['LMS'][i, 1],
@@ -168,7 +196,7 @@ def LMS(results, options, include_head=False):
                   <td>%.1f</td>
                   <td>%.5e</td>
                   <td>%.5e</td>
-                  <td>%.5e</td>                  
+                  <td>%.5e</td>
                 </tr>
                 """ % (results['LMS'][i, 0],
                        results['LMS'][i, 1],
@@ -216,7 +244,7 @@ def LMS_base(results, options, include_head=False):
             <th>\\(\mathrm{log_{\,10}}\,(\,\\bar m_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
             <th>\\(\mathrm{log_{\,10}}\,(\,\\bar s_{\,%s,\,%d}(\lambda)\,)\, \\)</th>
           </tr>
-          </thead>          
+          </thead>
           <tbody>
         """ % (results['field_size'], results['age'],
                results['field_size'], results['age'],
@@ -229,7 +257,7 @@ def LMS_base(results, options, include_head=False):
                   <td>%.0f</td>
                   <td>%.8f</td>
                   <td>%.8f</td>
-                  <td>%.8f</td> 
+                  <td>%.8f</td>
                 </tr>
                 """ % (results['logLMS_base'][i, 0],
                        results['logLMS_base'][i, 1],
@@ -274,7 +302,7 @@ def LMS_base(results, options, include_head=False):
                   <td>%.0f</td>
                   <td>%.8e</td>
                   <td>%.8e</td>
-                  <td>%.8e</td>                  
+                  <td>%.8e</td>
                 </tr>
                 """ % (results['LMS_base'][i, 0],
                        results['LMS_base'][i, 1],
@@ -286,7 +314,7 @@ def LMS_base(results, options, include_head=False):
                   <td>%.1f</td>
                   <td>%.8e</td>
                   <td>%.8e</td>
-                  <td>%.8e</td>                  
+                  <td>%.8e</td>
                 </tr>
                 """ % (results['LMS_base'][i, 0],
                        results['LMS_base'][i, 1],
