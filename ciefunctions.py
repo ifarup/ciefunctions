@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-ciefunctions: GUI application for the calculation of the CIE 
-              cone-fundamental-based colorimetric functions provided 
+ciefunctions: GUI application for the calculation of the CIE
+              cone-fundamental-based colorimetric functions provided
               by CIE TC 1-97.
 
 Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
@@ -73,9 +73,9 @@ class AppForm(QtWidgets.QMainWindow):
 
         if ((self.plot_combo.currentIndex() in [self.COMBO_LMS,
                                                 self.COMBO_LMSBASE]) and
-             self.log_check.isChecked()):
+                self.log_check.isChecked()):
             post = '__logarithmic_values'
-        
+
         elif (self.plot_combo.currentIndex() == self.COMBO_LM or
               ((self.plot_combo.currentIndex() in [self.COMBO_XYZ,
                                                    self.COMBO_XY,
@@ -84,8 +84,8 @@ class AppForm(QtWidgets.QMainWindow):
                 self.norm_check.isChecked())):
             post = '__renormalized_values'
 
-        if (self.plot_combo.currentIndex() == self.COMBO_XYZSTD and
-            self.field_combo.currentIndex() == self.STD_31):
+        if ((self.plot_combo.currentIndex() == self.COMBO_XYZSTD) and
+                (self.field_combo.currentIndex() == self.STD_31)):
             suggest = 'cie_xyz__standard1931__fs_2.csv'
         elif (self.plot_combo.currentIndex() == self.COMBO_XYZSTD and
               self.field_combo.currentIndex() == self.STD_64):
@@ -96,7 +96,7 @@ class AppForm(QtWidgets.QMainWindow):
         elif (self.plot_combo.currentIndex() == self.COMBO_XYSTD and
               self.field_combo.currentIndex() == self.STD_64):
             suggest = 'cie_cc__standard1964__fs_10.csv'
-        else:     
+        else:
             suggest = (pre + '__fs_' + str(self.field_spin.value()) +
                        '__age_' + str(self.age_spin.value()) +
                        '__domain_' + str(self.lambda_min_spin.value()) +
@@ -104,8 +104,8 @@ class AppForm(QtWidgets.QMainWindow):
                        '__step_' + str(self.resolution_spin.value()) +
                        post + '.csv')
 
-        path = QtWidgets.QFileDialog.getSaveFileName(self, 
-                                                     'Save file', suggest, 
+        path = QtWidgets.QFileDialog.getSaveFileName(self,
+                                                     'Save file', suggest,
                                                      file_choices)[0]
 
         if path:
@@ -115,14 +115,14 @@ class AppForm(QtWidgets.QMainWindow):
                                '%.1f, %.5f, %.5f, %.5f')
                 else:
                     np.savetxt(path, self.results['LMS'],
-                               '%.1f, %.5e, %.5e, %.5e')           
+                               '%.1f, %.5e, %.5e, %.5e')
             elif self.plot_combo.currentIndex() == self.COMBO_LMSBASE:
                 if self.log_check.isChecked():
                     np.savetxt(path, self.results['logLMS_base'],
                                '%.1f, %.8f, %.8f, %.8f')
                 else:
                     np.savetxt(path, self.results['LMS_base'],
-                               '%.1f, %.8e, %.8e, %.8e')    
+                               '%.1f, %.8e, %.8e, %.8e')
             elif self.plot_combo.currentIndex() == self.COMBO_MB:
                 np.savetxt(path, self.results['lms_mb'],
                            '%.1f, %.6f, %.6f, %.6f')
@@ -186,7 +186,6 @@ class AppForm(QtWidgets.QMainWindow):
                 'title_fontsize': 10.5,
                 'full_title': True,
                 'axis_labels': True}
-                
 
     def on_about(self):
         msg = """
@@ -253,16 +252,16 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         if self.plot_combo.currentIndex() in [self.COMBO_LMS,
                                               self.COMBO_LMSBASE]:
             self.norm_label.setVisible(False)
-            self.norm_check.setVisible(False) 
+            self.norm_check.setVisible(False)
             self.log_label.setVisible(True)
-            self.log_check.setVisible(True)          
+            self.log_check.setVisible(True)
         elif self.plot_combo.currentIndex() == self.COMBO_LM:
             self.log_label.setVisible(False)
             self.log_check.setVisible(False)
-            self.norm_check.setVisible(False) 
-            self.norm_label.setVisible(True)     
+            self.norm_check.setVisible(False)
+            self.norm_label.setVisible(True)
         elif self.plot_combo.currentIndex() in [self.COMBO_XYZ,
-                                                self.COMBO_XY,                                                
+                                                self.COMBO_XY,
                                                 self.COMBO_PURPLE_XYZ,
                                                 self.COMBO_PURPLE_XY]:
             self.log_label.setVisible(False)
@@ -274,13 +273,13 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.log_check.setVisible(False)
             self.norm_label.setVisible(False)
             self.norm_check.setVisible(False)
-        
+
         #
         # CIE LMS cone fundamentals
         # (description, plot and table)
-        #       
+        #
         if self.plot_combo.currentIndex() == self.COMBO_LMS:
-         
+
             # Setup GUI
             self.compare_label_31.setDisabled(True)
             self.compare_label_64.setDisabled(True)
@@ -318,7 +317,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
-            
+
             # Create plot
             tc1_97.plot.LMS_base(self.axes, self.plots, self.options())
 
@@ -345,12 +344,13 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                     self.results,
                     self.plot_combo.currentText(),
                     self.options(), True)
-            
+
             # Create plot
             tc1_97.plot.ls_mb(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.lms_mb(self.results, self.options(), True)
+            html_table = tc1_97.table.lms_mb(self.results,
+                                             self.options(), True)
 
         #
         # Maxwellian lm chromaticity diagram
@@ -396,7 +396,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             html_string = tc1_97.description.XYZ(self.results,
                                                  self.plot_combo.currentText(),
                                                  self.options(), True)
-            
+
             # Create plot
             tc1_97.plot.XYZ(self.axes, self.plots, self.options())
 
@@ -418,9 +418,9 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             # Create html description
             html_string = tc1_97.description.xyz(self.results,
-                                                self.plot_combo.currentText(),
-                                                self.options(), True)
-            
+                                                 self.plot_combo.currentText(),
+                                                 self.options(), True)
+
             # Create plot
             tc1_97.plot.xy(self.axes, self.plots, self.options())
 
@@ -446,12 +446,12 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
-            
+
             # Create plot
             tc1_97.plot.XYZ_purples(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.XYZ_purples(self.results, 
+            html_table = tc1_97.table.XYZ_purples(self.results,
                                                   self.options(), True)
 
         #
@@ -473,12 +473,12 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 self.results,
                 self.plot_combo.currentText(),
                 self.options(), True)
-            
+
             # Create plot
             tc1_97.plot.xy_purples(self.axes, self.plots, self.options())
 
             # Create html table
-            html_table = tc1_97.table.xyz_purples(self.results, 
+            html_table = tc1_97.table.xyz_purples(self.results,
                                                   self.options(), True)
 
         #
@@ -504,13 +504,13 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                     self.results,
                     self.plot_combo.currentText(),
                     self.options(), True)
-                
+
                 # Create plot
-                tc1_97.plot.XYZ31(self.axes, self.plots, self.options())          
+                tc1_97.plot.XYZ31(self.axes, self.plots, self.options())
 
                 # Create html table
                 html_table = tc1_97.table.XYZ31(self.results,
-                                                 self.options(), True)
+                                                self.options(), True)
 
             else:  # STD_64
 
@@ -527,11 +527,11 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 # Create plot
                 tc1_97.plot.XYZ64(self.axes, self.plots, self.options())
-                
+
                 # Create html table
                 html_table = tc1_97.table.XYZ64(self.results,
-                                                 self.options(), True)
-                
+                                                self.options(), True)
+
         #
         # CIE xy standard chromaticity diagrams
         # (description, plot and table)
@@ -557,7 +557,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 # Create plot
                 tc1_97.plot.xy31(self.axes, self.plots, self.options())
-                
+
                 # Create html table
                 html_table = tc1_97.table.xyz31(self.results,
                                                 self.options(), True)
@@ -577,11 +577,11 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 # Create plot
                 tc1_97.plot.xy64(self.axes, self.plots, self.options())
-                
+
                 # Create html table
                 html_table = tc1_97.table.xyz64(self.results,
                                                 self.options(), True)
-                
+
         #
         # Refresh GUI
         #
@@ -691,12 +691,12 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.STD_64 = 1
         self.field_combo.hide()
         self.field_combo.currentIndexChanged.connect(self.on_draw_all)
-       
+
         self.age_spin = QtWidgets.QSpinBox()
         self.age_spin.setMinimum(20)
         self.age_spin.setMaximum(70)
         self.age_spin.setValue(32)
-        
+
         self.lambda_min_spin = QtWidgets.QDoubleSpinBox()
         self.lambda_min_spin.setLocale(QtCore.QLocale('C'))
         self.lambda_min_spin.setMinimum(390)
@@ -712,7 +712,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.lambda_max_spin.setDecimals(1)
         self.lambda_max_spin.setValue(830)
         self.lambda_max_spin.setSingleStep(0.1)
-        
+
         self.resolution_spin = QtWidgets.QDoubleSpinBox()
         self.resolution_spin.setLocale(QtCore.QLocale('C'))
         self.resolution_spin.setMinimum(0.1)
@@ -765,10 +765,10 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         self.norm_check = QtWidgets.QCheckBox()
         self.norm_check.stateChanged.connect(self.on_draw_all)
-        
+
         self.log_check = QtWidgets.QCheckBox()
         self.log_check.stateChanged.connect(self.on_draw_all)
-        
+
         self.save_table_button = QtWidgets.QPushButton('&Save table')
         self.save_table_button.clicked.connect(self.save_table)
 
@@ -793,7 +793,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         self.lambda_min_max_label = QtWidgets.QLabel(' Domain (nm)')
         self.lambda_min_max_dash = QtWidgets.QLabel(u'\u2013')
         self.resolution_label = QtWidgets.QLabel(' Step (nm)')
-        
+
         grid = QtWidgets.QGridLayout()
         grid.setRowMinimumHeight(0, 34)
         grid.addWidget(self.field_label, 0, 0, QtCore.Qt.AlignRight)
@@ -802,7 +802,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         grid.addWidget(self.lambda_min_max_dash, 0, 6)
         grid.addWidget(self.resolution_label, 0, 8, QtCore.Qt.AlignRight)
         grid.addWidget(QtWidgets.QLabel(''), 0, 10)
-        
+
         grid.addWidget(self.field_spin, 0, 1)
         grid.addWidget(self.field_combo, 0, 1)
         grid.addWidget(self.age_spin, 0, 3)
@@ -813,7 +813,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         grid.setColumnStretch(2, 11)
         grid.setColumnStretch(4, 16)
         grid.setColumnStretch(8, 13)
-        grid.setColumnStretch(10,8)
+        grid.setColumnStretch(10, 8)
 
         inner_vbox = QtWidgets.QVBoxLayout()
         inner_vbox.addWidget(self.mpl_toolbar)
@@ -832,7 +832,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         check_bar.setColumnStretch(3, 16)
         check_bar.setColumnStretch(5, 14)
         check_bar.setColumnStretch(7, 16)
-        
+
         check_widget = QtWidgets.QWidget()
         check_widget.setLayout(check_bar)
         inner_vbox.addWidget(check_widget)
@@ -898,7 +898,7 @@ def main():
     form = AppForm()
     form.show()
     app.exec_()
-    
+
 
 if __name__ == '__main__':
     main()
