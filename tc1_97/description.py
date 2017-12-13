@@ -23,6 +23,7 @@ import sys
 import inspect
 import os.path
 
+
 def resource_path(relative):
     """
     Extend relative path to full path (mainly for PyInstaller integration).
@@ -40,17 +41,17 @@ def resource_path(relative):
     # See if we are running in a PyInstaller "frozen" bundle.  If we are
     # then we need to prefix all paths with the path of the bundle.
     if getattr(sys, 'frozen', False) and os.getcwd() == "/":
-      bundle_dir = sys._MEIPASS
-      return bundle_dir + \
-          os.path.dirname(
-            os.path.abspath(
-              inspect.getsourcefile(resource_path))) + '/' + relative
-
+        bundle_dir = sys._MEIPASS
+        return bundle_dir + \
+            os.path.dirname(
+                os.path.abspath(
+                    inspect.getsourcefile(resource_path))) + '/' + relative
 
     # Original behaviour.
     return os.path.dirname(
         os.path.abspath(
             inspect.getsourcefile(resource_path))) + '/' + relative
+
 
 def _head():
     package_path = resource_path(".")
@@ -180,8 +181,8 @@ def _coordinates(cc1, cc2, cc3):
     %s&nbsp;&nbsp;&nbsp; %s&nbsp;&nbsp;&nbsp; %s&nbsp;&nbsp;&nbsp
     </p>
     """ % (cc1, cc2, cc3)
-    
-    
+
+
 def _wavelenghts(data):
     return u"""
     <p style="margin:0 0 0.1em 0">
@@ -321,7 +322,8 @@ def _normalization_lms_mb(data):
     and \\(K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\) equal <nobr>to\\(,\\)</nobr>
     <nobr>respectively\\(,\\)</nobr> the LM luminous flux and the LM maximum
     luminous efficacy as determined by the cone-fundamental-based spectral
-    luminous efficiency function \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}(\\lambda)\\).
+    luminous efficiency function
+    \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}(\\lambda)\\).
     </p>
     """ % (data['field_size'], data['age'],
            data['field_size'], data['age'],
@@ -335,8 +337,8 @@ def _normalization_lms_mb(data):
            data['field_size'], data['age'],
            data['field_size'], data['age'],
            data['field_size'], data['age'])
-    
-    
+
+
 def _normalization_lms_mw(data):
     return """
     <p style="margin:0 0 0.3em 0">
@@ -400,8 +402,8 @@ def _normalization_XYZ(data, options):
         </table>
         </p>
         """ % (data['field_size'], data['age'])
-        
-        
+
+
 def _normalization_xyz(data, options):
     if options['norm']:
         return """
@@ -478,7 +480,7 @@ def _normalization_XYZ64():
     </p>
     """
 
-    
+
 def _normalization_xyz31():
     return """
     <p style="margin:0 0 0.3em 0">
@@ -490,21 +492,21 @@ def _normalization_xyz31():
     the precision of 4 decimal places.
     </p>
     """
-        
-        
+
+
 def _normalization_xyz64():
-     return """
-     <p style="margin:0 0 0.3em 0">
-     <b class="description-subtitle">Normalization</b>
-     </p>
-     <p style="margin:0 0 1.3em 0">
-     The chromaticity point of <nobr>Illuminant&nbsp;E\\(, \\) </nobr>
-     \\( (x_{\,10},\\, y_{\,10}), \\) equals
-     <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> to
-     the precision of 4 decimal places.
-     </p>
-        """
-        
+    return """
+    <p style="margin:0 0 0.3em 0">
+    <b class="description-subtitle">Normalization</b>
+    </p>
+    <p style="margin:0 0 1.3em 0">
+    The chromaticity point of <nobr>Illuminant&nbsp;E\\(, \\) </nobr>
+    \\( (x_{\,10},\\, y_{\,10}), \\) equals
+    <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> to
+    the precision of 4 decimal places.
+    </p>
+    """
+
 
 def _LMS_to_lms_mb(data, options):
     html_string = """
@@ -831,7 +833,7 @@ def _XYZ64_to_xyz64():
     """
 
 
-def _precision_LMS(options,base=False):
+def _precision_LMS(options, base=False):
     html_string = """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Precision of tabulated values</b>
@@ -966,6 +968,7 @@ def _illuminant_E_xyz64():
     </p>
     """
 
+
 def _purpleline_tangentpoints_lms_mb(data):
     return """
     <p style="margin:0 0 0.3em 0">
@@ -1010,8 +1013,8 @@ def _purpleline_tangentpoints_lms_mw(data):
            data['field_size'], data['age'], data['lms_mw_tg_purple'][1, 0],
            data['field_size'], data['age'], data['lms_mw_tg_purple'][1, 0],
            data['lms_mw_tg_purple'][1, 1], data['lms_mw_tg_purple'][1, 2])
-  
-    
+
+
 def _purpleline_tangentpoints_xyz(data, options):
     if options['norm']:
         xyz_tg_purple = data['xyz_tg_purple_N']
@@ -1037,8 +1040,8 @@ def _purpleline_tangentpoints_xyz(data, options):
            data['field_size'], data['age'], xyz_tg_purple[1, 0],
            data['field_size'], data['age'], xyz_tg_purple[1, 0],
            xyz_tg_purple[1, 1], xyz_tg_purple[1, 2])
- 
- 
+
+
 def _purpleline_tangentpoints_xyz_complementary(data, options):
     if options['norm']:
         xyz_tg_purple = data['xyz_tg_purple_N']
@@ -1087,8 +1090,8 @@ def _purpleline_tangentpoints_xyz31(data):
     """ % (data['xyz31_tg_purple'][0, 0],
            data['xyz31_tg_purple'][0, 0],
            data['xyz31_tg_purple'][0, 1], data['xyz31_tg_purple'][0, 2],
-#           data['xyz31_tg_purple'][1, 0],
-#           data['xyz31_tg_purple'][1, 0],
+           # data['xyz31_tg_purple'][1, 0],
+           # data['xyz31_tg_purple'][1, 0],
            data['xyz31_tg_purple'][1, 1], data['xyz31_tg_purple'][1, 2])
 
 
@@ -1109,8 +1112,8 @@ def _purpleline_tangentpoints_xyz64(data):
     """ % (data['xyz64_tg_purple'][0, 0],
            data['xyz64_tg_purple'][0, 0],
            data['xyz64_tg_purple'][0, 1], data['xyz64_tg_purple'][0, 2],
-#           data['xyz64_tg_purple'][1, 0],
-#           data['xyz64_tg_purple'][1, 0],
+           # data['xyz64_tg_purple'][1, 0],
+           # data['xyz64_tg_purple'][1, 0],
            data['xyz64_tg_purple'][1, 1], data['xyz64_tg_purple'][1, 2])
 
 
@@ -1215,12 +1218,12 @@ def lms_mb(data, heading, options, include_head=False):
                                  (data['field_size'], data['age']),
                                  '\\(s_{\,\mathrm{MB},\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +
-                     _wavelenghts(data) +
-                     _normalization_lms_mb(data) +
-                     _LMS_to_lms_mb(data, options) +
-                     _precision_lms_mb() +
-                     _illuminant_E_lms_mb(data) +
-                     _purpleline_tangentpoints_lms_mb(data))
+                    _wavelenghts(data) +
+                    _normalization_lms_mb(data) +
+                    _LMS_to_lms_mb(data, options) +
+                    _precision_lms_mb() +
+                    _illuminant_E_lms_mb(data) +
+                    _purpleline_tangentpoints_lms_mb(data))
     return html_string
 
 
@@ -1253,12 +1256,12 @@ def lms_mw(data, heading, options, include_head=False):
                                  (data['field_size'], data['age']),
                                  '\\(s_{\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age'])) +
-                     _wavelenghts(data) +
-                     _normalization_lms_mw(data) +
-                     _LMS_to_lms_mw(data) +
-                     _precision_lms_mw() +
-                     _illuminant_E_lms_mw(data) +
-                     _purpleline_tangentpoints_lms_mw(data))
+                    _wavelenghts(data) +
+                    _normalization_lms_mw(data) +
+                    _LMS_to_lms_mw(data) +
+                    _precision_lms_mw() +
+                    _illuminant_E_lms_mw(data) +
+                    _purpleline_tangentpoints_lms_mw(data))
     return html_string
 
 
