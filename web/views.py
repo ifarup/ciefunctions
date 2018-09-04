@@ -1,9 +1,9 @@
 # Create your views here.
 from __future__ import absolute_import
-import tc182 as tc # the base package, includes the computational part
-import tc182.plot # if you want to do the plots as well
-import tc182.description # if you want to generate the html descriptions
-import tc182.table # For the tables
+import tc1_97 as tc # the base package, includes the computational part
+import tc1_97.plot # if you want to do the plots as well
+import tc1_97.description # if you want to generate the html descriptions
+import tc1_97.table # For the tables
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -15,14 +15,18 @@ mpl.use("AGG")
 import matplotlib.pyplot as plt
 import mpld3
 from django.utils.safestring import mark_safe
-#from numpy import *
+
 import numpy as np
-import StringIO
+from io import StringIO
 
 from web.models import Result, Plot
 from django.shortcuts import get_object_or_404
 
-from django.utils import simplejson as json
+import codecs
+#import json
+from json_tricks import dump, dumps, load, loads, strip_comments
+
+
 
 import logging
 log = logging.getLogger(__name__)
@@ -113,34 +117,34 @@ def get_plot(request, plot, grid, cie31, cie64, labels, norm):
 	updateOptions(optionSet)
     
 	if (plot == 'xyz'):
-		tc182.plot.xyz(ax, plots, options)
+		tc1_97.plot.xyz(ax, plots, options)
 		
 	elif (plot == 'xy'):
-		tc182.plot.xy(ax, plots, options)
+		tc1_97.plot.xy(ax, plots, options)
 	
 	elif (plot == 'lms'):
-		tc182.plot.lms(ax, plots, options)
+		tc1_97.plot.lms(ax, plots, options)
 	
 	elif (plot == 'lms_base'):
-		tc182.plot.lms_base(ax, plots, options)
+		tc1_97.plot.lms_base(ax, plots, options)
 	
 	elif (plot == 'bm'):
-		tc182.plot.bm(ax, plots, options)
+		tc1_97.plot.bm(ax, plots, options)
 	
 	elif (plot == 'lm'):
-		tc182.plot.lm(ax, plots, options)
+		tc1_97.plot.lm(ax, plots, options)
 	
 	elif (plot == 'xyz31'):
-		tc182.plot.xyz31(ax, plots, options)
+		tc1_97.plot.xyz31(ax, plots, options)
 
 	elif (plot == 'xyz64'):
-		tc182.plot.xyz64(ax, plots, options)
+		tc1_97.plot.xyz64(ax, plots, options)
 	
 	elif (plot == 'xy31'):
-		tc182.plot.xy31(ax, plots, options)
+		tc1_97.plot.xy31(ax, plots, options)
 
 	elif (plot == 'xy64'):
-		tc182.plot.xy64(ax, plots, options)
+		tc1_97.plot.xy64(ax, plots, options)
 	
 	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
 	resulting_plot = theFig;
@@ -157,34 +161,34 @@ def get_table(request, plot, norm):
 	updateOptions(optionSet)
 	
 	if (plot == 'xyz'):
-		return HttpResponse(mark_safe(tc182.table.xyz(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.xyz(results, options, '')))
 
 	elif (plot == 'xy'):
-		return HttpResponse(mark_safe(tc182.table.xy(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.xy(results, options, '')))
 	
 	elif (plot == 'lms'):
-		return HttpResponse(mark_safe(tc182.table.lms(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.lms(results, options, '')))
 	
 	elif (plot == 'lms_base'):
-		return HttpResponse(mark_safe(tc182.table.lms_base(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.lms_base(results, options, '')))
 	
 	elif (plot == 'bm'):
-		return HttpResponse(mark_safe(tc182.table.bm(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.bm(results, options, '')))
 	
 	elif (plot == 'lm'):
-		return HttpResponse(mark_safe(tc182.table.lm(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.lm(results, options, '')))
 	
 	elif (plot == 'xyz31'):
-		return HttpResponse(mark_safe(tc182.table.xyz31(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.xyz31(results, options, '')))
 	
 	elif (plot == 'xyz64'):
-		return HttpResponse(mark_safe(tc182.table.xyz64(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.xyz64(results, options, '')))
 		
 	elif (plot == 'xy31'):
-		return HttpResponse(mark_safe(tc182.table.xy31(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.xy31(results, options, '')))
 
 	elif (plot == 'xy64'):
-		return HttpResponse(mark_safe(tc182.table.xy64(results, options, '')))
+		return HttpResponse(mark_safe(tc1_97.table.xy64(results, options, '')))
 		
 	else:
 		return HttpResponse('No description for plot %s' % plot)
@@ -200,34 +204,35 @@ def get_description(request, plot, norm):
 	updateOptions(optionSet)
 
 	if (plot == 'xyz'):
-		return HttpResponse(mark_safe(tc182.description.xyz(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.xyz(results, '', options, '')))
 
 	elif (plot == 'xy'):
-		return HttpResponse(mark_safe(tc182.description.xy(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.xy(results, '', options, '')))
 	
 	elif (plot == 'lms'):
-		return HttpResponse(mark_safe(tc182.description.lms(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.lms(results, '', options, '')))
 	
 	elif (plot == 'lms_base'):
-		return HttpResponse(mark_safe(tc182.description.lms_base(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.lms_base(results, '', options, '')))
 	
 	elif (plot == 'bm'):
-		return HttpResponse(mark_safe(tc182.description.bm(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.bm(results, '', options, '')))
 	
 	elif (plot == 'lm'):
-		return HttpResponse(mark_safe(tc182.description.lm(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.lm(results, '', options, '')))
 	
 	elif (plot == 'xyz31'):
-		return HttpResponse(mark_safe(tc182.description.xyz31(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.xyz31(results, '', options, '')))
 	
 	elif (plot == 'xyz64'):
-		return HttpResponse(mark_safe(tc182.description.xyz64(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.xyz64(results, '', options, '')))
 		
 	elif (plot == 'xy31'):
-		return HttpResponse(mark_safe(tc182.description.xy31(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.xy31(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.xy31(results, '', options, '')))
 
 	elif (plot == 'xy64'):
-		return HttpResponse(mark_safe(tc182.description.xy64(results, '', options, '')))
+		return HttpResponse(mark_safe(tc1_97.description.xy64(results, '', options, '')))
 		
 	else:
 		return HttpResponse('No description for plot %s' % plot)
@@ -278,50 +283,51 @@ def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
 	lambda_max	=	float(lambda_max)
 	lambda_step	=	float(lambda_step)
 	
-	try:
-		serialized_test_results = Result.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
-		test_results = json.loads(serialized_test_results)
-		request.session['results'] = test_results.get_data()
-		results = test_results.get_data()
-	
-		serialized_test_plots = Plot.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
-		test_plot = serializers.loads(serialized_test_plots)
-		request.session['plots'] = test_plots.get_data()
-		plots = test_plots.get_data()
-		
-	except Exception as e:
-		print "1st try %s" % e
-		print "Computing ..."
-		log.debug("[%s] Computing -> Age: %s, f_size: %s, l_min: %s, l_max: %s, l_step: %s, sID: %s"
-				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
-		results, plots = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
-		request.session['results'] = results
-		request.session['plots'] = plots
-		
-		try:
-			serialized_results = json.dumps(results)
-			#new_result = Result( 	field_size=field_size, 
-			#						age=age, 
-			#						lambda_min=lambda_min, 
-			#						lambda_max=lambda_max, 
-			#						lambda_step=lambda_step, 
-			#						data=serialized_results )
-			#new_result.save()
-		except Exception as e:
-			print "Can't serialize results: %s" % e
-			
-		try:
-			serialized_plots = json.dumps(plots)
-			#new_plot = Plot ( 	field_size=field_size,
-			#					age=age, 
-			#					lambda_min=lambda_min, 
-			#					lambda_max=lambda_max, 
-			#					lambda_step=lambda_step, 
-			#					data=plots )
-			#new_plot.save()
-		except Exception as e:
-			#print "Can't serialize plots: %s" % e
-			print e
+#	try:
+#		serialized_test_results = Result.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
+#		test_results = json.loads(serialized_test_results.tolist())
+#		request.session['results'] = test_results.get_data().tolist()
+#		results = test_results.get_data().tolist()
+#	
+#		serialized_test_plots = Plot.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
+#		test_plot = serializers.loads(serialized_test_plots.tolist())
+#		request.session['plots'] = test_plots.get_data().tolist()
+#		plots = test_plots.get_data().tolist()
+#		
+#	except Exception as e:
+#		print("1st try %s") % e
+#		print("Computing ...")
+#		log.debug("[%s] Computing -> Age: %s, f_size: %s, l_min: %s, l_max: %s, l_step: %s, sID: %s"
+#				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
+#		results, plots = tc1_97.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
+#		request.session['results'] = results
+#		request.session['plots'] = plots
+#		
+#		try:
+#			#serialized_results = json.dumps(results.tolist())
+#            serialized_results = json.dumps("")
+#			#new_result = Result( 	field_size=field_size, 
+#			#						age=age, 
+#			#						lambda_min=lambda_min, 
+#			#						lambda_max=lambda_max, 
+#			#						lambda_step=lambda_step, 
+#			#						data=serialized_results )
+#			#new_result.save()
+#		except Exception as e:
+#			print("Can't serialize results: %s") % e
+#			
+#		try:
+#			serialized_plots = json.dumps(plots.tolist())
+#			#new_plot = Plot ( 	field_size=field_size,
+#			#					age=age, 
+#			#					lambda_min=lambda_min, 
+#			#					lambda_max=lambda_max, 
+#			#					lambda_step=lambda_step, 
+#			#					data=plots )
+#			#new_plot.save()
+#		except Exception as e:
+#			#print "Can't serialize plots: %s" % e
+#			print(e)
 			
 	stop = time.time()
 	log.debug("[%s] Compute performed in %s seconds - sID: %s" % ( time_now(), str(stop - start), request.session.session_key))
@@ -372,7 +378,7 @@ def home(request):
 
 	#Call an initial compute
 	start = time.time()
-	request.session['results'], request.session['plots'] = tc182.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
+	request.session['results'], request.session['plots'] = tc1_97.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 	stop = time.time()
 	log.debug("[%s] Initial compute performed in %s seconds - \tsID: %s" % ( time_now(), str(stop - start), request.session.session_key))
 	
