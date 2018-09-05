@@ -59,7 +59,7 @@ def _head():
     <head>
     <link type="text/css" rel="stylesheet" href="%s/description.css" />
     <script type="text/javascript"
-    src="%s/../web/static/web/MathJax-2.4-latest/MathJax.js?config=TeX-AMS_HTML">
+    src="%s/MathJax-2.7.5/MathJax.js?config=TeX-AMS_HTML">
     </script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({

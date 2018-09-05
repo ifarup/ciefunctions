@@ -24,7 +24,7 @@ import numpy as np
 
 def ndarray_to_list(dictionary):
     """
-    Convert all the ndarrays in the dictionary d to lists.
+    Convert all the ndarrays in the dictionary to lists.
     """
     for key in dictionary:
         if type(dictionary[key]) is np.ndarray:
@@ -33,7 +33,7 @@ def ndarray_to_list(dictionary):
 
 def list_to_ndarray(dictionary):
     """
-    Convert all the lists in the dictionary d to ndarrays.
+    Convert all the lists in the dictionary to ndarrays.
     """
     for key in dictionary:
         if type(dictionary[key]) is list:
