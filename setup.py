@@ -3,11 +3,10 @@ from setuptools import setup
 setup(
     name="ciefunctions",
     version="1.0.0b3",
-    packages=['tc1_97', 'web'],
+    packages=['tc1_97'],
     scripts=['ciefunctions.py'],
     include_package_data=True,
-    package_data={'tc1_97': ['data/*', '*.css'],
-                  'web': ['static/*']},
+    package_data={'tc1_97': ['data/*', '*.css', 'MathJax-2.7.5/*']},
     install_requires=[
         'numpy',
         'scipy',
