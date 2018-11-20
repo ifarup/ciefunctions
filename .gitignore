@@ -14,3 +14,11 @@ Icon
 TC
 .settings
 /web/.brackets.json
+_mac/
+codestyles/
+inspection/
+colors.scheme.xml
+debugger.xml
+ide.general.xml
+ui.Inf.xml
+
