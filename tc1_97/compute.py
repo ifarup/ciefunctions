@@ -1231,7 +1231,7 @@ def compute_XYZ(L_spline, M_spline, S_spline, V_spline,
      X_exact_spec,
      Y_exact_spec,
      Z_exact_spec) = transform_tristimulus_λ(trans_mat, LMS_spec).T
-    if ((λ_spec[0] == 380. and λ_spec[-1] == 830.) and
+    if ((λ_spec[0] == 390. and λ_spec[-1] == 830.) and
         (my_round(λ_spec[1] - λ_spec[0], 1) ==
          1.0)):
         trans_mat_N = trans_mat
@@ -2227,6 +2227,5 @@ def compute_tabulated(field_size, age, λ_min=390, λ_max=830, λ_step=1):
 # ==============================================================================
 
 if __name__ == '__main__':
-    res, plots = compute_tabulated(2, 32, 390, 830, 1)
-    np.set_printoptions(threshold=10)
-    print(res['λ_step'])
+    res, plots = compute_tabulated(2.5, 37, 390, 830, 1)
+    print((res['XYZ_N'] != res['XYZ']).sum())
