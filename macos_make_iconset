@@ -1,0 +1,12 @@
+mkdir ciefunctions.iconset
+sips -z 16 16   "icons/ciefunctions_icon (256x256) .png" --out ciefunctions.iconset/icon_16x16.png
+sips -z 32 32   "icons/ciefunctions_icon (256x256) .png" --out ciefunctions.iconset/icon_16x16@2x.png
+sips -z 32 32   "icons/ciefunctions_icon (256x256) .png" --out ciefunctions.iconset/icon_32x32.png
+sips -z 64 64   "icons/ciefunctions_icon (256x256) .png" --out ciefunctions.iconset/icon_32x32@2x.png
+sips -z 128 128" icons/ciefunctions_icon (256x256) .png" --out ciefunctions.iconset/icon_128x128.png
+sips -z 128 128 "icons/ciefunctions_icon (256x256) .png" --out ciefunctions.iconset/icon_64x64@2x.png
+sips -z 256 256 "icons/ciefunctions_icon (256x256) .png" --out ciefunctions.iconset/icon_256x256.png
+sips -z 256 256 "icons/ciefunctions_icon (256x256) .png" --out ciefunctions.iconset/icon_128x128@2x.png
+
+iconutil -c icns ciefunctions.iconset
+

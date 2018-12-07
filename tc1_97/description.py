@@ -23,9 +23,37 @@ import sys
 import inspect
 import os.path
 
+def resource_path(relative):
+    """
+    Extend relative path to full path (mainly for PyInstaller integration).
+
+    Parameters
+    ----------
+    relative : string
+        The relative path name.
+
+    Returns
+    -------
+    absolute : string
+        The absolute path name.
+    """
+    # See if we are running in a PyInstaller "frozen" bundle.  If we are
+    # then we need to prefix all paths with the path of the bundle.
+    if getattr(sys, 'frozen', False) and os.getcwd() == "/":
+      bundle_dir = sys._MEIPASS
+      return bundle_dir + \
+          os.path.dirname(
+            os.path.abspath(
+              inspect.getsourcefile(resource_path))) + '/' + relative
+
+
+    # Original behaviour.
+    return os.path.dirname(
+        os.path.abspath(
+            inspect.getsourcefile(resource_path))) + '/' + relative
 
 def _head():
-    package_path = os.path.dirname(os.path.abspath(inspect.getsourcefile(lambda:0)))
+    package_path = resource_path(".")
     html_string = """
     <head>
     <link type="text/css" rel="stylesheet" href="%s/description.css" />
@@ -115,7 +143,7 @@ def _parameters_std(field_size):
     """ % (field_size)
 
 
-def _functions(func1, func2, func3, argument):    
+def _functions(func1, func2, func3, argument):
     return """
     <p style="margin:0 0 0.05em 0">
     <b class="description-subtitle">Function symbols</b>
@@ -139,7 +167,7 @@ def _functions(func1, func2, func3, argument):
     </tr>
     </table>
     </p>
-    """ % (func1, func2, func3, argument)   
+    """ % (func1, func2, func3, argument)
 
 
 def _coordinates(cc1, cc2, cc3):
@@ -197,14 +225,14 @@ def _wavelenghts_complementary(data, options):
         <td style="vertical-align:top">
         <nobr>&ensp;&nbsp;%s nm </nobr>
         <nobr>&ndash; %s nm</nobr></td>
-        </tr>    
+        </tr>
     <tr>
         <td style="vertical-align:top">
         Step (spectral-stimuli domain)</td>
         <td style="vertical-align:middle">:&nbsp;</td>
         <td style="vertical-align:middle">
         <nobr>&ensp;&nbsp;%s nm</nobr></td>
-        </tr>    
+        </tr>
     <tr>
         <td style="vertical-align:top">
         Complementary-wavelength domain of purple-line stimuli</td>
@@ -249,13 +277,13 @@ def _normalization_LMS(options):
     <b class="description-subtitle">Normalization</b>
     </p>
     <span style="margin:0 0 1.3em 0">
-    Function values peaking at unity at 0.1&nbsp;nm resolution 
+    Function values peaking at unity at 0.1&nbsp;nm resolution
     </span>"""
     if options['log10']:
         html_string += """
         <p style="margin:0 0 1.3em 0">
         (i.e. logarithm of function values peaking at zero
-        at 0.1&nbsp;nm resolution) 
+        at 0.1&nbsp;nm resolution)
         </p>"""
     else:
         html_string += """
@@ -264,10 +292,10 @@ def _normalization_LMS(options):
 
 
 def _normalization_lms_mb(data):
-    return """ 
+    return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Normalization</b>
-    </p> 
+    </p>
     <p style="margin:0 0 0.7em 0">
     The corresponding MacLeod&ndash;Boynton tristimulus
     <nobr>values\\(,\,L_{\,\mathrm{MB},\,%s,\,%d},\,\\)</nobr>
@@ -275,10 +303,10 @@ def _normalization_lms_mb(data):
     <nobr>\\(S_{\,\mathrm{MB},\,%s,\,%d},\,\\)</nobr> calculated using a step
     size of 1&nbsp;nm and wavelength domain
     <nobr>390 nm &ndash; 830 nm\\(,\\)</nobr> satisfy
-    </p> 
+    </p>
     <p style="margin:0 0 0.2em 0">
     <nobr>&#8226;
-    \\(\,L_{\,\mathrm{MB},\,%s,\,%d} + M_{\,\mathrm{MB},\,%s,\,%d} = 
+    \\(\,L_{\,\mathrm{MB},\,%s,\,%d} + M_{\,\mathrm{MB},\,%s,\,%d} =
        V_{\,\mathrm{F},\,%s,\,%d}\\)</nobr>
     <p style="margin:0 0 0.7em 0">
     <nobr>&#8226;
@@ -290,8 +318,8 @@ def _normalization_lms_mb(data):
     where \\(V_{\\,\\mathrm{F},\\,%s,\\,%d} = P_{\\mathrm{v}} /
       K_{\\mathrm{F,\\,m},\\,%s,\\,%d},\,\\) with \\(P_{\\mathrm{v}}\\)
     and \\(K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\) equal <nobr>to\\(,\\)</nobr>
-    <nobr>respectively\\(,\\)</nobr> the LM luminous flux and the LM maximum 
-    luminous efficacy as determined by the cone-fundamental-based spectral 
+    <nobr>respectively\\(,\\)</nobr> the LM luminous flux and the LM maximum
+    luminous efficacy as determined by the cone-fundamental-based spectral
     luminous efficiency function \\(V_{\\,\\mathrm{F},\\,%s,\\,%d}(\\lambda)\\).
     </p>
     """ % (data['field_size'], data['age'],
@@ -316,8 +344,8 @@ def _normalization_lms_mw(data):
     <p style="margin:0 0 1.3em 0">
     The chromaticity point of <nobr>Illuminant E\\(,\\) </nobr>
     \\( (l_{%s,\\,%d\\mathrm{;\\,E}},\\, m_{%s,\\,%d\\mathrm{;\\,E}}),\, \\)
-    equals <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> 
-    when calculated using a step size of %s&nbsp;nm and 
+    equals <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr>
+    when calculated using a step size of %s&nbsp;nm and
     wavelength domain <nobr>%s nm &ndash; %s nm</nobr>.
     </p>
     """ % (data['field_size'], data['age'],
@@ -383,8 +411,8 @@ def _normalization_xyz(data, options):
         The chromaticity point of <nobr>Illuminant E\\(, \\) </nobr>
         \\( (\,x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
         y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}}), \\) equals
-        <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> when calculated 
-        using a step size of %s&nbsp;nm and wavelength domain 
+        <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> when calculated
+        using a step size of %s&nbsp;nm and wavelength domain
         <nobr>%s nm &ndash; %s nm</nobr>.
         </p>
         """ % (data['field_size'], data['age'],
@@ -399,13 +427,13 @@ def _normalization_xyz(data, options):
         <p style="margin:0 0 1.3em 0">
         The chromaticity point of <nobr>Illuminant E\\(, \\) </nobr>
         \\( (\,x_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}},\\,
-        y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}}), \\) equals 
-        <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> when calculated 
-        using a step size of 1&nbsp;nm and wavelenght domain 
+        y_{\\,\\mathrm{F},\\,%s,\\,%d\\mathrm{;\\,E}}), \\) equals
+        <nobr>(1/3\\(, \\)&nbsp;1/3)</nobr> when calculated
+        using a step size of 1&nbsp;nm and wavelenght domain
         <nobr>390 nm &ndash; 830 nm.</nobr>
         </p>
         """ % (data['field_size'], data['age'],
-               data['field_size'], data['age'])        
+               data['field_size'], data['age'])
 
 
 def _normalization_XYZ31():
@@ -485,7 +513,7 @@ def _LMS_to_lms_mb(data, options):
         <p style="margin:0 0 0 0">
         $$
         \\begin{aligned}
-        l_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}}\\; &= 
+        l_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}}\\; &=
         \\frac{%.8f\\,\\bar l_{%s,\,%d}(\\lambda)}{%.8f\\, \\bar
         l_{%s,\,%d}(\\lambda) + %.8f\\, \\bar m_{\,%s,\,%d}(\\lambda)}
         \\\\ m_{\,\mathrm{MB},\,%s,\,%d\\mathrm{;\\,\\lambda}}\\; &=
@@ -515,7 +543,7 @@ def _LMS_to_lms_mb(data, options):
         with the cone fundamentals
         \\( \,\\bar l_{%s,\,%d}(\\lambda),\,\\)
         \\( \,\\bar m_{\,%s,\,%d}(\\lambda)\,\\) and
-        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given 
+        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given
         to the precision of 9 significant figures
         </p>
     """ % (data['field_size'], data['age'],
@@ -567,7 +595,7 @@ def _LMS_to_lms_mw(data):
         with the cone fundamentals
         \\( \,\\bar l_{%s,\,%d}(\\lambda),\,\\)
         \\( \,\\bar m_{\,%s,\,%d}(\\lambda)\,\\) and
-        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given 
+        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given
         to the precision of 9 significant figures
         </p>
     """ % (data['field_size'], data['age'],
@@ -633,7 +661,7 @@ def _LMS_to_XYZ(data, options, purples=False):
         with the cone fundamentals
         \\( \,\\bar l_{%s,\,%d}(\\lambda),\,\\)
         \\( \,\\bar m_{\,%s,\,%d}(\\lambda)\,\\) and
-        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given 
+        \\( \,\\bar s_{%s,\,%d}(\\lambda)\,\\) given
         to the precision of 9 significant figures
         </p>
     """ % (data['field_size'], data['age'],
@@ -743,12 +771,12 @@ def _XYZ_purples_to_xyz_purples(data):
            data['field_size'], data['age'])
     html_string += """
         <p style="margin:0.9em 0 1.3em 0">
-        where \\(\\lambda_{\\mathrm{c}}\\) is the complementary wavelength 
-        of the purple-line stimulus, and 
-        \\(\,\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}),\\) 
-        \\(\,\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})\\) and 
+        where \\(\\lambda_{\\mathrm{c}}\\) is the complementary wavelength
+        of the purple-line stimulus, and
+        \\(\,\\bar x_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}}),\\)
+        \\(\,\\bar y_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})\\) and
         \\(\,\\bar z_{\,\mathrm{Fp},\,%s,\,%d}(\\lambda_{\\mathrm{c}})\\) are
-        the values of the cone-fundamental-based tristimulus functions for 
+        the values of the cone-fundamental-based tristimulus functions for
         purple-line stimuli given to the precision of 7 significant figures
             </p>
     """ % (data['field_size'], data['age'],
@@ -811,13 +839,13 @@ def _precision_LMS(options,base=False):
     if options['log10']:
         html_string += """
         <p style="margin:0 0 0 0">%d decimal places</p>
-        <p style="margin:0 0 1.3em 0">(logarithmic values 
+        <p style="margin:0 0 1.3em 0">(logarithmic values
         to base&nbsp10)</p>
         """
         if base:
             return html_string % 8
         else:
-            return html_string % 5    
+            return html_string % 5
     else:
         html_string += """
         <p style="margin:0 0 1.3em 0">%d significant figures</p>
@@ -903,7 +931,7 @@ def _illuminant_E_xyz(data, options):
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Chromaticity point of Illuminant&nbsp;E</b>
     </p>
-    <p style="margin:0 0 1.3em 0"> 
+    <p style="margin:0 0 1.3em 0">
     \\( (x_{\\,\mathrm{F},\\,%s,\\,%d;\\,\\mathrm{E}},\\,
     \\,  y_{\\,\mathrm{F},\\,%s,\\,%d;\\,\\mathrm{E}}) \\)\
     \\( = (%.5f, %.5f) \\)
@@ -938,14 +966,14 @@ def _illuminant_E_xyz64():
     """
 
 def _purpleline_tangentpoints_lms_mb(data):
-    return """   
+    return """
     <p style="margin:0 0 0.3em 0">
     <b class="description-subtitle">Tangent points of the purple line</b>
-    </p>    
+    </p>
     <p style="margin:0 0 0.2em 0">
     \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}},\\,
     \\,  m_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
-    \\(  = (%.6f, %.6f) \\) 
+    \\(  = (%.6f, %.6f) \\)
     </p>
     <p style="margin:0 0 0.2em 0">
     \\( (l_{\,\mathrm{MB},\,%s,\,%d;\,%.1f\,\mathrm{nm}},\\,
@@ -969,12 +997,12 @@ def _purpleline_tangentpoints_lms_mw(data):
     \\( (l_{\,%s,\,%d;\,%.1f\,\mathrm{nm}},\\,
     \\,  m_{\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
     \\(  = (%.6f, %.6f) \\)
-    </p>    
+    </p>
     <p style="margin:0 0 0.2em 0">
     \\( (l_{\,%s,\,%d;\,%.1f\,\mathrm{nm}},\\,
     \\,  m_{\,%s,\,%d;\,%.1f\,\mathrm{nm}}) \\)
     \\(  = (%.6f, %.6f) \\)
-    </p>    
+    </p>
     """ % (data['field_size'], data['age'], data['lms_mw_tg_purple'][0, 0],
            data['field_size'], data['age'], data['lms_mw_tg_purple'][0, 0],
            data['lms_mw_tg_purple'][0, 1], data['lms_mw_tg_purple'][0, 2],
@@ -1007,7 +1035,7 @@ def _purpleline_tangentpoints_xyz(data, options):
            xyz_tg_purple[0, 1], xyz_tg_purple[0, 2],
            data['field_size'], data['age'], xyz_tg_purple[1, 0],
            data['field_size'], data['age'], xyz_tg_purple[1, 0],
-           xyz_tg_purple[1, 1], xyz_tg_purple[1, 2])  
+           xyz_tg_purple[1, 1], xyz_tg_purple[1, 2])
  
  
 def _purpleline_tangentpoints_xyz_complementary(data, options):
@@ -1023,14 +1051,14 @@ def _purpleline_tangentpoints_xyz_complementary(data, options):
     \\( (x_{\,\mathrm{F},\,%s,
             \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}},\\,
     \\,  y_{\,\mathrm{F},\,%s,
-            \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}}) \\) 
+            \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan1}}}}) \\)
     \\(  = (%.5f, %.5f) \\)
     </p>
     <p style="margin:0 0 0.2em 0">
     \\( (x_{\,\mathrm{F},\,%s,
             \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}},\\,
     \\,  y_{\,\mathrm{F},\,%s,
-            \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}}) \\) 
+            \,%d\\mathrm{;\\,\\lambda_{\\mathrm{c,\,tan2}}}}) \\)
     \\(  = (%.5f, %.5f) \\)
     </p>
     """ % (data['field_size'], data['age'],
@@ -1052,7 +1080,7 @@ def _purpleline_tangentpoints_xyz31(data):
     </p>
     <p style="margin:0 0 0.2em 0">
     \\( (x_{\,\mathrm{699\,nm\,–\,830\,nm}},\\,
-    \\,  y_{\,\mathrm{699\,nm\,–\,830\,nm}}) \\) 
+    \\,  y_{\,\mathrm{699\,nm\,–\,830\,nm}}) \\)
     \\(  = (%.5f, %.5f) \\)
     </p>
     """ % (data['xyz31_tg_purple'][0, 0],
@@ -1261,7 +1289,7 @@ def XYZ(data, heading, options, include_head=False):
                                '\\(\\bar y_{\,\mathrm{F},\,%s,\,%d}\\)' %
                                (data['field_size'], data['age']),
                                '\\(\\bar z_{\,\mathrm{F},\,%s,\,%d}\\)' %
-                               (data['field_size'], data['age']), 
+                               (data['field_size'], data['age']),
                                '\\(\\lambda\\) &nbsp;(wavelength)') +
                     _wavelenghts(data) +
                     _normalization_XYZ(data, options) +
@@ -1340,7 +1368,7 @@ def XYZ_purples(data, heading, options, include_head=False):
                             (data['field_size'], data['age']),
                             '<nobr>\\(\\lambda_{\\mathrm{c}}\\)</nobr> \
                             &nbsp;(complementary<font size="0.0em"> </font>\
-                            &nbsp;wavelength)') +                     
+                            &nbsp;wavelength)') +
                     _wavelenghts_complementary(data, options) +
                     _normalization_XYZ(data, options) +
                     _LMS_to_XYZ_purples(data, options) +
@@ -1376,7 +1404,7 @@ def xyz_purples(data, heading, options, include_head=False):
                                  '\\(y_{\,\mathrm{F},\,%s,\,%d}\\)' %
                                  (data['field_size'], data['age']),
                                  '\\(z_{\,\mathrm{F},\,%s,\,%d}\\)' %
-                                 (data['field_size'], data['age'])) +                               
+                                 (data['field_size'], data['age'])) +
                     _wavelenghts_complementary(data, options) +
                     _normalization_xyz(data, options) +
                     _XYZ_purples_to_xyz_purples(data) +
