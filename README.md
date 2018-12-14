@@ -31,7 +31,7 @@ There are 2 possible outcome depending on if you have already python 3.7 on you 
 
 
 In this case follow the installation process. Click on **Install Now** and wait until the installation process is finished:
-https://imgur.com/hgPimnB
+![](https://imgur.com/hgPimnB.png)
 
 ***
 
