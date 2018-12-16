@@ -18,7 +18,7 @@ You can now see two additional files appearing.
 
 ***
 
-### 3. Run the **Install.bat** file, make sure that you are connected to the internet.
+3. Run the **Install.bat** file, make sure that you are connected to the internet.
 
 ## IF YOU GET THE FOLLOWING POP-UP
 
@@ -30,6 +30,8 @@ Simply click on **More Info** and you will get the following message:
 
 Click on **Run anyway** in order to proceed.
 
+***
+
 There are 2 possible outcomes depending on if you have already python 3.7 on you PC or not.
 *  If you have already Python 3.7 installed this window will pop up:
 ![](https://imgur.com/GxIZw5k.png)
@@ -38,11 +40,11 @@ There are 2 possible outcomes depending on if you have already python 3.7 on you
 ![](https://imgur.com/uD5bp3O.png)
 
 * If you do not have Python 3.7 installed on your PC already, then this window will show up:
+**MAKE SURE YOU MARKED THE "ADD PYTHON 3.7 TO PATH"**
 ![](https://imgur.com/IrcN87o.png)
 
-In this case follow the installation process. **MAKE SURE YOU MARKED THE "ADD PYTHON 3.7 TO PATH"**
+In this case follow the installation process. Click on **Install Now** and wait until the installation process is finished:
 ![](https://imgur.com/hgPimnB.png)
-Click on **Install Now** and wait until the installation process is finished:
 
 ***
 
