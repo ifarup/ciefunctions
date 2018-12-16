@@ -6,7 +6,8 @@ setup(
     packages=['tc1_97'],
     scripts=['ciefunctions.py'],
     include_package_data=True,
-    package_data={'tc1_97': ['data/*', '*.css', 'MathJax-2.7.5/*']},
+    package_data={'tc1_97': ['data/*', '*.css', 'MathJax-2.7.5/*'],
+                  'icons': ['*']},
     install_requires=[
         'numpy',
         'scipy',
