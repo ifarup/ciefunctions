@@ -12,9 +12,9 @@ Python module, GUI app, and web app for computing the CIE TC1-97 colorimetric fu
 2. Unpack the zip file using ex. WinRAR.
 ![](https://imgur.com/3C7lBd7.png)
 
-You can now see three additional files appearing.
+You can now see two additional files appearing.
 
-![](https://imgur.com/EK0rebT.png)
+![](https://imgur.com/CHSMOiR.png)
 
 ***
 
