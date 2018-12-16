@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="ciefunctions",
-    version="1.0.0b4",
+    version="1.0.0b5",
     packages=['tc1_97'],
     scripts=['ciefunctions.py'],
     include_package_data=True,
