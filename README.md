@@ -62,7 +62,7 @@ Right click on the **ciefunctions** and select **send to** and choose **Desktop 
 ***
 
 6. Shortcut icon will be created on the desktop. In order to run the program simply doubleclick on the **ciefunctions** icon on your desktop. You should get the following image if the installation process was successful:
- 
+![](https://imgur.com/5dXSWXr.png)
 
 ## MAC
 
