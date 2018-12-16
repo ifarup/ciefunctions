@@ -51,13 +51,17 @@ Click on **Install Now** and wait until the installation process is finished:
 
 ***
 
-5. Simply wait until the installation process is finished.
+5. Wait until the installation process is finished. After the installation process is finished the black window will automatically close. You can now see new files appeared in the folder:
+
+![](https://imgur.com/YCbMHS3.png)
+
+Right click on the **ciefunctions** and select **send to** and choose **Desktop create shortcut** as shown on the image below.
+
+![](https://imgur.com/Z5lVizl.png)
 
 ***
 
-
-
-6. Shortcut icon will be created on the desktop. In order to run the program simply doubleclick on **CIE Functions** on your desktop or in this folder and the program will open.
+6. Shortcut icon will be created on the desktop. In order to run the program simply doubleclick on the **ciefunctions** icon on your desktop. You should get the following image if the installation process was successful:
  
 
 ## MAC
