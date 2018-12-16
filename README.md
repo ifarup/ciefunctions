@@ -12,13 +12,13 @@ Python module, GUI app, and web app for computing the CIE TC1-97 colorimetric fu
 2. Unpack the zip file using ex. WinRAR.
 ![](https://imgur.com/3C7lBd7.png)
 
-You can now see two additional files appearing.
+You can now see three additional files appearing.
 
-![](https://imgur.com/CHSMOiR.png)
+![](https://imgur.com/EK0rebT.png)
 
 ***
 
-### 3. Run the **Run.bat** file, make sure that you are connected to the internet.
+### 3. Run the **Install.bat** file, make sure that you are connected to the internet.
 There are 2 possible outcome depending on if you have already python 3.7 on you PC or not.
 *  If you have already Python 3.7 installed this window will pop up:
 ![](https://imgur.com/GxIZw5k.png)
@@ -46,7 +46,7 @@ In this case follow the installation process. Click on **Install Now** and wait 
 
 ***
 
-6. **Run.bat** file works as Installer as well as runnable file. In order to run the program simply doubleclick on **Run.bat** and the CIE Functions program will open.
+6. Shortcut will be created on the desktop. In order to run the program simply doubleclick on **CIE Functions** on your desktop or in this folder and the program will open.
  
 
 ## MAC
