@@ -19,7 +19,7 @@ You can now see three additional files appearing.
 ***
 
 ### 3. Run the **Install.bat** file, make sure that you are connected to the internet.
-There are 2 possible outcome depending on if you have already python 3.7 on you PC or not.
+There are 2 possible outcomes depending on if you have already python 3.7 on you PC or not.
 *  If you have already Python 3.7 installed this window will pop up:
 ![](https://imgur.com/GxIZw5k.png)
 
