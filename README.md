@@ -14,7 +14,7 @@ Python module, GUI app, and web app for computing the CIE TC1-97 colorimetric fu
 
 You can now see two additional files appearing.
 
-![](https://imgur.com/CHSMOiR.png)
+![](https://imgur.com/XxnLBaj.png)
 
 ***
 
