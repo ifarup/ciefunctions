@@ -40,8 +40,9 @@ There are 2 possible outcomes depending on if you have already python 3.7 on you
 * If you do not have Python 3.7 installed on your PC already, then this window will show up:
 ![](https://imgur.com/IrcN87o.png)
 
-In this case follow the installation process. **MAKE SURE YOU MARKED THE "ADD PYTHON 3.7 TO PATH"** Click on **Install Now** and wait until the installation process is finished:
+In this case follow the installation process. **MAKE SURE YOU MARKED THE "ADD PYTHON 3.7 TO PATH"**
 ![](https://imgur.com/hgPimnB.png)
+Click on **Install Now** and wait until the installation process is finished:
 
 ***
 
