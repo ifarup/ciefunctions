@@ -19,6 +19,17 @@ You can now see two additional files appearing.
 ***
 
 ### 3. Run the **Install.bat** file, make sure that you are connected to the internet.
+
+## IF YOU GET THE FOLLOWING POP-UP
+
+![](https://imgur.com/fflpYvd.png)
+
+Simply click on **More Info** and you will get the following message:
+
+![](https://imgur.com/tpQZfOu.png)
+
+Click on **Run anyway** in order to proceed.
+
 There are 2 possible outcomes depending on if you have already python 3.7 on you PC or not.
 *  If you have already Python 3.7 installed this window will pop up:
 ![](https://imgur.com/GxIZw5k.png)
@@ -27,24 +38,23 @@ There are 2 possible outcomes depending on if you have already python 3.7 on you
 ![](https://imgur.com/uD5bp3O.png)
 
 * If you do not have Python 3.7 installed on your PC already, then this window will show up:
-![](https://imgur.com/q3btZxx.png)
+![](https://imgur.com/IrcN87o.png)
 
-
-In this case follow the installation process. Click on **Install Now** and wait until the installation process is finished:
+In this case follow the installation process. **MAKE SURE YOU MARKED THE "ADD PYTHON 3.7 TO PATH"** Click on **Install Now** and wait until the installation process is finished:
 ![](https://imgur.com/hgPimnB.png)
 
 ***
 
-4. After then installation is successful and you have closed the python installation window, you will see that the instalation process continues in the black window:
+4. After then installation is successful and you have closed the python installation window, you will see that the installation process continues in the black window:
 ![](https://imgur.com/kT73Ntq.png)
 
 ***
 
-5. Simply wait until the installation process is finished. The program will automatically start after the setup is finished succesfully:
-
-![](https://imgur.com/5dXSWXr.png)
+5. Simply wait until the installation process is finished.
 
 ***
+
+
 
 6. Shortcut icon will be created on the desktop. In order to run the program simply doubleclick on **CIE Functions** on your desktop or in this folder and the program will open.
  
