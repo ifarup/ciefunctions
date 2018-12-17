@@ -61,11 +61,11 @@ In this case follow the installation process. Click on **Install Now** and wait 
 
 5. Wait until the installation process is finished. After the installation process is finished the black window will automatically close. You can now see new files appeared in the folder:
 
-![](https://imgur.com/YCbMHS3.png)
+![](https://imgur.com/N4bEo5i.png)
 
 Right click on the **ciefunctions** and select **send to** and choose **Desktop create shortcut** as shown on the image below.
 
-![](https://imgur.com/Z5lVizl.png)
+![](https://imgur.com/BCx76TI.png)
 
 ***
 
