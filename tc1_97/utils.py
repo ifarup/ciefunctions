@@ -42,10 +42,9 @@ def list_to_ndarray(dictionary):
             dictionary[key] = np.array(dictionary[key])
 
 
-def resource_path(relative):
+def resource_path(relative_path):
     """
-    Extend relative path to full path (mainly for PyInstaller integration).
-
+    Get absolute path to resource, works for dev and for PyInstaller.
     Parameters
     ----------
     relative : string
@@ -56,16 +55,10 @@ def resource_path(relative):
     absolute : string
         The absolute path name.
     """
-    # See if we are running in a PyInstaller "frozen" bundle.  If we are
-    # then we need to prefix all paths with the path of the bundle.
-    if getattr(sys, 'frozen', False) and os.getcwd() == "/":
-        bundle_dir = sys._MEIPASS
-        return bundle_dir + \
-            os.path.dirname(
-                os.path.abspath(
-                    inspect.getsourcefile(resource_path))) + '/' + relative
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = os.path.join(sys._MEIPASS, 'tc1_97')
+    except Exception:
+        base_path = os.path.dirname(os.path.abspath(inspect.getsourcefile(resource_path)))
 
-    # Original behaviour.
-    return os.path.dirname(
-        os.path.abspath(
-            inspect.getsourcefile(resource_path))) + '/' + relative
+    return os.path.join(base_path, relative_path)
