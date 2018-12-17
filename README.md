@@ -5,7 +5,7 @@ Python module, GUI app, and web app for computing the CIE TC1-97 colorimetric fu
 
 ## Windows
 
-1. Download the zip package from: https://github.com/ifarup/ciefunctions/releases. Make sure you choose the right version for your operating system, in this case Windows version.
+1. Download the zip package from: https://github.com/ifarup/ciefunctions/releases. Make sure you choose the right version for your operating system, in this case Windows version. It is recommended to download and install The Visual C++ Redistributable Package https://www.microsoft.com/en-us/download/details.aspx?id=48145 before you start the installation process.
 
 ***
 
