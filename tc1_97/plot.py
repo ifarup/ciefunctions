@@ -138,7 +138,7 @@ def LMS_base(axes, plots, options):
     lock.release()
 
 
-def lms_mb(axes, plots, options):
+def ls_mb(axes, plots, options):
     """
     Plot the MacLeod-Boynton ls diagram onto the given axes
 

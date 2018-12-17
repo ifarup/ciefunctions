@@ -347,7 +347,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                     self.options(), True)
 
             # Create plot
-            tc1_97.plot.lms_mb(self.axes, self.plots, self.options())
+            tc1_97.plot.ls_mb(self.axes, self.plots, self.options())
 
             # Create html table
             html_table = tc1_97.table.lms_mb(self.results,
