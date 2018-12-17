@@ -25,37 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import numpy as np
 import sys
-import inspect
-import os.path
-
-def resource_path(relative):
-    """
-    Extend relative path to full path (mainly for PyInstaller integration).
-
-    Parameters
-    ----------
-    relative : string
-        The relative path name.
-
-    Returns
-    -------
-    absolute : string
-        The absolute path name.
-    """
-    # See if we are running in a PyInstaller "frozen" bundle.  If we are
-    # then we need to prefix all paths with the path of the bundle.
-    if getattr(sys, 'frozen', False) and os.getcwd() == "/":
-      bundle_dir = sys._MEIPASS
-      return bundle_dir + \
-          os.path.dirname(
-            os.path.abspath(
-              inspect.getsourcefile(resource_path))) + '/' + relative
-
-
-    # Original behaviour.
-    return os.path.dirname(
-        os.path.abspath(
-            inspect.getsourcefile(resource_path))) + '/' + relative
+from tc1_97.utils import resource_path
 
 def _head():
     package_path = resource_path(".")

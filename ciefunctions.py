@@ -25,6 +25,7 @@ import tc1_97
 import tc1_97.description
 import tc1_97.plot
 import tc1_97.table
+from tc1_97.utils import resource_path
 import sys
 import os
 import numpy as np
@@ -884,15 +885,15 @@ def main():
     """
     app = QtWidgets.QApplication(sys.argv)
     app_icon = QtGui.QIcon()
-    app_icon.addFile('icons/ciefunctions_icon (16x16) .png',
+    app_icon.addFile(resource_path('icons/ciefunctions_icon (16x16) .png'),
                      QtCore.QSize(16, 16))
-    app_icon.addFile('icons/ciefunctions_icon (24x24) .png',
+    app_icon.addFile(resource_path('icons/ciefunctions_icon (24x24) .png'),
                      QtCore.QSize(24, 24))
-    app_icon.addFile('icons/ciefunctions_icon (32x32) .png',
+    app_icon.addFile(resource_path('icons/ciefunctions_icon (32x32) .png'),
                      QtCore.QSize(32, 32))
-    app_icon.addFile('icons/ciefunctions_icon (48x48) .png',
+    app_icon.addFile(resource_path('icons/ciefunctions_icon (48x48) .png'),
                      QtCore.QSize(48, 48))
-    app_icon.addFile('icons/ciefunctions_icon (256x256) .png',
+    app_icon.addFile(resource_path('icons/ciefunctions_icon (256x256) .png'),
                      QtCore.QSize(256, 256))
     app.setWindowIcon(app_icon)
     form = AppForm()

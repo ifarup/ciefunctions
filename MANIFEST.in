@@ -1,4 +1,4 @@
 include tc1_97/data/*
+include tc1_97/icons/*
 include tc1_97/*.css
-include icons/*
 recursive-include tc1_97/MathJax-2.7.5 *

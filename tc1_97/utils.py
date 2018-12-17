@@ -20,7 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import numpy as np
-
+import sys
+import os
+import inspect
 
 def ndarray_to_list(dictionary):
     """
@@ -38,3 +40,32 @@ def list_to_ndarray(dictionary):
     for key in dictionary:
         if type(dictionary[key]) is list:
             dictionary[key] = np.array(dictionary[key])
+
+
+def resource_path(relative):
+    """
+    Extend relative path to full path (mainly for PyInstaller integration).
+
+    Parameters
+    ----------
+    relative : string
+        The relative path name.
+
+    Returns
+    -------
+    absolute : string
+        The absolute path name.
+    """
+    # See if we are running in a PyInstaller "frozen" bundle.  If we are
+    # then we need to prefix all paths with the path of the bundle.
+    if getattr(sys, 'frozen', False) and os.getcwd() == "/":
+        bundle_dir = sys._MEIPASS
+        return bundle_dir + \
+            os.path.dirname(
+                os.path.abspath(
+                    inspect.getsourcefile(resource_path))) + '/' + relative
+
+    # Original behaviour.
+    return os.path.dirname(
+        os.path.abspath(
+            inspect.getsourcefile(resource_path))) + '/' + relative
