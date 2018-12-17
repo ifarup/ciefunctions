@@ -18,7 +18,9 @@ You can now see two additional files appearing.
 
 ***
 
-3. Run the **Install.bat** file, make sure that you are connected to the internet.
+3. Make sure that you are connected to the internet and run the **Install.bat** file **as a administrator**: 
+
+![](https://imgur.com/ECe9c7I.png)
 
 ## IF YOU GET THE FOLLOWING POP-UP
 
