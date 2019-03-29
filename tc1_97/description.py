@@ -286,8 +286,8 @@ def _normalization_lms_mb(data):
        \\right) =  1\\)</nobr>
     </p>
     <p style="margin:0 0 1.3em 0">
-    where \\(V_{\\,\\mathrm{F},\\,%s,\\,%d} = P_{\\mathrm{v}} /
-      K_{\\mathrm{F,\\,m},\\,%s,\\,%d},\,\\) with \\(P_{\\mathrm{v}}\\)
+    where \\(V_{\\,\\mathrm{F},\\,%s,\\,%d} = \\varPhi_{\\mathrm{v}} /
+      K_{\\mathrm{F,\\,m},\\,%s,\\,%d},\,\\) with \\(\\varPhi_{\\mathrm{v}}\\)
     and \\(K_{\\mathrm{F,\\,m},\\,%s,\\,%d}\\) equal <nobr>to\\(,\\)</nobr>
     <nobr>respectively\\(,\\)</nobr> the LM luminous flux and the LM maximum
     luminous efficacy as determined by the cone-fundamental-based spectral
