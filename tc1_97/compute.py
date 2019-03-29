@@ -490,7 +490,7 @@ def LMS_energy(field_size, age, base=False):
     return (LMS, (Lo_max, Mo_max, So_max))
 
 
-def relative_L_cone_weight_Vλ_quantal(field_size, age):
+def relative_L_cone_weight_Vλ_quantal(field_size, age, strategy_2=True):
     """
     Compute the weighting factor of the quantal L-cone fundamental in the
     synthesis of the cone-fundamental-based quantal V(λ) function.
@@ -501,6 +501,9 @@ def relative_L_cone_weight_Vλ_quantal(field_size, age):
         Field size in degrees.
     age : float
         Age in years.
+    strategy_2 : bool
+        Use strategy 2 in github issue #121 for computing the weighting factor.
+        If false, strategy 3 is applied.
 
     Returns
     -------
@@ -509,8 +512,8 @@ def relative_L_cone_weight_Vλ_quantal(field_size, age):
         the synthesis of the quantal V(λ) function , i.e.
         Vq(λ) = kLq lq_bar((λ) + mq_bar(λ)).
     """
-    # For strategy 2 in github issue 121. Comment for strategy 3:
-    field_size = 2.
+    if strategy_2:
+        field_size = 2.
     abt_fs = absorptance(field_size)
     abt_2 = absorptance(2.)
     LMSq_fs_age = LMS_quantal(field_size, age)
