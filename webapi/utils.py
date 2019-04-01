@@ -24,23 +24,20 @@ import sys
 import os
 import inspect
 
-def resource_path(relative_path):
+def ndarray_to_list(dictionary):
     """
-    Get absolute path to resource, works for dev and for PyInstaller.
-    Parameters
-    ----------
-    relative : string
-        The relative path name.
-
-    Returns
-    -------
-    absolute : string
-        The absolute path name.
+    Convert all the ndarrays in the dictionary to lists.
     """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = os.path.join(sys._MEIPASS, 'tc1_97')
-    except Exception:
-        base_path = os.path.dirname(os.path.abspath(inspect.getsourcefile(resource_path)))
+    for key in dictionary:
+        if type(dictionary[key]) is np.ndarray:
+            dictionary[key] = dictionary[key].tolist()
 
-    return os.path.join(base_path, relative_path)
+
+def list_to_ndarray(dictionary):
+    """
+    Convert all the lists in the dictionary to ndarrays.
+    """
+    for key in dictionary:
+        if type(dictionary[key]) is list:
+            dictionary[key] = np.array(dictionary[key])
+
