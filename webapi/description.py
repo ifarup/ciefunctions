@@ -3,7 +3,7 @@
 """
 description: Generate html description strings for the tc1_97 package.
 
-Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2019 Ivar Farup
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

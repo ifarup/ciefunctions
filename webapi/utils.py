@@ -3,7 +3,7 @@
 """
 utils: Utility functions for CIE functions provided by CIE TC 1-97.
 
-Copyright (C) 2012-2018 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2019 Ivar Farup
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
