@@ -20,9 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import numpy as np
-import sys
-import os
-import inspect
+
 
 def ndarray_to_list(dictionary):
     """
@@ -40,4 +38,3 @@ def list_to_ndarray(dictionary):
     for key in dictionary:
         if type(dictionary[key]) is list:
             dictionary[key] = np.array(dictionary[key])
-

@@ -21,38 +21,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import tc1_97.table as tc
 
+
 def xyz(data, heading, options):
     return tc.XYZ(data, heading, options)
+
 
 def xy(data, heading, options):
     return tc.xyz(data, heading, options)
 
+
 def lms(data, heading, options):
     return tc.LMS(data, heading, options)
+
 
 def lms_base(data, heading, options):
     return tc.LMS_base(data, heading, options)
 
+
 def bm(data, heading, options):
     return tc.lms_mb(data, heading, options)
+
 
 def lm(data, heading, options):
     return tc.lms_mw(data, heading, options)
 
+
 def xyz31(data, heading, options):
     return tc.XYZ31(data, heading, options)
+
 
 def xyz64(data, heading, options):
     return tc.XYZ64(data, heading, options)
 
+
 def xy31(data, heading, options):
     return tc.xyz31(data, heading, options)
+
 
 def xy64(data, heading, options):
     return tc.xyz64(data, heading, options)
 
+
 def xyz_purples(data, heading, options):
     return tc.XYZ_purples(data, heading, options)
+
 
 def xy_purples(data, heading, options):
     return tc.xyz_purples(data, heading, options)
