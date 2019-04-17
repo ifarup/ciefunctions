@@ -22,49 +22,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import tc1_97.plot as tc
 
 
-def xyz(data, heading, options):
-    return tc.XYZ(data, heading, options)
+def xyz(axis, plots, options):
+    return tc.XYZ(axis, plots, options)
 
 
-def xy(data, heading, options):
-    return tc.xy(data, heading, options)
+def xy(axis, plots, options):
+    return tc.xy(axis, plots, options)
 
 
-def lms(data, heading, options):
-    return tc.LMS(data, heading, options)
+def lms(axis, plots, options):
+    return tc.LMS(axis, plots, options)
 
 
-def lms_base(data, heading, options):
-    return tc.LMS_base(data, heading, options)
+def lms_base(axis, plots, options):
+    return tc.LMS_base(axis, plots, options)
 
 
-def bm(data, heading, options):
-    return tc.ls_mb(data, heading, options)
+def bm(axis, plots, options):
+    return tc.ls_mb(axis, plots, options)
 
 
-def lm(data, heading, options):
-    return tc.lm_mw(data, heading, options)
+def lm(axis, plots, options):
+    return tc.lm_mw(axis, plots, options)
 
 
-def xyz31(data, heading, options):
-    return tc.XYZ31(data, heading, options)
+def xyz31(axis, plots, options):
+    return tc.XYZ31(axis, plots, options)
 
 
-def xyz64(data, heading, options):
-    return tc.XYZ64(data, heading, options)
+def xyz64(axis, plots, options):
+    return tc.XYZ64(axis, plots, options)
 
 
-def xy31(data, heading, options):
-    return tc.xy31(data, heading, options)
+def xy31(axis, plots, options):
+    return tc.xy31(axis, plots, options)
 
 
-def xy64(data, heading, options):
-    return tc.xy64(data, heading, options)
+def xy64(axis, plots, options):
+    return tc.xy64(axis, plots, options)
 
 
-def xyz_purples(data, heading, options):
-    return tc.XYZ_purples(data, heading, options)
+def xyz_purples(axis, plots, options):
+    return tc.XYZ_purples(axis, plots, options)
 
 
-def xy_purples(data, heading, options):
+def xy_purples(axis, plots, options):
     return tc.xy_purples(data, heading, options)

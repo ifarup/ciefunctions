@@ -22,49 +22,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import tc1_97.table as tc
 
 
-def xyz(data, heading, options):
-    return tc.XYZ(data, heading, options)
+def xyz(results, options, include_head=False):
+    return tc.XYZ(results, options, include_head)
 
 
-def xy(data, heading, options):
-    return tc.xyz(data, heading, options)
+def xy(results, options, include_head=False):
+    return tc.xyz(results, options, include_head)
 
 
-def lms(data, heading, options):
-    return tc.LMS(data, heading, options)
+def lms(results, options, include_head=False):
+    return tc.LMS(results, options, include_head)
 
 
-def lms_base(data, heading, options):
-    return tc.LMS_base(data, heading, options)
+def lms_base(results, options, include_head=False):
+    return tc.LMS_base(results, options, include_head)
 
 
-def bm(data, heading, options):
-    return tc.lms_mb(data, heading, options)
+def bm(results, options, include_head=False):
+    return tc.lms_mb(results, options, include_head)
 
 
-def lm(data, heading, options):
-    return tc.lms_mw(data, heading, options)
+def lm(results, options, include_head=False):
+    return tc.lms_mw(results, options, include_head)
 
 
-def xyz31(data, heading, options):
-    return tc.XYZ31(data, heading, options)
+def xyz31(results, options, include_head=False):
+    return tc.XYZ31(results, options, include_head)
 
 
-def xyz64(data, heading, options):
-    return tc.XYZ64(data, heading, options)
+def xyz64(results, options, include_head=False):
+    return tc.XYZ64(results, options, include_head)
 
 
-def xy31(data, heading, options):
-    return tc.xyz31(data, heading, options)
+def xy31(results, options, include_head=False):
+    return tc.xyz31(results, options, include_head)
 
 
-def xy64(data, heading, options):
-    return tc.xyz64(data, heading, options)
+def xy64(results, options, include_head=False):
+    return tc.xyz64(results, options, include_head)
 
 
-def xyz_purples(data, heading, options):
-    return tc.XYZ_purples(data, heading, options)
+def xyz_purples(results, options, include_head=False):
+    return tc.XYZ_purples(results, options, include_head)
 
 
-def xy_purples(data, heading, options):
-    return tc.xyz_purples(data, heading, options)
+def xy_purples(results, options, include_head=False):
+    return tc.xyz_purples(results, options, include_head)
