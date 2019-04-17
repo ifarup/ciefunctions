@@ -20,49 +20,73 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import tc1_97.table as tc
-
+from webapi.utils import list_to_ndarray
 
 def xyz(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.XYZ(results, options, include_head)
 
 def xy(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.xyz(results, options, include_head)
 
 def lms(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.LMS(results, options, include_head)
 
 
 def lms_base(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.LMS_base(results, options, include_head)
 
 
 def bm(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.lms_mb(results, options, include_head)
 
 
 def lm(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.lms_mw(results, options, include_head)
 
 
 def xyz31(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.XYZ31(results, options, include_head)
 
 
 def xyz64(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.XYZ64(results, options, include_head)
 
 
 def xy31(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.xyz31(results, options, include_head)
 
 
 def xy64(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.xyz64(results, options, include_head)
 
 
 def xyz_purples(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.XYZ_purples(results, options, include_head)
 
 
 def xy_purples(results, options, include_head=False):
+    results = results.copy()
+    list_to_ndarray(results)
     return tc.xyz_purples(results, options, include_head)

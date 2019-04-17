@@ -20,51 +20,75 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import tc1_97.plot as tc
-
+from webapi.utils import list_to_ndarray
 
 def xyz(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.XYZ(axis, plots, options)
 
 
 def xy(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.xy(axis, plots, options)
 
 
 def lms(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.LMS(axis, plots, options)
 
 
 def lms_base(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.LMS_base(axis, plots, options)
 
 
 def bm(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.ls_mb(axis, plots, options)
 
 
 def lm(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.lm_mw(axis, plots, options)
 
 
 def xyz31(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.XYZ31(axis, plots, options)
 
 
 def xyz64(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.XYZ64(axis, plots, options)
 
 
 def xy31(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.xy31(axis, plots, options)
 
 
 def xy64(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.xy64(axis, plots, options)
 
 
 def xyz_purples(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.XYZ_purples(axis, plots, options)
 
 
 def xy_purples(axis, plots, options):
+    plots = plots.copy()
+    list_to_ndarray(plots)
     return tc.xy_purples(axis, plots, options)

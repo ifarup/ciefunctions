@@ -23,3 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # Main file. Just import.
 
 from .compute import *
+import webapi.compute
+import webapi.plot
+import webapi.table
+import webapi.description
+import webapi.utils
