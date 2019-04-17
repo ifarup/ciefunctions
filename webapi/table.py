@@ -25,10 +25,8 @@ import tc1_97.table as tc
 def xyz(results, options, include_head=False):
     return tc.XYZ(results, options, include_head)
 
-
 def xy(results, options, include_head=False):
     return tc.xyz(results, options, include_head)
-
 
 def lms(results, options, include_head=False):
     return tc.LMS(results, options, include_head)
