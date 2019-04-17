@@ -1,5 +1,6 @@
 *.pyc
 *.egg-info
+*.iml
 dist/
 build/
 .idea/
@@ -21,4 +22,3 @@ colors.scheme.xml
 debugger.xml
 ide.general.xml
 ui.Inf.xml
-
