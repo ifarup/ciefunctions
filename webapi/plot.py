@@ -67,4 +67,4 @@ def xyz_purples(axis, plots, options):
 
 
 def xy_purples(axis, plots, options):
-    return tc.xy_purples(data, heading, options)
+    return tc.xy_purples(axis, plots, options)
