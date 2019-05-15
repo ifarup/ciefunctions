@@ -1,0 +1,58 @@
+<div id="input-params"> <!-- Input Parameters -->
+    <form id="paramForm" method="POST" action="http://disney.com">
+        <div class="col-lg-12">
+            {% csrf_token %}
+            <table class="paramTable">
+                <tr class="upperRow">
+                    <td class="text-right">Field size (&deg;)</td>
+                    <td class="text-right">
+                        <input id="field_size" name="field_size" value="{{ field_size }}"/>
+                    </td>
+                    <td class="text-center">
+                        <span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+
+
+                    <td class="text-right">Age (yr)</td>
+                    <td class="text-right">
+                        <input id="age" name="age" value="{{ age }}"/>
+                    </td>
+                    <td class="text-center">
+                        <span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+
+
+
+                    <td class="text-right">Domain (nm)</td>
+                    <td class="text-right">
+                        <input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
+                    </td>
+                    <td class="text-center">
+                        <span class="minus-sign">&mdash;</span>
+                    </td>
+                    <td class="text-left">
+                        <input id="lambda_max" name="lambda_max" value="{{ lambda_max }}"/>
+                    </td>
+                    <td class="text-center">
+                        <span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+
+
+                    <td class="text-right">Step (nm)</td>
+                    <td class="text-right">
+                        <input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
+                    </td>
+                    <td class="text-center">
+                        <span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                    <td class="text-left">
+                        <span class="minus-sign">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                    <td>
+                        <button id="btnCompute">Compute</button>
+                    </td>
+                <tr>
+            </table>
+        </div>
+    </form>
+</div><!-- end #input-params -->
