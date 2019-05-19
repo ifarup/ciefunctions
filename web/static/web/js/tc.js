@@ -199,19 +199,21 @@ var lambda_min = parseInt($( "input#lambda_min" ).val());
 var lambda_max= parseInt($( "input#lambda_max" ).val());
 var lambda_step = parseInt($( "input#lambda_step" ).val());
 
-	axis_labels = ({ 	'xyz' 		: new axis_label("Wavelength [nm]", "Cone-fundamental-based tristimulus values"),
+	axis_labels = ({
+        				'lms'		: new axis_label("<span class='math'>l</span><sub>MB, " + field_size + ", " + age + "</sub>",
+							                         "Relative energy sensitivities"),
+        				'lms_base'	: new axis_label("Wavelength [nm]", "Relative energy sensitivities"),
+
+        				'bm'		: new axis_label("<span class='math'>l</span><sub>MB, " + field_size + ", " + age + "</sub>",
+							                         "<span class='math'>s</span><sub>MB, " + field_size + ", " + age + "</sub>"),
+
+        				'lm'		: new axis_label("<span class='math'>l</span><sub>" + field_size + ", " + age + "</sub>",
+												     "<span class='math'>m</span><sub>" + field_size + ", " + age + "</sub>"),
+
+						'xyz' 		: new axis_label("Wavelength [nm]", "Cone-fundamental-based tristimulus values"),
 						'xy'		: new axis_label("<span class='math'>x</span><sub>F, " + field_size + ", " + age + "</sub>", 
 													  "y<sub>F, " + field_size + ", " + age + "</sub>"),
-													  
-						'lms'		: new axis_label("Wavelength [nm]", "Relative energy sensitivities"),
-						'lms_base'	: new axis_label("Wavelength [nm]", "Relative energy sensitivities"),
-						
-						'bm'		: new axis_label("<span class='math'>l</span><sub>MB, " + field_size + ", " + age + "</sub>", 
-													  "<span class='math'>s</span><sub>MB, " + field_size + ", " + age + "</sub>"),
-													  
-						'lm'		: new axis_label("<span class='math'>l</span><sub>" + field_size + ", " + age + "</sub>",
-													  "<span class='math'>m</span><sub>" + field_size + ", " + age + "</sub>"),
-						
+
 						'xy31'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 						'xy64'		: new axis_label("<span class='math'>x</span>", "<span class='math'>y</span>"),
 						
@@ -228,27 +230,29 @@ var plot_options = {
 					 'cie31'		: 0,
 					 'cie64'		: 0,
 					 'labels'		: 0,
-					 'norm'			: 0
-}
+					 'norm'			: 0,
+	                 'log10'        : 0,
+};
 
 //Init
 var currentPlot = availablePlots[0]; //Current plot LMS
 $( "#descriptionTitle" ).html($( "option[plot=" + currentPlot + "]").html());
-updateLabels();
+this.updateLabels();
 $( "div.x_label" ).html(axis_labels[currentPlot].x);
 $( "div.y_label" ).html(axis_labels[currentPlot].y);
 $( "div#std-params" ).hide();
-
+$( ".renormalised-divz" ).hide();
 
 function getOptionsString(){
-	return "" + plot_options.grid + plot_options.cie31 + plot_options.cie64 + plot_options.labels + plot_options.norm;
+	return "" + plot_options.grid + plot_options.cie31 + plot_options.cie64 + plot_options.labels + plot_options.norm + plot_options.log10;
 }
 
 //This function retrieves an object (table or description, file an issue for plot)
 function refreshObject(object, name){
 /* object is a String: can be 'table' or 'description'*/
 	$( "div#" + name + "_" + object ).siblings(".velo").show();
-	ajaxUrl = '/get_'+ object + '/' + name + '/' + plot_options.norm + "/";
+	ajaxUrl = '/get_'+ object + '/' + name + '/' + plot_options.norm + "/" + plot_options.log10 + "/";
+	console.log(ajaxUrl);
 	$.get( ajaxUrl )
 				.done(function( data ) {
 					$( "div#" + name + "_" + object ).empty();
@@ -292,6 +296,7 @@ function refreshAllObjects(){
 function refreshPlot(plot){
  	var data = all_plots[plot].getPlot(getOptionsString());
 	$( "#theFig .velo" ).show();
+
 	if ((data == null)) { //If data is not cached, get it from the server.
 					$.get( '/get_plot/' + 
 						plot + '/' + 
@@ -299,7 +304,8 @@ function refreshPlot(plot){
 						plot_options.cie31 + "/" + 
 						plot_options.cie64 + "/" + 
 						plot_options.labels + "/" +
-						plot_options.norm + "/")
+						plot_options.norm + "/" +
+                        plot_options.log10 + "/")
 							.done(function( data ) {
 								all_plots[plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + plot + "_plot" ).empty();
@@ -402,7 +408,8 @@ function showStandard( standard_plot ){
 						plot_options.cie31 + "/" + 
 						plot_options.cie64 + "/" + 
 						plot_options.labels + "/" +
-						plot_options.norm + "/")
+						plot_options.norm + "/" +
+					    plot_options.log10 + "/")
 							.done(function( data ) {
 								all_plots[standard_plot].setPlot(getOptionsString(), data); //Cache plot
 								$( "div#" + standard_plot + "_plot" ).empty();
@@ -456,9 +463,70 @@ function showStandard( standard_plot ){
 	function updateCheckboxes(plot){
         console.log("updating checkboxes ...");
 		switch(plot){
-			
+
+            case "lms":
+                console.log("CIE LMS cone fundamentals");
+                $( "div#std-params" ).hide();
+                $( "div#input-params").show();
+                $( "div.htmlWrapper").css("height", "528px");
+
+                $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
+
+                $( ".renormalised-divz" ).hide();
+                $( ".logarithmic-divz" ).show();
+
+            break;
+
+            case "lms_base":
+                console.log("CIE LMS cone fundamentals (9 sign.flgs.)");
+                $( "div#std-params" ).hide();
+                $( "div#input-params").show();
+                $( "div.htmlWrapper").css("height", "528px");
+
+                $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
+
+                $( ".renormalised-divz" ).hide();
+                $( ".logarithmic-divz" ).show();
+            break;
+
+            case "bm":
+                console.log("CIE MacLeod-Boynton ls diagram");
+                $( "div#std-params" ).hide();
+                $( "div#input-params").show();
+                $( "div.htmlWrapper").css("height", "528px");
+
+                $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
+
+                $( ".renormalised-divz" ).hide();
+                $( ".logarithmic-divz" ).hide();
+            break;
+
+            case "lm":
+                console.log("Maxwellian lm chromaticity diagram");
+                $( "div#std-params" ).hide();
+                $( "div#input-params").show();
+                $( "div.htmlWrapper").css("height", "528px");
+
+                $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
+
+                $( ".renormalised-divz" ).hide();
+                $( ".logarithmic-divz" ).hide();
+                break;
+
 			case "xyz":
-                console.log("CIE XYZ cone-fundamental-based spectral tristimulus values");
+                console.log("CIE XYZ cone-fundamental-based tristimulus functions");
 				$( "div#std-params" ).hide();				
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
@@ -467,13 +535,14 @@ function showStandard( standard_plot ){
 				$( "#compare1931-2" ).attr("disabled", false).prev().removeClass("disabled");
 				$( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
 				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
-				
-				$( ".norm-div" ).show().css( "display", "inline-block" );
+
+                $( ".renormalised-divz" ).show();
+                $( ".logarithmic-divz" ).hide();
 				
 			break;
 			
 			case "xy":
-                console.log("CIE xy fundamental chromacity diagram");
+                console.log("CIE xy cone-fundamental-based chromaticity diagram");
 				$( "div#std-params" ).hide();
 				$( "div#input-params").show();
 				$( "div.htmlWrapper").css("height", "528px");
@@ -482,79 +551,55 @@ function showStandard( standard_plot ){
 				$( "#compare1931-2" ).attr("disabled", false).prev().removeClass("disabled");
 				$( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
 				$( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
-				
-				$( ".norm-div" ).show();
+
+                $( ".renormalised-divz" ).show();
+                $( ".logarithmic-divz" ).hide();
 			break;
-			
-			case "lms":
-                console.log("CIE LMS cone fundamentals");
-				$( "div#std-params" ).hide();
-				$( "div#input-params").show();
-				$( "div.htmlWrapper").css("height", "528px");
-								
-				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
-				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
-				
-				$( ".norm-div" ).hide();
-			break;
-			
-			case "lms_base":
-                console.log("CIE LMS cone fundamentals (9 sign.flgs.)");
-				$( "div#std-params" ).hide();
-				$( "div#input-params").show();
-				$( "div.htmlWrapper").css("height", "528px");
-				
-				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
-				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
-				
-				$( ".norm-div" ).hide();
-			break;
-			
-			case "bm":
-                console.log("CIE MacLeod-Boynton ls diagram");
-				$( "div#std-params" ).hide();
-				$( "div#input-params").show();
-				$( "div.htmlWrapper").css("height", "528px");
-				
-				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
-				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
-				
-				$( ".norm-div" ).hide();
-			break;
-			
-			case "lm":
-                console.log("Equi-power normalised lm diagram");
-				$( "div#std-params" ).hide();
-				$( "div#input-params").show();
-				$( "div.htmlWrapper").css("height", "528px");
-				
-				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");					
-				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
-				$( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
-				$( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
-				
-				$( ".norm-div" ).hide();
-			break;
+
+			case "xyz_purples":
+				console.log("XYZ cone-fundamental-based tristimulus functions for purple-line stimuli");
+                $( "div#std-params" ).hide();
+                $( "div#input-params").show();
+                $( "div.htmlWrapper").css("height", "528px");
+
+                $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
+
+                $( ".renormalised-divz" ).show();
+                $( ".logarithmic-divz" ).hide();
+            break;
+
+            case "xy_purples":
+                console.log("xy cone-fundamental-based chromaticity diagram (purple-line stimuli)");
+                $( "div#std-params" ).hide();
+                $( "div#input-params").show();
+                $( "div.htmlWrapper").css("height", "528px");
+
+                $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
+                $( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
+
+                $( ".renormalised-divz" ).show();
+                $( ".logarithmic-divz" ).hide();
+            break;
 			
 			case "xyz31":
-                console.log("Equi-power normalised lm diagram");
+                console.log("CIE XYZ standard colour-matching functions");
 				$( "div#std-params" ).show();
 				$( "div#input-params").hide();
 				$( "div.htmlWrapper").css("height", "600px");
-				$( "select#field_size option[year=31]" ).attr("selected", "true");
+				$( "select#field_size_year option[year=31]" ).attr("selected", "true");
 				
 				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
 				$( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
 				$( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
-				
-				$( ".norm-div" ).hide();
+
+                $( ".renormalised-divz" ).show();
+                $( ".logarithmic-divz" ).hide();
 			break;
 			
 			case "xy31":
@@ -562,7 +607,7 @@ function showStandard( standard_plot ){
 				$( "div#std-params" ).show();
 				$( "div#input-params").hide();
 				$( "div.htmlWrapper").css("height", "600px");
-				$( "select#field_size option[year=31]" ).attr("selected", "true");
+				$( "select#field_size_year option[year=31]" ).attr("selected", "true");
 				
 				$( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");					
 				$( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
@@ -590,7 +635,6 @@ function showStandard( standard_plot ){
 		} else {
 			plot_options.grid = 1;
 		}
-		
 		refreshPlot(currentPlot);
 		refreshAllOthers(currentPlot);
 		
@@ -628,13 +672,22 @@ function showStandard( standard_plot ){
 		refreshAllOthers(currentPlot);
 	});
 			
-	$( "#norm" ).on("click", function(){
+	$( "#renormalised" ).on("click", function(){
 		if (plot_options.norm==1) {
 			plot_options.norm = 0;
 		} else {
 			plot_options.norm = 1;
 		}
+		refreshPlot(currentPlot);
+		refreshAllObjects();
+	});
 
+	$( "#logarithmic" ).on("click", function(){
+		if (plot_options.log10==1) {
+			plot_options.log10 = 0;
+		} else {
+			plot_options.log10 = 1;
+		}
 		refreshPlot(currentPlot);
 		refreshAllObjects();
 	});

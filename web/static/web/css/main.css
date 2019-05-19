@@ -47,13 +47,16 @@ div#header img {	height: 55px;
 select#plot-select, select#modus-select { width: 100%; }
 
 div#plot-select-div {
+                    width: 80%;
 					display: inline-block;
 }
 
 div.htmlWrapper {	position: relative;
 					/*padding-left: 10;*/
-					height: 540px;
-					max-height: 565px;
+					/*height: 540px;
+					max-height: 565px;*/
+					min-height: 70vh;
+					max-height: 80vh;
 					width: auto;
 					overflow-y: auto;
 				}
