@@ -683,7 +683,7 @@ function showStandard( standard_plot ){
                 break;
 
             case "xy64":
-                //console.log("CIE xy standard chromaticity diagram");
+                //console.log("CIE xy standard chromaticity diagram")
                 $( "div#std-params" ).show();
                 $( "div#input-params").hide();
                 $( "div.htmlWrapper").css("height", "600px");
