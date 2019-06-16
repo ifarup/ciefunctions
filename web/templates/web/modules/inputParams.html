@@ -4,8 +4,8 @@
             {% csrf_token %}
             <table class="paramTable">
                 <tr class="upperRow">
-                    <td class="text-right">Field size (&deg;)</td>
-                    <td class="text-right">
+                    <td class="text-right" style="min-width: 85px;">Field size (&deg;)</td>
+                    <td class="text-right" style="padding-left: 5px">
                         <input id="field_size" name="field_size" value="{{ field_size }}"/>
                     </td>
                     <td class="text-center">
@@ -13,8 +13,8 @@
                     </td>
 
 
-                    <td class="text-right">Age (yr)</td>
-                    <td class="text-right">
+                    <td class="text-right" style="min-width: 54px;" >Age (yr)</td>
+                    <td class="text-right" style="padding-left: 5px">
                         <input id="age" name="age" value="{{ age }}"/>
                     </td>
                     <td class="text-center">
@@ -23,8 +23,8 @@
 
 
 
-                    <td class="text-right">Domain (nm)</td>
-                    <td class="text-right">
+                    <td class="text-right" style="min-width: 90px;">Domain (nm)</td>
+                    <td class="text-right" style="padding-left: 5px">
                         <input id="lambda_min" name="lambda_min" value="{{ lambda_min }}"/>
                     </td>
                     <td class="text-center">
@@ -38,8 +38,8 @@
                     </td>
 
 
-                    <td class="text-right">Step (nm)</td>
-                    <td class="text-right">
+                    <td class="text-right" style="min-width: 70px;">Step (nm)</td>
+                    <td class="text-right" style="padding-left: 5px">
                         <input id="lambda_step" name="lambda_step" value="{{ lambda_step }}"/>
                     </td>
                     <td class="text-center">

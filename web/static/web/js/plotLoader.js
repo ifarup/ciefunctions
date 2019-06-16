@@ -5,17 +5,20 @@
 
 //Object to store all variants of a plot.
 var all_plots = [];
-var availablePlots = ['lms'];
-// var availablePlots = [ 	'lms',
-// 						'lms_base',
-// 						'bm',
-// 						'lm',
-// 						'xyz',
-// 						'xy',
-// 						'xyz_purples',
-// 						'xy_purples',
-// 						'xyz31',
-// 						'xy31' ];
+
+var availablePlots = [ 	'lms',
+						'lms_base',
+						'bm',
+						'lm',
+						'xyz',
+						'xy',
+						'xyz_purples',
+						'xy_purples',
+						'xyz31',
+						'xy31',
+					    'xyz64',
+    					'xy64',
+];
 						
 function Plot ( name ){
 	var plot_name = this.name = name;
@@ -44,7 +47,6 @@ for (i=0; i < availablePlots.length; i++){
 /* @TODO: Adjust position of ordinate label.*/
 
 $( document ).ready(function(){
-
 	/*var leftPos = -170;
 	$( ".y_label" ).css("left", leftPos); //Place the label at a distance from the middle of the containing div of the plot.*/
 	$( "#tabSys" ).width(620);

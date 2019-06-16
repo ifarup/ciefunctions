@@ -1,4 +1,3 @@
-{% load mathjax %}
 {% load staticfiles %}
 <html>
 	<head>
@@ -19,9 +18,9 @@
 		<script src="{% static 'web/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
 		<script src="{% static 'web/js/bootstrap.min.js' %}"></script><!-- Bootstrap 3.3.1 -->
 		<script src="{% static 'web/js/plotLoader.js' %}"></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 		
 		<!-- MathJax -->
-    	{% mathjax_scripts %}
     	
 		<script>
 			//Namespace for current form_values
@@ -43,11 +42,12 @@
 			});
 			
 			//MathJax
+                /*
                 MathJax.Hub.Config({
                     jax: ["input/TeX","output/SVG"],
                     displayAlign: "left",
                     SVG: {
-                        scale: 100
+                        scale: 200
                     }
                 });
 
@@ -62,9 +62,11 @@
                 MathJax.Hub.Register.MessageHook("End", function (e) {
                     console.log(e);
                 });
+                 */
 		</script>
 	</head>
 	<body>
+
 	<div class="container-fluid">
 
 		<!-- CIE logo header -->
@@ -85,9 +87,6 @@
 						<!-- plot part -->
 						<!-- tabpanel -->
 						<div role="tabpanel">
-							<div id="helpButton">
-								<a class="btn btn-sm btn-default" href="#" role="button">&#9432;</a>
-							</div>
 							<!-- Tabs -->
 							<ul id="tabSys" class="nav nav-tabs" role="tablist">
 								<li role="presentation" class="active">
@@ -117,7 +116,7 @@
 								<div role="tabpanel" class="tab-pane" id="tablePanel">
 									{% include "web/modules/table.html" %}
 									<div id="getCsv-container">
-										<button id="getCsv">Save Table</button>
+										<button id="getCsv" data-toggle="tooltip" title="Coming soon" disabled>Save Table</button>
 									</div>
 								</div>
 								<div role="tabpanel" class="tab-pane" id="helpPanel">
