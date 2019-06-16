@@ -674,8 +674,8 @@ function showStandard( standard_plot ){
                 $( "select#field_size_year option[year=31]" ).attr("selected", "true");
 
                 $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
-                $( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
-                $( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1931-2" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
                 $( "#showLabels" ).attr("disabled", true).prev().addClass("disabled");
 
                 $( ".renormalised-divz" ).hide();
@@ -690,8 +690,8 @@ function showStandard( standard_plot ){
                 $( "select#field_size_year option[year=31]" ).attr("selected", "true");
 
                 $( "#showGrid" ).attr("disabled", false).prev().removeClass("disabled");
-                $( "#compare1931-2" ).attr("disabled", true).prev().addClass("disabled");
-                $( "#compare1964-10" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1931-2" ).attr("disabled", false).prev().removeClass("disabled");
+                $( "#compare1964-10" ).attr("disabled", true).prev().addClass("disabled");
                 $( "#showLabels" ).attr("disabled", false).prev().removeClass("disabled");
 
                 $( ".norm-div" ).hide();
