@@ -132,7 +132,7 @@ def get_plot(request, plot, grid, cie31, cie64, labels, norm, log10):
 		webapi.plot.xy(ax, plots, options)
 
 	elif plot == 'xyz_purples':
-		webapi.plot.xy_purples(ax, plots, options)
+		webapi.plot.xyz_purples(ax, plots, options)
 
 	elif plot == 'xy_purples':
 		webapi.plot.xy_purples(ax, plots, options)
