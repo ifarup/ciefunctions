@@ -188,6 +188,9 @@ def get_table(request, plot, norm, log10):
 	elif plot == 'xyz_purples':
 		return HttpResponse(mark_safe(webapi.table.xyz_purples(results, options, '')))
 
+	elif plot == 'xy_purples':
+		return HttpResponse(mark_safe(webapi.table.xyz_purples(results, options, '')))
+
 	elif plot == 'xy31':
 		return HttpResponse(mark_safe(webapi.table.xy31(results, options, '')))
 
