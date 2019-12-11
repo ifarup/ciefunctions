@@ -27,7 +27,6 @@ def xyz(axis, plots, options):
     list_to_ndarray(plots)
     return tc.XYZ(axis, plots, options)
 
-
 def xy(axis, plots, options):
     plots = plots.copy()
     list_to_ndarray(plots)

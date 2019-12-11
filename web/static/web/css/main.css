@@ -12,7 +12,7 @@
 
 /* App */
 
-div#std-params { 	margin-left: 10px;
+div#std-params {
 }
 
 div.velo {  position: absolute;
@@ -47,13 +47,16 @@ div#header img {	height: 55px;
 select#plot-select, select#modus-select { width: 100%; }
 
 div#plot-select-div {
+                    width: 80%;
 					display: inline-block;
 }
 
 div.htmlWrapper {	position: relative;
 					/*padding-left: 10;*/
-					height: 540px;
-					max-height: 565px;
+					/*height: 540px;
+					max-height: 565px;*/
+					min-height: 70vh;
+					/*max-height: 80vh;*/
 					width: auto;
 					overflow-y: auto;
 				}
@@ -120,6 +123,7 @@ div.norm-div {
 			/*max-width: 650px;*/
 /*			border: 1px solid lightGray;*/
 			white-space: no-wrap;
+	        margin-left: -15px;
 }
 
 

@@ -1,0 +1,42 @@
+<div class="figOptionCheckboxContainer">
+    <div id="plot-select-div">
+        <select id="plot-select" class="ui-widget ui-widget-content">
+            <option plot="lms">CIE LMS cone fundamentals</option><!-- logarithmic -->
+            <option plot="lms_base">CIE LMS cone fundamentals (9 sign. figs.)</option><!-- logarithmic -->
+
+            <option plot="bm">MacLeod&ndash;Boynton ls chomaticity diagram</option>
+            <option plot="lm">Maxwellian lm chromaticity diagram</option><!-- renorm -->
+
+            <option plot="xyz">CIE XYZ cone-fundamental-based tristimulus functions</option><!-- renorm -->
+            <option plot="xy">CIE xy cone-fundamental-based chromaticity diagram</option><!-- renorm -->
+
+            <option plot="xyz_purples">XYZ cone-fundamental-based tristimulus functions for purple-line stimuli</option><!-- renorm -->
+            <option plot="xy_purples">xy cone-fundamental-based chromaticity diagram (purple-line stimuli)</option><!-- renorm -->
+
+            <option plot="xyz31">CIE XYZ standard colour-matching functions</option><!-- or xyz61 depending on the field size -->
+            <option plot="xy31">CIE xy standard chromaticity diagram</option><!-- or xy61 depending on the field size -->
+        </select>
+    </div><!-- end #plot-select -->
+</div>
+
+
+
+
+<!--
+
+CIE LMS cone fundamentals                                                   | LMS           | LMS           | LMS
+CIE LMS cone fundamentals (9 sign. figs.)                                   | LMS_base      | LMS_base      | LMS_base
+
+MacLeod Boynton ls chromaticity diagram                                     | ls_mb         | lms_mb        | lms_mb
+Maxwellian lm chromaticity diagram                                          | lm_mw         | lms_mw        | lms_mw
+
+CIE XYZ cone-fundamental-based tristimulus functions                        | XYZ           | XYZ           | XYZ
+CIE xy cone-fundamental-based chromaticity diagram                          | xy            | xyz           | xyz
+
+XYZ cone-fundamental-based tristimulus functions for purple-line stimuli    | XYZ_purples   | XYZ_purples   | XYZ_purples
+xy cone-fundamental-based chromaticity diagram (purple-line stimuli)        | xy_purples    | xyz_purples   | xyz_purples
+
+CIE XYZ standard colour-matching functions                                  | XYZ31 / XYZ64 | XYZ31 / XYZ64 | XYZ31 / XYZ64 (avhengig av valg)
+CIE xy standard chromaticity diagram                                        | xy31 / xy64   | xyz31 / xyz64 | xyz31 / xyz64 (avhengig av valg)
+
+-->

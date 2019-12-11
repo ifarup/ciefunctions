@@ -5,6 +5,9 @@
 			}
 
 /* App */
+body {
+	background-color: #333;
+}
 
 div#std-params { 	margin-left: 10px;
 }
@@ -14,8 +17,8 @@ div.velo {  position: absolute;
 			z-index: 50;
 			width: 100%;
 			height: 100%;
-			background-color: white;
-			opacity: 0.8;
+			/*background-color: white;*/
+			opacity: 0;
 			background-image: url('../img/spinner-blue.gif');
 			background-repeat:no-repeat;
 			background-position:center center;
@@ -76,8 +79,8 @@ button#getCsv { margin: 5px auto auto auto; }
 
 div.htmlWrapper {	/*position: relative; */
 					padding-left: 10;
-					height: 540px;
-					max-height: 565px;
+					/*height: 540px;
+					max-height: 565px;*/
 					width: auto;
 					overflow-y: auto;
 				}
@@ -205,7 +208,7 @@ div.table table th {
 						color: white;
 }
 
-div.table table tr:nth-child(even){ background-color: lightSteelBlue; } 	
+div.table table tr:nth-child(even){ background-color: white; }
 		
 div.table table td { 		padding: 0px 10px 0px 10px;
 							text-align: center;
@@ -223,7 +226,7 @@ div.table th:first-of-type { 	width: 100px;
 
 
 .tableWrapper { box-sizing: border-box;
-				height: 519px; /* Size of figure is fixed, so I adjust this to the figure */
+				/*height: 519px; /* Size of figure is fixed, so I adjust this to the figure */
 				overflow-y: scroll;
 				border: 1px solid #d5d5d5;
 				border-top: none;
@@ -281,6 +284,7 @@ div.html_text .matrix:after {
 body{
 		font: 80% "Trebuchet MS", sans-serif;
 		margin: 0px;
+		background-color: #333;
 	}
 	.demoHeaders {
 		margin-top: 2em;

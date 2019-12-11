@@ -1,15 +1,17 @@
 # Create your views here.
 from __future__ import absolute_import
-import tc1_97 as tc # the base package, includes the computational part
-import tc1_97.plot # if you want to do the plots as well
-import tc1_97.description # if you want to generate the html descriptions
-import tc1_97.table # For the tables
+
+# Web API
+import webapi.plot
+import webapi.description
+import webapi.table
+import webapi.utils
+import webapi.compute
+
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
 
-from mpld3 import plugins
 import matplotlib as mpl
 mpl.use("AGG")
 import matplotlib.pyplot as plt
@@ -19,33 +21,24 @@ from django.utils.safestring import mark_safe
 import numpy as np
 from io import StringIO
 
-from web.models import Result, Plot
-from django.shortcuts import get_object_or_404
-
-import codecs
-#import json
-from json_tricks import dump, dumps, load, loads, strip_comments
-
-
-
 import logging
 log = logging.getLogger(__name__)
 
 import time
 from time import gmtime, strftime
-import timeit
 
 #Global options for plot, table & description. Contains defaults.
 
-options = { 	'grid' 			: 0,
-				'full_title'	: False,
-            	'cie31' 		: 0,
-            	'cie64' 		: 0,
-            	'labels' 		: 0,
-            	'axis_labels'	: False,
+options = { 	'grid' 			 : 0,
+				'full_title'	 : True,
+            	'cie31' 		 : 0,
+            	'cie64' 		 : 0,
+            	'labels' 		 : 0,
+            	'axis_labels'	 : False,
             	'label_fontsize' : 12,
-            	'norm'			: False,
-            	'title_fontsize' : 13
+            	'norm'			 : False,
+            	'title_fontsize' : 13,
+			    'log10'          : False
 }
 
 def updateOptions(optionSet):
@@ -53,7 +46,7 @@ def updateOptions(optionSet):
 	try: options['grid'] = optionSet['grid']
 	except: pass
 	
-	try: options['full_title'] = optionSet['full_title']
+	try: options['full_title'] = bool(optionSet['full_title'])
 	except: pass
 	
 	try: options['cie31'] = optionSet['cie31']
@@ -65,13 +58,16 @@ def updateOptions(optionSet):
 	try: options['labels'] = optionSet['labels']
 	except: pass
 	
-	try: options['axis_labels'] = optionSet['axis_labels']
+	try: options['axis_labels'] = bool(optionSet['axis_labels'])
 	except: pass
 	
 	try: options['label_fontsize'] = optionSet['label_fontsize']
 	except: pass
 	
 	try: options['norm'] = bool(optionSet['norm'])
+	except: pass
+
+	try: options['log10'] = bool(optionSet['log10'])
 	except: pass
 
 	return
@@ -85,17 +81,17 @@ def get_filename_params(request):
 	
 	age 			= str(int(results['age']))
 	field_size 		= str(results['field_size'].replace(".", "_"))
-	lambda_min 		= str(results['lambda_min'].replace(".", "_"))
-	lambda_max 		= str(results['lambda_max'].replace(".", "_"))
-	lambda_step 	= str(results['lambda_step'].replace(".","_"))
+	lambda_min 		= str(results['λ_min'].replace(".", "_"))
+	lambda_max 		= str(results['λ_max'].replace(".", "_"))
+	lambda_step 	= str(results['λ_step'].replace(".","_"))
 	
 	filename_params = 	"___fs" +  field_size + "___age" + age + "___range" + lambda_min + "__" + lambda_max + "___step" + lambda_step
 
 	return filename_params
 
-def get_plot(request, plot, grid, cie31, cie64, labels, norm):
+def get_plot(request, plot, grid, cie31, cie64, labels, norm, log10):
 	start = time.time()
-	log.debug("[%s] Requesting %s/%s/%s/%s/%s/%s - \t\tsID: %s" % (time_now(), plot, grid, cie31, cie64, labels, norm, request.session.session_key))
+	log.debug("[%s] Requesting %s/%s/%s/%s/%s/%s/%s - \t\tsID: %s" % (time_now(), plot, grid, cie31, cie64, labels, norm, log10, request.session.session_key))
 
 	#Figure
 	fig = plt.figure()
@@ -111,131 +107,154 @@ def get_plot(request, plot, grid, cie31, cie64, labels, norm):
             		'cie31' 			: int(cie31),
             		'cie64' 			: int(cie64),
             		'labels' 			: int(labels),
-            		'norm'				: bool(int(norm)),   	
+            		'norm'				: bool(int(norm)),
+					'log10'				: bool(int(log10))
     }
     
 	updateOptions(optionSet)
-    
-	if (plot == 'xyz'):
-		tc1_97.plot.xyz(ax, plots, options)
-		
-	elif (plot == 'xy'):
-		tc1_97.plot.xy(ax, plots, options)
-	
-	elif (plot == 'lms'):
-		tc1_97.plot.lms(ax, plots, options)
-	
-	elif (plot == 'lms_base'):
-		tc1_97.plot.lms_base(ax, plots, options)
-	
-	elif (plot == 'bm'):
-		tc1_97.plot.bm(ax, plots, options)
-	
-	elif (plot == 'lm'):
-		tc1_97.plot.lm(ax, plots, options)
-	
-	elif (plot == 'xyz31'):
-		tc1_97.plot.xyz31(ax, plots, options)
 
-	elif (plot == 'xyz64'):
-		tc1_97.plot.xyz64(ax, plots, options)
+	if plot == 'lms':
+		webapi.plot.lms(ax, plots, options)
 	
-	elif (plot == 'xy31'):
-		tc1_97.plot.xy31(ax, plots, options)
+	elif plot == 'lms_base':
+		webapi.plot.lms_base(ax, plots, options)
+	
+	elif plot == 'bm':
+		webapi.plot.bm(ax, plots, options)
+	
+	elif plot == 'lm':
+		webapi.plot.lm(ax, plots, options)
 
-	elif (plot == 'xy64'):
-		tc1_97.plot.xy64(ax, plots, options)
+	elif plot == 'xyz':
+		webapi.plot.xyz(ax, plots, options)
 	
-	theFig = mark_safe(mpld3.fig_to_html(fig, template_type='general'))
-	resulting_plot = theFig;
+	elif plot == 'xy':
+		webapi.plot.xy(ax, plots, options)
+
+	elif plot == 'xyz_purples':
+		webapi.plot.xyz_purples(ax, plots, options)
+
+	elif plot == 'xy_purples':
+		webapi.plot.xy_purples(ax, plots, options)
+
+	elif plot == 'xyz31':
+		webapi.plot.xyz31(ax, plots, options)
+
+	elif plot == 'xyz64':
+		webapi.plot.xyz64(ax, plots, options)
+	
+	elif plot == 'xy31':
+		webapi.plot.xy31(ax, plots, options)
+
+	elif plot == 'xy64':
+		webapi.plot.xy64(ax, plots, options)
+
+	htmlFig = mpld3.fig_to_html(fig, template_type='general')
+	theFig = mark_safe(htmlFig)
+	resulting_plot = theFig
 	plt.close(fig)
 	stop = time.time()
-	log.debug("[%s] Plot %s/%s/%s/%s/%s produced in %s seconds - \t\tsID: %s" % ( time_now(), plot,  grid, cie31, cie64, labels, str(stop - start), request.session.session_key))
-	return HttpResponse(resulting_plot);
+	log.debug("[%s] Plot %s/%s/%s/%s/%s/%s/%s produced in %s seconds - \t\tsID: %s" % ( time_now(), plot,  grid, cie31, cie64, labels, norm, log10, str(stop - start), request.session.session_key))
+	print("[%s] Plot %s/%s/%s/%s/%s/%s/%s produced in %s seconds - \t\tsID: %s" % ( time_now(), plot,  grid, cie31, cie64, labels, norm, log10, str(stop - start), request.session.session_key))
+	return HttpResponse(resulting_plot)
 
-def get_table(request, plot, norm):
+def get_table(request, plot, norm, log10):
 	results = request.session['results']
 
-	optionSet = {		'norm'				: bool(int(norm))}
+	optionSet = {		'norm'				: bool(int(norm)),
+						'log10'				: bool(int(log10))
+				}
     
 	updateOptions(optionSet)
-	
-	if (plot == 'xyz'):
-		return HttpResponse(mark_safe(tc1_97.table.xyz(results, options, '')))
 
-	elif (plot == 'xy'):
-		return HttpResponse(mark_safe(tc1_97.table.xy(results, options, '')))
+	if plot == 'lms':
+		return HttpResponse(mark_safe(webapi.table.lms(results, options, '')))
+
+	elif plot == 'lms_base':
+		return HttpResponse(mark_safe(webapi.table.lms_base(results, options, '')))
+
+	elif plot == 'bm':
+		return HttpResponse(mark_safe(webapi.table.bm(results, options, '')))
+
+	elif plot == 'lm':
+		return HttpResponse(mark_safe(webapi.table.lm(results, options, '')))
+
+	elif plot == 'xyz':
+		return HttpResponse(mark_safe(webapi.table.xyz(results, options, '')))
+
+	elif plot == 'xy':
+		return HttpResponse(mark_safe(webapi.table.xy(results, options, '')))
 	
-	elif (plot == 'lms'):
-		return HttpResponse(mark_safe(tc1_97.table.lms(results, options, '')))
-	
-	elif (plot == 'lms_base'):
-		return HttpResponse(mark_safe(tc1_97.table.lms_base(results, options, '')))
-	
-	elif (plot == 'bm'):
-		return HttpResponse(mark_safe(tc1_97.table.bm(results, options, '')))
-	
-	elif (plot == 'lm'):
-		return HttpResponse(mark_safe(tc1_97.table.lm(results, options, '')))
-	
-	elif (plot == 'xyz31'):
-		return HttpResponse(mark_safe(tc1_97.table.xyz31(results, options, '')))
-	
-	elif (plot == 'xyz64'):
-		return HttpResponse(mark_safe(tc1_97.table.xyz64(results, options, '')))
+	elif plot == 'xyz_purples':
+		return HttpResponse(mark_safe(webapi.table.xyz_purples(results, options, '')))
+
+	elif plot == 'xy_purples':
+		return HttpResponse(mark_safe(webapi.table.xyz_purples(results, options, '')))
+
+	elif plot == 'xy31':
+		return HttpResponse(mark_safe(webapi.table.xy31(results, options, '')))
+
+	elif plot == 'xyz31':
+		return HttpResponse(mark_safe(webapi.table.xyz31(results, options, '')))
+
+	elif plot == 'xyz64':
+		return HttpResponse(mark_safe(webapi.table.xyz64(results, options, '')))
+
+	elif plot == 'xy64':
+		return HttpResponse(mark_safe(webapi.table.xy64(results, options, '')))
 		
-	elif (plot == 'xy31'):
-		return HttpResponse(mark_safe(tc1_97.table.xy31(results, options, '')))
+	else:
+		return HttpResponse('No table for plot %s' % plot)
 
-	elif (plot == 'xy64'):
-		return HttpResponse(mark_safe(tc1_97.table.xy64(results, options, '')))
+
+def get_description(request, plot, norm, log10):
+	results = request.session['results']
+	
+	optionSet = {		'norm'				: bool(int(norm)),
+						'log10'				: bool(int(log10))
+				}
+    
+	updateOptions(optionSet)
+
+	if plot == 'lms':
+		return HttpResponse(mark_safe(webapi.description.lms(results, '', options, '')))
+
+	elif plot == 'lms_base':
+		return HttpResponse(mark_safe(webapi.description.lms_base(results, '', options, '')))
+
+	elif plot == 'bm':
+		return HttpResponse(mark_safe(webapi.description.bm(results, '', options, '')))
+
+	elif plot == 'lm':
+		return HttpResponse(mark_safe(webapi.description.lm(results, '', options, '')))
+
+	elif plot == 'xyz':
+		return HttpResponse(mark_safe(webapi.description.xyz(results, '', options, '')))
+
+	elif plot == 'xy':
+		return HttpResponse(mark_safe(webapi.description.xy(results, '', options, '')))
+
+	elif plot == 'xyz_purples':
+		return HttpResponse(mark_safe(webapi.description.xyz_purples(results, '', options, '')))
+	
+	elif plot == 'xy_purples':
+		return HttpResponse(mark_safe(webapi.description.xy_purples(results, '', options, '')))
+	
+	elif plot == 'xyz31':
+		return HttpResponse(mark_safe(webapi.description.xyz31(results, '', options, '')))
+
+	elif plot == 'xyz64':
+		return HttpResponse(mark_safe(webapi.description.xyz64(results, '', options, '')))
+		
+	elif plot == 'xy31':
+		return HttpResponse(mark_safe(webapi.description.xy31(results, '', options, '')))
+
+	elif plot == 'xy64':
+		return HttpResponse(mark_safe(webapi.description.xy64(results, '', options, '')))
 		
 	else:
 		return HttpResponse('No description for plot %s' % plot)
 
-	return HttpResponse('Table %s' % plot)
-	
-
-def get_description(request, plot, norm):
-	results = request.session['results']
-	
-	optionSet = {		'norm'				: bool(int(norm))}
-    
-	updateOptions(optionSet)
-
-	if (plot == 'xyz'):
-		return HttpResponse(mark_safe(tc1_97.description.xyz(results, '', options, '')))
-
-	elif (plot == 'xy'):
-		return HttpResponse(mark_safe(tc1_97.description.xy(results, '', options, '')))
-	
-	elif (plot == 'lms'):
-		return HttpResponse(mark_safe(tc1_97.description.lms(results, '', options, '')))
-	
-	elif (plot == 'lms_base'):
-		return HttpResponse(mark_safe(tc1_97.description.lms_base(results, '', options, '')))
-	
-	elif (plot == 'bm'):
-		return HttpResponse(mark_safe(tc1_97.description.bm(results, '', options, '')))
-	
-	elif (plot == 'lm'):
-		return HttpResponse(mark_safe(tc1_97.description.lm(results, '', options, '')))
-	
-	elif (plot == 'xyz31'):
-		return HttpResponse(mark_safe(tc1_97.description.xyz31(results, '', options, '')))
-	
-	elif (plot == 'xyz64'):
-		return HttpResponse(mark_safe(tc1_97.description.xyz64(results, '', options, '')))
-		
-	elif (plot == 'xy31'):
-		return HttpResponse(mark_safe(tc1_97.description.xy31(results, '', options, '')))
-		return HttpResponse(mark_safe(tc1_97.description.xy31(results, '', options, '')))
-
-	elif (plot == 'xy64'):
-		return HttpResponse(mark_safe(tc1_97.description.xy64(results, '', options, '')))
-		
-	else:
-		return HttpResponse('No description for plot %s' % plot)
 
 def get_csv(request, plot):
 
@@ -249,19 +268,32 @@ def get_csv(request, plot):
 			   	'lms_base'		: '%.1f, %.8e, %.8e, %.8e',
 			   	'bm'			: '%.1f, %.6f, %.6f, %.6f',
 			   	'lm'			: '%.1f, %.6f, %.6f, %.6f',
-			   	'cc'			: '%.1f, %.5f, %.5f, %.5f'
+			   	'cc'			: '%.1f, %.5f, %.5f, %.5f',
+
+				'xyz_purples'   : '%.1f, %.5f, %.5f, %.5f',
+				'xy_purples'   : '%.1f, %.5f, %.5f, %.5f'
 	}
 
-	plot_name = {	'xyz' 			: 'xyz',
+	plot_name = {
+					'lms' 			: 'lms',
+					'lms_base'		: 'lms_9figs',
+
+					'bm'			: 'ls_mb',
+					'lm'			: 'lm',
+
+					'xyz' 			: 'xyz',
+					'xy'			: 'xy',
+
+					'xyz_purples'	: 'xyz_purples',
+					'xy_purples'    : 'xy_purples',
+
 					'xyz31' 		: 'xyz31',
 					'xyz64' 		: 'xyz64',
-					'xy'			: 'xy',
+
 					'xy31'			: 'xy31',
 					'xy64'			: 'xy64',
-			   		'lms' 			: 'lms',
-			   		'lms_base'		: 'lms_9figs',
-			   		'bm'			: 'ls_mb',
-			   		'lm'			: 'lm',
+
+
 			   		'cc'			: 'cc'
 	}
 
@@ -273,72 +305,29 @@ def get_csv(request, plot):
 	response = HttpResponse(output.getvalue(), mimetype='text/csv')
 	response['Content-Disposition'] = 'attachment; filename = "%s"' % filename
 	return response
-	
+
 def compute(request, field_size, age, lambda_min, lambda_max, lambda_step):
-# The values here are sanitized on the client side, so we can trust them.
-	start 		= 	time.time()
-	field_size 	= 	float(field_size)
-	age			= 	float(age)
-	lambda_min	=	float(lambda_min)
-	lambda_max	=	float(lambda_max)
-	lambda_step	=	float(lambda_step)
-	
-#	try:
-#		serialized_test_results = Result.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
-#		test_results = json.loads(serialized_test_results.tolist())
-#		request.session['results'] = test_results.get_data().tolist()
-#		results = test_results.get_data().tolist()
-#	
-#		serialized_test_plots = Plot.objects.get(field_size=field_size, age=age, lambda_min=lambda_min, lambda_max=lambda_max, lambda_step=lambda_step)
-#		test_plot = serializers.loads(serialized_test_plots.tolist())
-#		request.session['plots'] = test_plots.get_data().tolist()
-#		plots = test_plots.get_data().tolist()
-#		
-#	except Exception as e:
-#		print("1st try %s") % e
-#		print("Computing ...")
-#		log.debug("[%s] Computing -> Age: %s, f_size: %s, l_min: %s, l_max: %s, l_step: %s, sID: %s"
-#				% ( time_now(), age, field_size, lambda_min, lambda_max, lambda_step, request.session.session_key))
-#		results, plots = tc1_97.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
-#		request.session['results'] = results
-#		request.session['plots'] = plots
-#		
-#		try:
-#			#serialized_results = json.dumps(results.tolist())
-#            serialized_results = json.dumps("")
-#			#new_result = Result( 	field_size=field_size, 
-#			#						age=age, 
-#			#						lambda_min=lambda_min, 
-#			#						lambda_max=lambda_max, 
-#			#						lambda_step=lambda_step, 
-#			#						data=serialized_results )
-#			#new_result.save()
-#		except Exception as e:
-#			print("Can't serialize results: %s") % e
-#			
-#		try:
-#			serialized_plots = json.dumps(plots.tolist())
-#			#new_plot = Plot ( 	field_size=field_size,
-#			#					age=age, 
-#			#					lambda_min=lambda_min, 
-#			#					lambda_max=lambda_max, 
-#			#					lambda_step=lambda_step, 
-#			#					data=plots )
-#			#new_plot.save()
-#		except Exception as e:
-#			#print "Can't serialize plots: %s" % e
-#			print(e)
-			
-	stop = time.time()
-	log.debug("[%s] Compute performed in %s seconds - sID: %s" % ( time_now(), str(stop - start), request.session.session_key))
-	
-	return HttpResponse('Calculate fields updated')
+    start      = time.time()
+    field_size = float(field_size)
+    age        = float(age)
+    lambda_min = float(lambda_min)
+    lambda_max = float(lambda_max)
+    lambda_step= float(lambda_step)
+
+    print('compute')
+
+    request.session['results'], request.session['plots'] = webapi.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
+    print('done')
+    stop = time.time()
+    log.debug("[%s] Compute performed in %s seconds - sID: %s" % ( time_now(), str(stop - start), request.session.session_key))
+
+    return HttpResponse('Calculate fields updated')
+
 
 def home(request):
 
 	log.info("[%s] New request. sessionId: %s" % (time_now(), request.session.session_key))
 	log.info("[%s] User Agent: %s" % (time_now(), request.META['HTTP_USER_AGENT']))
-	#log.info("[%s] Remote Host (ip): %s (%s)" % (time_now(), request.META['REMOTE_HOST'], request.META['REMOTE_ADDR']))
 
 	try:
 		field_size = float(request.POST["field_size"])
@@ -351,8 +340,7 @@ def home(request):
 		
 	except:
 		age = 32
-		
-	
+
 	try:
 		lambda_min = float(request.POST["lambda_min"])
 		
@@ -364,8 +352,7 @@ def home(request):
 		
 	except:
 		lambda_max = 830.0
-		
-	
+
 	try:
 		lambda_step = float(request.POST["lambda_step"])
 		
@@ -378,7 +365,7 @@ def home(request):
 
 	#Call an initial compute
 	start = time.time()
-	request.session['results'], request.session['plots'] = tc1_97.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
+	request.session['results'], request.session['plots'] = webapi.compute_tabulated(field_size, age, lambda_min, lambda_max, lambda_step)
 	stop = time.time()
 	log.debug("[%s] Initial compute performed in %s seconds - \tsID: %s" % ( time_now(), str(stop - start), request.session.session_key))
 	
