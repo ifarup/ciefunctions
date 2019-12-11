@@ -591,6 +591,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.transformation.setHtml(html_string, baseUrl=base_url)
             self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()
+        return
 
     def on_draw_plot_only(self):
         self.on_draw(False)

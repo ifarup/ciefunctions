@@ -67,7 +67,7 @@ def LMS(axes, plots, options):
             axes.set_ylabel('Relative energy sensitivities', fontsize=10.5)
         
     if options['full_title']:
-        title = ('CIE 2006 LMS cone fundamentals\n' + 
+        title = (u'CIE 2006 LMS cone fundamentals\u000a' +
                 'Field size: %s''' % plots['field_size'] + 
                 u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + 
                 u' yr,  Domain: %s nm \u2013 %s nm' % 
