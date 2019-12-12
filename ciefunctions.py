@@ -696,7 +696,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         self.age_spin = QtWidgets.QSpinBox()
         self.age_spin.setMinimum(20)
-        self.age_spin.setMaximum(70)
+        self.age_spin.setMaximum(80)
         self.age_spin.setValue(32)
 
         self.lambda_min_spin = QtWidgets.QDoubleSpinBox()
