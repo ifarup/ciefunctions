@@ -732,9 +732,9 @@ def square_sum(a13, a21, a22, a33, L_spline, M_spline, S_spline, V_spline,
 def tangent_points_purple_line(chrom_coords_λ, MacLeod_Boynton=False,
                                tristimulus_λ=None,):
     """
-    Compute the the chromaticity coordinates and, optionally, also the
+    Compute the chromaticity coordinates and, optionally, also the
     tristimulus values of the stimuli represented at the purple line's
-    point of tangency with the spectrum locus.
+    points of tangency with the spectrum locus.
 
     Parameters
     ----------
@@ -752,11 +752,11 @@ def tangent_points_purple_line(chrom_coords_λ, MacLeod_Boynton=False,
     -------
     cc_tg_purple : ndarray
         The computed chromaticity coordinates of the stimuli represented
-        at the purple line's point of tangency with the spectrum locus;
+        at the purple line's points of tangency with the spectrum locus;
         corresponding wavelengths in first column.
     tristim_tg_purple : ndarray
         The computed tristimulus values of the stimuli represented
-        at the purple line's point of tangency with the spectrum locus;
+        at the purple line's points of tangency with the spectrum locus;
         corresponding wavelengths in first column.
     """
     cc = chrom_coords_λ
@@ -915,7 +915,7 @@ def compute_MacLeod_Boynton_diagram(LMS_spec, LMS_plot, LMS_all,
     """
     Compute the MacLeod‒Boynton chromaticity cooordinates for the spectral
     stimuli, Illuminant E and the stimuli represented at the purple line's
-    point of tangency with the spectrum locus.
+    points of tangency with the spectrum locus.
 
     Parameters
     ----------
@@ -1314,7 +1314,7 @@ def compute_xy_diagram(XYZ_spec, XYZ_plot, XYZ_spec_N, XYZ_plot_N):
         locus; wavelengths in first column (for plot).
     XYZ_tg_purple_plot_N : ndarray
         The renormalized CIE cone-fundamental-based XYZ tristimulus values at
-        the purple line's points of tangency with the spectrun locus (non-
+        the purple line's points of tangency with the spectrum locus (non-
         rounded values); wavelengths in first column (for further calculation).
     """
     # '_spec' : values given at specified wavelengths
