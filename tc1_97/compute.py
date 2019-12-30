@@ -185,8 +185,8 @@ def docul_fine(ocular_sum_32, docul2):
     docul2_pad[:, 0] = np.arange(460, 835, 5)  # fill
     docul2_pad[:, 1] = 0                       # fill
     docul2 = np.concatenate((docul2, docul2_pad))
-    spl = scipy.interpolate.InterpolatedUnivariateSpline(docul2[:, 0],
-                                                         docul2[:, 1])
+    spl = scipy.interpolate.interp1d(docul2[:, 0],docul2[:, 1], kind='cubic')
+    
     docul2_fine = ocular_sum_32.copy()
     docul2_fine[:, 1] = spl(ocular_sum_32[:, 0])
     docul1_fine = ocular_sum_32.copy()
