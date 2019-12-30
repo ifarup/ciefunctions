@@ -185,8 +185,7 @@ def docul_fine(ocular_sum_32, docul2):
     docul2_pad[:, 0] = np.arange(460, 835, 5)  # fill
     docul2_pad[:, 1] = 0                       # fill
     docul2 = np.concatenate((docul2, docul2_pad))
-    spl = scipy.interpolate.InterpolatedUnivariateSpline(docul2[:, 0],
-                                                         docul2[:, 1])
+    spl = scipy.interpolate.interp1d(docul2[:, 0], docul2[:, 1], kind='cubic')
     docul2_fine = ocular_sum_32.copy()
     docul2_fine[:, 1] = spl(ocular_sum_32[:, 0])
     docul1_fine = ocular_sum_32.copy()
@@ -529,7 +528,7 @@ def relative_L_cone_weight_Vλ_quantal(field_size, age, strategy_2=True):
 def Vλ_energy_and_LM_weights(field_size, age):
     """
     Compute the energy-based V(λ) function (starting from energy-based LMS).
-    Return both V(λ) and the the corresponding L and M cone weights used
+    Return both V(λ) and the corresponding L and M cone weights used
     in the synthesis.
 
     Parameters
@@ -657,8 +656,7 @@ def square_sum(a13, a21, a22, a33, L_spline, M_spline, S_spline, V_spline,
         1x1 array with parameter to optimise.
     a21, a22, a33 : float
         Parameters in matrix for LMS to XYZ conversion.
-    L_spline, M_spline, S_spline, V_spline: InterPolatedUnivariateSpline
-        LMS and V(λ).
+    L_spline, M_spline, S_spline, V_spline: interp1d LMS and V(λ).
     λ : ndarray
         λ values according to chosen step size.
     λ_ref_min : float
@@ -732,9 +730,9 @@ def square_sum(a13, a21, a22, a33, L_spline, M_spline, S_spline, V_spline,
 def tangent_points_purple_line(chrom_coords_λ, MacLeod_Boynton=False,
                                tristimulus_λ=None,):
     """
-    Compute the the chromaticity coordinates and, optionally, also the
+    Compute the chromaticity coordinates and, optionally, also the
     tristimulus values of the stimuli represented at the purple line's
-    point of tangency with the spectrum locus.
+    points of tangency with the spectrum locus.
 
     Parameters
     ----------
@@ -752,11 +750,11 @@ def tangent_points_purple_line(chrom_coords_λ, MacLeod_Boynton=False,
     -------
     cc_tg_purple : ndarray
         The computed chromaticity coordinates of the stimuli represented
-        at the purple line's point of tangency with the spectrum locus;
+        at the purple line's points of tangency with the spectrum locus;
         corresponding wavelengths in first column.
     tristim_tg_purple : ndarray
         The computed tristimulus values of the stimuli represented
-        at the purple line's point of tangency with the spectrum locus;
+        at the purple line's points of tangency with the spectrum locus;
         corresponding wavelengths in first column.
     """
     cc = chrom_coords_λ
@@ -915,7 +913,7 @@ def compute_MacLeod_Boynton_diagram(LMS_spec, LMS_plot, LMS_all,
     """
     Compute the MacLeod‒Boynton chromaticity cooordinates for the spectral
     stimuli, Illuminant E and the stimuli represented at the purple line's
-    point of tangency with the spectrum locus.
+    points of tangency with the spectrum locus.
 
     Parameters
     ----------
@@ -1567,18 +1565,12 @@ def compute_CIE_standard_XYZ(XYZ31_standard, XYZ64_standard):
     (λ_main, X31_main, Y31_main, Z31_main) = XYZ31_standard.T
     (X64_main, Y64_main, Z64_main) = (XYZ64_standard.T)[1:]
     # Create spline functions
-    X31_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_main, X31_main)
-    Y31_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_main, Y31_main)
-    Z31_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_main, Z31_main)
-    X64_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_main, X64_main)
-    Y64_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_main, Y64_main)
-    Z64_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_main, Z64_main)
+    X31_spline = scipy.interpolate.interp1d(λ_main, X31_main, kind='cubic')
+    Y31_spline = scipy.interpolate.interp1d(λ_main, Y31_main, kind='cubic')
+    Z31_spline = scipy.interpolate.interp1d(λ_main, Z31_main, kind='cubic')
+    X64_spline = scipy.interpolate.interp1d(λ_main, X64_main, kind='cubic')
+    Y64_spline = scipy.interpolate.interp1d(λ_main, Y64_main, kind='cubic')
+    Z64_spline = scipy.interpolate.interp1d(λ_main, Z64_main, kind='cubic')
     λ_plot = my_round(np.arange(360., 830. + .1, .1), 1)
     # Compute plot points for colour-matching functions
     XYZ31_plot = np.array([λ_plot,
@@ -1781,23 +1773,16 @@ def compute_tabulated(field_size, age, λ_min=390, λ_max=830, λ_step=1):
 
     # base:
     (λ_all, L_base_all, M_base_all, S_base_all) = LMS_base_all.T
-    L_base_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_all, L_base_all)
-    M_base_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_all, M_base_all)
-    S_base_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_all, S_base_all)
+    L_base_spline = scipy.interpolate.interp1d(λ_all, L_base_all, kind='cubic')
+    M_base_spline = scipy.interpolate.interp1d(λ_all, M_base_all, kind='cubic')
+    S_base_spline = scipy.interpolate.interp1d(λ_all, S_base_all, kind='cubic')
     # std:
     (λ_all, L_std_all, M_std_all, S_std_all) = LMS_std_all.T
     (λ_all, V_std_all) = Vλ_std_all.T
-    L_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_all, L_std_all)
-    M_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_all, M_std_all)
-    S_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_all, S_std_all)
-    V_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(
-        λ_all, V_std_all)
+    L_std_spline = scipy.interpolate.interp1d(λ_all, L_std_all, kind='cubic')
+    M_std_spline = scipy.interpolate.interp1d(λ_all, M_std_all, kind='cubic')
+    S_std_spline = scipy.interpolate.interp1d(λ_all, S_std_all, kind='cubic')
+    V_std_spline = scipy.interpolate.interp1d(λ_all, V_std_all, kind='cubic')
 
     # =======================================================================
     # Compute the cone-fundamental-based spectral luminous efficiency
