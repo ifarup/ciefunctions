@@ -2,7 +2,7 @@
 
 Python module, GUI app, and web app for computing the CIE TC1-97 colorimetric functions.
 
-# Installation with python
+## Installation with python
 
 On all platforms with python3 installed, CIE Functions can be installed and launched with
 ```console
@@ -10,18 +10,18 @@ $ pip install ciefunctions
 $ ciefunctions.py
 ```
 
-# Installation from binaries
+## Installation from binaries
 
 The binaries are available with the releases from https://github.com/ifarup/ciefunctions/releases
 
-## Windows
+### Windows
 
 For windows, there are to alternatives.
 
 * Download and execute the installer, e.g., `ciefunctions_vX.X.X_windows_XX_installer.exe`, and follow the instructions. This will install the application on your system, in the start menu etc.
 * Or, if you don't want it integrated in the system, download and unpack the zip file, e.g., `ciefunctions_vX.X.X_windows_XX.zip` and launch it by double clicking the ciefunctions exe file.
 
-## Linux
+### Linux
 
 * Download the binary file matching your system, e.g., `ciefunctions_vX.X.X_ubuntu_XX.XX`
 * Make it executable either through the file manager GUI or by `chmod +x ciefunctions_vX.X.X_ubuntu_XX.XX`
