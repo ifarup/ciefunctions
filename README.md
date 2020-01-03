@@ -12,9 +12,11 @@ $ ciefunctions.py
 
 # Installation from binaries
 
+The binaries are available with the releases from https://github.com/ifarup/ciefunctions/releases
+
 ## Windows
 
-For windows, there are to alternative solutions.
+For windows, there are to alternatives.
 
 * Download and execute the installer, e.g., `ciefunctions_vX.X.X_windows_XX_installer.exe`, and follow the instructions. This will install the application on your system, in the start menu etc.
 * Or, if you don't want it integrated in the system, download and unpack the zip file, e.g., `ciefunctions_vX.X.X_windows_XX.zip` and launch it by double clicking the ciefunctions exe file.
