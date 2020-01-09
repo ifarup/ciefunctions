@@ -618,8 +618,8 @@ def xyz_interpolated_reference_system(field_size, XYZ31_std, XYZ64_std):
                        700.,
                        830.])
     # λ values
-    λ31_func = scipy.interpolate.InterpolatdUnivariateSpline(λ_knots, λ31_knots, k=1)
-    λ64_func = scipy.interpolate.InterpolatdUnivariateSpline(λ_knots, λ64_knots, k=1)
+    λ31_func = scipy.interpolate.InterpolatedUnivariateSpline(λ_knots, λ31_knots, k=1)
+    λ64_func = scipy.interpolate.InterpolatedUnivariateSpline(λ_knots, λ64_knots, k=1)
     λ31_interp = λ31_func(λ31)
     λ64_interp = λ64_func(λ64)
     # x values
