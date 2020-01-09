@@ -185,7 +185,7 @@ def docul_fine(ocular_sum_32, docul2):
     docul2_pad[:, 0] = np.arange(460, 835, 5)  # fill
     docul2_pad[:, 1] = 0                       # fill
     docul2 = np.concatenate((docul2, docul2_pad))
-    spl = scipy.interpolate.interp1d(docul2[:, 0], docul2[:, 1], kind='cubic')
+    spl = scipy.interpolate.InterpolatedUnivariateSpline(docul2[:, 0], docul2[:, 1])
     docul2_fine = ocular_sum_32.copy()
     docul2_fine[:, 1] = spl(ocular_sum_32[:, 0])
     docul1_fine = ocular_sum_32.copy()
@@ -623,14 +623,14 @@ def xyz_interpolated_reference_system(field_size, XYZ31_std, XYZ64_std):
     λ31_interp = λ31_func(λ31)
     λ64_interp = λ64_func(λ64)
     # x values
-    x31_func = scipy.interpolate.interp1d(λ31, x31, kind='cubic')
-    x64_func = scipy.interpolate.interp1d(λ64, x64, kind='cubic')
+    x31_func = scipy.interpolate.InterpolatedUnivariateSpline(λ31, x31)
+    x64_func = scipy.interpolate.InterpolatedUnivariateSpline(λ64, x64)
     x31_interp = x31_func(λ31_interp)
     x64_interp = x64_func(λ64_interp)
     x_values = (1-α) * x31_interp + α * x64_interp
     # y values
-    y31_func = scipy.interpolate.interp1d(λ31, y31, kind='cubic')
-    y64_func = scipy.interpolate.interp1d(λ64, y64, kind='cubic')
+    y31_func = scipy.interpolate.InterpolatedUnivariateSpline(λ31, y31)
+    y64_func = scipy.interpolate.InterpolatedUnivariateSpline(λ64, y64)
     y31_interp = y31_func(λ31_interp)
     y64_interp = y64_func(λ64_interp)
     y_values = (1-α) * y31_interp + α * y64_interp
@@ -656,7 +656,7 @@ def square_sum(a13, a21, a22, a33, L_spline, M_spline, S_spline, V_spline,
         1x1 array with parameter to optimise.
     a21, a22, a33 : float
         Parameters in matrix for LMS to XYZ conversion.
-    L_spline, M_spline, S_spline, V_spline: interp1d LMS and V(λ).
+    L_spline, M_spline, S_spline, V_spline: InterpolatedUnivariateSpline LMS and V(λ).
     λ : ndarray
         λ values according to chosen step size.
     λ_ref_min : float
@@ -1565,12 +1565,12 @@ def compute_CIE_standard_XYZ(XYZ31_standard, XYZ64_standard):
     (λ_main, X31_main, Y31_main, Z31_main) = XYZ31_standard.T
     (X64_main, Y64_main, Z64_main) = (XYZ64_standard.T)[1:]
     # Create spline functions
-    X31_spline = scipy.interpolate.interp1d(λ_main, X31_main, kind='cubic')
-    Y31_spline = scipy.interpolate.interp1d(λ_main, Y31_main, kind='cubic')
-    Z31_spline = scipy.interpolate.interp1d(λ_main, Z31_main, kind='cubic')
-    X64_spline = scipy.interpolate.interp1d(λ_main, X64_main, kind='cubic')
-    Y64_spline = scipy.interpolate.interp1d(λ_main, Y64_main, kind='cubic')
-    Z64_spline = scipy.interpolate.interp1d(λ_main, Z64_main, kind='cubic')
+    X31_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_main, X31_main)
+    Y31_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_main, Y31_main)
+    Z31_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_main, Z31_main)
+    X64_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_main, X64_main)
+    Y64_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_main, Y64_main)
+    Z64_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_main, Z64_main)
     λ_plot = my_round(np.arange(360., 830. + .1, .1), 1)
     # Compute plot points for colour-matching functions
     XYZ31_plot = np.array([λ_plot,
@@ -1773,16 +1773,16 @@ def compute_tabulated(field_size, age, λ_min=390, λ_max=830, λ_step=1):
 
     # base:
     (λ_all, L_base_all, M_base_all, S_base_all) = LMS_base_all.T
-    L_base_spline = scipy.interpolate.interp1d(λ_all, L_base_all, kind='cubic')
-    M_base_spline = scipy.interpolate.interp1d(λ_all, M_base_all, kind='cubic')
-    S_base_spline = scipy.interpolate.interp1d(λ_all, S_base_all, kind='cubic')
+    L_base_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_all, L_base_all)
+    M_base_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_all, M_base_all)
+    S_base_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_all, S_base_all)
     # std:
     (λ_all, L_std_all, M_std_all, S_std_all) = LMS_std_all.T
     (λ_all, V_std_all) = Vλ_std_all.T
-    L_std_spline = scipy.interpolate.interp1d(λ_all, L_std_all, kind='cubic')
-    M_std_spline = scipy.interpolate.interp1d(λ_all, M_std_all, kind='cubic')
-    S_std_spline = scipy.interpolate.interp1d(λ_all, S_std_all, kind='cubic')
-    V_std_spline = scipy.interpolate.interp1d(λ_all, V_std_all, kind='cubic')
+    L_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_all, L_std_all)
+    M_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_all, M_std_all)
+    S_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_all, S_std_all)
+    V_std_spline = scipy.interpolate.InterpolatedUnivariateSpline(λ_all, V_std_all)
 
     # =======================================================================
     # Compute the cone-fundamental-based spectral luminous efficiency
