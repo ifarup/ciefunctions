@@ -21,6 +21,11 @@ For windows, there are to alternatives.
 * Download and execute the installer, e.g., `ciefunctions_vX.X.X_windows_XX_installer.exe`, and follow the instructions. This will install the application on your system, in the start menu etc.
 * Or, if you don't want it integrated in the system, download and unpack the zip file, e.g., `ciefunctions_vX.X.X_windows_XX.zip` and launch it by double clicking the ciefunctions exe file.
 
+### Mac
+
+* Download and unpack the zip file, e.g., `ciefunctions_vX.X.X_macos_X.X.zip`
+* Open the app by clicking the file, or install it on the system by dragging it to 'Applications'
+
 ### Linux
 
 * Download the binary file matching your system, e.g., `ciefunctions_vX.X.X_ubuntu_XX.XX`
