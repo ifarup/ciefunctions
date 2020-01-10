@@ -5,7 +5,7 @@ ciefunctions: GUI application for the calculation of the CIE
               cone-fundamental-based colorimetric functions provided
               by CIE TC 1-97.
 
-Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2020 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -193,7 +193,7 @@ class AppForm(QtWidgets.QMainWindow):
 CIE Functions:  Calculates the CIE cone-fundamental-based colorimetric \
 functions according to CIE TC 1-97.
 
-Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2020 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify it \
 under the terms of the GNU General Public License as published by the \
