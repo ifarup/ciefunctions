@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="ciefunctions",
-    version="1.0.0b6",
+    version="1.0.2",
     packages=['tc1_97'],
     scripts=['ciefunctions.py'],
     include_package_data=True,
@@ -11,8 +11,8 @@ setup(
         'numpy',
         'scipy',
         'matplotlib',
-        'pyqt5'],
-    author="Jan Henrik Wold and Ivar Farup",
+        'pyqt5==5.11.3'],
+    author="Ivar Farup and Jan Henrik Wold",
     author_email="ivar.farup@ntnu.no",
     description="Desktop and web apps for computing the CIE Functions",
     license="GPL3.0",

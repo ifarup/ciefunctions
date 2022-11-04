@@ -5,7 +5,7 @@ ciefunctions: GUI application for the calculation of the CIE
               cone-fundamental-based colorimetric functions provided
               by CIE TC 1-97.
 
-Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2020 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -193,7 +193,7 @@ class AppForm(QtWidgets.QMainWindow):
 CIE Functions:  Calculates the CIE cone-fundamental-based colorimetric \
 functions according to CIE TC 1-97.
 
-Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2020 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify it \
 under the terms of the GNU General Public License as published by the \
@@ -591,6 +591,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             self.transformation.setHtml(html_string, baseUrl=base_url)
             self.html_table.setHtml(html_table, baseUrl=base_url)
         self.canvas.draw()
+        return
 
     def on_draw_plot_only(self):
         self.on_draw(False)
@@ -695,7 +696,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         self.age_spin = QtWidgets.QSpinBox()
         self.age_spin.setMinimum(20)
-        self.age_spin.setMaximum(70)
+        self.age_spin.setMaximum(80)
         self.age_spin.setValue(32)
 
         self.lambda_min_spin = QtWidgets.QDoubleSpinBox()

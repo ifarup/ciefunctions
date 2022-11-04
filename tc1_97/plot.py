@@ -3,7 +3,7 @@
 """
 plot: Generate matplotlib plots for the tc1_97 package.
 
-Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2020 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ def LMS(axes, plots, options):
         axes.plot(plots['logLMS'][:, 0], plots['logLMS'][:, 1], 'r')
         axes.plot(plots['logLMS'][:, 0], plots['logLMS'][:, 2], 'g')
         axes.plot(plots['logLMS'][:, 0], plots['logLMS'][:, 3], 'b')
-        axes.axis('normal')
+        axes.axis('auto')
         axes.set_xlim((350, 850))
         axes.set_ylim((-7.4, 0.4))
         axes.yaxis.set_major_locator(MaxNLocator(nbins = 7, min_n_ticks = 6))
@@ -56,7 +56,7 @@ def LMS(axes, plots, options):
         axes.plot(plots['LMS'][:, 0], plots['LMS'][:, 1], 'r')
         axes.plot(plots['LMS'][:, 0], plots['LMS'][:, 2], 'g')
         axes.plot(plots['LMS'][:, 0], plots['LMS'][:, 3], 'b')
-        axes.axis('normal')
+        axes.axis('auto')
         axes.axis([350, 850, -.05, 1.05]) 
     if options['axis_labels']:
         axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
@@ -67,7 +67,7 @@ def LMS(axes, plots, options):
             axes.set_ylabel('Relative energy sensitivities', fontsize=10.5)
         
     if options['full_title']:
-        title = ('CIE 2006 LMS cone fundamentals\n' + 
+        title = (u'CIE 2006 LMS cone fundamentals\u000a' +
                 'Field size: %s''' % plots['field_size'] + 
                 u'\N{DEGREE SIGN},  Age: ' + str(plots['age']) + 
                 u' yr,  Domain: %s nm \u2013 %s nm' % 
@@ -103,7 +103,7 @@ def LMS_base(axes, plots, options):
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 1], 'r')
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 2], 'g')
         axes.plot(plots['logLMS_base'][:, 0], plots['logLMS_base'][:, 3], 'b')
-        axes.axis('normal')
+        axes.axis('auto')
         axes.set_xlim((350, 850))
         axes.set_ylim((-7.4, 0.4))
         axes.yaxis.set_major_locator(MaxNLocator(nbins = 7, min_n_ticks = 6))
@@ -111,7 +111,7 @@ def LMS_base(axes, plots, options):
         axes.plot(plots['LMS_base'][:, 0], plots['LMS_base'][:, 1], 'r')
         axes.plot(plots['LMS_base'][:, 0], plots['LMS_base'][:, 2], 'g')
         axes.plot(plots['LMS_base'][:, 0], plots['LMS_base'][:, 3], 'b')
-        axes.axis('normal')
+        axes.axis('auto')
         axes.axis([350, 850, -.05, 1.05])
     if options['axis_labels']:
         axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
@@ -346,7 +346,7 @@ def XYZ(axes, plots, options):
         axes.plot(plots['XYZ64'][:, 0], plots['XYZ64'][:, 1], 'r:')
         axes.plot(plots['XYZ64'][:, 0], plots['XYZ64'][:, 2], 'g:')
         axes.plot(plots['XYZ64'][:, 0], plots['XYZ64'][:, 3], 'b:')
-    axes.axis('normal')
+    axes.axis('auto')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
         axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
@@ -504,7 +504,7 @@ def XYZ_purples(axes, plots, options):
     axes.plot(XYZ_p[:, 0], XYZ_p[:, 1], 'r')
     axes.plot(XYZ_p[:, 0], XYZ_p[:, 2], 'g')
     axes.plot(XYZ_p[:, 0], XYZ_p[:, 3], 'b')
-    axes.axis('normal')
+    axes.axis('auto')
     axes.axis([480, 580, -.04, .54])
     if options['axis_labels']:
         axes.set_xlabel('Complementary wavelength (nm)', fontsize=10.5)
@@ -656,7 +656,7 @@ def XYZ31(axes, plots, options):
         axes.plot(plots['XYZ64'][:, 0], plots['XYZ64'][:, 1], 'r:')
         axes.plot(plots['XYZ64'][:, 0], plots['XYZ64'][:, 2], 'g:')
         axes.plot(plots['XYZ64'][:, 0], plots['XYZ64'][:, 3], 'b:')
-    axes.axis('normal')
+    axes.axis('auto')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
         axes.set_xlabel('Wavelength (nm)', fontsize=10.5)
@@ -691,7 +691,7 @@ def XYZ64(axes, plots, options):
         axes.plot(plots['XYZ31'][:, 0], plots['XYZ31'][:, 1], 'r--')
         axes.plot(plots['XYZ31'][:, 0], plots['XYZ31'][:, 2], 'g--')
         axes.plot(plots['XYZ31'][:, 0], plots['XYZ31'][:, 3], 'b--')
-    axes.axis('normal')
+    axes.axis('auto')
     axes.axis([350, 850, -.2, 2.3])
     if options['axis_labels']:
         axes.set_xlabel('Wavelength (nm)', fontsize=10.5)

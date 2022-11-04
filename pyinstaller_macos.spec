@@ -4,11 +4,12 @@ block_cipher = None
 
 
 a = Analysis(['ciefunctions.py'],
-             pathex=['/Users/sjg/TEMP/ciefunctions'],
+             pathex=['.'],
              binaries=[],
              datas=[('tc1_97/data', 'tc1_97/data'),
                     ('tc1_97/*.css', 'tc1_97'),
-                    ('web', 'web')],
+                    ('tc1_97/MathJax-2.7.5', 'tc1_97/MathJax-2.7.5'),
+                    ('tc1_97/icons', 'tc1_97/icons')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

@@ -3,7 +3,7 @@
 """
 table: Generate html tables for the tc1_97 package.
 
-Copyright (C) 2012-2017 Ivar Farup and Jan Henrik Wold
+Copyright (C) 2012-2020 Ivar Farup and Jan Henrik Wold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
