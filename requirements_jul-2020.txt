@@ -3,7 +3,7 @@ ciefunctions==1.0.0b5
 cycler==0.10.0
 Django==3.0.8
 django-mathjax==0.0.8
-Jinja2==2.11.2
+Jinja2==2.11.3
 kiwisolver==1.2.0
 MarkupSafe==1.1.1
 matplotlib==3.2.2
