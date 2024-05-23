@@ -1312,7 +1312,7 @@ def compute_xy_diagram(XYZ_spec, XYZ_plot, XYZ_spec_N, XYZ_plot_N):
         locus; wavelengths in first column (for plot).
     XYZ_tg_purple_plot_N : ndarray
         The renormalized CIE cone-fundamental-based XYZ tristimulus values at
-        the purple line's points of tangency with the spectrun locus (non-
+        the purple line's points of tangency with the spectrum locus (non-
         rounded values); wavelengths in first column (for further calculation).
     """
     # '_spec' : values given at specified wavelengths
